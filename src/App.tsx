@@ -11,6 +11,7 @@ import MyLayout from "./components/Layout";
 import LoginPage from "./pages/login/LoginPage";
 import RegisterPage from "./pages/login/RegisterForm";
 import Home from "./pages/home/Home";
+import EmailApprove from "./pages/email-approve/EmailApprove";
 
 const App: React.FC = () => {
   // You can track the login state here and conditionally render the Navigate component
@@ -18,6 +19,7 @@ const App: React.FC = () => {
 
   return (
     <Routes>
+      <Route path="onayla" element={<EmailApprove />} />
       <Route path="login" element={<Navigate to="/ogrenci/login" />} />
       <Route path="ogrenci/login" element={<LoginPage />} />
       <Route path="akademisyen/login" element={<LoginPage />} />
