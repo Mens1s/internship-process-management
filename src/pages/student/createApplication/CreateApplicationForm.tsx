@@ -56,6 +56,26 @@ const ButtonsContainer = styled.div`
     width: 100%;
   }
 `;
+const DatePickersContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+
+  div {
+    width: 100%;
+  }
+`;
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 18 },
+  },
+};
 
 const CreateApplicationForm: React.FC = () => {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
@@ -121,10 +141,10 @@ const CreateApplicationForm: React.FC = () => {
           Form disabled
         </Checkbox> */}
         <Form
-          labelCol={{ span: 4 }}
           layout="horizontal"
           disabled={componentDisabled}
           size="large"
+          {...formItemLayout}
         >
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -163,9 +183,11 @@ const CreateApplicationForm: React.FC = () => {
                   ]}
                 />
               </Form.Item>
-              <Form.Item label="DatePicker" style={{}}>
-                <DatePicker />
-                <DatePicker />
+              <Form.Item label="DatePicker">
+                <DatePickersContainer>
+                  <DatePicker />
+                  <DatePicker />
+                </DatePickersContainer>
               </Form.Item>
               {/* <Form.Item label="RangePicker">
                 <RangePicker />
