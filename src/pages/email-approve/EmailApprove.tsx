@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
+import { Button, Result } from 'antd';
+import {Link} from "react-router-dom"
 
 const Container = styled.div`
   background: lightgray;
@@ -9,6 +11,10 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+const SuccessIcon = styled.img`
+  width:150px;
+  height: 150px;
 `;
 
 const Wrapper = styled.div`
@@ -26,6 +32,13 @@ const ButtonsContainer = styled.div`
 `;
 
 const CreateApplication: React.FC = () => {
+
+  const img_src = "https://cdn-icons-png.flaticon.com/512/7595/7595571.png";
+
+
+
+
+
   return (
     <div
       style={{
@@ -35,27 +48,18 @@ const CreateApplication: React.FC = () => {
         alignItems: "center",
       }}
     >
-      <Container>
-        <Wrapper>
-          <div style={{ display: "flex", background: "blue", gap: 50 }}>
-            <div
-              style={{
-                background: "green",
-                width: 70,
-                height: 70,
-                borderRadius: 10,
-              }}
-            ></div>
-            <div>
-              Kaydınız başarıyla gerçekleşti. onaylamak için tıklayınız.
-            </div>
-          </div>
-          <ButtonsContainer>
-            <button style={{ width: 50 }}>Onayla</button>
-            <button style={{ width: 50 }}>Onayla</button>
-          </ButtonsContainer>
-        </Wrapper>
-      </Container>
+      
+       <Result
+    status="success"
+    icon={<SuccessIcon src={img_src}></SuccessIcon>}
+    title="Kayıt Başarıyla Tamamlandı."
+    subTitle="Ana sayfaya geçiş yapmak için butona tıklayınız."
+    extra={
+      <Button type="primary" key="console">
+       <Link to="/ogrenci/login">Giriş yap</Link>
+      </Button>
+    }
+    />
     </div>
   );
 };
