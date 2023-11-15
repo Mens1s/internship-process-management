@@ -26,6 +26,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
+    console.log(username, password);
     if (window.location.pathname.includes("/ogrenci/login")) {
       axios
         .post("http://localhost:8000/api/student/auth/login", {
@@ -38,20 +39,21 @@ const Login: React.FC = () => {
             token: response.data.token,
             role: 2000,
           });
-          console.log(response);
           //navigate(fromStudent, { replace: true });
-          if (response.data.token) {
+          if (response.status == 200) {
+            console.log("Successful");
             navigate("/ogrenci");
           } else {
             console.log("Wrong mail or password!");
           }
         })
         .catch((error) => {
-          console.error("Error:", error);
+          //console.error("Error:", error);
+          console.log("Wrong password or mail!");
         });
     } else if (window.location.pathname.includes("/akademisyen/login")) {
       axios
-        .post("https://reqres.in/api/login", {
+        .post("http://localhost:8000/api/academician/auth/login", {
           email: username,
           password: password,
         })

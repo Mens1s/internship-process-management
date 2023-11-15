@@ -10,7 +10,6 @@ const Home = () => {
     if (!auth.token) {
       navigate("/login");
     } else {
-      console.log("HOME", auth);
     }
   }, []);
 
