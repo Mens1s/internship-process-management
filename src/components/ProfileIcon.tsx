@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import { UserOutlined } from "@ant-design/icons";
@@ -20,12 +20,22 @@ const Container = styled.div`
     background: gray;
   }
 `;
+
 const ProfileIcon: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Perform logout actions, such as clearing the token from local storage
+
+    // Redirect the user to the login page
+    navigate("/login");
+  };
+
   const items: MenuProps["items"] = [
     {
       key: "1",
       label: (
-        <Link rel="noopener noreferrer" to="/">
+        <Link rel="noopener noreferrer" to="ogrenci/profile">
           Profil
         </Link>
       ),
@@ -33,9 +43,10 @@ const ProfileIcon: React.FC = () => {
     {
       key: "2",
       label: (
-        <Link rel="noopener noreferrer" to="/login">
+        // Call the handleLogout function when the user clicks on "Çıkış Yap"
+        <span onClick={handleLogout} style={{ cursor: "pointer" }}>
           Çıkış Yap
-        </Link>
+        </span>
       ),
     },
   ];

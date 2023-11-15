@@ -67,7 +67,7 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
           zIndex: 9,
           width: "100%",
           borderBottom: "1px solid lightgray",
-          background: "green",
+          background: "white",
         }}
       >
         <Nav>

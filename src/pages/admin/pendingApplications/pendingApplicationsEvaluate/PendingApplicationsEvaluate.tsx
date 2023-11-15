@@ -34,7 +34,7 @@ const PDFViewer: React.FC = () => {
         setPDFFile(null);
       }
     } else {
-      console.log("Please select a PDF file.");
+      // console.log("Please select a PDF file.");
     }
   };
 
