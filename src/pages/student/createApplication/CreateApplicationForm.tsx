@@ -16,6 +16,7 @@ import {
   Radio,
   Slider,
   Switch,
+  Modal,
   Upload,
   Button,
 } from "antd";
@@ -64,6 +65,12 @@ const DatePickersContainer = styled.div`
   div {
     width: 100%;
   }
+
+  button {
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+  }
 `;
 
 const formItemLayout = {
@@ -79,10 +86,22 @@ const formItemLayout = {
 
 const CreateApplicationForm: React.FC = () => {
   const { auth }: any = useAuth();
+
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
   const [pdfFile, setPDFFile] = useState<string | null>(null);
   const [viewPdf, setViewPdf] = useState<string | null>(null);
   const fileType: string[] = ["application/pdf"];
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
     if (selectedFile) {
@@ -128,9 +147,8 @@ const CreateApplicationForm: React.FC = () => {
         console.log("error:", error);
         console.log(jwtToken);
       });
+    setIsModalOpen(false);
   };
-
-  const handleCancel = (type: any) => {};
 
   return (
     <div>
@@ -170,76 +188,82 @@ const CreateApplicationForm: React.FC = () => {
         >
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Form.Item label="Input">
+              <Form.Item label="TC Kimlik No">
                 <Input />
               </Form.Item>
-              <Form.Item label="Select">
+              <Form.Item label="Öğrenci Numarası">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Telefon Numarası">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Fakülte">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Bölüm">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Sınıf">
                 <Select>
-                  <Select.Option value="demo">Demo</Select.Option>
+                  <Select.Option value="Hazırlık">Hazırlık</Select.Option>
+                  <Select.Option value="1.sınıf">1.sınıf</Select.Option>
+                  <Select.Option value="2.sınıf">2.sınıf</Select.Option>
+                  <Select.Option value="3.sınıf">3.sınıf</Select.Option>
+                  <Select.Option value="4.sınıf">4.sınıf</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item label="TreeSelect">
-                <TreeSelect
-                  treeData={[
-                    {
-                      title: "Light",
-                      value: "light",
-                      children: [{ title: "Bamboo", value: "bamboo" }],
-                    },
-                  ]}
-                />
+              <Form.Item label="Stajdaki Görevi">
+                <Input />
               </Form.Item>
-              <Form.Item label="Cascader">
-                <Cascader
-                  options={[
-                    {
-                      value: "zhejiang",
-                      label: "Zhejiang",
-                      children: [
-                        {
-                          value: "hangzhou",
-                          label: "Hangzhou",
-                        },
-                      ],
-                    },
-                  ]}
-                />
+              <Form.Item label="Staj Türü">
+                <Input />
               </Form.Item>
-              <Form.Item label="DatePicker">
+              <Form.Item label="Kaçıncı Staj">
+                <Select>
+                  <Select.Option value="1">1</Select.Option>
+                  <Select.Option value="2">2</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item label="Staj Tarihleri">
                 <DatePickersContainer>
                   <DatePicker />
                   <DatePicker />
                 </DatePickersContainer>
               </Form.Item>
-              {/* <Form.Item label="RangePicker">
-                <RangePicker />
-              </Form.Item> */}
+              <Form.Item label="Şirket Adı">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Şirketin Adresi">
+                <TextArea rows={1} />
+              </Form.Item>
             </Col>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Form.Item label="InputNumber">
-                <InputNumber />
+              <Form.Item label="Şirket Numarası">
+                <Input />
               </Form.Item>
-              <Form.Item label="TextArea">
-                <TextArea rows={4} />
+              <Form.Item label="Şirket Fax Numarası">
+                <Input />
               </Form.Item>
-              <Form.Item label="Switch" valuePropName="checked">
-                <Switch />
+              <Form.Item label="Mühendisin Adı Soyadı">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Mühendisin Mail Adresi">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Çalışılacak Pozisyon">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Şirketin Seçilme Nedeni">
+                <TextArea rows={5} />
+              </Form.Item>
+              <Form.Item label="SGK Girişi">
+                <Input />
+              </Form.Item>
+              <Form.Item label="GSS Girişi">
+                <Input />
               </Form.Item>
               <Form.Item
-                label="Checkbox"
-                name="disabled"
-                valuePropName="checked"
-              >
-                <Checkbox>Checkbox</Checkbox>
-              </Form.Item>
-              <Form.Item label="Radio">
-                <Radio.Group>
-                  <Radio value="apple"> Apple </Radio>
-                  <Radio value="pear"> Pear </Radio>
-                </Radio.Group>
-              </Form.Item>
-              <Form.Item
-                label="Upload"
+                label="Belgeler"
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
               >
@@ -250,10 +274,11 @@ const CreateApplicationForm: React.FC = () => {
                   </div>
                 </Upload>
               </Form.Item>
-              <Form.Item label="Button">
+
+              <Form.Item label="Başvuruyu Onayla">
                 <DatePickersContainer>
                   <Button onClick={handleCancel}>Vazgeç</Button>
-                  <Button onClick={handleApplication} type="primary">
+                  <Button onClick={showModal} type="primary">
                     Onayla
                   </Button>
                 </DatePickersContainer>
@@ -261,6 +286,14 @@ const CreateApplicationForm: React.FC = () => {
             </Col>
           </Row>
         </Form>
+        <Modal
+          title="Başvuruyu Onayla"
+          open={isModalOpen}
+          onOk={handleApplication}
+          onCancel={handleCancel}
+        >
+          <p>Staj başvurunuzu onaylamak istediğinize emin misiniz?</p>
+        </Modal>
       </>
     </div>
   );
