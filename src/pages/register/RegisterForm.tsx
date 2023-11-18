@@ -20,8 +20,11 @@ const RegisterForm: React.FC = () => {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [mail, setMail] = useState("");
+  const [counter, setCounter] = useState(0);
 
   const handleRegister = () => {
+    setCounter((prev) => prev + 1);
+    console.log("clicked");
     if (window.location.pathname.includes("/ogrenci/register")) {
       axios
         .post("http://localhost:8000/api/student/auth/register", {
@@ -145,6 +148,7 @@ const RegisterForm: React.FC = () => {
           >
             Kayıt Ol
           </Button>
+          <div>{counter}</div>
         </Form.Item>
       </Form>
     </FormContainer>

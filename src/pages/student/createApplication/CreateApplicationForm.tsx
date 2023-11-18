@@ -19,7 +19,8 @@ import {
   Upload,
   Button,
 } from "antd";
-
+import axios from "../../../services/axios";
+import useAuth from "../../../hooks/useAuth";
 // Import styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
@@ -59,7 +60,6 @@ const ButtonsContainer = styled.div`
 const DatePickersContainer = styled.div`
   display: flex;
   gap: 10px;
-  justify-content: space-between;
 
   div {
     width: 100%;
@@ -78,10 +78,10 @@ const formItemLayout = {
 };
 
 const CreateApplicationForm: React.FC = () => {
+  const { auth }: any = useAuth();
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
   const [pdfFile, setPDFFile] = useState<string | null>(null);
   const [viewPdf, setViewPdf] = useState<string | null>(null);
-
   const fileType: string[] = ["application/pdf"];
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
@@ -109,6 +109,26 @@ const CreateApplicationForm: React.FC = () => {
     }
   };
   const newplugin = defaultLayoutPlugin();
+  const jwtToken = window.localStorage.getItem("token");
+  const handleApplication = () => {
+    axios
+      .post(
+        "http://localhost:8000/api/internship-process/init",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log("error:", error);
+        console.log(jwtToken);
+      });
+  };
 
   return (
     <div>
@@ -229,7 +249,12 @@ const CreateApplicationForm: React.FC = () => {
                 </Upload>
               </Form.Item>
               <Form.Item label="Button">
-                <Button>Button</Button>
+                <DatePickersContainer>
+                  <Button onClick={handleApplication}>Vazgeç</Button>
+                  <Button onClick={handleApplication} type="primary">
+                    Onayla
+                  </Button>
+                </DatePickersContainer>
               </Form.Item>
             </Col>
           </Row>

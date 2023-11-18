@@ -5,14 +5,6 @@ import AuthContext from "../../context/AuthProvider";
 const Home = () => {
   const { auth }: any = useContext(AuthContext);
 
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!auth.token) {
-      navigate("/login");
-    } else {
-    }
-  }, []);
-
   return <h2>Staj başvuru yönetim sayfasına hoşgeldiniz!</h2>;
 };
 

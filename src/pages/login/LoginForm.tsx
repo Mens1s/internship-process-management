@@ -42,6 +42,14 @@ const Login: React.FC = () => {
           //navigate(fromStudent, { replace: true });
           if (response.status == 200) {
             console.log("Successful");
+            console.log(response);
+            window.localStorage.setItem("token", response.data.token);
+            setAuth((prev: any) => ({
+              ...prev,
+              token: response.data.token,
+            }));
+
+            window.localStorage.setItem("isLoggedIn", "true");
             navigate("/ogrenci");
           } else {
             console.log("Wrong mail or password!");

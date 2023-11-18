@@ -93,37 +93,14 @@ const data: DataType[] = [
     type: "Zorunlu",
     tags: ["Reddedildi"],
   },
+
   {
     key: "3",
-    name: "Joe Black",
-    startDate: "05.06.2022",
-    endDate: "05.06.2022",
-    type: "İsteğe Bağlı",
-    tags: ["Onaylandı"],
-  },
-  {
-    key: "1",
     name: "John Brown",
     startDate: "03.07.2023",
     endDate: "03.07.2023",
     type: "Zorunlu",
     tags: ["Beklemede"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    startDate: "18.08.2023",
-    endDate: "18.08.2023",
-    type: "İsteğe Bağlı",
-    tags: ["Reddedildi"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    startDate: "05.06.2022",
-    endDate: "05.06.2022",
-    type: "Zorunlu",
-    tags: ["Onaylandı"],
   },
 ];
 

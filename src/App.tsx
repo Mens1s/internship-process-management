@@ -23,6 +23,7 @@ const ROLES = {
 };
 const App: React.FC = () => {
   const [token, setToken] = useState({});
+  const loggedIn = window.localStorage.getItem("isLoggedIn");
   // You can track the login state here and conditionally render the Navigate component
   /*  useEffect(() => {
     const loggedInUser = localStorage.getItem("token");
@@ -40,27 +41,48 @@ const App: React.FC = () => {
       <Route path="akademisyen/register" element={<RegisterPage />} />
       {/*       <Route path="/" element={<PersistLogin token={token} />}>
        */}{" "}
-      <Route element={<MyLayout />}>
-        <Route element={<RequireAuth allowedRoles={[ROLES.ogrenci]} />}>
-          <Route path="ogrenci" element={<Home />} />
-          <Route path="ogrenci/active" element={<ActiveApplication />} />
-          <Route path="ogrenci/create" element={<CreateApplication />} />
-          <Route path="ogrenci/past" element={<PastApplications />} />
-          <Route path="ogrenci/profile" element={<Profile />} />
-          <Route path="ogrenci/past/:id" element={<PastApplicationDetail />} />
-        </Route>
-        <Route element={<RequireAuth allowedRoles={[ROLES.akademisyen]} />}>
-          <Route path="akademisyen" element={<Home />} />
-          <Route path="akademisyen/pending" element={<PendingApplications />} />
-          <Route path="akademisyen/authorize" element={<Authorize />} />
+      {loggedIn ? (
+        <Route element={<MyLayout />}>
           <Route
-            path="akademisyen/pending/evaluate/:id"
-            element={<PendingApplicationsEvaluate />}
-          />
+            element={
+              <RequireAuth allowedRoles={[ROLES.ogrenci]} loggedIn={loggedIn} />
+            }
+          >
+            <Route path="ogrenci" element={<Home />} />
+            <Route path="ogrenci/active" element={<ActiveApplication />} />
+            <Route path="ogrenci/create" element={<CreateApplication />} />
+            <Route path="ogrenci/past" element={<PastApplications />} />
+            <Route path="ogrenci/profile" element={<Profile />} />
+            <Route
+              path="ogrenci/past/:id"
+              element={<PastApplicationDetail />}
+            />
+          </Route>
+          <Route
+            element={
+              <RequireAuth
+                allowedRoles={[ROLES.akademisyen]}
+                loggedIn={loggedIn}
+              />
+            }
+          >
+            <Route path="akademisyen" element={<Home />} />
+            <Route
+              path="akademisyen/pending"
+              element={<PendingApplications />}
+            />
+            <Route path="akademisyen/authorize" element={<Authorize />} />
+            <Route
+              path="akademisyen/pending/evaluate/:id"
+              element={<PendingApplicationsEvaluate />}
+            />
+          </Route>
+          {/*         </Route>
+           */}{" "}
         </Route>
-        {/*         </Route>
-         */}{" "}
-      </Route>
+      ) : (
+        <Route path="/" element={<Navigate to="/ogrenci/login" />} />
+      )}
     </Routes>
   );
 };
