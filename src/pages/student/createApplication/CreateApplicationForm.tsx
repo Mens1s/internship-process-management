@@ -130,6 +130,8 @@ const CreateApplicationForm: React.FC = () => {
       });
   };
 
+  const handleCancel = (type: any) => {};
+
   return (
     <div>
       {/*  <form
@@ -250,7 +252,7 @@ const CreateApplicationForm: React.FC = () => {
               </Form.Item>
               <Form.Item label="Button">
                 <DatePickersContainer>
-                  <Button onClick={handleApplication}>Vazgeç</Button>
+                  <Button onClick={handleCancel}>Vazgeç</Button>
                   <Button onClick={handleApplication} type="primary">
                     Onayla
                   </Button>
