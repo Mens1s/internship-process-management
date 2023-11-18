@@ -35,10 +35,6 @@ const CreateApplication: React.FC = () => {
 
   const img_src = "https://cdn-icons-png.flaticon.com/512/7595/7595571.png";
 
-
-
-
-
   return (
     <div
       style={{
@@ -48,18 +44,24 @@ const CreateApplication: React.FC = () => {
         alignItems: "center",
       }}
     >
-      
-       <Result
-    status="success"
-    icon={<SuccessIcon src={img_src}></SuccessIcon>}
-    title="Kayıt Başarıyla Tamamlandı."
-    subTitle="Ana sayfaya geçiş yapmak için butona tıklayınız."
-    extra={
-      <Button type="primary" key="console">
-       <Link to="/ogrenci/login">Giriş yap</Link>
-      </Button>
-    }
-    />
+      <div>
+        <div>
+          <img src="/logo.jpg" width="100" height="100"/>
+          <h1>Kayıt Onayı</h1>
+
+        </div>
+        <Result
+      status="success"
+      icon={<SuccessIcon src={img_src}></SuccessIcon>}
+      title="Kayıt Başarıyla Tamamlandı."
+      subTitle="Ana sayfaya geçiş yapmak için butona tıklayınız."
+      extra={
+        <Button type="primary" key="console">
+        <Link to="/ogrenci/login">Giriş yap</Link>
+        </Button>
+      }
+      />
+      </div>
     </div>
   );
 };

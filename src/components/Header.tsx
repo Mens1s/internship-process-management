@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -84,7 +85,9 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
           <Breadcrumb />
         </Nav>
         <ActionButtons>
-          <NotificationIcon onClick={showDrawer}>
+          <NotificationIcon onClick={() => {
+    setOpen(true);
+  }}>
             <BellFilled style={{ fontSize: "24px", color: "lightgray" }} />
           </NotificationIcon>
           <ProfileIcon />
