@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthProvider";
 
 const Home = () => {
-  const [token, setToken] = useState();
-  const navigate = useNavigate();
-  if (!token) {
-    navigate("/login");
-  }
+  const { auth }: any = useContext(AuthContext);
+
   return <h2>Staj başvuru yönetim sayfasına hoşgeldiniz!</h2>;
 };
 

@@ -22,6 +22,7 @@ const Nav = styled.div`
   display: flex;
   align-items: center;
 `;
+const TitleContainer = styled.div``;
 
 const NotificationIcon = styled.div`
   display: flex;
@@ -64,11 +65,12 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
           justifyContent: "space-between",
           alignItems: "center",
           position: "sticky",
+
           top: 0,
           zIndex: 9,
           width: "100%",
           borderBottom: "1px solid lightgray",
-          background: "green",
+          background: "white",
         }}
       >
         <Nav>
@@ -82,7 +84,9 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
               height: 64,
             }}
           />
-          <Breadcrumb />
+          <TitleContainer>
+            <Breadcrumb />
+          </TitleContainer>
         </Nav>
         <ActionButtons>
           <NotificationIcon onClick={() => {

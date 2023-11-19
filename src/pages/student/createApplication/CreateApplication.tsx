@@ -19,6 +19,7 @@ import {
   Switch,
   Upload,
   Button,
+  Table,
 } from "antd";
 
 // Import styles
@@ -34,6 +35,17 @@ const normFile = (e: any) => {
   }
   return e?.fileList;
 };
+
+const TableHeader = styled.div`
+  margin: 0 16px 30px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    margin: 0;
+  }
+`;
 
 const PDFContainer = styled.div`
   width: 80%;
@@ -93,7 +105,9 @@ const CreateApplication: React.FC = () => {
 
   return (
     <div>
-      <h2 style={{ margin: "0 0 40px 40px" }}>Başvuru Oluştur</h2>
+      <TableHeader>
+        <h2>Başvuru Oluştur</h2>
+      </TableHeader>
       <CreateApplicationForm />
     </div>
   );

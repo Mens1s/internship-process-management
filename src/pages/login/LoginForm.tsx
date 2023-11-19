@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Form, Input, Button, Checkbox, Tabs } from "antd";
+import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import axios from "../../services/axios";
 import AuthContext from "../../context/AuthProvider";
+import useAuth from "../../hooks/useAuth";
+import { responsiveArray } from "antd/es/_util/responsiveObserver";
 
 const FormContainer = styled.div`
   display: flex;
@@ -15,63 +17,69 @@ const FormContainer = styled.div`
 `;
 
 const Login: React.FC = () => {
+  const { setAuth }: any = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromStudent = location?.state?.from.pathname || "/ogrenci";
+  const fromAkademisyen = location?.state?.from.pathname || "/akademisyen";
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [success, setSuccess] = useState(false);
-  const [buttonClicked, setButtonClicked] = useState(false);
-  /*   const { setAuth } = useContext(AuthContext);
-   */
-  const handleLogin = async () => {
-    setButtonClicked(true);
-    try {
-      if (window.location.pathname.includes("/ogrenci/login")) {
-        const response = await axios.post(
-          "https://reqres.in/api/users/2",
-          JSON.stringify({ username, password }),
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          }
-        );
-        const token = response?.data?.token;
-        const role = response?.data?.role;
-        setUsername("");
-        setPassword("");
-        /*         setAuth({ username, password, token, role });
-         */ setSuccess(true);
-      }
-    } catch (err) {
-      console.log("error");
-    }
-  };
-  /* const handleLogin = () => {
-    setButtonClicked(true);
+
+  const handleLogin = () => {
+    console.log(username, password);
     if (window.location.pathname.includes("/ogrenci/login")) {
       axios
-        .get("https://reqres.in/api/users/2")
+        .post("http://localhost:8000/api/student/auth/login", {
+          mail: username,
+          password: password,
+        })
         .then((response) => {
-          console.log(response.data.data);
-          console.log(username, password);
-          if (
-            response.data.data.first_name.toUpperCase() ===
-              username.toUpperCase() &&
-            response.data.data.last_name.toUpperCase() ===
-              password.toUpperCase()
-          ) {
-            setSuccess(true);
+          setAuth({
+            user: username,
+            token: response.data.token,
+            role: 2000,
+          });
+          //navigate(fromStudent, { replace: true });
+          if (response.status == 200) {
+            console.log("Successful");
+            console.log(response);
+            window.localStorage.setItem("token", response.data.token);
+            setAuth((prev: any) => ({
+              ...prev,
+              token: response.data.token,
+            }));
+
+            window.localStorage.setItem("isLoggedIn", "true");
             navigate("/ogrenci");
           } else {
-            console.log("incorrect username of password");
+            console.log("Yanlış mail veya şifre girdiniz!");
           }
+        })
+        .catch((error) => {
+          //console.error("Error:", error);
+          console.log("anlış mail veya şifre girdiniz!");
+        });
+    } else if (window.location.pathname.includes("/akademisyen/login")) {
+      axios
+        .post("http://localhost:8000/api/academician/auth/login", {
+          email: username,
+          password: password,
+        })
+        .then((response) => {
+          console.log("RESPONSE", response.data);
+          setAuth({
+            user: username,
+            token: response.data.token,
+            role: 3000,
+          });
+          // navigate(fromAkademisyen, { replace: true });
+          navigate("/akademisyen");
         })
         .catch((error) => {
           console.error("Error:", error);
         });
-    } else if (window.location.pathname.includes("/akademisyen/login")) {
-      navigate("/akademisyen");
     }
-  }; */
+  };
 
   return (
     <FormContainer>
@@ -81,19 +89,20 @@ const Login: React.FC = () => {
         initialValues={{
           remember: true,
         }}
+        onFinish={handleLogin}
       >
         <Form.Item
           name="username"
           rules={[
             {
               required: true,
-              message: "Please input your Username!",
+              message: "Lütfen mail giriniz!",
             },
           ]}
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Username"
+            placeholder="Mail Adresi"
             onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Item>
@@ -103,40 +112,33 @@ const Login: React.FC = () => {
           rules={[
             {
               required: true,
-              message: "Please input your Password!",
+              message: "Lütfen şifre giriniz!",
             },
           ]}
         >
           <Input
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
-            placeholder="Password"
+            placeholder="Şifre"
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Item>
         <Form.Item>
           <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
+            <Checkbox>Beni Hatırla</Checkbox>
           </Form.Item>
 
-          <Link style={{ float: "right" }} to="">
+          <Link
+            style={{ float: "right" }}
+            to="/ogrenci/register
+          "
+          >
             Kayıt Ol
           </Link>
         </Form.Item>
-        {buttonClicked && !success && (
-          <div
-            style={{ color: "red", marginLeft: "35px", marginBottom: "20px" }}
-          >
-            Yanlış kullanıcı adı veya şifre!
-          </div>
-        )}
+
         <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ width: "100%" }}
-            onClick={handleLogin}
-          >
+          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
             Giriş Yap
           </Button>
           {/*  Or <a href="">register now!</a> */}

@@ -3,8 +3,7 @@ import { Tabs } from "antd";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Login from "./LoginForm";
-import Register from "../register/RegisterForm";
+import Register from "./RegisterForm";
 
 const Container = styled.div`
   display: flex;
@@ -33,18 +32,18 @@ const LogoImage = styled.img`
 
 const items = [
   {
-    key: "/ogrenci/login",
-    label: "Öğrenci Girişi",
-    render: () => <Login />,
+    key: "/ogrenci/register",
+    label: "Öğrenci Kayıt",
+    render: () => <Register />,
   },
   {
-    key: "/akademisyen/login",
-    label: "Akademisyen Girişi",
-    render: () => <Login />,
+    key: "/akademisyen/register",
+    label: "Akademisyen Kayıt",
+    render: () => <Register />,
   },
 ];
 
-const LoginPage: React.FC = () => {
+const RegisterPage: React.FC = () => {
   const location = useLocation();
   const [activeKey, setActiveKey]: [any, any] = useState(location.pathname);
 
@@ -83,4 +82,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
