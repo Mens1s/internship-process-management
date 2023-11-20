@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import CreateApplicationForm from "./CreateApplicationForm";
+import ContentHeader from "../../../components/ContentHeader";
 import {
   Row,
   Col,
@@ -35,17 +36,6 @@ const normFile = (e: any) => {
   }
   return e?.fileList;
 };
-
-const TableHeader = styled.div`
-  margin: 0 16px 30px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  h2 {
-    margin: 0;
-  }
-`;
 
 const PDFContainer = styled.div`
   width: 80%;
@@ -105,9 +95,9 @@ const CreateApplication: React.FC = () => {
 
   return (
     <div>
-      <TableHeader>
+      <ContentHeader>
         <h2>Başvuru Oluştur</h2>
-      </TableHeader>
+      </ContentHeader>
       <CreateApplicationForm />
     </div>
   );

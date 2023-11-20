@@ -1,21 +1,42 @@
 import React, { useState } from "react";
-import { data, columns } from "./AuthorizeTableColumns";
-import Table from "./AuthorizeTable";
+import Table from "../../../../components/Table";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
-
 import { Button, Modal, Input } from "antd";
+import ContentHeader from "../../../../components/ContentHeader";
+import { columns } from "./AuthorizeTableColumns";
 
-const TableHeader = styled.div`
-  margin: 0 16px 30px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+interface DataType {
+  key: string;
+  name: string;
+  surname: string;
+  mail: string;
+  department: string;
+}
 
-  h2 {
-    margin: 0;
-  }
-`;
+const data: DataType[] = [
+  {
+    key: "1",
+    name: "John Brown",
+    surname: "03.07.2023",
+    mail: "03.07.2023",
+    department: "Zorunlu",
+  },
+  {
+    key: "2",
+    name: "Jim Green",
+    surname: "18.08.2023",
+    mail: "18.08.2023",
+    department: "Zorunlu",
+  },
+  {
+    key: "3",
+    name: "Joe Black",
+    surname: "05.06.2022",
+    mail: "05.06.2022",
+    department: "İsteğe Bağlı",
+  },
+];
 
 const MyTable: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +54,7 @@ const MyTable: React.FC = () => {
   };
   return (
     <>
-      <TableHeader>
+      <ContentHeader>
         <h2>Yönetici Listesi</h2>
         <Button onClick={showModal}>
           <PlusCircleOutlined /> Yönetici Ekle
@@ -47,8 +68,8 @@ const MyTable: React.FC = () => {
           <p>Eklemek istediğiniz yöneticiyi giriniz</p>
           <Input style={{ margin: "20px 0" }} placeholder="Kişi ara" />
         </Modal>
-      </TableHeader>
-      <Table />
+      </ContentHeader>
+      <Table tableProps={{ columns, data }} />
     </>
   );
 };

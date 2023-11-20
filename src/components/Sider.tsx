@@ -13,6 +13,7 @@ const { Sider } = Layout;
 
 interface MySiderProps {
   collapsed: boolean;
+  isMobile: boolean;
 }
 
 const LogoImage = styled.img`
@@ -47,9 +48,14 @@ const menuItems = [
     icon: <IdcardFilled />,
     label: "Yetkilendir",
   },
+  {
+    key: "akademisyen/companies",
+    icon: <IdcardFilled />,
+    label: "Şirketler",
+  },
 ];
 
-const MySider: React.FC<MySiderProps> = ({ collapsed }) => {
+const MySider: React.FC<MySiderProps> = ({ collapsed, isMobile }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const role = location.pathname.split("/")[1]; // Extract the role from the path
@@ -66,7 +72,13 @@ const MySider: React.FC<MySiderProps> = ({ collapsed }) => {
       collapsed={collapsed}
       collapsedWidth={0}
       width={260}
-      style={{ height: "100vh", position: "sticky", top: 0, left: 0 }}
+      style={{
+        height: "100vh",
+        position: isMobile ? "fixed" : "sticky",
+        top: 0,
+        left: 0,
+        zIndex: "100",
+      }}
     >
       <LogoImage src="/logo.jpg" alt="Logo" />
 

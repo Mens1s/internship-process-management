@@ -1,9 +1,8 @@
 import React from "react";
-import Table from "../../../components/Table";
-import { columns } from "./pendingApplicationsTable/PendingApplicationsTableColumns";
 import ContentHeader from "../../../components/ContentHeader";
+import { columns } from "./CompaniesTableColumns";
+import Table from "../../../components/Table";
 import { Input } from "antd";
-
 interface DataType {
   key: string;
   name: string;
@@ -36,16 +35,16 @@ const data: DataType[] = [
   },
 ];
 
-const PastApplications = () => {
+const Companies = () => {
   return (
     <div>
       <ContentHeader>
-        <h2>Onay Bekleyen Başvurular</h2>
-        <Input style={{ width: 300 }} placeholder="Öğrenci ara" />
+        <h2>Şirket Bilgileri</h2>
+        <Input style={{ width: 300 }} placeholder="Şirket ara" />
       </ContentHeader>
       <Table tableProps={{ columns, data }} />
     </div>
   );
 };
 
-export default PastApplications;
+export default Companies;

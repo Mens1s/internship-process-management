@@ -1,106 +1,68 @@
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
-import { Tag } from "antd";
+import { Tag, Button, Modal } from "antd";
+import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
 
+const { confirm } = Modal;
+
+const showDeleteConfirm = () => {
+  confirm({
+    title: "Bu yöneticiyi kaldırmak istediğinize emin misiniz?",
+    icon: <ExclamationCircleFilled />,
+    /*     content: "Some descriptions",
+     */ okText: "Kaldır",
+    okType: "danger",
+    cancelText: "Vazgeç",
+    onOk() {
+      console.log("OK");
+    },
+    onCancel() {
+      console.log("Cancel");
+    },
+  });
+};
 interface DataType {
   key: string;
   name: string;
-  startDate: string;
-  endDate: string;
-  type: string;
-  tags: string[];
+  surname: string;
+  mail: string;
+  department: string;
 }
 
-const columns: ColumnsType<DataType> = [
+export const columns: ColumnsType<DataType> = [
   {
-    title: "Company Name",
+    title: "İsim",
     dataIndex: "name",
     key: "name",
   },
   {
-    title: "Start Date",
-    dataIndex: "startDate",
-    key: "startDate",
+    title: "Soyisim",
+    dataIndex: "surname",
+    key: "surname",
+  },
+
+  {
+    title: "Mail",
+    dataIndex: "mail",
+    key: "mail",
   },
   {
-    title: "End Date",
-    dataIndex: "endDate",
-    key: "endDate",
-  },
-  {
-    title: "Type",
-    dataIndex: "type",
-    key: "type",
-  },
-  {
-    title: "Status",
-    key: "tags",
-    dataIndex: "tags",
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color;
-          if (tag === "Reddedildi") {
-            color = "volcano";
-          } else if (tag === "Beklemede") {
-            color = "geekblue";
-          } else {
-            color = "green";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag}
-            </Tag>
-          );
-        })}
-      </>
-    ),
+    title: "Departman",
+    dataIndex: "department",
+    key: "department",
   },
   {
     title: "Actions",
     key: "actions",
     render: (_, record) => (
-      <Link to={`/past/${record.key}`}>
-        <button
-          style={{
-            borderRadius: "5px",
-            border: "none",
-            padding: "5px 10px",
-            cursor: "pointer",
-          }}
-        >
-          View Details
-        </button>
-      </Link>
+      <Button
+        style={{ display: "flex", alignItems: "center" }}
+        type="primary"
+        onClick={showDeleteConfirm}
+        danger
+      >
+        <DeleteFilled /> Kaldır
+      </Button>
     ),
   },
 ];
-
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    startDate: "03.07.2023",
-    endDate: "03.07.2023",
-    type: "Zorunlu",
-    tags: ["Onaylandı"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    startDate: "18.08.2023",
-    endDate: "18.08.2023",
-    type: "Zorunlu",
-    tags: ["Reddedildi"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    startDate: "05.06.2022",
-    endDate: "05.06.2022",
-    type: "İsteğe Bağlı",
-    tags: ["Onaylandı"],
-  },
-];
-
-export { data, columns };
