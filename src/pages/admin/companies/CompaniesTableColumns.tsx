@@ -38,11 +38,8 @@ export const columns: ColumnsType<DataType> = [
     key: "actions",
     render: (_, record) => (
       <Link to={`/akademisyen/pending/evaluate/${record.key}`}>
-        <Button
-          style={{ display: "flex", alignItems: "center" }}
-          type="primary"
-        >
-          Değerlendir
+        <Button style={{ display: "flex", alignItems: "center" }}>
+          Görüntüle
         </Button>
       </Link>
     ),

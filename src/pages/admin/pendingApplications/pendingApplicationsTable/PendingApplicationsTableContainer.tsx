@@ -3,19 +3,8 @@ import React, { useState } from "react";
  */ import Table from "./PendingApplicationsTable";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
-
+import ContentHeader from "../../../../components/ContentHeader";
 import { Button, Modal, Input } from "antd";
-
-const TableHeader = styled.div`
-  margin: 0 16px 30px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  h2 {
-    margin: 0;
-  }
-`;
 
 const MyTable: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,10 +22,10 @@ const MyTable: React.FC = () => {
   };
   return (
     <>
-      <TableHeader>
+      <ContentHeader>
         <h2>Onay Bekleyen Başvurular</h2>
         <Input style={{ width: 300 }} placeholder="Öğrenci ara" />
-      </TableHeader>
+      </ContentHeader>
       <Table />
     </>
   );

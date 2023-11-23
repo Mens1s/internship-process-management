@@ -1,6 +1,6 @@
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
-import { Tag } from "antd";
+import { Tag, Button } from "antd";
 
 interface DataType {
   key: string;
@@ -11,7 +11,7 @@ interface DataType {
   tags: string[];
 }
 
-const columns: ColumnsType<DataType> = [
+export const columns: ColumnsType<DataType> = [
   {
     title: "Company Name",
     dataIndex: "name",
@@ -36,9 +36,9 @@ const columns: ColumnsType<DataType> = [
     title: "Status",
     key: "tags",
     dataIndex: "tags",
-    render: (_, { tags }) => (
+    render: (_: any, { tags }: any) => (
       <>
-        {tags.map((tag) => {
+        {tags.map((tag: any) => {
           let color;
           if (tag === "Reddedildi") {
             color = "volcano";
@@ -59,49 +59,10 @@ const columns: ColumnsType<DataType> = [
   {
     title: "Actions",
     key: "actions",
-    render: (_, record) => (
+    render: (_: any, record: any) => (
       <Link to={`/ogrenci/past/${record.key}`}>
-        <button
-          style={{
-            borderRadius: "5px",
-            border: "none",
-            padding: "5px 10px",
-            cursor: "pointer",
-          }}
-        >
-          View Details
-        </button>
+        <Button>Görüntüle</Button>
       </Link>
     ),
   },
 ];
-
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    startDate: "03.07.2023",
-    endDate: "03.07.2023",
-    type: "Zorunlu",
-    tags: ["Onaylandı"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    startDate: "18.08.2023",
-    endDate: "18.08.2023",
-    type: "Zorunlu",
-    tags: ["Reddedildi"],
-  },
-
-  {
-    key: "3",
-    name: "John Brown",
-    startDate: "03.07.2023",
-    endDate: "03.07.2023",
-    type: "Zorunlu",
-    tags: ["Beklemede"],
-  },
-];
-
-export { data, columns };

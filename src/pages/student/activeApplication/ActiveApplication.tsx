@@ -1,45 +1,25 @@
 import React from "react";
 import { Steps, Tag } from "antd";
 import styled from "styled-components";
+import ActiveApplicationForm from "./ActiveApplicationForm";
+import ContentHeader from "../../../components/ContentHeader";
 
 const StepsContainer = styled.div`
-  width: 80%;
+  width: 100%;
 `;
 
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 40px;
 `;
 
 const ActiveApplication = () => {
   return (
     <div>
-      <Header>
-        <StepsContainer>
-          <Steps
-            size="small"
-            current={2}
-            status="process"
-            items={[
-              {
-                title: "Finished",
-              },
-              {
-                title: "In Process",
-              },
-              {
-                title: "Waiting",
-              },
-              {
-                title: "Waiting",
-              },
-              {
-                title: "Waiting",
-              },
-            ]}
-          />
-        </StepsContainer>
+      <ContentHeader>
+        <h2>Aktif Staj Başvurum</h2>
         <Tag
           style={{
             borderRadius: 50,
@@ -52,9 +32,37 @@ const ActiveApplication = () => {
           }}
           color={"geekblue"}
         >
-          Beklemede
+          Onay Bekliyor
         </Tag>
+      </ContentHeader>
+      <Header>
+        <StepsContainer>
+          <Steps
+            size="small"
+            current={2}
+            status="error"
+            items={[
+              {
+                title: "Öğrenci",
+                description: "Başvuru yapıldı",
+              },
+              {
+                title: "Staj Komisyonu",
+                description: "Onaylandı",
+              },
+              {
+                title: "Bölüm",
+                description: "Reddedildi",
+              },
+              {
+                title: "Dekanlık",
+                description: "Onay Bekliyor",
+              },
+            ]}
+          />
+        </StepsContainer>
       </Header>
+      <ActiveApplicationForm />
     </div>
   );
 };

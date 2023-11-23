@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ActiveApplication from "./pages/student/activeApplication/ActiveApplication";
 import CreateApplication from "./pages/student/createApplication/CreateApplication";
@@ -15,7 +16,7 @@ import EmailApprove from "./pages/email-approve/EmailApprove";
 import Profile from "./pages/student/profile/Profile";
 import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/PersistLogin";
-import { useEffect, useState } from "react";
+import Companies from "./pages/admin/companies/Companies";
 
 const ROLES = {
   ogrenci: 2000,
@@ -72,6 +73,7 @@ const App: React.FC = () => {
               element={<PendingApplications />}
             />
             <Route path="akademisyen/authorize" element={<Authorize />} />
+            <Route path="akademisyen/companies" element={<Companies />} />
             <Route
               path="akademisyen/pending/evaluate/:id"
               element={<PendingApplicationsEvaluate />}
