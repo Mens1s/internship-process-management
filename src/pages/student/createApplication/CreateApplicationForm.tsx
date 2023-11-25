@@ -4,6 +4,7 @@ import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
 import type { RcFile, UploadProps } from "antd/es/upload";
+import PdfViewer from "../../../components/PdfViewer";
 
 import {
   Row,
@@ -187,14 +188,14 @@ const CreateApplicationForm: React.FC = () => {
           <input type="file" onChange={handleOnChange} />
           <button type="submit">View PDF</button>
         </ButtonsContainer>
-        {/*  {viewPdf && (
+        {viewPdf && (
           <PDFContainer>
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
               {viewPdf && <Viewer fileUrl={viewPdf} plugins={[newplugin]} />}
               {!viewPdf && <>No PDF</>}
             </Worker>
           </PDFContainer>
-        )}  */}
+        )}
       </form>
       <>
         {/*  <Checkbox
@@ -305,16 +306,7 @@ const CreateApplicationForm: React.FC = () => {
                   onCancel={handlePDFCancel}
                   width={600}
                 >
-                  {viewPdf && (
-                    <PDFContainer>
-                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                        {viewPdf && (
-                          <Viewer fileUrl={viewPdf} plugins={[newplugin]} />
-                        )}
-                        {!viewPdf && <>No PDF</>}
-                      </Worker>
-                    </PDFContainer>
-                  )}
+                  <PdfViewer fileUrl={viewPdf} />
                 </Modal>
               </Form.Item>
 
