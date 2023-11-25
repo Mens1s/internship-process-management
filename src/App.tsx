@@ -17,6 +17,7 @@ import Profile from "./pages/student/profile/Profile";
 import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/PersistLogin";
 import Companies from "./pages/admin/companies/Companies";
+import NotFound from "./pages/notfound/NotFound";
 
 const ROLES = {
   ogrenci: 2000,
@@ -34,9 +35,10 @@ const App: React.FC = () => {
   }, []); */
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/ogrenci/login" />} />
       <Route path="onayla" element={<EmailApprove />} />
       <Route path="login" element={<Navigate to="/ogrenci/login" />} />
-      <Route path="ogrenci/login" element={<LoginPage />} />
+      <Route index path="ogrenci/login" element={<LoginPage />} />
       <Route path="akademisyen/login" element={<LoginPage />} />
       <Route path="ogrenci/register" element={<RegisterPage />} />
       <Route path="akademisyen/register" element={<RegisterPage />} />
@@ -80,11 +82,12 @@ const App: React.FC = () => {
             />
           </Route>
           {/*         </Route>
-           */}{" "}
+           */}
         </Route>
       ) : (
         <Route path="/" element={<Navigate to="/ogrenci/login" />} />
       )}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

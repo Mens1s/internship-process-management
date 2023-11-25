@@ -3,6 +3,7 @@ import Table from "../../../components/Table";
 import { columns } from "./pendingApplicationsTable/PendingApplicationsTableColumns";
 import ContentHeader from "../../../components/ContentHeader";
 import { Input } from "antd";
+import { Text } from "../../../context/LanguageProvider";
 
 interface DataType {
   key: string;
@@ -40,7 +41,9 @@ const PastApplications = () => {
   return (
     <div>
       <ContentHeader>
-        <h2>Onay Bekleyen Başvurular</h2>
+        <h2>
+          <Text tid="pendingApplications" />
+        </h2>
         <Input style={{ maxWidth: 300 }} placeholder="Öğrenci ara" />
       </ContentHeader>
       <Table tableProps={{ columns, data }} />

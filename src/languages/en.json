@@ -1,5 +1,6 @@
 {
   "welcomeHeader": "Welcome to the Gebze Technical University internship management system.",
   "lang": "English",
-  "signOut": "Log Out"
+  "signOut": "Log Out",
+  "pendingApplications": "Pending Applications"
 }
