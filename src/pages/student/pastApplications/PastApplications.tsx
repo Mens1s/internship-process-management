@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom"; // Replace with the actual
 import type { ColumnsType } from "antd/es/table";
 import { columns } from "./PastApplicationsTableColumns";
 import ContentHeader from "../../../components/ContentHeader";
-
+import { Text } from "../../../context/LanguageProvider";
 interface DataType {
   key: string;
   name: string;
@@ -54,9 +54,11 @@ const PastApplications: React.FC = () => {
   return (
     <div>
       <ContentHeader>
-        <h2>Staj Başvurularım</h2>
+        <h2>
+          <Text tid="myInternshipApplications" />
+        </h2>
         <Button onClick={handleNewApplicationClick}>
-          <PlusCircleOutlined /> Yeni Başvuru
+          <PlusCircleOutlined /> <Text tid="createApplication" />
         </Button>
       </ContentHeader>
       <Table tableProps={{ columns, data }} />

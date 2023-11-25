@@ -6,6 +6,7 @@ import { Dropdown } from "antd";
 import { Text, LanguageContext } from "../context/LanguageProvider";
 import React, { useContext } from "react";
 import { languageOptions } from "../languages";
+import useLanguage from "../hooks/useLanguage";
 
 const Container = styled.div`
   width: 40px;
@@ -25,7 +26,7 @@ const Container = styled.div`
 
 const ProfileIcon: React.FC = () => {
   const navigate = useNavigate();
-  const { userLanguage, userLanguageChange } = useContext(LanguageContext);
+  const { userLanguage, userLanguageChange } = useLanguage();
   const handleLanguageChange = () => userLanguageChange();
 
   const handleLogout = () => {
@@ -49,7 +50,6 @@ const ProfileIcon: React.FC = () => {
     {
       key: "2",
       label: (
-        // Call the handleLogout function when the user clicks on "Çıkış Yap"
         <span onClick={handleLanguageChange} style={{ cursor: "pointer" }}>
           <Text tid="lang" />
         </span>
@@ -58,8 +58,10 @@ const ProfileIcon: React.FC = () => {
     {
       key: "3",
       label: (
-        // Call the handleLogout function when the user clicks on "Çıkış Yap"
-        <span onClick={handleLogout} style={{ cursor: "pointer" }}>
+        <span
+          onClick={handleLogout}
+          style={{ cursor: "pointer", color: "red" }}
+        >
           <Text tid="signOut" />
         </span>
       ),

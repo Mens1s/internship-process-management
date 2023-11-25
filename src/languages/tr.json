@@ -2,5 +2,7 @@
   "welcomeHeader": "Gebze Teknik Üniversitesi staj yönetim sistemine hoş geldiniz.",
   "lang": "Türkçe",
   "signOut": "Çıkış Yap",
-  "pendingApplications": "Onay Bekleyen Başvurular"
+  "pendingApplications": "Onay Bekleyen Başvurular",
+  "myInternshipApplications": "Staj Başvurularım",
+  "createApplication": "Başvuru Oluştur"
 }
