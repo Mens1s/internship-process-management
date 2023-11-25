@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthProvider";
 import styled from "styled-components";
-
+import { Text } from "../../context/LanguageProvider";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@ const Home = () => {
     <>
       <Container>
         <h2>
-          Gebze Teknik Üniversitesi staj başvuru yönetim sayfasına hoş geldiniz!
+          <Text tid="welcomeHeader" />{" "}
         </h2>
         <p>
           Bu sistemden yeni staj başvurusunda bulunabilir veya geçmiş

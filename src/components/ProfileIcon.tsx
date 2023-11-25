@@ -1,9 +1,11 @@
-import React from "react";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import { UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Dropdown } from "antd";
+import { Text, LanguageContext } from "../context/LanguageProvider";
+import React, { useContext } from "react";
+import { languageOptions } from "../languages";
 
 const Container = styled.div`
   width: 40px;
@@ -23,6 +25,8 @@ const Container = styled.div`
 
 const ProfileIcon: React.FC = () => {
   const navigate = useNavigate();
+  const { userLanguage, userLanguageChange } = useContext(LanguageContext);
+  const handleLanguageChange = () => userLanguageChange();
 
   const handleLogout = () => {
     // Perform logout actions, such as clearing the token from local storage
@@ -34,20 +38,29 @@ const ProfileIcon: React.FC = () => {
   };
 
   const items: MenuProps["items"] = [
-    {
+    /*  {
       key: "1",
       label: (
         <Link rel="noopener noreferrer" to="ogrenci/profile">
           Profil
         </Link>
       ),
-    },
+    }, */
     {
       key: "2",
       label: (
         // Call the handleLogout function when the user clicks on "Çıkış Yap"
+        <span onClick={handleLanguageChange} style={{ cursor: "pointer" }}>
+          <Text tid="lang" />
+        </span>
+      ),
+    },
+    {
+      key: "3",
+      label: (
+        // Call the handleLogout function when the user clicks on "Çıkış Yap"
         <span onClick={handleLogout} style={{ cursor: "pointer" }}>
-          Çıkış Yap
+          <Text tid="signOut" />
         </span>
       ),
     },
