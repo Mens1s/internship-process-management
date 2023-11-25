@@ -6,6 +6,8 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 
   h2 {
     margin: 0;

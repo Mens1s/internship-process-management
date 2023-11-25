@@ -15,6 +15,7 @@ const MyTable: React.FC<MyTableProps> = ({ tableProps }) => {
       columns={tableProps.columns}
       dataSource={tableProps.data}
       sticky={{ offsetHeader: 60 }}
+      scroll={{ x: 600 }}
     ></Table>
   );
 };

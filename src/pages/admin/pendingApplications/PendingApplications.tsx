@@ -41,7 +41,7 @@ const PastApplications = () => {
     <div>
       <ContentHeader>
         <h2>Onay Bekleyen Başvurular</h2>
-        <Input style={{ width: 300 }} placeholder="Öğrenci ara" />
+        <Input style={{ maxWidth: 300 }} placeholder="Öğrenci ara" />
       </ContentHeader>
       <Table tableProps={{ columns, data }} />
     </div>
