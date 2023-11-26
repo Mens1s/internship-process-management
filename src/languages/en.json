@@ -4,5 +4,6 @@
   "signOut": "Log Out",
   "pendingApplications": "Pending Applications",
   "myInternshipApplications": "My Internship Applications",
-  "createApplication": "Create Application"
+  "createApplication": "Create Application",
+  "announcements": "Announcements"
 }

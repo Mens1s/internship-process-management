@@ -20,6 +20,7 @@ const LogoImage = styled.img`
   width: 200px; // Adjust the size as needed
   margin-left: 30px;
   margin-top: 15px;
+  margin-bottom: 30px;
 `;
 
 const menuItems = [
@@ -80,21 +81,22 @@ const MySider: React.FC<MySiderProps> = ({ collapsed, isMobile }) => {
         zIndex: "100",
       }}
     >
-      <LogoImage src="/logo.jpg" alt="Logo" />
-
-      <Menu
-        onClick={({ key }) => {
-          navigate(key);
-        }}
-        style={{ padding: "10px" }}
-        theme="dark"
-        mode="inline"
-        defaultSelectedKeys={[window.location.pathname]}
-        items={filteredMenuItems.map((item) => ({
-          ...item,
-          key: `/${item.key}`, // Ensure the key starts with "/"
-        }))}
-      />
+      <LogoImage src="/gtu_logo.svg" alt="Logo" />
+      <div style={{ borderTop: "1px solid #424347" }}>
+        <Menu
+          onClick={({ key }) => {
+            navigate(key);
+          }}
+          style={{ padding: "10px" }}
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={[window.location.pathname]}
+          items={filteredMenuItems.map((item) => ({
+            ...item,
+            key: `/${item.key}`, // Ensure the key starts with "/"
+          }))}
+        />
+      </div>
     </Sider>
   );
 };

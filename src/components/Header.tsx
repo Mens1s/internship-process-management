@@ -99,9 +99,7 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
         placement="right"
         onClose={onClose}
         open={open}
-      >
-        <p>notifications</p>
-      </Drawer>
+      ></Drawer>
     </>
   );
 };
