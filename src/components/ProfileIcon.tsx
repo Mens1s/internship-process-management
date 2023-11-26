@@ -4,9 +4,11 @@ import { UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Dropdown } from "antd";
 import { Text, LanguageContext } from "../context/LanguageProvider";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { languageOptions } from "../languages";
 import useLanguage from "../hooks/useLanguage";
+import { LoginOutlined } from "@ant-design/icons";
+import Login from "../pages/login/LoginForm";
 
 const Container = styled.div`
   width: 40px;
@@ -24,10 +26,28 @@ const Container = styled.div`
   }
 `;
 
+const Flag = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  background-size: cover;
+`;
+
 const ProfileIcon: React.FC = () => {
   const navigate = useNavigate();
   const { userLanguage, userLanguageChange } = useLanguage();
-  const handleLanguageChange = () => userLanguageChange();
+  const [img, setImg] = useState(
+    userLanguage === "en" ? "/england_flag.png" : "/turkey_flag.png"
+  );
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const handleLanguageChange = () => {
+    // Toggle language and update the image source
+    userLanguageChange();
+    setImg((prevImg) =>
+      prevImg === "/england_flag.png" ? "/turkey_flag.png" : "/england_flag.png"
+    );
+  };
 
   const handleLogout = () => {
     // Perform logout actions, such as clearing the token from local storage
@@ -50,26 +70,43 @@ const ProfileIcon: React.FC = () => {
     {
       key: "2",
       label: (
-        <span onClick={handleLanguageChange} style={{ cursor: "pointer" }}>
-          <Text tid="lang" />
-        </span>
+        <div style={{ textAlign: "center" }}>
+          <span onClick={handleLanguageChange} style={{ cursor: "pointer" }}>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <Text tid="lang" />
+              <Flag style={{ backgroundImage: `url(${img})` }} />
+            </div>
+          </span>
+        </div>
       ),
     },
     {
       key: "3",
       label: (
-        <span
-          onClick={handleLogout}
-          style={{ cursor: "pointer", color: "red" }}
-        >
-          <Text tid="signOut" />
-        </span>
+        <div style={{ textAlign: "center" }}>
+          <span
+            onClick={handleLogout}
+            style={{ cursor: "pointer", color: "red" }}
+          >
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <Text tid="signOut" />
+              <LoginOutlined />
+            </div>
+          </span>
+        </div>
       ),
     },
   ];
 
   return (
-    <Dropdown menu={{ items }} placement="bottomLeft" arrow trigger={["click"]}>
+    <Dropdown
+      visible={dropdownVisible}
+      onVisibleChange={(visible) => setDropdownVisible(visible)}
+      menu={{ items }}
+      placement="bottomLeft"
+      arrow
+      trigger={["click"]}
+    >
       <Container>
         <UserOutlined style={{ color: "white", fontSize: "24px" }} />
       </Container>
