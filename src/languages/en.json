@@ -5,5 +5,7 @@
   "pendingApplications": "Pending Applications",
   "myInternshipApplications": "My Internship Applications",
   "createApplication": "Create Application",
-  "announcements": "Announcements"
+  "announcements": "Announcements",
+  "studentId": "Student ID",
+  "phoneNumber": "Phone Number"
 }

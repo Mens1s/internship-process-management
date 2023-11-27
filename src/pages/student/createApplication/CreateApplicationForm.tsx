@@ -5,6 +5,7 @@ import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import PdfViewer from "../../../components/PdfViewer";
+import useLanguage from "../../../hooks/useLanguage";
 
 import {
   Row,
@@ -86,6 +87,7 @@ const formItemLayout = {
 
 const CreateApplicationForm: React.FC = () => {
   const { auth }: any = useAuth();
+  const { dictionary } = useLanguage();
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -215,10 +217,10 @@ const CreateApplicationForm: React.FC = () => {
               <Form.Item label="TC Kimlik No">
                 <Input />
               </Form.Item>
-              <Form.Item label="Öğrenci Numarası">
+              <Form.Item label={dictionary.studentId}>
                 <Input />
               </Form.Item>
-              <Form.Item label="Telefon Numarası">
+              <Form.Item label={dictionary.phoneNumber}>
                 <Input />
               </Form.Item>
               <Form.Item label="Fakülte">

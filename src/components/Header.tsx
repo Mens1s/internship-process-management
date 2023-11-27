@@ -8,6 +8,7 @@ import {
 import { Layout, Button, Drawer, theme } from "antd";
 import ProfileIcon from "./ProfileIcon";
 import Breadcrumb from "./Breadcrumb";
+import useLanguage from "../hooks/useLanguage";
 
 const { Header } = Layout;
 
@@ -44,6 +45,7 @@ interface MyHeaderProps {
 
 const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
   const [open, setOpen] = useState(false);
+  const { dictionary } = useLanguage();
 
   const showDrawer = () => {
     setOpen(true);
@@ -95,7 +97,7 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
         </ActionButtons>
       </Header>
       <Drawer
-        title="Notifications"
+        title={dictionary.announcements}
         placement="right"
         onClose={onClose}
         open={open}

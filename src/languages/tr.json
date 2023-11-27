@@ -5,5 +5,7 @@
   "pendingApplications": "Onay Bekleyen Başvurular",
   "myInternshipApplications": "Staj Başvurularım",
   "createApplication": "Başvuru Oluştur",
-  "announcements": "Duyurular"
+  "announcements": "Duyurular",
+  "studentId": "Öğrenci Numarası",
+  "phoneNumber": "Telefon Numarası"
 }
