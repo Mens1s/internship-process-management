@@ -2,6 +2,7 @@ import React from "react";
 import type { ColumnsType } from "antd/es/table";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
+import { EyeOutlined } from "@ant-design/icons";
 
 interface DataType {
   key: string;
@@ -12,6 +13,11 @@ interface DataType {
 }
 
 export const columns: ColumnsType<DataType> = [
+  {
+    dataIndex: "key",
+    rowScope: "row",
+    width: "70px",
+  },
   {
     title: "Company Name",
     dataIndex: "name",
@@ -34,12 +40,11 @@ export const columns: ColumnsType<DataType> = [
   },
 
   {
-    title: "Actions",
     key: "actions",
     render: (_, record) => (
       <Link to={`/akademisyen/pending/evaluate/${record.key}`}>
         <Button style={{ display: "flex", alignItems: "center" }}>
-          Görüntüle
+          <EyeOutlined /> Görüntüle
         </Button>
       </Link>
     ),

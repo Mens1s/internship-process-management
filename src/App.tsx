@@ -71,13 +71,18 @@ const App: React.FC = () => {
           >
             <Route path="akademisyen" element={<Home />} />
             <Route
-              path="akademisyen/pending"
+              path="akademisyen/internship/pending"
               element={<PendingApplications />}
             />
-            <Route path="akademisyen/authorize" element={<Authorize />} />
+            <Route
+              path="akademisyen/internship/past"
+              element={<PendingApplications />}
+            />
+            <Route path="akademisyen/admin/authorize" element={<Authorize />} />
+            <Route path="akademisyen/admin/holidays" element={<Authorize />} />
             <Route path="akademisyen/companies" element={<Companies />} />
             <Route
-              path="akademisyen/pending/evaluate/:id"
+              path="akademisyen/internship/pending/evaluate/:id"
               element={<PendingApplicationsEvaluate />}
             />
           </Route>

@@ -2,9 +2,9 @@ import React from "react";
 import Table from "../../../components/Table";
 import { columns } from "./pendingApplicationsTable/PendingApplicationsTableColumns";
 import ContentHeader from "../../../components/ContentHeader";
-import { Input } from "antd";
+import { Button, Input } from "antd";
 import { Text } from "../../../context/LanguageProvider";
-
+import { DownloadOutlined, EditOutlined } from "@ant-design/icons";
 interface DataType {
   key: string;
   name: string;
@@ -86,7 +86,12 @@ const PastApplications = () => {
         <h2>
           <Text tid="pendingApplications" />
         </h2>
-        <Input style={{ maxWidth: 300 }} placeholder="Öğrenci ara" />
+        <div style={{ display: "flex", gap: 10 }}>
+          <Button>
+            <DownloadOutlined /> İndir
+          </Button>
+          <Input style={{ width: "100%" }} placeholder="Öğrenci ara" />
+        </div>
       </ContentHeader>
       <Table tableProps={{ columns, data }} />
     </div>

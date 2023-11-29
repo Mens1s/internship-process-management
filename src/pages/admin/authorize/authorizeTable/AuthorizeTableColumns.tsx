@@ -33,6 +33,11 @@ interface DataType {
 
 export const columns: ColumnsType<DataType> = [
   {
+    dataIndex: "key",
+    rowScope: "row",
+    width: "70px",
+  },
+  {
     title: "İsim",
     dataIndex: "name",
     key: "name",

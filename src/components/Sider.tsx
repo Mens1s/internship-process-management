@@ -7,9 +7,11 @@ import {
   IdcardFilled,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
+import type { MenuProps } from "antd";
 
 import styled from "styled-components";
 const { Sider } = Layout;
+type MenuItem = Required<MenuProps>["items"][number];
 
 interface MySiderProps {
   collapsed: boolean;
@@ -22,6 +24,22 @@ const LogoImage = styled.img`
   margin-top: 15px;
   margin-bottom: 30px;
 `;
+
+function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: "group"
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
 
 const menuItems = [
   {
@@ -54,6 +72,18 @@ const menuItems = [
     icon: <IdcardFilled />,
     label: "Şirketler",
   },
+];
+
+const items: MenuItem[] = [
+  getItem("Staj İşlemleri", "/internship", <IdcardFilled />, [
+    getItem("Onay Bekleyen Başvurular", "akademisyen/internship/pending"),
+    getItem("Geçmiş Başvurular", "akademisyen/internship/past"),
+  ]),
+  getItem("Yönetici İşlemleri", "/admin", <IdcardFilled />, [
+    getItem("Yetkilendirme", "akademisyen/admin/authorize"),
+    getItem("Tatil Günleri", "akademisyen/admin/holidays"),
+  ]),
+  getItem("Şirket Bilgileri", "akademisyen/companies", <IdcardFilled />),
 ];
 
 const MySider: React.FC<MySiderProps> = ({ collapsed, isMobile }) => {
@@ -91,10 +121,7 @@ const MySider: React.FC<MySiderProps> = ({ collapsed, isMobile }) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[window.location.pathname]}
-          items={filteredMenuItems.map((item) => ({
-            ...item,
-            key: `/${item.key}`, // Ensure the key starts with "/"
-          }))}
+          items={items}
         />
       </div>
     </Sider>
