@@ -7,5 +7,12 @@
   "createApplication": "Başvuru Oluştur",
   "announcements": "Duyurular",
   "studentId": "Öğrenci Numarası",
-  "phoneNumber": "Telefon Numarası"
+  "phoneNumber": "Telefon Numarası",
+  "companyName": "Şirket Adı",
+  "startDate": "Başlangıç Tarihi",
+  "endDate": "Bitiş Tarihi",
+  "type": "Tür",
+  "status": "Durum",
+  "actions": "İşlemler",
+  "view": "Görüntüle"
 }

@@ -35,6 +35,48 @@ const data: DataType[] = [
     endDate: "05.06.2022",
     type: "İsteğe Bağlı",
   },
+  {
+    key: "4",
+    name: "John Brown",
+    startDate: "03.07.2023",
+    endDate: "03.07.2023",
+    type: "Zorunlu",
+  },
+  {
+    key: "5",
+    name: "Jim Green",
+    startDate: "18.08.2023",
+    endDate: "18.08.2023",
+    type: "Zorunlu",
+  },
+  {
+    key: "6",
+    name: "Joe Black",
+    startDate: "05.06.2022",
+    endDate: "05.06.2022",
+    type: "İsteğe Bağlı",
+  },
+  {
+    key: "7",
+    name: "John Brown",
+    startDate: "03.07.2023",
+    endDate: "03.07.2023",
+    type: "Zorunlu",
+  },
+  {
+    key: "8",
+    name: "Jim Green",
+    startDate: "18.08.2023",
+    endDate: "18.08.2023",
+    type: "Zorunlu",
+  },
+  {
+    key: "9",
+    name: "Joe Black",
+    startDate: "05.06.2022",
+    endDate: "05.06.2022",
+    type: "İsteğe Bağlı",
+  },
 ];
 
 const PastApplications = () => {

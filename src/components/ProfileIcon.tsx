@@ -72,7 +72,15 @@ const ProfileIcon: React.FC = () => {
       label: (
         <div style={{ textAlign: "center" }}>
           <span onClick={handleLanguageChange} style={{ cursor: "pointer" }}>
-            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: "10px",
+                alignItems: "center",
+                width: "80px",
+              }}
+            >
               <Text tid="lang" />
               <Flag style={{ backgroundImage: `url(${img})` }} />
             </div>
@@ -88,7 +96,14 @@ const ProfileIcon: React.FC = () => {
             onClick={handleLogout}
             style={{ cursor: "pointer", color: "red" }}
           >
-            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
               <Text tid="signOut" />
               <LoginOutlined />
             </div>

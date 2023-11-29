@@ -16,7 +16,8 @@ const MyTable: React.FC<MyTableProps> = ({ tableProps }) => {
       dataSource={tableProps.data}
       sticky={{ offsetHeader: 60 }}
       scroll={{ x: 600 }}
-    ></Table>
+      pagination={{ pageSize: 50 }}
+    />
   );
 };
 

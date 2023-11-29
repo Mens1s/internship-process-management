@@ -5,6 +5,8 @@ import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
 
 const { confirm } = Modal;
 
+console.log(window.innerWidth);
+
 const showDeleteConfirm = () => {
   confirm({
     title: "Bu yöneticiyi kaldırmak istediğinize emin misiniz?",
@@ -52,8 +54,8 @@ export const columns: ColumnsType<DataType> = [
     key: "department",
   },
   {
-    title: "Actions",
     key: "actions",
+    fixed: "right",
     render: (_, record) => (
       <Button
         style={{ display: "flex", alignItems: "center" }}

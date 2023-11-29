@@ -7,5 +7,12 @@
   "createApplication": "Create Application",
   "announcements": "Announcements",
   "studentId": "Student ID",
-  "phoneNumber": "Phone Number"
+  "phoneNumber": "Phone Number",
+  "companyName": "Company Name",
+  "startDate": "Start Date",
+  "endDate": "End Date",
+  "type": "Type",
+  "status": "Status",
+  "actions": "Actions",
+  "view": "View"
 }

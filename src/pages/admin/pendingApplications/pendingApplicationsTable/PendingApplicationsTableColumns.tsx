@@ -34,7 +34,6 @@ export const columns: ColumnsType<DataType> = [
   },
 
   {
-    title: "Actions",
     key: "actions",
     render: (_, record) => (
       <Link to={`/akademisyen/pending/evaluate/${record.key}`}>

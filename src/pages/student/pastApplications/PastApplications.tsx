@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import Table from "../../../components/Table";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -8,6 +8,8 @@ import type { ColumnsType } from "antd/es/table";
 import { columns } from "./PastApplicationsTableColumns";
 import ContentHeader from "../../../components/ContentHeader";
 import { Text } from "../../../context/LanguageProvider";
+import axios from "../../../services/axios";
+import UseLanguage from "../../../hooks/useLanguage";
 interface DataType {
   key: string;
   name: string;
@@ -40,16 +42,33 @@ const data: DataType[] = [
     startDate: "03.07.2023",
     endDate: "03.07.2023",
     type: "Zorunlu",
-    tags: ["Beklemede"],
+    tags: ["Onay Bekliyor"],
   },
 ];
 
 const PastApplications: React.FC = () => {
   const navigate = useNavigate(); // Assuming your custom hook is named usenavigate
-
+  const { dictionary } = UseLanguage();
   const handleNewApplicationClick = () => {
     navigate("/ogrenci/create");
   };
+
+  const enhancedColumns = columns?.map((column) => {
+    const newColumn = { ...column };
+    if (newColumn.title) {
+      newColumn.title = dictionary[`${column.title}`]; // assuming dictionary is an object with translations
+    }
+    return newColumn;
+  });
+
+  axios
+    .post("http://localhost:8000/api/internship-process/get-all", {})
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 
   return (
     <div>
@@ -61,7 +80,7 @@ const PastApplications: React.FC = () => {
           <PlusCircleOutlined /> <Text tid="createApplication" />
         </Button>
       </ContentHeader>
-      <Table tableProps={{ columns, data }} />
+      <Table tableProps={{ columns: enhancedColumns, data }} />
     </div>
   );
 };

@@ -36,6 +36,62 @@ const data: DataType[] = [
     mail: "05.06.2022",
     department: "İsteğe Bağlı",
   },
+  {
+    key: "4",
+    name: "John Brown",
+    surname: "03.07.2023",
+    mail: "03.07.2023",
+    department: "Zorunlu",
+  },
+  {
+    key: "5",
+    name: "Jim Green",
+    surname: "18.08.2023",
+    mail: "18.08.2023",
+    department: "Zorunlu",
+  },
+  {
+    key: "6",
+    name: "Joe Black",
+    surname: "05.06.2022",
+    mail: "05.06.2022",
+    department: "İsteğe Bağlı",
+  },
+  {
+    key: "7",
+    name: "Jim Green",
+    surname: "18.08.2023",
+    mail: "18.08.2023",
+    department: "Zorunlu",
+  },
+  {
+    key: "8",
+    name: "Joe Black",
+    surname: "05.06.2022",
+    mail: "05.06.2022",
+    department: "İsteğe Bağlı",
+  },
+  {
+    key: "9",
+    name: "Joe Black",
+    surname: "05.06.2022",
+    mail: "05.06.2022",
+    department: "İsteğe Bağlı",
+  },
+  {
+    key: "10",
+    name: "Jim Green",
+    surname: "18.08.2023",
+    mail: "18.08.2023",
+    department: "Zorunlu",
+  },
+  {
+    key: "11",
+    name: "Joe Black",
+    surname: "05.06.2022",
+    mail: "05.06.2022",
+    department: "İsteğe Bağlı",
+  },
 ];
 
 const MyTable: React.FC = () => {

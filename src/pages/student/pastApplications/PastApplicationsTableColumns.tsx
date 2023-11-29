@@ -1,6 +1,7 @@
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
 import { Tag, Button } from "antd";
+import { Text } from "../../../context/LanguageProvider";
 
 interface DataType {
   key: string;
@@ -13,27 +14,27 @@ interface DataType {
 
 export const columns: ColumnsType<DataType> = [
   {
-    title: "Company Name",
+    title: "companyName",
     dataIndex: "name",
     key: "name",
   },
   {
-    title: "Start Date",
+    title: "startDate",
     dataIndex: "startDate",
     key: "startDate",
   },
   {
-    title: "End Date",
+    title: "endDate",
     dataIndex: "endDate",
     key: "endDate",
   },
   {
-    title: "Type",
+    title: "type",
     dataIndex: "type",
     key: "type",
   },
   {
-    title: "Status",
+    title: "status",
     key: "tags",
     dataIndex: "tags",
     render: (_: any, { tags }: any) => (
@@ -42,7 +43,7 @@ export const columns: ColumnsType<DataType> = [
           let color;
           if (tag === "Reddedildi") {
             color = "volcano";
-          } else if (tag === "Beklemede") {
+          } else if (tag === "Onay Bekliyor") {
             color = "geekblue";
           } else {
             color = "green";
@@ -57,11 +58,13 @@ export const columns: ColumnsType<DataType> = [
     ),
   },
   {
-    title: "Actions",
+    title: "actions",
     key: "actions",
     render: (_: any, record: any) => (
       <Link to={`/ogrenci/past/${record.key}`}>
-        <Button>Görüntüle</Button>
+        <Button>
+          <Text tid="view" />
+        </Button>
       </Link>
     ),
   },
