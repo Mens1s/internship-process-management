@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "antd";
-import styled from "styled-components";
 import { ReactNode } from "react";
+import { ButtonProps } from "antd";
 
-interface MyButtonProps {
+interface MyButtonProps extends ButtonProps {
   text: ReactNode;
   icon: ReactNode;
 }
 
-const MyButton: React.FC<MyButtonProps> = ({ text, icon }) => {
+const MyButton: React.FC<MyButtonProps> = ({ text, icon, ...props }) => {
   const [showText, setShowText] = useState(false);
 
   useEffect(() => {
@@ -26,11 +26,11 @@ const MyButton: React.FC<MyButtonProps> = ({ text, icon }) => {
   }, []); // Empty dependency array to run the effect only once
 
   return showText ? (
-    <Button>
+    <Button {...props}>
       {icon} {text}
     </Button>
   ) : (
-    <Button>{icon}</Button>
+    <Button {...props}>{icon}</Button>
   );
 };
 

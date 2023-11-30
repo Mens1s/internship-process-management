@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../../../../../components/Table";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Modal, Input } from "antd";
 import ContentHeader from "../../../../../components/ContentHeader";
 import { columns } from "./AuthorizeTableColumns";
-
+import { getEnhancedColumns } from "../../../../../utils/getEnhancedColumns";
+import UseLanguage from "../../../../../hooks/useLanguage";
 interface DataType {
   key: string;
   name: string;
@@ -96,6 +97,8 @@ const data: DataType[] = [
 
 const MyTable: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const { dictionary } = UseLanguage();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -108,6 +111,21 @@ const MyTable: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array to run the effect only once during mount
+
+  const enhancedColumns = getEnhancedColumns(columns, windowWidth, dictionary);
+
   return (
     <>
       <ContentHeader>
@@ -125,7 +143,7 @@ const MyTable: React.FC = () => {
           <Input style={{ margin: "20px 0" }} placeholder="Kişi ara" />
         </Modal>
       </ContentHeader>
-      <Table tableProps={{ columns, data }} />
+      <Table tableProps={{ columns: enhancedColumns, data }} />
     </>
   );
 };

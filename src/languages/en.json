@@ -15,5 +15,10 @@
   "status": "Status",
   "actions": "Actions",
   "view": "View",
-  "internshipProcedures": "Internship Procedures"
+  "internshipProcedures": "Internship Procedures",
+  "remove": "Remove",
+  "name": "Name",
+  "surname": "Surname",
+  "department": "Department",
+  "mail": "Mail"
 }

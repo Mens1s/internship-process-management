@@ -73,7 +73,11 @@ export const columns: ColumnsType<DataType> = [
     fixed: "right",
     render: (_: any, record: any) => (
       <Link to={`/ogrenci/past/${record.key}`}>
-        <MyButton text={<Text tid="view" />} icon={<EyeOutlined />} />
+        <MyButton
+          text={<Text tid="view" />}
+          icon={<EyeOutlined />}
+          type="default"
+        />
       </Link>
     ),
   },

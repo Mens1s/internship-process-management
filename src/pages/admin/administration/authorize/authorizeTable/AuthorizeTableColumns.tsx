@@ -1,8 +1,8 @@
 import type { ColumnsType } from "antd/es/table";
-import { Link } from "react-router-dom";
-import { Tag, Button, Modal } from "antd";
+import { Modal } from "antd";
 import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
-
+import MyButton from "../../../../../components/Button";
+import { Text } from "../../../../../context/LanguageProvider";
 const { confirm } = Modal;
 
 const showDeleteConfirm = () => {
@@ -36,23 +36,23 @@ export const columns: ColumnsType<DataType> = [
     width: "70px",
   },
   {
-    title: "İsim",
+    title: "name",
     dataIndex: "name",
     key: "name",
   },
   {
-    title: "Soyisim",
+    title: "surname",
     dataIndex: "surname",
     key: "surname",
   },
 
   {
-    title: "Mail",
+    title: "mail",
     dataIndex: "mail",
     key: "mail",
   },
   {
-    title: "Departman",
+    title: "department",
     dataIndex: "department",
     key: "department",
   },
@@ -60,14 +60,13 @@ export const columns: ColumnsType<DataType> = [
     key: "actions",
     fixed: "right",
     render: (_, record) => (
-      <Button
-        style={{ display: "flex", alignItems: "center" }}
-        type="primary"
+      <MyButton
+        text={<Text tid="remove" />}
+        icon={<DeleteFilled />}
         onClick={showDeleteConfirm}
+        type="primary"
         danger
-      >
-        <DeleteFilled /> Kaldır
-      </Button>
+      />
     ),
   },
 ];

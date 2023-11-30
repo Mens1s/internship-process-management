@@ -9,6 +9,7 @@ import ContentHeader from "../../../components/ContentHeader";
 import { Text } from "../../../context/LanguageProvider";
 import axios from "../../../services/axios";
 import UseLanguage from "../../../hooks/useLanguage";
+import { getEnhancedColumns } from "../../../utils/getEnhancedColumns";
 interface DataType {
   key: string;
   name: string;
@@ -68,18 +69,7 @@ const PastApplications: React.FC = () => {
     navigate("/ogrenci/create");
   };
 
-  const enhancedColumns = columns?.map((column) => {
-    const newColumn = { ...column };
-    if (newColumn.title) {
-      newColumn.title = dictionary[`${column.title}`];
-    }
-
-    if (newColumn.key === "actions") {
-      newColumn.width = windowWidth >= 600 ? 140 : 75; // Adjust the breakpoint as needed
-    }
-
-    return newColumn;
-  });
+  const enhancedColumns = getEnhancedColumns(columns, windowWidth, dictionary);
 
   /*  const jwtToken = window.localStorage.getItem("token");
   axios

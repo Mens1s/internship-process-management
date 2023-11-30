@@ -15,5 +15,10 @@
   "status": "Durum",
   "actions": "İşlemler",
   "view": "Görüntüle",
-  "internshipProcedures": "Staj İşlemleri"
+  "internshipProcedures": "Staj İşlemleri",
+  "remove": "Kaldır",
+  "name": "İsim",
+  "surname": "Soyisim",
+  "department": "Departman",
+  "mail": "Mail"
 }
