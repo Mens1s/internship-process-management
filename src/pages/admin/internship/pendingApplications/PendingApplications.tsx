@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../../../../components/Table";
 import { columns } from "./pendingApplicationsTable/PendingApplicationsTableColumns";
 import ContentHeader from "../../../../components/ContentHeader";
 import { Button, Input } from "antd";
 import { Text } from "../../../../context/LanguageProvider";
-import { DownloadOutlined, EditOutlined } from "@ant-design/icons";
-
+import { DownloadOutlined } from "@ant-design/icons";
+import useLanguage from "../../../../hooks/useLanguage";
+import useEnhancedColumns from "../../../../hooks/useEnhancedColumns";
 interface DataType {
   key: string;
   name: string;
@@ -81,6 +82,9 @@ const data: DataType[] = [
 ];
 
 const PastApplications = () => {
+  const { dictionary } = useLanguage();
+  const enhancedColumns = useEnhancedColumns(columns);
+
   return (
     <div>
       <ContentHeader>
@@ -89,12 +93,15 @@ const PastApplications = () => {
         </h2>
         <div style={{ display: "flex", gap: 10 }}>
           <Button>
-            <DownloadOutlined /> İndir
+            <DownloadOutlined /> <Text tid="download" />
           </Button>
-          <Input style={{ width: "100%" }} placeholder="Öğrenci ara" />
+          <Input
+            style={{ width: "100%" }}
+            placeholder={dictionary.searchStudent}
+          />
         </div>
       </ContentHeader>
-      <Table tableProps={{ columns, data }} />
+      <Table tableProps={{ columns: enhancedColumns, data }} />
     </div>
   );
 };

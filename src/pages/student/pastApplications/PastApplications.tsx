@@ -8,8 +8,7 @@ import { columns } from "./PastApplicationsTableColumns";
 import ContentHeader from "../../../components/ContentHeader";
 import { Text } from "../../../context/LanguageProvider";
 import axios from "../../../services/axios";
-import UseLanguage from "../../../hooks/useLanguage";
-import { getEnhancedColumns } from "../../../utils/getEnhancedColumns";
+import useEnhancedColumns from "../../../hooks/useEnhancedColumns";
 interface DataType {
   key: string;
   name: string;
@@ -47,29 +46,14 @@ const data: DataType[] = [
 ];
 
 const PastApplications: React.FC = () => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [apiData, setApiData] = React.useState([]);
-
   const navigate = useNavigate();
-  const { dictionary } = UseLanguage();
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []); // Empty dependency array to run the effect only once during mount
+  const enhancedColumns = useEnhancedColumns(columns);
 
   const handleNewApplicationClick = () => {
     navigate("/ogrenci/create");
   };
-
-  const enhancedColumns = getEnhancedColumns(columns, windowWidth, dictionary);
 
   /*  const jwtToken = window.localStorage.getItem("token");
   axios

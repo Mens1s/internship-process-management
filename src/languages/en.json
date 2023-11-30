@@ -20,5 +20,8 @@
   "name": "Name",
   "surname": "Surname",
   "department": "Department",
-  "mail": "Mail"
+  "mail": "Mail",
+  "evaluate": "Evaluate",
+  "download": "Download",
+  "searchStudent": "Search student"
 }

@@ -20,5 +20,8 @@
   "name": "İsim",
   "surname": "Soyisim",
   "department": "Departman",
-  "mail": "Mail"
+  "mail": "Mail",
+  "evaluate": "Değerlendir",
+  "download": "İndir",
+  "searchStudent": "Öğrenci ara"
 }

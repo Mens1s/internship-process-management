@@ -1,9 +1,9 @@
 import React from "react";
 import type { ColumnsType } from "antd/es/table";
-import { Button } from "antd";
 import { Link } from "react-router-dom";
-import { DownloadOutlined, EditOutlined } from "@ant-design/icons";
-
+import { EditOutlined } from "@ant-design/icons";
+import MyButton from "../../../../../components/Button";
+import { Text } from "../../../../../context/LanguageProvider";
 interface DataType {
   key: string;
   name: string;
@@ -19,36 +19,40 @@ export const columns: ColumnsType<DataType> = [
     width: "70px",
   },
   {
-    title: "Company Name",
+    title: "companyName",
     dataIndex: "name",
     key: "name",
+    width: "120px",
   },
   {
-    title: "Start Date",
+    title: "startDate",
     dataIndex: "startDate",
     key: "startDate",
+    width: "120px",
   },
   {
-    title: "End Date",
+    title: "endDate",
     dataIndex: "endDate",
     key: "endDate",
+    width: "120px",
   },
   {
-    title: "Type",
+    title: "type",
     dataIndex: "type",
     key: "type",
+    width: "120px",
   },
 
   {
     key: "actions",
+    fixed: "right",
     render: (_, record) => (
       <Link to={`/akademisyen/internship/pending/evaluate/${record.key}`}>
-        <Button
-          style={{ display: "flex", alignItems: "center" }}
+        <MyButton
+          text={<Text tid="evaluate" />}
+          icon={<EditOutlined />}
           type="primary"
-        >
-          <EditOutlined /> Değerlendir
-        </Button>
+        />
       </Link>
     ),
   },
