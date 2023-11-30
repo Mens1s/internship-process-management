@@ -62,12 +62,12 @@ const PastApplications: React.FC = () => {
   });
 
   axios
-    .post("http://localhost:8000/api/internship-process/get-all", {})
+    .get("http://localhost:8000/api/internship-process/get-all", {})
     .then((response) => {
       console.log(response);
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.error("past application error:", error);
     });
 
   return (

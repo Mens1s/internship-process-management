@@ -115,8 +115,8 @@ const ProfileIcon: React.FC = () => {
 
   return (
     <Dropdown
-      visible={dropdownVisible}
-      onVisibleChange={(visible) => setDropdownVisible(visible)}
+      open={dropdownVisible}
+      onOpenChange={(visible) => setDropdownVisible(visible)}
       menu={{ items }}
       placement="bottomLeft"
       arrow

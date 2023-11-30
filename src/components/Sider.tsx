@@ -41,7 +41,7 @@ function getItem(
   } as MenuItem;
 }
 
-const menuItems = [
+/* const menuItems = [
   {
     key: "ogrenci/active",
     icon: <EditFilled />,
@@ -72,18 +72,21 @@ const menuItems = [
     icon: <IdcardFilled />,
     label: "Şirketler",
   },
-];
+]; */
 
 const items: MenuItem[] = [
-  getItem("Staj İşlemleri", "/internship", <IdcardFilled />, [
+  getItem("Staj İşlemleri", "akademisyen/internship", <IdcardFilled />, [
     getItem("Onay Bekleyen Başvurular", "akademisyen/internship/pending"),
     getItem("Geçmiş Başvurular", "akademisyen/internship/past"),
   ]),
-  getItem("Yönetici İşlemleri", "/admin", <IdcardFilled />, [
+  getItem("Yönetici İşlemleri", "akademisyen/admin", <IdcardFilled />, [
     getItem("Yetkilendirme", "akademisyen/admin/authorize"),
     getItem("Tatil Günleri", "akademisyen/admin/holidays"),
   ]),
   getItem("Şirket Bilgileri", "akademisyen/companies", <IdcardFilled />),
+  getItem("Aktif Başvurum", "ogrenci/active", <EditFilled />),
+  getItem("Geçmiş Başvurularım", "ogrenci/past", <CopyFilled />),
+  getItem("Yeni Başvuru", "ogrenci/create", <UploadOutlined />),
 ];
 
 const MySider: React.FC<MySiderProps> = ({ collapsed, isMobile }) => {
@@ -92,10 +95,23 @@ const MySider: React.FC<MySiderProps> = ({ collapsed, isMobile }) => {
   const role = location.pathname.split("/")[1]; // Extract the role from the path
 
   // Filter menu items based on the role
-  const filteredMenuItems = menuItems.filter((item) =>
-    item.key.startsWith(role)
-  );
+  // Recursive function to filter nested menu items
+  /*  const filterNestedItems = (items: MenuItem[]): MenuItem[] => {
+    return items
+      .filter((item) => item.key.startsWith(role))
+      .map((item) => {
+        if (item?.children && item.children?.length > 0) {
+          return {
+            ...item,
+            children: filterNestedItems(item.children),
+          };
+        }
+        return item;
+      });
+  };
 
+  // Filter menu items based on the role
+  const filteredMenuItems = filterNestedItems(items); */
   return (
     <Sider
       trigger={null}

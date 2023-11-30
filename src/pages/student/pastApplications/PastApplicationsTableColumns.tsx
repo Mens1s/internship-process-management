@@ -14,6 +14,11 @@ interface DataType {
 
 export const columns: ColumnsType<DataType> = [
   {
+    dataIndex: "key",
+    rowScope: "row",
+    width: "70px",
+  },
+  {
     title: "companyName",
     dataIndex: "name",
     key: "name",
@@ -58,7 +63,6 @@ export const columns: ColumnsType<DataType> = [
     ),
   },
   {
-    title: "actions",
     key: "actions",
     render: (_: any, record: any) => (
       <Link to={`/ogrenci/past/${record.key}`}>

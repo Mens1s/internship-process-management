@@ -5,8 +5,6 @@ import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
 
 const { confirm } = Modal;
 
-console.log(window.innerWidth);
-
 const showDeleteConfirm = () => {
   confirm({
     title: "Bu yöneticiyi kaldırmak istediğinize emin misiniz?",

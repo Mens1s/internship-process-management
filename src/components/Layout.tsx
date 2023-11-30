@@ -11,6 +11,7 @@ import PastApplicationDetail from "../pages/student/pastApplications/pastApplica
 import Header from "../components/Header";
 import Sider from "../components/Sider";
 import { Outlet } from "react-router-dom";
+import Warning from "./Warning";
 
 const { Content } = Layout;
 
@@ -73,6 +74,9 @@ const MyLayout: React.FC = () => {
       <Sider collapsed={collapsed} isMobile={isMobile} />
       <Layout>
         <Header collapsed={collapsed} setCollapsed={toggleSider} />
+        <Warning type="success">
+          Bir adet onaylanmış stajınız bulunmaktadır
+        </Warning>
         <Content
           style={{
             margin: "24px 16px",

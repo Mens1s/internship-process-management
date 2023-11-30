@@ -31,11 +31,11 @@ const MyBreadcrumb: React.FC = () => {
           const routeTo = `${pathnames.slice(0, index + 1).join("/")}`;
           const isLast = index === pathnames.length - 1;
           return isLast ? (
-            <Breadcrumb.Item>
+            <Breadcrumb.Item key={index}>
               {name.charAt(0).toUpperCase() + name.slice(1)}
             </Breadcrumb.Item>
           ) : (
-            <Breadcrumb.Item>
+            <Breadcrumb.Item key={index}>
               <Link to={`${role}/${routeTo}`}>
                 {name.charAt(0).toUpperCase() + name.slice(1)}
               </Link>
