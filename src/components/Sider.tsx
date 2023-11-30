@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import type { MenuProps } from "antd";
-
+import UseLanguage from "../hooks/useLanguage";
 import styled from "styled-components";
 const { Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
@@ -16,6 +16,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 interface MySiderProps {
   collapsed: boolean;
   isMobile: boolean;
+  closeSider: any;
 }
 
 const LogoImage = styled.img`
@@ -74,26 +75,36 @@ function getItem(
   },
 ]; */
 
-const items: MenuItem[] = [
-  getItem("Staj İşlemleri", "akademisyen/internship", <IdcardFilled />, [
-    getItem("Onay Bekleyen Başvurular", "akademisyen/internship/pending"),
-    getItem("Geçmiş Başvurular", "akademisyen/internship/past"),
-  ]),
-  getItem("Yönetici İşlemleri", "akademisyen/admin", <IdcardFilled />, [
-    getItem("Yetkilendirme", "akademisyen/admin/authorize"),
-    getItem("Tatil Günleri", "akademisyen/admin/holidays"),
-  ]),
-  getItem("Şirket Bilgileri", "akademisyen/companies", <IdcardFilled />),
-  getItem("Aktif Başvurum", "ogrenci/active", <EditFilled />),
-  getItem("Geçmiş Başvurularım", "ogrenci/past", <CopyFilled />),
-  getItem("Yeni Başvuru", "ogrenci/create", <UploadOutlined />),
-];
-
-const MySider: React.FC<MySiderProps> = ({ collapsed, isMobile }) => {
+const MySider: React.FC<MySiderProps> = ({
+  collapsed,
+  isMobile,
+  closeSider,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const role = location.pathname.split("/")[1];
 
+  const { dictionary } = UseLanguage();
+
+  const items: MenuItem[] = [
+    getItem(
+      dictionary.internshipProcedures,
+      "akademisyen/internship",
+      <IdcardFilled />,
+      [
+        getItem("Onay Bekleyen Başvurular", "akademisyen/internship/pending"),
+        getItem("Geçmiş Başvurular", "akademisyen/internship/past"),
+      ]
+    ),
+    getItem("Yönetici İşlemleri", "akademisyen/admin", <IdcardFilled />, [
+      getItem("Yetkilendirme", "akademisyen/admin/authorize"),
+      getItem("Tatil Günleri", "akademisyen/admin/holidays"),
+    ]),
+    getItem("Şirket Bilgileri", "akademisyen/companies", <IdcardFilled />),
+    getItem("Aktif Başvurum", "ogrenci/active", <EditFilled />),
+    getItem("Geçmiş Başvurularım", "ogrenci/past", <CopyFilled />),
+    getItem("Yeni Başvuru", "ogrenci/create", <UploadOutlined />),
+  ];
   const filteredMenuItems = items.filter((item) =>
     `${item!.key}`.startsWith(role)
   );
@@ -117,6 +128,9 @@ const MySider: React.FC<MySiderProps> = ({ collapsed, isMobile }) => {
       <div style={{ borderTop: "1px solid #424347" }}>
         <Menu
           onClick={({ key }) => {
+            if (isMobile) {
+              closeSider();
+            }
             navigate(key);
           }}
           style={{ padding: "10px" }}

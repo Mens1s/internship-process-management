@@ -1,8 +1,9 @@
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
-import { Tag, Button } from "antd";
+import { Tag } from "antd";
 import { Text } from "../../../context/LanguageProvider";
-
+import { EyeOutlined } from "@ant-design/icons";
+import MyButton from "../../../components/Button";
 interface DataType {
   key: string;
   name: string;
@@ -22,25 +23,30 @@ export const columns: ColumnsType<DataType> = [
     title: "companyName",
     dataIndex: "name",
     key: "name",
+    width: 120,
   },
   {
     title: "startDate",
     dataIndex: "startDate",
     key: "startDate",
+    width: 120,
   },
   {
     title: "endDate",
     dataIndex: "endDate",
     key: "endDate",
+    width: 120,
   },
   {
     title: "type",
     dataIndex: "type",
     key: "type",
+    width: 120,
   },
   {
     title: "status",
     key: "tags",
+    width: 120,
     dataIndex: "tags",
     render: (_: any, { tags }: any) => (
       <>
@@ -64,11 +70,10 @@ export const columns: ColumnsType<DataType> = [
   },
   {
     key: "actions",
+    fixed: "right",
     render: (_: any, record: any) => (
       <Link to={`/ogrenci/past/${record.key}`}>
-        <Button>
-          <Text tid="view" />
-        </Button>
+        <MyButton text={<Text tid="view" />} icon={<EyeOutlined />} />
       </Link>
     ),
   },

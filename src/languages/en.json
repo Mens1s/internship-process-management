@@ -14,5 +14,6 @@
   "type": "Type",
   "status": "Status",
   "actions": "Actions",
-  "view": "View"
+  "view": "View",
+  "internshipProcedures": "Internship Procedures"
 }

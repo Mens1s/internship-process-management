@@ -17,6 +17,8 @@ import Profile from "./pages/student/profile/Profile";
 import RequireAuth from "./components/RequireAuth";
 import Companies from "./pages/admin/companies/Companies";
 import NotFound from "./pages/notfound/NotFound";
+import Holidays from "./pages/admin/administration/holidays/Holidays";
+import AllApplications from "./pages/admin/internship/pastApplications/PastApplications";
 
 const ROLES = {
   ogrenci: 2000,
@@ -75,10 +77,10 @@ const App: React.FC = () => {
             />
             <Route
               path="akademisyen/internship/past"
-              element={<PendingApplications />}
+              element={<AllApplications />}
             />
             <Route path="akademisyen/admin/authorize" element={<Authorize />} />
-            <Route path="akademisyen/admin/holidays" element={<Authorize />} />
+            <Route path="akademisyen/admin/holidays" element={<Holidays />} />
             <Route path="akademisyen/companies" element={<Companies />} />
             <Route
               path="akademisyen/internship/pending/evaluate/:id"

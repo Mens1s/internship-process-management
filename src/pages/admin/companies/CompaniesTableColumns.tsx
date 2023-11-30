@@ -3,7 +3,7 @@ import type { ColumnsType } from "antd/es/table";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 import { EyeOutlined } from "@ant-design/icons";
-
+import { Text } from "../../../context/LanguageProvider";
 interface DataType {
   key: string;
   name: string;
@@ -44,7 +44,7 @@ export const columns: ColumnsType<DataType> = [
     render: (_, record) => (
       <Link to={`/akademisyen/pending/evaluate/${record.key}`}>
         <Button style={{ display: "flex", alignItems: "center" }}>
-          <EyeOutlined /> Görüntüle
+          <EyeOutlined /> <Text tid="view" />
         </Button>
       </Link>
     ),

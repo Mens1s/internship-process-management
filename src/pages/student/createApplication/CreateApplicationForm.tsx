@@ -290,7 +290,7 @@ const CreateApplicationForm: React.FC = () => {
               </Form.Item>
               <Form.Item
                 label="Belgeler"
-                valuePropName="fileList"
+                valuePropName="file1"
                 getValueFromEvent={normFile}
               >
                 <Upload
@@ -301,16 +301,30 @@ const CreateApplicationForm: React.FC = () => {
                 >
                   <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
-                <Modal
-                  open={previewOpen}
-                  title={previewTitle}
-                  footer={null}
-                  onCancel={handlePDFCancel}
-                  width={600}
-                >
-                  <PdfViewer fileUrl={viewPdf} />
-                </Modal>
               </Form.Item>
+              <Form.Item
+                label="Belgeler"
+                valuePropName="file2"
+                getValueFromEvent={normFile}
+              >
+                <Upload
+                  action="/upload.do"
+                  listType="picture"
+                  onChange={handleChange}
+                  fileList={fileList}
+                >
+                  <Button icon={<UploadOutlined />}>Upload</Button>
+                </Upload>
+              </Form.Item>
+              <Modal
+                open={previewOpen}
+                title={previewTitle}
+                footer={null}
+                onCancel={handlePDFCancel}
+                width={600}
+              >
+                <PdfViewer fileUrl={viewPdf} />
+              </Modal>
 
               <Form.Item label="Başvuruyu Onayla">
                 <DatePickersContainer>

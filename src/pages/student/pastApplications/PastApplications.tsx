@@ -1,8 +1,7 @@
-import React, { ReactNode } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../../../components/Table";
-import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Modal, Input, Tag } from "antd";
+import { Button } from "antd";
 import { useNavigate, Link } from "react-router-dom"; // Replace with the actual path
 import type { ColumnsType } from "antd/es/table";
 import { columns } from "./PastApplicationsTableColumns";
@@ -47,8 +46,24 @@ const data: DataType[] = [
 ];
 
 const PastApplications: React.FC = () => {
-  const navigate = useNavigate(); // Assuming your custom hook is named usenavigate
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [apiData, setApiData] = React.useState([]);
+
+  const navigate = useNavigate();
   const { dictionary } = UseLanguage();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array to run the effect only once during mount
+
   const handleNewApplicationClick = () => {
     navigate("/ogrenci/create");
   };
@@ -56,20 +71,44 @@ const PastApplications: React.FC = () => {
   const enhancedColumns = columns?.map((column) => {
     const newColumn = { ...column };
     if (newColumn.title) {
-      newColumn.title = dictionary[`${column.title}`]; // assuming dictionary is an object with translations
+      newColumn.title = dictionary[`${column.title}`];
     }
+
+    if (newColumn.key === "actions") {
+      newColumn.width = windowWidth >= 600 ? 140 : 75; // Adjust the breakpoint as needed
+    }
+
     return newColumn;
   });
 
+  /*  const jwtToken = window.localStorage.getItem("token");
   axios
-    .get("http://localhost:8000/api/internship-process/get-all", {})
+    .get("http://localhost:8000/api/internship-process/get-all", {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
     .then((response) => {
       console.log(response);
+      setApiData(response.data.internshipProcessList);
     })
     .catch((error) => {
-      console.error("past application error:", error);
-    });
+      console.error(
+        "past application error:",
+        error.response.data.internshipProcessList
+      );
+      //  setApiData(error.response.data.internshipProcessList);
+    }); */
 
+  /* const transformedData: DataType[] = apiData.map((item: any, index) => ({
+    key: `${index + 1}`,
+    name: item.company,
+    startDate: item.startDate,
+    endDate: item.endDate,
+    type: item.position, // Assuming 'position' should be the 'type'
+    tags: ["RandomTag1", "RandomTag2", "RandomTag3"], // Add random tags as needed
+  }));
+ */
   return (
     <div>
       <ContentHeader>

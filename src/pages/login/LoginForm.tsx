@@ -42,7 +42,7 @@ const Login: React.FC = () => {
           //navigate(fromStudent, { replace: true });
           if (response.status == 200) {
             console.log("Successful");
-            console.log(response);
+            console.log(response.data);
             window.localStorage.setItem("token", response.data.token);
             setAuth((prev: any) => ({
               ...prev,

@@ -14,5 +14,6 @@
   "type": "Tür",
   "status": "Durum",
   "actions": "İşlemler",
-  "view": "Görüntüle"
+  "view": "Görüntüle",
+  "internshipProcedures": "Staj İşlemleri"
 }

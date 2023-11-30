@@ -9,8 +9,7 @@ import Warning from "./Warning";
 const { Content } = Layout;
 
 const MyLayout: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(false);
+  const [collapsed, setCollapsed] = useState(window.innerWidth <= 768);
 
   const {
     token: { colorBgContainer },
@@ -22,9 +21,6 @@ const MyLayout: React.FC = () => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
         setCollapsed(true);
-      } else {
-        setCollapsed(false);
-        setShowOverlay(false);
       }
     };
 
@@ -38,17 +34,15 @@ const MyLayout: React.FC = () => {
 
   const toggleSider = () => {
     setCollapsed(!collapsed);
-    setShowOverlay(isMobile);
   };
 
   const closeSider = () => {
     setCollapsed(true);
-    setShowOverlay(false);
   };
 
   return (
     <Layout>
-      {showOverlay && (
+      {!collapsed && isMobile && (
         <div
           onClick={closeSider}
           style={{
@@ -59,11 +53,14 @@ const MyLayout: React.FC = () => {
             bottom: 0,
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 99,
-            transition: "0.3s",
           }}
         />
       )}
-      <Sider collapsed={collapsed} isMobile={isMobile} />
+      <Sider
+        collapsed={collapsed}
+        isMobile={isMobile}
+        closeSider={closeSider}
+      />
       <Layout>
         <Header collapsed={collapsed} setCollapsed={toggleSider} />
         <div style={{ position: "sticky", top: "64px", zIndex: "9" }}>
