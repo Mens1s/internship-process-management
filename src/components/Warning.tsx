@@ -26,9 +26,6 @@ const Warning: React.FC<WarningProps> = ({ children, type }: any) => {
             display: "flex",
             alignItems: "center",
             color: "white",
-            position: "sticky",
-            top: "64px",
-            zIndex: "9",
           }}
         >
           {children}

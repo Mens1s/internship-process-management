@@ -92,26 +92,12 @@ const items: MenuItem[] = [
 const MySider: React.FC<MySiderProps> = ({ collapsed, isMobile }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const role = location.pathname.split("/")[1]; // Extract the role from the path
+  const role = location.pathname.split("/")[1];
 
-  // Filter menu items based on the role
-  // Recursive function to filter nested menu items
-  /*  const filterNestedItems = (items: MenuItem[]): MenuItem[] => {
-    return items
-      .filter((item) => item.key.startsWith(role))
-      .map((item) => {
-        if (item?.children && item.children?.length > 0) {
-          return {
-            ...item,
-            children: filterNestedItems(item.children),
-          };
-        }
-        return item;
-      });
-  };
+  const filteredMenuItems = items.filter((item) =>
+    `${item!.key}`.startsWith(role)
+  );
 
-  // Filter menu items based on the role
-  const filteredMenuItems = filterNestedItems(items); */
   return (
     <Sider
       trigger={null}
@@ -137,7 +123,7 @@ const MySider: React.FC<MySiderProps> = ({ collapsed, isMobile }) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[window.location.pathname]}
-          items={items}
+          items={filteredMenuItems}
         />
       </div>
     </Sider>

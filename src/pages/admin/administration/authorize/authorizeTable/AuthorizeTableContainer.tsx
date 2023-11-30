@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Table from "../../../../components/Table";
+import Table from "../../../../../components/Table";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Modal, Input } from "antd";
-import ContentHeader from "../../../../components/ContentHeader";
+import ContentHeader from "../../../../../components/ContentHeader";
 import { columns } from "./AuthorizeTableColumns";
 
 interface DataType {

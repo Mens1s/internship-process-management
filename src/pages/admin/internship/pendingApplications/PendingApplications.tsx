@@ -1,9 +1,9 @@
 import React from "react";
-import Table from "../../../components/Table";
+import Table from "../../../../components/Table";
 import { columns } from "./pendingApplicationsTable/PendingApplicationsTableColumns";
-import ContentHeader from "../../../components/ContentHeader";
+import ContentHeader from "../../../../components/ContentHeader";
 import { Button, Input } from "antd";
-import { Text } from "../../../context/LanguageProvider";
+import { Text } from "../../../../context/LanguageProvider";
 import { DownloadOutlined, EditOutlined } from "@ant-design/icons";
 interface DataType {
   key: string;

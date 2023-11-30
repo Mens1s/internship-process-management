@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Layout, theme } from "antd";
-import ActiveApplication from "../pages/student/activeApplication/ActiveApplication";
-import CreateApplication from "../pages/student/createApplication/CreateApplicationForm";
-import PastApplications from "../pages/student/pastApplications/PastApplications";
-import PendingApplications from "../pages/admin/pendingApplications/PendingApplications";
-import PendingApplicationsEvaluate from "../pages/admin/pendingApplications/pendingApplicationsEvaluate/PendingApplicationsEvaluate";
-import Authorize from "../pages/admin/authorize/Authorize";
-import PastApplicationDetail from "../pages/student/pastApplications/pastApplicationsDetail/PastApplicationDetail";
 import Header from "../components/Header";
 import Sider from "../components/Sider";
 import { Outlet } from "react-router-dom";
@@ -18,7 +11,6 @@ const { Content } = Layout;
 const MyLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
-  const navigate = useNavigate();
 
   const {
     token: { colorBgContainer },
@@ -74,9 +66,14 @@ const MyLayout: React.FC = () => {
       <Sider collapsed={collapsed} isMobile={isMobile} />
       <Layout>
         <Header collapsed={collapsed} setCollapsed={toggleSider} />
-        <Warning type="success">
-          Bir adet onaylanmış stajınız bulunmaktadır
-        </Warning>
+        <div style={{ position: "sticky", top: "64px", zIndex: "9" }}>
+          <Warning type="success">
+            Bir adet onaylanmış stajınız bulunmaktadır
+          </Warning>
+          {/*   <Warning type="danger">
+            Bir adet reddedilmiş stajınız bulunmaktadır
+          </Warning> */}
+        </div>
         <Content
           style={{
             margin: "24px 16px",
