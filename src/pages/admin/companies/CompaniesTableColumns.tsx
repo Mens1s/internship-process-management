@@ -1,8 +1,11 @@
 import React from "react";
 import type { ColumnsType } from "antd/es/table";
-import { EyeOutlined } from "@ant-design/icons";
+import { MoreOutlined } from "@ant-design/icons";
 import { Text } from "../../../context/LanguageProvider";
 import MyButton from "../../../components/Button";
+import { Dropdown, Space } from "antd";
+import type { MenuProps } from "antd";
+import { Link } from "react-router-dom";
 
 interface DataType {
   key: string;
@@ -13,6 +16,16 @@ interface DataType {
 }
 
 export const getColumns = (showModal: any) => {
+  const items: MenuProps["items"] = [
+    {
+      label: <Link to="internships">Öğrencileri Gör</Link>,
+      key: "0",
+    },
+    {
+      label: <span onClick={showModal}>Şirket Bilgileri</span>,
+      key: "1",
+    },
+  ];
   const columns: ColumnsType<DataType> = [
     {
       dataIndex: "key",
@@ -43,12 +56,9 @@ export const getColumns = (showModal: any) => {
       key: "actions",
       fixed: "right",
       render: (_, record) => (
-        <MyButton
-          text={<Text tid="view" />}
-          icon={<EyeOutlined />}
-          onClick={showModal}
-          type="default"
-        />
+        <Dropdown menu={{ items }} placement="bottomRight" trigger={["hover"]}>
+          <MyButton icon={<MoreOutlined />} type="default" />
+        </Dropdown>
       ),
     },
   ];

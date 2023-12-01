@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "antd";
 import { ReactNode } from "react";
-import { ButtonProps } from "antd";
+import { Button, ButtonProps } from "antd";
 
 interface MyButtonProps extends ButtonProps {
-  text: ReactNode;
+  text?: ReactNode;
   icon: ReactNode;
 }
 
@@ -25,7 +24,7 @@ const MyButton: React.FC<MyButtonProps> = ({ text, icon, ...props }) => {
     };
   }, []); // Empty dependency array to run the effect only once
 
-  return showText ? (
+  return showText && text ? (
     <Button {...props}>
       {icon} {text}
     </Button>

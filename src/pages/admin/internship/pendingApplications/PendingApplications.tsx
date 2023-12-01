@@ -8,7 +8,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import useLanguage from "../../../../hooks/useLanguage";
 import useEnhancedColumns from "../../../../hooks/useEnhancedColumns";
 interface DataType {
-  key: string;
+  key?: string;
   name: string;
   startDate: string;
   endDate: string;
@@ -17,63 +17,54 @@ interface DataType {
 
 const data: DataType[] = [
   {
-    key: "1",
     name: "John Brown",
     startDate: "03.07.2023",
     endDate: "03.07.2023",
     type: "Zorunlu",
   },
   {
-    key: "2",
     name: "Jim Green",
     startDate: "18.08.2023",
     endDate: "18.08.2023",
     type: "Zorunlu",
   },
   {
-    key: "3",
     name: "Joe Black",
     startDate: "05.06.2022",
     endDate: "05.06.2022",
     type: "İsteğe Bağlı",
   },
   {
-    key: "4",
     name: "John Brown",
     startDate: "03.07.2023",
     endDate: "03.07.2023",
     type: "Zorunlu",
   },
   {
-    key: "5",
     name: "Jim Green",
     startDate: "18.08.2023",
     endDate: "18.08.2023",
     type: "Zorunlu",
   },
   {
-    key: "6",
     name: "Joe Black",
     startDate: "05.06.2022",
     endDate: "05.06.2022",
     type: "İsteğe Bağlı",
   },
   {
-    key: "7",
     name: "John Brown",
     startDate: "03.07.2023",
     endDate: "03.07.2023",
     type: "Zorunlu",
   },
   {
-    key: "8",
     name: "Jim Green",
     startDate: "18.08.2023",
     endDate: "18.08.2023",
     type: "Zorunlu",
   },
   {
-    key: "9",
     name: "Joe Black",
     startDate: "05.06.2022",
     endDate: "05.06.2022",
@@ -86,9 +77,14 @@ const PastApplications = () => {
   const enhancedColumns = useEnhancedColumns(columns);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredData = data.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredData = data
+    .filter((item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .map((filteredItem, index) => ({
+      ...filteredItem,
+      key: String(index + 1),
+    }));
 
   return (
     <div>
@@ -100,7 +96,6 @@ const PastApplications = () => {
           <Button>
             <DownloadOutlined /> <Text tid="download" />
           </Button>
-
           <Input
             style={{ width: 300 }}
             placeholder={dictionary.searchStudent}

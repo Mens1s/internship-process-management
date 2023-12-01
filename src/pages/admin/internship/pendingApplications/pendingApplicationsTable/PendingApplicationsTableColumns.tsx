@@ -29,6 +29,21 @@ export const columns: ColumnsType<DataType> = [
     dataIndex: "startDate",
     key: "startDate",
     width: "120px",
+    filters: [
+      {
+        text: "2022-2023",
+        value: "Joe",
+      },
+      {
+        text: "2023-2024",
+        value: "Category 1",
+      },
+      {
+        text: "2024-2025",
+        value: "Category 2",
+      },
+    ],
+    filterSearch: true,
   },
   {
     title: "endDate",
