@@ -9,6 +9,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
 
 interface DataType {
+  key: string;
   name: string;
   startDate: string;
   endDate: string;
@@ -17,36 +18,42 @@ interface DataType {
 
 const data: DataType[] = [
   {
+    key: "1",
     name: "Turkcell",
     startDate: "03.07.2023",
     endDate: "03.07.2023",
     type: "Zorunlu",
   },
   {
+    key: "2",
     name: "Aselsan",
     startDate: "18.08.2023",
     endDate: "18.08.2023",
     type: "Zorunlu",
   },
   {
+    key: "3",
     name: "OBSS",
     startDate: "05.06.2022",
     endDate: "05.06.2022",
     type: "İsteğe Bağlı",
   },
   {
+    key: "4",
     name: "Vakıfbank",
     startDate: "03.07.2023",
     endDate: "03.07.2023",
     type: "Zorunlu",
   },
   {
+    key: "5",
     name: "Baykar",
     startDate: "18.08.2023",
     endDate: "18.08.2023",
     type: "Zorunlu",
   },
   {
+    key: "6",
     name: "Turk Telekom",
     startDate: "05.06.2022",
     endDate: "05.06.2022",
@@ -67,7 +74,7 @@ const Companies = () => {
     )
     .map((filteredItem, index) => ({
       ...filteredItem,
-      key: String(index + 1),
+      rowNum: String(index + 1),
     }));
 
   return (

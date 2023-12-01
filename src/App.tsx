@@ -84,7 +84,7 @@ const App: React.FC = () => {
             <Route path="akademisyen/admin/holidays" element={<Holidays />} />
             <Route path="akademisyen/companies" element={<Companies />} />
             <Route
-              path="akademisyen/companies/internships"
+              path="akademisyen/companies/:id/internships"
               element={<Students />}
             />
             <Route

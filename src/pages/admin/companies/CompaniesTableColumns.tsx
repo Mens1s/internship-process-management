@@ -16,19 +16,9 @@ interface DataType {
 }
 
 export const getColumns = (showModal: any) => {
-  const items: MenuProps["items"] = [
-    {
-      label: <Link to="internships">Öğrencileri Gör</Link>,
-      key: "0",
-    },
-    {
-      label: <span onClick={showModal}>Şirket Bilgileri</span>,
-      key: "1",
-    },
-  ];
   const columns: ColumnsType<DataType> = [
     {
-      dataIndex: "key",
+      dataIndex: "rowNum",
       rowScope: "row",
       width: "70px",
     },
@@ -55,11 +45,29 @@ export const getColumns = (showModal: any) => {
     {
       key: "actions",
       fixed: "right",
-      render: (_, record) => (
-        <Dropdown menu={{ items }} placement="bottomRight" trigger={["hover"]}>
-          <MyButton icon={<MoreOutlined />} type="default" />
-        </Dropdown>
-      ),
+      render: (_, record) => {
+        const items: MenuProps["items"] = [
+          {
+            label: <Link to={`${record.key}/internships`}>Staj Bilgileri</Link>,
+            key: "0",
+          },
+          {
+            label: (
+              <span onClick={() => showModal(record)}>Şirket Bilgileri</span>
+            ),
+            key: "1",
+          },
+        ];
+        return (
+          <Dropdown
+            menu={{ items }}
+            placement="bottomRight"
+            trigger={["click"]}
+          >
+            <MyButton icon={<MoreOutlined />} type="text" />
+          </Dropdown>
+        );
+      },
     },
   ];
 
