@@ -23,5 +23,8 @@
   "mail": "Mail",
   "evaluate": "Evaluate",
   "download": "Download",
-  "searchStudent": "Search student"
+  "searchStudent": "Search student",
+  "companies": "Companies",
+  "homePage": "Home Page",
+  "applicationDetail": "Application Detail"
 }

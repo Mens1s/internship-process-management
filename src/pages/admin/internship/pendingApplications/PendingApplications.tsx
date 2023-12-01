@@ -84,6 +84,11 @@ const data: DataType[] = [
 const PastApplications = () => {
   const { dictionary } = useLanguage();
   const enhancedColumns = useEnhancedColumns(columns);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredData = data.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
@@ -95,13 +100,16 @@ const PastApplications = () => {
           <Button>
             <DownloadOutlined /> <Text tid="download" />
           </Button>
+
           <Input
-            style={{ width: "100%" }}
+            style={{ width: 300 }}
             placeholder={dictionary.searchStudent}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </ContentHeader>
-      <Table tableProps={{ columns: enhancedColumns, data }} />
+      <Table tableProps={{ columns: enhancedColumns, data: filteredData }} />
     </div>
   );
 };

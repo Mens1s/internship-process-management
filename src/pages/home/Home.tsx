@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthProvider";
 import styled from "styled-components";
 import { Text } from "../../context/LanguageProvider";
+import ContentHeader from "../../components/ContentHeader";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,9 +16,14 @@ const Home = () => {
   return (
     <>
       <Container>
-        <h2>
-          <Text tid="welcomeHeader" />{" "}
-        </h2>
+        <ContentHeader>
+          <h2>
+            <Text tid="homePage" />{" "}
+          </h2>
+        </ContentHeader>
+        <h3>
+          <Text tid="welcomeHeader" />
+        </h3>
         <p>
           Bu sistemden yeni staj başvurusunda bulunabilir veya geçmiş
           başvurularınızı görebilirsiniz.

@@ -20,22 +20,22 @@ export const getColumns = (showModal: any) => {
       width: "70px",
     },
     {
-      title: "Company Name",
+      title: "companyName",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Start Date",
+      title: "startDate",
       dataIndex: "startDate",
       key: "startDate",
     },
     {
-      title: "End Date",
+      title: "endDate",
       dataIndex: "endDate",
       key: "endDate",
     },
     {
-      title: "Type",
+      title: "type",
       dataIndex: "type",
       key: "type",
     },

@@ -63,14 +63,12 @@ const MyLayout: React.FC = () => {
       />
       <Layout>
         <Header collapsed={collapsed} setCollapsed={toggleSider} />
-        <div style={{ position: "sticky", top: "64px", zIndex: "9" }}>
+        {/*  <div style={{ position: "sticky", top: "64px", zIndex: "9" }}>
           <Warning type="success">
             Bir adet onaylanmış stajınız bulunmaktadır
           </Warning>
-          {/*   <Warning type="danger">
-            Bir adet reddedilmiş stajınız bulunmaktadır
-          </Warning> */}
-        </div>
+          
+        </div> */}
         <Content
           style={{
             margin: "24px 16px",

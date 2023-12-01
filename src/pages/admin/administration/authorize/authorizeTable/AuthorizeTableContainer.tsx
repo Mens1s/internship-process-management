@@ -119,12 +119,12 @@ const MyTable: React.FC = () => {
           <PlusCircleOutlined /> Yönetici Ekle
         </Button>
         <Modal
-          title="Basic Modal"
+          title="Yönetici Ekle"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
         >
-          <p>Eklemek istediğiniz yöneticiyi giriniz</p>
+          <p>Eklemek istediğiniz yöneticiyi giriniz.</p>
           <Input style={{ margin: "20px 0" }} placeholder="Kişi ara" />
         </Modal>
       </ContentHeader>

@@ -4,6 +4,7 @@ import { getColumns } from "./CompaniesTableColumns";
 import Table from "../../../components/Table";
 import { Input, Modal } from "antd";
 import useEnhancedColumns from "../../../hooks/useEnhancedColumns";
+import { Text } from "../../../context/LanguageProvider";
 interface DataType {
   key: string;
   name: string;
@@ -38,17 +39,28 @@ const data: DataType[] = [
 
 const Companies = () => {
   const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const showModal = () => setOpen(true);
   const enhancedColumns = useEnhancedColumns(getColumns(showModal));
 
+  const filteredData = data.filter((item) =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   return (
     <div>
       <ContentHeader>
-        <h2>Şirket Bilgileri</h2>
-        <Input style={{ width: 300 }} placeholder="Şirket ara" />
+        <h2>
+          <Text tid="companies" />
+        </h2>
+        <Input
+          style={{ width: 300 }}
+          placeholder="Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </ContentHeader>
-      <Table tableProps={{ columns: enhancedColumns, data }} />
+      <Table tableProps={{ columns: enhancedColumns, data: filteredData }} />
       <Modal
         title="Company Details"
         centered
@@ -56,16 +68,9 @@ const Companies = () => {
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         width={1000}
+        footer={null}
       >
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
+        <div style={{ height: "400px" }}></div>
       </Modal>
     </div>
   );

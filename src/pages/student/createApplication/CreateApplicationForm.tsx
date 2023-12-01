@@ -41,24 +41,6 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-const PDFContainer = styled.div`
-  width: 100%;
-  height: 700px;
-  overflow-y: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-`;
-const ButtonsContainer = styled.div`
-  width: 80%;
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-  @media (max-width: 800px) {
-    width: 100%;
-  }
-`;
 const DatePickersContainer = styled.div`
   display: flex;
   gap: 10px;
@@ -88,17 +70,8 @@ const formItemLayout = {
 const CreateApplicationForm: React.FC = () => {
   const { auth }: any = useAuth();
   const { dictionary } = useLanguage();
-
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-  const [pdfFile, setPDFFile] = useState<string | null>(null);
-  const [viewPdf, setViewPdf] = useState<string | null>(null);
-  const fileType: string[] = ["application/pdf"];
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -112,38 +85,6 @@ const CreateApplicationForm: React.FC = () => {
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files && e.target.files[0];
-    if (selectedFile) {
-      console.log(selectedFile);
-      if (selectedFile && fileType.includes(selectedFile.type)) {
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onload = (e) => {
-          setPDFFile(e.target?.result as string);
-        };
-        setPreviewTitle(selectedFile.name);
-      } else {
-        setPDFFile(null);
-      }
-    } else {
-      console.log("Please select a PDF file.");
-    }
-  };
-
-  const handlePDFCancel = () => setPreviewOpen(false);
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (pdfFile !== null) {
-      setViewPdf(pdfFile);
-    } else {
-      setViewPdf(null);
-    }
-    setPreviewOpen(true);
-  };
-
-  const newplugin = defaultLayoutPlugin();
   const jwtToken = window.localStorage.getItem("token");
   const handleApplication = () => {
     axios
@@ -178,27 +119,7 @@ const CreateApplicationForm: React.FC = () => {
         Zorunlu stajlarının ilkini 4. yarıyıldan sonra, ikincisini 6. yarıyıldan
         sonra yapabilirler.
       </p>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <ButtonsContainer>
-          <input type="file" onChange={handleOnChange} />
-          <button type="submit">View PDF</button>
-        </ButtonsContainer>
-        {viewPdf && (
-          <PDFContainer>
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-              {viewPdf && <Viewer fileUrl={viewPdf} plugins={[newplugin]} />}
-              {!viewPdf && <>No PDF</>}
-            </Worker>
-          </PDFContainer>
-        )}
-      </form>
+
       <>
         {/*  <Checkbox
           checked={componentDisabled}
@@ -316,15 +237,6 @@ const CreateApplicationForm: React.FC = () => {
                   <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
               </Form.Item>
-              <Modal
-                open={previewOpen}
-                title={previewTitle}
-                footer={null}
-                onCancel={handlePDFCancel}
-                width={600}
-              >
-                <PdfViewer fileUrl={viewPdf} />
-              </Modal>
 
               <Form.Item label="Başvuruyu Onayla">
                 <DatePickersContainer>

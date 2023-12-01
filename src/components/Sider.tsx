@@ -100,7 +100,7 @@ const MySider: React.FC<MySiderProps> = ({
       getItem("Yetkilendirme", "akademisyen/admin/authorize"),
       getItem("Tatil Günleri", "akademisyen/admin/holidays"),
     ]),
-    getItem("Şirket Bilgileri", "akademisyen/companies", <IdcardFilled />),
+    getItem(dictionary.companies, "akademisyen/companies", <IdcardFilled />),
     getItem("Aktif Başvurum", "ogrenci/active", <EditFilled />),
     getItem("Geçmiş Başvurularım", "ogrenci/past", <CopyFilled />),
     getItem("Yeni Başvuru", "ogrenci/create", <UploadOutlined />),

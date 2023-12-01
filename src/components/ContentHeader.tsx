@@ -11,6 +11,8 @@ const Header = styled.div`
 
   h2 {
     margin: 0;
+    color: #292929;
+    font-weight: 500;
   }
 `;
 
