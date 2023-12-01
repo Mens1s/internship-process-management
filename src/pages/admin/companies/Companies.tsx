@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import ContentHeader from "../../../components/ContentHeader";
-import { columns } from "./CompaniesTableColumns";
+import { getColumns } from "./CompaniesTableColumns";
 import Table from "../../../components/Table";
-import { Input } from "antd";
+import { Input, Modal } from "antd";
+import useEnhancedColumns from "../../../hooks/useEnhancedColumns";
 interface DataType {
   key: string;
   name: string;
@@ -36,13 +37,36 @@ const data: DataType[] = [
 ];
 
 const Companies = () => {
+  const [open, setOpen] = useState(false);
+
+  const showModal = () => setOpen(true);
+  const enhancedColumns = useEnhancedColumns(getColumns(showModal));
+
   return (
     <div>
       <ContentHeader>
         <h2>Şirket Bilgileri</h2>
         <Input style={{ width: 300 }} placeholder="Şirket ara" />
       </ContentHeader>
-      <Table tableProps={{ columns, data }} />
+      <Table tableProps={{ columns: enhancedColumns, data }} />
+      <Modal
+        title="Company Details"
+        centered
+        open={open}
+        onOk={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+        width={1000}
+      >
+        <p>some contents...</p>
+        <p>some contents...</p>
+        <p>some contents...</p>
+        <p>some contents...</p>
+        <p>some contents...</p>
+        <p>some contents...</p>
+        <p>some contents...</p>
+        <p>some contents...</p>
+        <p>some contents...</p>
+      </Modal>
     </div>
   );
 };
