@@ -5,7 +5,7 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import PdfViewer from "../../../../../components/PdfViewer";
 import ContentHeader from "../../../../../components/ContentHeader";
 import { Text } from "../../../../../context/LanguageProvider";
-
+import PastInternshipsContainer from "./pastInternships/PastInternshipsContainer";
 const ButtonsContainer = styled.div`
   width: 80%;
   display: flex;
@@ -25,6 +25,10 @@ const Evaluate: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const newplugin = defaultLayoutPlugin();
   const handlePDFCancel = () => setPreviewOpen(false);
+  const [open, setOpen] = useState(false);
+  const showModal = (record: any) => {
+    setOpen(true);
+  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -68,7 +72,17 @@ const Evaluate: React.FC = () => {
         <h2>
           <Text tid="applicationDetail" />
         </h2>
-        <Button>Geçmiş Stajlar</Button>
+        <Button onClick={showModal}>Geçmiş Stajlar</Button>
+        <Modal
+          centered
+          open={open}
+          onOk={() => setOpen(false)}
+          onCancel={() => setOpen(false)}
+          width={1000}
+          footer={null}
+        >
+          <PastInternshipsContainer />
+        </Modal>
       </ContentHeader>
       {/*  <form
         onSubmit={handleSubmit}
