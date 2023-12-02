@@ -1,11 +1,13 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
-import { Modal, Button } from "antd";
+import { Modal, Button, Tooltip } from "antd";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import PdfViewer from "../../../../../components/PdfViewer";
-import ContentHeader from "../../../../../components/ContentHeader";
-import { Text } from "../../../../../context/LanguageProvider";
+import PdfViewer from "src/components/PdfViewer";
+import ContentHeader from "src/components/ContentHeader";
+import { Text } from "src/context/LanguageProvider";
 import PastInternshipsContainer from "./pastInternships/PastInternshipsContainer";
+import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
+
 const ButtonsContainer = styled.div`
   width: 80%;
   display: flex;
@@ -72,7 +74,14 @@ const Evaluate: React.FC = () => {
         <h2>
           <Text tid="applicationDetail" />
         </h2>
-        <Button onClick={showModal}>Geçmiş Stajlar</Button>
+        <div>
+          <Button onClick={showModal}>
+            <Tooltip title="Öğrencinin daha önce yapılmış stajları burada görüntülenir.">
+              <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
+            </Tooltip>
+            Geçmiş Stajlar
+          </Button>
+        </div>
         <Modal
           centered
           open={open}

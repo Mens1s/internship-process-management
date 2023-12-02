@@ -4,8 +4,8 @@ import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
 import type { RcFile, UploadProps } from "antd/es/upload";
-import PdfViewer from "../../../components/PdfViewer";
-import useLanguage from "../../../hooks/useLanguage";
+import PdfViewer from "src/components/PdfViewer";
+import useLanguage from "src/hooks/useLanguage";
 
 import {
   Row,
@@ -25,8 +25,8 @@ import {
   Upload,
   Button,
 } from "antd";
-import axios from "../../../services/axios";
-import useAuth from "../../../hooks/useAuth";
+import axios from "src/services/axios";
+import useAuth from "src/hooks/useAuth";
 // Import styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";

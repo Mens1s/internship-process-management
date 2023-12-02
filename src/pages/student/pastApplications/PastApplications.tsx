@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Table from "../../../components/Table";
+import Table from "src/components/Table";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useNavigate, Link } from "react-router-dom"; // Replace with the actual path
 import type { ColumnsType } from "antd/es/table";
 import { columns } from "./PastApplicationsTableColumns";
-import ContentHeader from "../../../components/ContentHeader";
-import { Text } from "../../../context/LanguageProvider";
-import axios from "../../../services/axios";
-import useEnhancedColumns from "../../../hooks/useEnhancedColumns";
+import ContentHeader from "src/components/ContentHeader";
+import { Text } from "src/context/LanguageProvider";
+import axios from "src/services/axios";
+import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 interface DataType {
   key: string;
   name: string;

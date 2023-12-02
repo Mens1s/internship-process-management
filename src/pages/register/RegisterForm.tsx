@@ -4,9 +4,8 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
-import axios from "../../services/axios";
-/* import { student-data } from "../../../mocks/student-data";
- */
+import axios from "src/services/axios";
+
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;

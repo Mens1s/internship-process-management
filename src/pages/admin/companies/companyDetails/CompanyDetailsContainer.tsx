@@ -1,6 +1,6 @@
 import React from "react";
-import ContentHeader from "../../../../components/ContentHeader";
-import MyTable from "../../../../components/Table";
+import ContentHeader from "src/components/ContentHeader";
+import MyTable from "src/components/Table";
 import CompanyDetailsTable from "./CompanyDetailsTable";
 import { Descriptions } from "antd";
 import type { DescriptionsProps } from "antd";

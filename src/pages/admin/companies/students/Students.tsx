@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import ContentHeader from "../../../../components/ContentHeader";
-import MyTable from "../../../../components/Table";
+import ContentHeader from "src/components/ContentHeader";
+import MyTable from "src/components/Table";
 import { columns } from "./StudentsTableColumns";
 import { DownloadOutlined } from "@ant-design/icons";
-import { Text } from "../../../../context/LanguageProvider";
+import { Text } from "src/context/LanguageProvider";
 import { Button, Input } from "antd";
-import useLanguage from "../../../../hooks/useLanguage";
+import useLanguage from "src/hooks/useLanguage";
 interface DataType {
   key?: string;
   name: string;

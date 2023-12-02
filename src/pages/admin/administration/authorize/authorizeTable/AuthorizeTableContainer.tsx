@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Table from "../../../../../components/Table";
+import Table from "src/components/Table";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Modal, Input } from "antd";
-import ContentHeader from "../../../../../components/ContentHeader";
+import ContentHeader from "src/components/ContentHeader";
 import { columns } from "./AuthorizeTableColumns";
-import useEnhancedColumns from "../../../../../hooks/useEnhancedColumns";
+import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 interface DataType {
   key: string;
   name: string;

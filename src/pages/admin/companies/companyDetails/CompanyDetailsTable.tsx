@@ -1,7 +1,7 @@
 import React from "react";
-import MyTable from "../../../../components/Table";
+import MyTable from "src/components/Table";
 import { columns } from "./companyDetailsTableColumns";
-import useEnhancedColumns from "../../../../hooks/useEnhancedColumns";
+import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 
 interface DataType {
   key?: string;

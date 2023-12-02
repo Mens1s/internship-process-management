@@ -1,9 +1,9 @@
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
 import { Tag } from "antd";
-import { Text } from "../../../context/LanguageProvider";
+import { Text } from "src/context/LanguageProvider";
 import { EyeOutlined } from "@ant-design/icons";
-import MyButton from "../../../components/Button";
+import MyButton from "src/components/Button";
 interface DataType {
   key: string;
   name: string;

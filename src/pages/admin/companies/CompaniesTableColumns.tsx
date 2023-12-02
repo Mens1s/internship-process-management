@@ -1,8 +1,8 @@
 import React from "react";
 import type { ColumnsType } from "antd/es/table";
 import { MoreOutlined } from "@ant-design/icons";
-import { Text } from "../../../context/LanguageProvider";
-import MyButton from "../../../components/Button";
+import { Text } from "src/context/LanguageProvider";
+import MyButton from "src/components/Button";
 import { Dropdown, Space } from "antd";
 import type { MenuProps } from "antd";
 import { Link } from "react-router-dom";

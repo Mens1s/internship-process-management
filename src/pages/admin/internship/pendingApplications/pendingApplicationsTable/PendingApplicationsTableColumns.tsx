@@ -2,8 +2,8 @@ import React from "react";
 import type { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
 import { EditOutlined } from "@ant-design/icons";
-import MyButton from "../../../../../components/Button";
-import { Text } from "../../../../../context/LanguageProvider";
+import MyButton from "src/components/Button";
+import { Text } from "src/context/LanguageProvider";
 interface DataType {
   key: string;
   name: string;

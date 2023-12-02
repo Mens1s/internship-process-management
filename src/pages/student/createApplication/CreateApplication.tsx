@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import CreateApplicationForm from "./CreateApplicationForm";
-import ContentHeader from "../../../components/ContentHeader";
+import ContentHeader from "src/components/ContentHeader";
 import {
   Row,
   Col,

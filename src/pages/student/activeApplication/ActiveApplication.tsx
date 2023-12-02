@@ -2,7 +2,7 @@ import React from "react";
 import { Steps, Tag } from "antd";
 import styled from "styled-components";
 import ActiveApplicationForm from "./ActiveApplicationForm";
-import ContentHeader from "../../../components/ContentHeader";
+import ContentHeader from "src/components/ContentHeader";
 
 const StepsContainer = styled.div`
   width: 100%;

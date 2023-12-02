@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../context/AuthProvider";
+import AuthContext from "src/context/AuthProvider";
 import styled from "styled-components";
-import { Text } from "../../context/LanguageProvider";
-import ContentHeader from "../../components/ContentHeader";
+import { Text } from "src/context/LanguageProvider";
+import ContentHeader from "src/components/ContentHeader";
 const Container = styled.div`
   display: flex;
   flex-direction: column;

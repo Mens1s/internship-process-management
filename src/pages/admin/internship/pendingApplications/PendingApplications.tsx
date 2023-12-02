@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Table from "../../../../components/Table";
+import Table from "src/components/Table";
 import { columns } from "./pendingApplicationsTable/PendingApplicationsTableColumns";
-import ContentHeader from "../../../../components/ContentHeader";
+import ContentHeader from "src/components/ContentHeader";
 import { Button, Input } from "antd";
-import { Text } from "../../../../context/LanguageProvider";
+import { Text } from "src/context/LanguageProvider";
 import { DownloadOutlined } from "@ant-design/icons";
-import useLanguage from "../../../../hooks/useLanguage";
-import useEnhancedColumns from "../../../../hooks/useEnhancedColumns";
+import useLanguage from "src/hooks/useLanguage";
+import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 interface DataType {
   key?: string;
   name: string;

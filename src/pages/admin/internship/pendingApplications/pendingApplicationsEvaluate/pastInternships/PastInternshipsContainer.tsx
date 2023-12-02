@@ -1,7 +1,7 @@
 import React from "react";
 import { columns } from "./pastInternshipsTableColumns";
-import MyTable from "../../../../../../components/Table";
-import ContentHeader from "../../../../../../components/ContentHeader";
+import MyTable from "src/components/Table";
+import ContentHeader from "src/components/ContentHeader";
 
 const PastInternshipsContainer = () => {
   return (

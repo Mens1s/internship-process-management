@@ -1,8 +1,8 @@
 import type { ColumnsType } from "antd/es/table";
 import { Modal } from "antd";
 import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
-import MyButton from "../../../../../components/Button";
-import { Text } from "../../../../../context/LanguageProvider";
+import MyButton from "src/components/Button";
+import { Text } from "src/context/LanguageProvider";
 const { confirm } = Modal;
 
 const showDeleteConfirm = () => {

@@ -3,9 +3,9 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import axios from "../../services/axios";
-import AuthContext from "../../context/AuthProvider";
-import useAuth from "../../hooks/useAuth";
+import axios from "src/services/axios";
+import AuthContext from "src/context/AuthProvider";
+import useAuth from "src/hooks/useAuth";
 import { responsiveArray } from "antd/es/_util/responsiveObserver";
 
 const FormContainer = styled.div`

@@ -23,8 +23,8 @@ import {
   Upload,
   Button,
 } from "antd";
-import axios from "../../../services/axios";
-import useAuth from "../../../hooks/useAuth";
+import axios from "src/services/axios";
+import useAuth from "src/hooks/useAuth";
 // Import styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
