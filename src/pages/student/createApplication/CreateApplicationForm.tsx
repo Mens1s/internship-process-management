@@ -1,11 +1,12 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import PdfViewer from "src/components/PdfViewer";
 import useLanguage from "src/hooks/useLanguage";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 import {
   Row,
@@ -68,11 +69,28 @@ const formItemLayout = {
 };
 
 const CreateApplicationForm: React.FC = () => {
+  const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
   const { auth }: any = useAuth();
   const { dictionary } = useLanguage();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "Staj başvurunuz alındı!",
+    });
+  };
+
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "Bir hata oluştu. Lütfen tekrar deneyiniz.",
+      duration: 5,
+    });
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -99,16 +117,22 @@ const CreateApplicationForm: React.FC = () => {
       )
       .then((response) => {
         console.log(response.data);
+        // success(); this should be here
       })
       .catch((error) => {
         console.log("error:", error);
         console.log(jwtToken);
+        // error(); this should be here
       });
+    // success();
+    error();
+    // avigate("/ogrenci/past"); FIXME: Show message while navigating
     setIsModalOpen(false);
   };
 
   return (
     <div>
+      {contextHolder}
       <p style={{ margin: "0 20px 40px 20px", textAlign: "left" }}>
         Zorunlu Staj, Gebze Teknik Üniversitesi Mühendislik Fakültesi Lisans
         öğrencilerin öğretim planında geçen yapmakla yükümlü oldukları stajları
