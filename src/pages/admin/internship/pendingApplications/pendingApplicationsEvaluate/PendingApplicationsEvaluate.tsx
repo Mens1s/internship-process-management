@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
-import { Modal } from "antd";
+import { Modal, Button } from "antd";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import PdfViewer from "../../../../../components/PdfViewer";
 import ContentHeader from "../../../../../components/ContentHeader";
@@ -69,8 +68,9 @@ const Evaluate: React.FC = () => {
         <h2>
           <Text tid="applicationDetail" />
         </h2>
+        <Button>Geçmiş Stajlar</Button>
       </ContentHeader>
-      <form
+      {/*  <form
         onSubmit={handleSubmit}
         style={{
           display: "flex",
@@ -92,7 +92,7 @@ const Evaluate: React.FC = () => {
         >
           <PdfViewer fileUrl={viewPdf} />
         </Modal>
-      </form>
+      </form> */}
     </>
   );
 };

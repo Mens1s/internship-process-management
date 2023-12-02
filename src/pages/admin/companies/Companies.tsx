@@ -65,8 +65,12 @@ const data: DataType[] = [
 const Companies = () => {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [id, setId] = useState(null);
 
-  const showModal = () => setOpen(true);
+  const showModal = (record: any) => {
+    setId(record.name);
+    setOpen(true);
+  };
   const enhancedColumns = useEnhancedColumns(getColumns(showModal));
 
   const filteredData = data
@@ -102,7 +106,7 @@ const Companies = () => {
         width={1000}
         footer={null}
       >
-        <CompanyDetailsContainer />
+        <CompanyDetailsContainer id={id} />
       </Modal>
     </div>
   );

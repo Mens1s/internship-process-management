@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Layout, theme } from "antd";
+import { Layout, Alert, Button, theme } from "antd";
 import Header from "../components/Header";
 import Sider from "../components/Sider";
 import { Outlet } from "react-router-dom";
@@ -63,12 +63,30 @@ const MyLayout: React.FC = () => {
       />
       <Layout>
         <Header collapsed={collapsed} setCollapsed={toggleSider} />
-        {/*  <div style={{ position: "sticky", top: "64px", zIndex: "9" }}>
-          <Warning type="success">
-            Bir adet onaylanmış stajınız bulunmaktadır
-          </Warning>
-          
-        </div> */}
+        <div
+          style={{
+            margin: 10,
+            marginBottom: 0,
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+          }}
+        >
+          <Alert
+            message="Staj başvurunuz onaylandı."
+            type="success"
+            showIcon
+            closable
+          />
+          <Alert
+            message="Staj başvurunuz eksik belge sebebi ile reddedildi."
+            type="error"
+            showIcon
+            action={<Button size="small">Düzenle</Button>}
+            closable
+          />
+        </div>
+
         <Content
           style={{
             margin: "24px 16px",
