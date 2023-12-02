@@ -97,7 +97,7 @@ const PastApplications = () => {
             <DownloadOutlined /> <Text tid="download" />
           </Button>
           <Input
-            style={{ width: 300 }}
+            style={{ width: "100%" }}
             placeholder={dictionary.searchStudent}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

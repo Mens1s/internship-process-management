@@ -5,6 +5,8 @@ import {
   CopyFilled,
   EditFilled,
   IdcardFilled,
+  SettingFilled,
+  SnippetsFilled,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
 import type { MenuProps } from "antd";
@@ -90,13 +92,13 @@ const MySider: React.FC<MySiderProps> = ({
     getItem(
       dictionary.internshipProcedures,
       "akademisyen/internship",
-      <IdcardFilled />,
+      <SnippetsFilled />,
       [
         getItem("Onay Bekleyen Başvurular", "akademisyen/internship/pending"),
         getItem("Geçmiş Başvurular", "akademisyen/internship/past"),
       ]
     ),
-    getItem("Yönetici İşlemleri", "akademisyen/admin", <IdcardFilled />, [
+    getItem("Yönetici İşlemleri", "akademisyen/admin", <SettingFilled />, [
       getItem("Yetkilendirme", "akademisyen/admin/authorize"),
       getItem("Tatil Günleri", "akademisyen/admin/holidays"),
     ]),

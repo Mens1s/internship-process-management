@@ -3,7 +3,7 @@ import { Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 
 interface MyTableProps {
-  tableProps: {
+  tableProps?: {
     columns: ColumnsType<any>; // You can replace `any` with the specific type if needed
     data: any[]; // Replace `any` with the specific type if needed
   };
@@ -12,8 +12,8 @@ interface MyTableProps {
 const MyTable: React.FC<MyTableProps> = ({ tableProps }) => {
   return (
     <Table
-      columns={tableProps.columns}
-      dataSource={tableProps.data}
+      columns={tableProps?.columns}
+      dataSource={tableProps?.data}
       sticky={{ offsetHeader: 60 }}
       scroll={{ x: 600 }}
       pagination={{ pageSize: 50 }}

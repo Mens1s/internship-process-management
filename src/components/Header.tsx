@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  MenuOutlined,
   BellFilled,
 } from "@ant-design/icons";
 import { Layout, Button, Drawer, theme } from "antd";
@@ -77,7 +78,7 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
         <Nav>
           <Button
             type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            icon={<MenuOutlined />}
             onClick={() => setCollapsed(!collapsed)}
             style={{
               fontSize: "16px",

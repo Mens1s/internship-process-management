@@ -6,8 +6,9 @@ import { Input, Modal } from "antd";
 import useEnhancedColumns from "../../../hooks/useEnhancedColumns";
 import { Text } from "../../../context/LanguageProvider";
 import { SearchOutlined } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
-
+import MyTable from "../../../components/Table";
+import { columns } from "../../student/pastApplications/PastApplicationsTableColumns";
+import CompanyDetailsContainer from "./companyDetails/CompanyDetailsContainer";
 interface DataType {
   key: string;
   name: string;
@@ -94,7 +95,6 @@ const Companies = () => {
       <Table tableProps={{ columns: enhancedColumns, data: filteredData }} />
 
       <Modal
-        title="Company Details"
         centered
         open={open}
         onOk={() => setOpen(false)}
@@ -102,7 +102,7 @@ const Companies = () => {
         width={1000}
         footer={null}
       >
-        <div style={{ height: "400px" }}></div>
+        <CompanyDetailsContainer />
       </Modal>
     </div>
   );
