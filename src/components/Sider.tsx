@@ -95,7 +95,7 @@ const MySider: React.FC<MySiderProps> = ({
       <SnippetsFilled />,
       [
         getItem("Onay Bekleyen Başvurular", "akademisyen/internship/pending"),
-        getItem("Geçmiş Başvurular", "akademisyen/internship/past"),
+        getItem("Geçmiş Stajlar", "akademisyen/internship/past"),
       ]
     ),
     getItem("Yönetici İşlemleri", "akademisyen/admin", <SettingFilled />, [

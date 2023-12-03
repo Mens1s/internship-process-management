@@ -26,9 +26,6 @@ const Header = styled.div`
   div:first-child {
     flex: 3;
     min-width: 200px;
-    @media (max-width: 500px) {
-      text-align: center;
-    }
   }
   div:nth-child(2) {
     display: flex;
