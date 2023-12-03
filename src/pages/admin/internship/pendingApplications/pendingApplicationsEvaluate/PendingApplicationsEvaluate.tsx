@@ -18,6 +18,12 @@ const ButtonsContainer = styled.div`
   }
 `;
 
+const StyledButton = styled(Button)`
+  @media (max-width: 600px) {
+    flex: 1;
+  }
+`;
+
 const Evaluate: React.FC = () => {
   const [viewPdf, setViewPdf] = useState<string | null>(null);
   const [pdfFile, setPDFFile] = useState<string | null>(null);
@@ -71,17 +77,18 @@ const Evaluate: React.FC = () => {
   return (
     <>
       <ContentHeader>
-        <h2>
-          <Text tid="applicationDetail" />
-        </h2>
         <div>
-          <Button onClick={showModal}>
-            <Tooltip title="Öğrencinin daha önce yapılmış stajları burada görüntülenir.">
-              <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
-            </Tooltip>
-            Geçmiş Stajlar
-          </Button>
+          <h2>
+            <Text tid="applicationDetail" />
+          </h2>
         </div>
+
+        <StyledButton onClick={showModal}>
+          <Tooltip title="Öğrencinin daha önce yapılmış stajları burada görüntülenir.">
+            <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
+          </Tooltip>
+          Geçmiş Stajlar
+        </StyledButton>
         <Modal
           centered
           open={open}

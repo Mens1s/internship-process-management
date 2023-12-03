@@ -4,9 +4,10 @@ import { columns } from "./pendingApplicationsTable/PendingApplicationsTableColu
 import ContentHeader from "src/components/ContentHeader";
 import { Button, Input } from "antd";
 import { Text } from "src/context/LanguageProvider";
-import { DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, SearchOutlined } from "@ant-design/icons";
 import useLanguage from "src/hooks/useLanguage";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
+
 interface DataType {
   key?: string;
   name: string;
@@ -89,15 +90,17 @@ const PastApplications = () => {
   return (
     <div>
       <ContentHeader>
-        <h2>
-          <Text tid="pendingApplications" />
-        </h2>
-        <div style={{ display: "flex", gap: 10 }}>
+        <div>
+          <h2>
+            <Text tid="pendingApplications" />
+          </h2>
+        </div>
+        <div>
           <Button>
             <DownloadOutlined /> <Text tid="download" />
           </Button>
           <Input
-            style={{ width: "100%" }}
+            prefix={<SearchOutlined />}
             placeholder={dictionary.searchStudent}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

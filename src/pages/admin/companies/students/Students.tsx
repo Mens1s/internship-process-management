@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ContentHeader from "src/components/ContentHeader";
 import MyTable from "src/components/Table";
 import { columns } from "./StudentsTableColumns";
-import { DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, SearchOutlined } from "@ant-design/icons";
 import { Text } from "src/context/LanguageProvider";
 import { Button, Input } from "antd";
 import useLanguage from "src/hooks/useLanguage";
@@ -56,12 +56,15 @@ const Students = () => {
   return (
     <div>
       <ContentHeader>
-        <h2>Staj Bilgileri</h2>
-        <div style={{ display: "flex", gap: 10 }}>
+        <div>
+          <h2>Staj Bilgileri</h2>
+        </div>
+        <div>
           <Button>
             <DownloadOutlined /> <Text tid="download" />
           </Button>
           <Input
+            prefix={<SearchOutlined />}
             style={{ width: "100%" }}
             placeholder={dictionary.searchStudent}
             value={searchTerm}

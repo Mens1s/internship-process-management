@@ -9,6 +9,13 @@ import ContentHeader from "src/components/ContentHeader";
 import { Text } from "src/context/LanguageProvider";
 import axios from "src/services/axios";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
+import styled from "styled-components";
+
+const StyledButton = styled(Button)`
+  @media (max-width: 600px) {
+    flex: 1;
+  }
+`;
 interface DataType {
   key: string;
   name: string;
@@ -86,12 +93,14 @@ const PastApplications: React.FC = () => {
   return (
     <div>
       <ContentHeader>
-        <h2>
-          <Text tid="myInternshipApplications" />
-        </h2>
-        <Button onClick={handleNewApplicationClick}>
+        <div>
+          <h2>
+            <Text tid="myInternshipApplications" />
+          </h2>
+        </div>
+        <StyledButton onClick={handleNewApplicationClick}>
           <PlusCircleOutlined /> <Text tid="createApplication" />
-        </Button>
+        </StyledButton>
       </ContentHeader>
       <Table tableProps={{ columns: enhancedColumns, data }} />
     </div>

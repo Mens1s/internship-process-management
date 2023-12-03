@@ -6,9 +6,8 @@ import { Input, Modal } from "antd";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import { Text } from "src/context/LanguageProvider";
 import { SearchOutlined } from "@ant-design/icons";
-import MyTable from "src/components/Table";
-import { columns } from "../../student/pastApplications/PastApplicationsTableColumns";
 import CompanyDetailsContainer from "./companyDetails/CompanyDetailsContainer";
+
 interface DataType {
   key: string;
   name: string;
@@ -85,16 +84,19 @@ const Companies = () => {
   return (
     <div>
       <ContentHeader>
-        <h2>
-          <Text tid="companies" />
-        </h2>
-        <Input
-          prefix={<SearchOutlined />}
-          style={{ width: 300 }}
-          placeholder="Şirket ara"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+        <div>
+          <h2>
+            <Text tid="companies" />
+          </h2>
+        </div>
+        <div>
+          <Input
+            prefix={<SearchOutlined />}
+            placeholder="Şirket ara"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
       </ContentHeader>
       <Table tableProps={{ columns: enhancedColumns, data: filteredData }} />
 

@@ -6,6 +6,12 @@ import { Button, Modal, Input } from "antd";
 import ContentHeader from "src/components/ContentHeader";
 import { columns } from "./AuthorizeTableColumns";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
+
+const StyledButton = styled(Button)`
+  @media (max-width: 600px) {
+    flex: 1;
+  }
+`;
 interface DataType {
   key: string;
   name: string;
@@ -114,10 +120,14 @@ const MyTable: React.FC = () => {
   return (
     <>
       <ContentHeader>
-        <h2>Yönetici Listesi</h2>
-        <Button onClick={showModal}>
+        <div>
+          <h2>Yönetici Listesi</h2>
+        </div>
+
+        <StyledButton onClick={showModal}>
           <PlusCircleOutlined /> Yönetici Ekle
-        </Button>
+        </StyledButton>
+
         <Modal
           title="Yönetici Ekle"
           open={isModalOpen}
