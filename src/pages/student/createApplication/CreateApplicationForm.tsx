@@ -57,17 +57,6 @@ const DatePickersContainer = styled.div`
   }
 `;
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 18 },
-  },
-};
-
 const CreateApplicationForm: React.FC = () => {
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
@@ -133,7 +122,7 @@ const CreateApplicationForm: React.FC = () => {
   return (
     <div>
       {contextHolder}
-      <p style={{ margin: "0 20px 40px 20px", textAlign: "left" }}>
+      {/* <p style={{ margin: "0 20px 40px 20px", textAlign: "left" }}>
         Zorunlu Staj, Gebze Teknik Üniversitesi Mühendislik Fakültesi Lisans
         öğrencilerin öğretim planında geçen yapmakla yükümlü oldukları stajları
         ifade eder. GTÜ Mühendislik Fakültesi Lisans öğrencileri, öğrenimleri
@@ -142,7 +131,7 @@ const CreateApplicationForm: React.FC = () => {
         biri 20 iş günü olmak üzere iki ayrı kurumda yapılır. Öğrenciler,
         Zorunlu stajlarının ilkini 4. yarıyıldan sonra, ikincisini 6. yarıyıldan
         sonra yapabilirler.
-      </p>
+      </p> */}
 
       <>
         {/*  <Checkbox
@@ -151,12 +140,7 @@ const CreateApplicationForm: React.FC = () => {
         >
           Form disabled
         </Checkbox> */}
-        <Form
-          layout="horizontal"
-          disabled={componentDisabled}
-          size="large"
-          {...formItemLayout}
-        >
+        <Form layout="vertical" disabled={componentDisabled} size="large">
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Form.Item label="TC Kimlik No">

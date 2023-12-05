@@ -20,6 +20,7 @@ import NotFound from "./pages/notfound/NotFound";
 import Holidays from "./pages/admin/administration/holidays/Holidays";
 import AllApplications from "./pages/admin/internship/pastApplications/PastApplications";
 import Students from "./pages/admin/companies/students/Students";
+import ActiveInternships from "./pages/admin/internship/activeInternships/ActiveInternships";
 
 const ROLES = {
   ogrenci: 2000,
@@ -46,23 +47,21 @@ const App: React.FC = () => {
       <Route path="akademisyen/register" element={<RegisterPage />} />
       {/*       <Route path="/" element={<PersistLogin token={token} />}>
        */}{" "}
-      {loggedIn ? (
+      {true ? (
         <Route element={<MyLayout />}>
-          <Route
+          {/*  <Route
             element={
               <RequireAuth allowedRoles={[ROLES.ogrenci]} loggedIn={loggedIn} />
             }
-          >
-            <Route path="ogrenci" element={<Home />} />
-            <Route path="ogrenci/active" element={<ActiveApplication />} />
-            <Route path="ogrenci/create" element={<CreateApplication />} />
-            <Route path="ogrenci/past" element={<PastApplications />} />
-            <Route path="ogrenci/profile" element={<Profile />} />
-            <Route
-              path="ogrenci/past/:id"
-              element={<PastApplicationDetail />}
-            />
-          </Route>
+          > */}
+          <Route path="ogrenci" element={<Home />} />
+          <Route path="ogrenci/active" element={<ActiveApplication />} />
+          <Route path="ogrenci/create" element={<CreateApplication />} />
+          <Route path="ogrenci/past" element={<PastApplications />} />
+          <Route path="ogrenci/profile" element={<Profile />} />
+          <Route path="ogrenci/past/:id" element={<PastApplicationDetail />} />
+          {/*           </Route>
+           */}{" "}
           <Route
             element={
               <RequireAuth
@@ -79,6 +78,10 @@ const App: React.FC = () => {
             <Route
               path="akademisyen/internship/past"
               element={<AllApplications />}
+            />
+            <Route
+              path="akademisyen/internship/active"
+              element={<ActiveInternships />}
             />
             <Route path="akademisyen/admin/authorize" element={<Authorize />} />
             <Route path="akademisyen/admin/holidays" element={<Holidays />} />

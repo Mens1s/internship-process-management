@@ -72,17 +72,6 @@ const DatePickersContainer = styled.div`
   }
 `;
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 18 },
-  },
-};
-
 const CreateApplicationForm: React.FC = () => {
   const { auth }: any = useAuth();
 
@@ -127,8 +116,6 @@ const CreateApplicationForm: React.FC = () => {
       console.log("Please select a PDF file.");
     }
   };
-
-  const handlePDFCancel = () => setPreviewOpen(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -203,12 +190,7 @@ const CreateApplicationForm: React.FC = () => {
         >
           Form disabled
         </Checkbox> */}
-        <Form
-          layout="horizontal"
-          disabled={componentDisabled}
-          size="large"
-          {...formItemLayout}
-        >
+        <Form layout="vertical" disabled={componentDisabled} size="large">
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Form.Item label="TC Kimlik No">
