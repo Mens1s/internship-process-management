@@ -7,6 +7,7 @@ import PdfViewer from "src/components/PdfViewer";
 import useLanguage from "src/hooks/useLanguage";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { Text } from "src/context/LanguageProvider";
 
 import {
   Row,
@@ -143,84 +144,95 @@ const CreateApplicationForm: React.FC = () => {
         <Form layout="vertical" disabled={componentDisabled} size="large">
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Form.Item label="TC Kimlik No">
+              <Form.Item label={dictionary.idNumber} required>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.studentId}>
+              <Form.Item label={dictionary.studentId} required>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.phoneNumber}>
+              <Form.Item label={dictionary.phoneNumber} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Fakülte">
+              <Form.Item label={dictionary.faculty} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Bölüm">
+              <Form.Item label={dictionary.department} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Sınıf">
+              <Form.Item label={dictionary.grade} required>
                 <Select>
-                  <Select.Option value="Hazırlık">Hazırlık</Select.Option>
-                  <Select.Option value="1.sınıf">1.sınıf</Select.Option>
-                  <Select.Option value="2.sınıf">2.sınıf</Select.Option>
-                  <Select.Option value="3.sınıf">3.sınıf</Select.Option>
-                  <Select.Option value="4.sınıf">4.sınıf</Select.Option>
+                  <Select.Option value="Hazırlık">
+                    <Text tid="preparation" />
+                  </Select.Option>
+                  <Select.Option value="1.sınıf">
+                    <Text tid="1stgrade" />
+                  </Select.Option>
+                  <Select.Option value="2.sınıf">
+                    <Text tid="2ndgrade" />
+                  </Select.Option>
+                  <Select.Option value="3.sınıf">
+                    <Text tid="3rdgrade" />
+                  </Select.Option>
+                  <Select.Option value="4.sınıf">
+                    <Text tid="4thgrade" />
+                  </Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item label="Stajdaki Görevi">
+              <Form.Item label={dictionary.roleInInternship} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Staj Türü">
+              <Form.Item label={dictionary.internshipType} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Kaçıncı Staj">
+              <Form.Item label={dictionary.whichInternship} required>
                 <Select>
                   <Select.Option value="1">1</Select.Option>
                   <Select.Option value="2">2</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item label="Staj Tarihleri">
+              <Form.Item label={dictionary.internshipDates} required>
                 <DatePickersContainer>
                   <DatePicker />
                   <DatePicker />
                 </DatePickersContainer>
               </Form.Item>
-              <Form.Item label="Şirket Adı">
+              <Form.Item label={dictionary.companyName} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Şirketin Adresi">
+              <Form.Item label={dictionary.companyAddress} required>
                 <TextArea rows={1} />
               </Form.Item>
             </Col>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Form.Item label="Şirket Numarası">
+              <Form.Item label={dictionary.companyNumber} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Şirket Fax Numarası">
+              <Form.Item label={dictionary.companyFaxNumber} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Mühendisin Adı Soyadı">
+              <Form.Item label={dictionary.engineerNameSurname} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Mühendisin Mail Adresi">
+              <Form.Item label={dictionary.engineerMail} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Çalışılacak Pozisyon">
+              <Form.Item label={dictionary.positionToWork} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="Şirketin Seçilme Nedeni">
+              <Form.Item label={dictionary.reasonForCompany} required>
                 <TextArea rows={5} />
               </Form.Item>
-              <Form.Item label="SGK Girişi">
+              <Form.Item label={dictionary.sgkEntry} required>
                 <Input />
               </Form.Item>
-              <Form.Item label="GSS Girişi">
+              <Form.Item label={dictionary.gssEntry} required>
                 <Input />
               </Form.Item>
               <Form.Item
-                label="Belgeler"
+                label={dictionary.eligibilityFile}
                 valuePropName="file1"
                 getValueFromEvent={normFile}
+                required
               >
                 <Upload
                   action="/upload.do"
@@ -232,7 +244,8 @@ const CreateApplicationForm: React.FC = () => {
                 </Upload>
               </Form.Item>
               <Form.Item
-                label="Belgeler"
+                required
+                label={dictionary.internshipForm}
                 valuePropName="file2"
                 getValueFromEvent={normFile}
               >
@@ -246,14 +259,14 @@ const CreateApplicationForm: React.FC = () => {
                 </Upload>
               </Form.Item>
 
-              <Form.Item label="Başvuruyu Onayla">
-                <DatePickersContainer>
-                  <Button onClick={handleCancel}>Vazgeç</Button>
-                  <Button onClick={showModal} type="primary">
-                    Onayla
-                  </Button>
-                </DatePickersContainer>
-              </Form.Item>
+              <DatePickersContainer>
+                <Button onClick={handleCancel}>
+                  <Text tid="cancel" />
+                </Button>
+                <Button onClick={showModal} type="primary">
+                  <Text tid="confirm" />
+                </Button>
+              </DatePickersContainer>
             </Col>
           </Row>
         </Form>
@@ -263,7 +276,9 @@ const CreateApplicationForm: React.FC = () => {
           onOk={handleApplication}
           onCancel={handleCancel}
         >
-          <p>Staj başvurunuzu onaylamak istediğinize emin misiniz?</p>
+          <p>
+            <Text tid="createApplicationFormApprovementModalText" />
+          </p>
         </Modal>
       </>
     </div>

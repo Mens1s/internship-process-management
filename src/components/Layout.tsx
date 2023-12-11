@@ -63,7 +63,7 @@ const MyLayout: React.FC = () => {
       />
       <Layout>
         <Header collapsed={collapsed} setCollapsed={toggleSider} />
-        <div
+        {/*   <div
           style={{
             margin: 10,
             marginBottom: 0,
@@ -86,7 +86,7 @@ const MyLayout: React.FC = () => {
             closable
           />
         </div>
-
+ */}
         <Content
           style={{
             margin: "24px 16px",

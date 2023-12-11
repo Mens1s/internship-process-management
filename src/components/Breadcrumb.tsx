@@ -19,12 +19,14 @@ const MyBreadcrumb: React.FC = () => {
         {pathnames.length > 0 ? (
           <Breadcrumb.Item>
             <Link to={`/${role}`}>
-              <HomeOutlined />
+              <div style={{ fontSize: "12px" }}>Ana Sayfa</div>
             </Link>
           </Breadcrumb.Item>
         ) : (
           <Breadcrumb.Item>
-            <HomeOutlined />
+            <Link to={""}>
+              <div style={{ fontSize: "12px" }}>Ana Sayfa</div>
+            </Link>
           </Breadcrumb.Item>
         )}
         {pathnames.map((name, index) => {
@@ -32,12 +34,18 @@ const MyBreadcrumb: React.FC = () => {
           const isLast = index === pathnames.length - 1;
           return isLast ? (
             <Breadcrumb.Item key={index}>
-              {name.charAt(0).toUpperCase() + name.slice(1)}
+              <Link to={""}>
+                <div style={{ fontSize: "12px" }}>
+                  {name.charAt(0).toUpperCase() + name.slice(1)}{" "}
+                </div>
+              </Link>
             </Breadcrumb.Item>
           ) : (
             <Breadcrumb.Item key={index}>
               <Link to={`${role}/${routeTo}`}>
-                {name.charAt(0).toUpperCase() + name.slice(1)}
+                <div style={{ fontSize: "12px" }}>
+                  {name.charAt(0).toUpperCase() + name.slice(1)}
+                </div>
               </Link>
             </Breadcrumb.Item>
           );

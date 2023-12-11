@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Table from "src/components/Table";
+import { Spin } from "antd"; // Import Spin component for loading indicator
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { useNavigate, Link } from "react-router-dom"; // Replace with the actual path
+import { useNavigate } from "react-router-dom";
 import type { ColumnsType } from "antd/es/table";
 import { columns } from "./PastApplicationsTableColumns";
 import ContentHeader from "src/components/ContentHeader";
@@ -16,6 +17,7 @@ const StyledButton = styled(Button)`
     flex: 1;
   }
 `;
+
 interface DataType {
   key: string;
   name: string;
@@ -25,71 +27,61 @@ interface DataType {
   tags: string[];
 }
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    startDate: "03.07.2023",
-    endDate: "03.07.2023",
-    type: "Zorunlu",
-    tags: ["Onaylandı"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    startDate: "18.08.2023",
-    endDate: "18.08.2023",
-    type: "Zorunlu",
-    tags: ["Reddedildi"],
-  },
-  {
-    key: "3",
-    name: "John Brown",
-    startDate: "03.07.2023",
-    endDate: "03.07.2023",
-    type: "Zorunlu",
-    tags: ["Onay Bekliyor"],
-  },
-];
-
 const PastApplications: React.FC = () => {
-  const [apiData, setApiData] = React.useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
-
   const enhancedColumns = useEnhancedColumns(columns);
+
+  const fetchData = () => {
+    const jwtToken = window.localStorage.getItem("token");
+
+    axios
+      .get("http://localhost:8000/api/internship-process/get-all", {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((response) => {
+        const internshipProcessList = response?.data?.internshipProcessList;
+
+        if (internshipProcessList) {
+          console.log(internshipProcessList);
+          console.log(jwtToken);
+
+          setData(
+            internshipProcessList?.map((item: any) => ({
+              key: item?.id,
+              name: item?.companyId,
+              startDate: item?.startDate,
+              endDate: item?.endDate,
+              type: item?.internshipType,
+              tags: [item.processStatus === "FORM" ? "Taslak" : ""],
+            }))
+          );
+        } else {
+          console.error(
+            "Invalid or missing internshipProcessList in the response"
+          );
+        }
+      })
+      .catch((error) => {
+        console.log("error:", error.response);
+        console.log(jwtToken);
+      })
+      .finally(() => {
+        setLoading(false); // Set loading to false when data fetching is complete
+      });
+  };
+
+  useEffect(() => {
+    fetchData(); // This will run when the component mounts
+  }, []); // The empty dependency array ensures it runs only once
 
   const handleNewApplicationClick = () => {
     navigate("/ogrenci/create");
   };
 
-  /*  const jwtToken = window.localStorage.getItem("token");
-  axios
-    .get("http://localhost:8000/api/internship-process/get-all", {
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    })
-    .then((response) => {
-      console.log(response);
-      setApiData(response.data.internshipProcessList);
-    })
-    .catch((error) => {
-      console.error(
-        "past application error:",
-        error.response.data.internshipProcessList
-      );
-      //  setApiData(error.response.data.internshipProcessList);
-    }); */
-
-  /* const transformedData: DataType[] = apiData.map((item: any, index) => ({
-    key: `${index + 1}`,
-    name: item.company,
-    startDate: item.startDate,
-    endDate: item.endDate,
-    type: item.position, // Assuming 'position' should be the 'type'
-    tags: ["RandomTag1", "RandomTag2", "RandomTag3"], // Add random tags as needed
-  }));
- */
   return (
     <div>
       <ContentHeader>
@@ -102,7 +94,12 @@ const PastApplications: React.FC = () => {
           <PlusCircleOutlined /> <Text tid="createApplication" />
         </StyledButton>
       </ContentHeader>
-      <Table tableProps={{ columns: enhancedColumns, data }} />
+
+      {loading ? (
+        <Spin size="default" /> // Display loading spinner while fetching data
+      ) : (
+        <Table tableProps={{ columns: enhancedColumns, data: data }} />
+      )}
     </div>
   );
 };

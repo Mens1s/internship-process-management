@@ -62,39 +62,39 @@ const App: React.FC = () => {
           <Route path="ogrenci/past/:id" element={<PastApplicationDetail />} />
           {/*           </Route>
            */}{" "}
-          <Route
+          {/*  <Route
             element={
               <RequireAuth
                 allowedRoles={[ROLES.akademisyen]}
                 loggedIn={loggedIn}
               />
             }
-          >
-            <Route path="akademisyen" element={<Home />} />
-            <Route
-              path="akademisyen/internship/pending"
-              element={<PendingApplications />}
-            />
-            <Route
-              path="akademisyen/internship/past"
-              element={<AllApplications />}
-            />
-            <Route
-              path="akademisyen/internship/active"
-              element={<ActiveInternships />}
-            />
-            <Route path="akademisyen/admin/authorize" element={<Authorize />} />
-            <Route path="akademisyen/admin/holidays" element={<Holidays />} />
-            <Route path="akademisyen/companies" element={<Companies />} />
-            <Route
-              path="akademisyen/companies/:id/internships"
-              element={<Students />}
-            />
-            <Route
-              path="akademisyen/internship/pending/evaluate/:id"
-              element={<PendingApplicationsEvaluate />}
-            />
-          </Route>
+          > */}
+          <Route path="akademisyen" element={<Home />} />
+          <Route
+            path="akademisyen/internship/pending"
+            element={<PendingApplications />}
+          />
+          <Route
+            path="akademisyen/internship/past"
+            element={<AllApplications />}
+          />
+          <Route
+            path="akademisyen/internship/active"
+            element={<ActiveInternships />}
+          />
+          <Route path="akademisyen/admin/authorize" element={<Authorize />} />
+          <Route path="akademisyen/admin/holidays" element={<Holidays />} />
+          <Route path="akademisyen/companies" element={<Companies />} />
+          <Route
+            path="akademisyen/companies/:id/internships"
+            element={<Students />}
+          />
+          <Route
+            path="akademisyen/internship/pending/evaluate/:id"
+            element={<PendingApplicationsEvaluate />}
+          />
+          {/* </Route> */}
           {/*         </Route>
            */}
         </Route>

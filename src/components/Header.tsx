@@ -10,6 +10,7 @@ import { Layout, Button, Drawer, theme } from "antd";
 import ProfileIcon from "./ProfileIcon";
 import Breadcrumb from "./Breadcrumb";
 import useLanguage from "../hooks/useLanguage";
+import { useLocation } from "react-router-dom";
 
 const { Header } = Layout;
 
@@ -23,7 +24,12 @@ const Nav = styled.div`
   display: flex;
   align-items: center;
 `;
-const TitleContainer = styled.div``;
+const TitleContainer = styled.div`
+  h1 {
+    font-size: 16px;
+    font-weight: 500;
+  }
+`;
 
 const NotificationIcon = styled.div`
   display: flex;
@@ -57,7 +63,18 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
+  let title;
+  const location = useLocation();
+  const { pathname } = location;
+  if (pathname.split("/").includes("internship")) {
+    title = "Staj İşlemleri";
+  } else if (pathname.split("/").includes("admin")) {
+    title = "Yönetici İşlemleri";
+  } else if (pathname.split("/").includes("companies")) {
+    title = "Şirketler";
+  } else {
+    title = "Ana Sayfa";
+  }
   return (
     <>
       <Header
@@ -67,12 +84,13 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
           justifyContent: "space-between",
           alignItems: "center",
           position: "sticky",
-
+          height: 80,
           top: 0,
           zIndex: 9,
           width: "100%",
           borderBottom: "1px solid lightgray",
           background: "white",
+          lineHeight: "1.2rem",
         }}
       >
         <Nav>
@@ -82,11 +100,14 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
             onClick={() => setCollapsed(!collapsed)}
             style={{
               fontSize: "16px",
-              width: 64,
-              height: 64,
+              width: 50,
+              height: 50,
+              marginLeft: 10,
+              marginRight: 10,
             }}
           />
           <TitleContainer>
+            <h1>{title}</h1>
             <Breadcrumb />
           </TitleContainer>
         </Nav>

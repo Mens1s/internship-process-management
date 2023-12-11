@@ -56,6 +56,8 @@ export const columns: ColumnsType<DataType> = [
             color = "volcano";
           } else if (tag === "Onay Bekliyor") {
             color = "geekblue";
+          } else if (tag === "Taslak") {
+            color = "geekblue";
           } else {
             color = "green";
           }

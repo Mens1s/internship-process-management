@@ -13,18 +13,21 @@ interface DataType {
 
 const data: DataType[] = [
   {
+    key: "1",
     name: "John Brown",
     position: "CEO",
     phoneNumber: "5074573487",
     mail: "johnbrown@gmail.com",
   },
   {
+    key: "2",
     name: "Jim Green",
     position: "Backend Team Lead",
     phoneNumber: "5056834587",
     mail: "jimgreen@hotmail.com",
   },
   {
+    key: "3",
     name: "Joe Black",
     position: "Frontend Developer",
     phoneNumber: "5513445678",
