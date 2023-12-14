@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Table from "src/components/Table";
-import { Spin } from "antd"; // Import Spin component for loading indicator
+import { Spin, Skeleton } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
-import type { ColumnsType } from "antd/es/table";
 import { columns } from "./PastApplicationsTableColumns";
 import ContentHeader from "src/components/ContentHeader";
 import { Text } from "src/context/LanguageProvider";
@@ -18,24 +17,14 @@ const StyledButton = styled(Button)`
   }
 `;
 
-interface DataType {
-  key: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-  type: string;
-  tags: string[];
-}
-
 const PastApplications: React.FC = () => {
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const enhancedColumns = useEnhancedColumns(columns);
 
-  const fetchData = () => {
+  useEffect(() => {
     const jwtToken = window.localStorage.getItem("token");
-
     axios
       .get("http://localhost:8000/api/internship-process/get-all", {
         headers: {
@@ -43,12 +32,9 @@ const PastApplications: React.FC = () => {
         },
       })
       .then((response) => {
+        console.log(response.data.internshipProcessList);
         const internshipProcessList = response?.data?.internshipProcessList;
-
         if (internshipProcessList) {
-          console.log(internshipProcessList);
-          console.log(jwtToken);
-
           setData(
             internshipProcessList?.map((item: any) => ({
               key: item?.id,
@@ -67,23 +53,18 @@ const PastApplications: React.FC = () => {
       })
       .catch((error) => {
         console.log("error:", error.response);
-        console.log(jwtToken);
       })
       .finally(() => {
-        setLoading(false); // Set loading to false when data fetching is complete
+        setLoading(false);
       });
-  };
-
-  useEffect(() => {
-    fetchData(); // This will run when the component mounts
-  }, []); // The empty dependency array ensures it runs only once
+  }, []);
 
   const handleNewApplicationClick = () => {
     navigate("/ogrenci/create");
   };
 
   return (
-    <div>
+    <>
       <ContentHeader>
         <div>
           <h2>
@@ -94,13 +75,12 @@ const PastApplications: React.FC = () => {
           <PlusCircleOutlined /> <Text tid="createApplication" />
         </StyledButton>
       </ContentHeader>
-
       {loading ? (
-        <Spin size="default" /> // Display loading spinner while fetching data
+        <Skeleton active={true} paragraph={{ rows: 4 }} />
       ) : (
         <Table tableProps={{ columns: enhancedColumns, data: data }} />
       )}
-    </div>
+    </>
   );
 };
 

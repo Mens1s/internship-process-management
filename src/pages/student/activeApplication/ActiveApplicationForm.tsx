@@ -72,19 +72,17 @@ const DatePickersContainer = styled.div`
   }
 `;
 
-const CreateApplicationForm: React.FC = () => {
-  const { auth }: any = useAuth();
+interface ActiveApplicationFormProps {
+  data?: any;
+}
 
+const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
+  data,
+}) => {
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-
   const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
   const [pdfFile, setPDFFile] = useState<string | null>(null);
-  const [viewPdf, setViewPdf] = useState<string | null>(null);
-  const fileType: string[] = ["application/pdf"];
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -98,38 +96,8 @@ const CreateApplicationForm: React.FC = () => {
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files && e.target.files[0];
-    if (selectedFile) {
-      console.log(selectedFile);
-      if (selectedFile && fileType.includes(selectedFile.type)) {
-        const reader = new FileReader();
-        reader.readAsDataURL(selectedFile);
-        reader.onload = (e) => {
-          setPDFFile(e.target?.result as string);
-        };
-        setPreviewTitle(selectedFile.name);
-      } else {
-        setPDFFile(null);
-      }
-    } else {
-      console.log("Please select a PDF file.");
-    }
-  };
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (pdfFile !== null) {
-      setViewPdf(pdfFile);
-    } else {
-      setViewPdf(null);
-    }
-    setPreviewOpen(true);
-  };
-
-  const newplugin = defaultLayoutPlugin();
-  const jwtToken = window.localStorage.getItem("token");
   const handleApplication = () => {
+    const jwtToken = window.localStorage.getItem("token");
     axios
       .post(
         "http://localhost:8000/api/internship-process/init",
@@ -152,45 +120,8 @@ const CreateApplicationForm: React.FC = () => {
 
   return (
     <div>
-      {/*  <p style={{ margin: "0 20px 40px 20px", textAlign: "left" }}>
-        Zorunlu Staj, Gebze Teknik Üniversitesi Mühendislik Fakültesi Lisans
-        öğrencilerin öğretim planında geçen yapmakla yükümlü oldukları stajları
-        ifade eder. GTÜ Mühendislik Fakültesi Lisans öğrencileri, öğrenimleri
-        boyunca zorunlu stajlarını en az 40 iş günü yapmakla yükümlüdür. Mezun
-        olabilmek için bu sürenin tamamlanması zorunludur. Zorunlu Stajlar, her
-        biri 20 iş günü olmak üzere iki ayrı kurumda yapılır. Öğrenciler,
-        Zorunlu stajlarının ilkini 4. yarıyıldan sonra, ikincisini 6. yarıyıldan
-        sonra yapabilirler.
-      </p> */}
-      {/*  <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <ButtonsContainer>
-          <input type="file" onChange={handleOnChange} />
-          <button type="submit">View PDF</button>
-        </ButtonsContainer>
-          {viewPdf && (
-          <PDFContainer>
-            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-              {viewPdf && <Viewer fileUrl={viewPdf} plugins={[newplugin]} />}
-              {!viewPdf && <>No PDF</>}
-            </Worker>
-          </PDFContainer>
-        )} 
-      </form> */}
       <>
-        {/*  <Checkbox
-          checked={componentDisabled}
-          onChange={(e) => setComponentDisabled(e.target.checked)}
-        >
-          Form disabled
-        </Checkbox> */}
-        <Form layout="vertical" disabled={componentDisabled} size="large">
+        <Form layout="vertical" disabled={false} size="large">
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Form.Item label="TC Kimlik No">
@@ -267,44 +198,28 @@ const CreateApplicationForm: React.FC = () => {
               <Form.Item label="GSS Girişi">
                 <Input />
               </Form.Item>
-              {/* <Form.Item
-                label="Belgeler"
-                valuePropName="fileList"
-                getValueFromEvent={normFile}
-              >
-                <Upload
-                  action="/upload.do"
-                  listType="picture"
-                  onChange={handleChange}
-                  fileList={fileList}
+              {true && (
+                <Form.Item
+                  label="Belgeler"
+                  valuePropName="fileList"
+                  getValueFromEvent={normFile}
                 >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
-                <Modal
-                  open={previewOpen}
-                  title={previewTitle}
-                  footer={null}
-                  onCancel={handlePDFCancel}
-                  width={600}
-                >
-                  {viewPdf && (
-                    <PDFContainer>
-                      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
-                        {viewPdf && (
-                          <Viewer fileUrl={viewPdf} plugins={[newplugin]} />
-                        )}
-                        {!viewPdf && <>No PDF</>}
-                      </Worker>
-                    </PDFContainer>
-                  )}
-                </Modal>
-              </Form.Item> */}
-              {!componentDisabled && (
+                  <Upload
+                    action="/upload.do"
+                    listType="picture"
+                    onChange={handleChange}
+                    fileList={fileList}
+                  >
+                    <Button icon={<UploadOutlined />}>Upload</Button>
+                  </Upload>
+                </Form.Item>
+              )}
+              {componentDisabled && (
                 <Form.Item label="Başvuruyu Onayla">
                   <DatePickersContainer>
                     <Button onClick={handleCancel}>Vazgeç</Button>
                     <Button onClick={showModal} type="primary">
-                      Onayla
+                      Kaydet
                     </Button>
                   </DatePickersContainer>
                 </Form.Item>
@@ -325,4 +240,4 @@ const CreateApplicationForm: React.FC = () => {
   );
 };
 
-export default CreateApplicationForm;
+export default ActiveApplicationForm;

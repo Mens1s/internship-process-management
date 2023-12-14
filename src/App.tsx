@@ -46,10 +46,10 @@ const App: React.FC = () => {
       <Route path="ogrenci/register" element={<RegisterPage />} />
       <Route path="akademisyen/register" element={<RegisterPage />} />
       {/*       <Route path="/" element={<PersistLogin token={token} />}>
-       */}{" "}
+       */}
       {true ? (
         <Route element={<MyLayout />}>
-          {/*  <Route
+          {/*   <Route
             element={
               <RequireAuth allowedRoles={[ROLES.ogrenci]} loggedIn={loggedIn} />
             }
@@ -61,15 +61,15 @@ const App: React.FC = () => {
           <Route path="ogrenci/profile" element={<Profile />} />
           <Route path="ogrenci/past/:id" element={<PastApplicationDetail />} />
           {/*           </Route>
-           */}{" "}
-          {/*  <Route
+           */}
+          {/* <Route
             element={
               <RequireAuth
                 allowedRoles={[ROLES.akademisyen]}
                 loggedIn={loggedIn}
               />
             }
-          > */}
+          >  */}
           <Route path="akademisyen" element={<Home />} />
           <Route
             path="akademisyen/internship/pending"
@@ -95,7 +95,7 @@ const App: React.FC = () => {
             element={<PendingApplicationsEvaluate />}
           />
           {/* </Route> */}
-          {/*         </Route>
+          {/*           </Route>
            */}
         </Route>
       ) : (

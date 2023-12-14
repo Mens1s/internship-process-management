@@ -144,22 +144,22 @@ const CreateApplicationForm: React.FC = () => {
         <Form layout="vertical" disabled={componentDisabled} size="large">
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Form.Item label={dictionary.idNumber} required>
+              <Form.Item label={dictionary.idNumber}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.studentId} required>
+              <Form.Item label={dictionary.studentId}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.phoneNumber} required>
+              <Form.Item label={dictionary.phoneNumber}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.faculty} required>
+              <Form.Item label={dictionary.faculty}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.department} required>
+              <Form.Item label={dictionary.department}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.grade} required>
+              <Form.Item label={dictionary.grade}>
                 <Select>
                   <Select.Option value="Hazırlık">
                     <Text tid="preparation" />
@@ -178,61 +178,60 @@ const CreateApplicationForm: React.FC = () => {
                   </Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item label={dictionary.roleInInternship} required>
+              <Form.Item label={dictionary.roleInInternship}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.internshipType} required>
+              <Form.Item label={dictionary.internshipType}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.whichInternship} required>
+              <Form.Item label={dictionary.whichInternship}>
                 <Select>
                   <Select.Option value="1">1</Select.Option>
                   <Select.Option value="2">2</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item label={dictionary.internshipDates} required>
+              <Form.Item label={dictionary.internshipDates}>
                 <DatePickersContainer>
                   <DatePicker />
                   <DatePicker />
                 </DatePickersContainer>
               </Form.Item>
-              <Form.Item label={dictionary.companyName} required>
+              <Form.Item label={dictionary.companyName}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.companyAddress} required>
+              <Form.Item label={dictionary.companyAddress}>
                 <TextArea rows={1} />
               </Form.Item>
             </Col>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Form.Item label={dictionary.companyNumber} required>
+              <Form.Item label={dictionary.companyNumber}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.companyFaxNumber} required>
+              <Form.Item label={dictionary.companyFaxNumber}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.engineerNameSurname} required>
+              <Form.Item label={dictionary.engineerNameSurname}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.engineerMail} required>
+              <Form.Item label={dictionary.engineerMail}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.positionToWork} required>
+              <Form.Item label={dictionary.positionToWork}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.reasonForCompany} required>
+              <Form.Item label={dictionary.reasonForCompany}>
                 <TextArea rows={5} />
               </Form.Item>
-              <Form.Item label={dictionary.sgkEntry} required>
+              <Form.Item label={dictionary.sgkEntry}>
                 <Input />
               </Form.Item>
-              <Form.Item label={dictionary.gssEntry} required>
+              <Form.Item label={dictionary.gssEntry}>
                 <Input />
               </Form.Item>
               <Form.Item
                 label={dictionary.eligibilityFile}
                 valuePropName="file1"
                 getValueFromEvent={normFile}
-                required
               >
                 <Upload
                   action="/upload.do"
@@ -244,7 +243,6 @@ const CreateApplicationForm: React.FC = () => {
                 </Upload>
               </Form.Item>
               <Form.Item
-                required
                 label={dictionary.internshipForm}
                 valuePropName="file2"
                 getValueFromEvent={normFile}

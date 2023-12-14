@@ -27,6 +27,18 @@ const LogoImage = styled.img`
   margin-top: 15px;
   margin-bottom: 30px;
 `;
+const MenuWrapper = styled.div`
+  border-top: 1px solid #424347;
+
+  .ant-menu-item-selected {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .ant-menu {
+    padding: 10px 5px 0 5px;
+    background: transparent !important;
+  }
+`;
 
 function getItem(
   label: React.ReactNode,
@@ -128,7 +140,7 @@ const MySider: React.FC<MySiderProps> = ({
       }}
     >
       <LogoImage src="/gtu_logo.svg" alt="Logo" />
-      <div style={{ borderTop: "1px solid #424347" }}>
+      <MenuWrapper>
         <Menu
           onClick={({ key }) => {
             if (isMobile) {
@@ -136,13 +148,12 @@ const MySider: React.FC<MySiderProps> = ({
             }
             navigate(key);
           }}
-          style={{ padding: "10px" }}
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[window.location.pathname]}
           items={filteredMenuItems}
         />
-      </div>
+      </MenuWrapper>
     </Sider>
   );
 };

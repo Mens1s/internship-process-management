@@ -26,7 +26,6 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    console.log(username, password);
     if (window.location.pathname.includes("/ogrenci/login")) {
       axios
         .post("http://localhost:8000/api/student/auth/login", {
@@ -34,20 +33,16 @@ const Login: React.FC = () => {
           password: password,
         })
         .then((response) => {
-          setAuth({
-            user: username,
-            token: response.data.token,
-            role: 2000,
-          });
           //navigate(fromStudent, { replace: true });
           if (response.status == 200) {
             console.log("Successful");
             console.log(response.data);
             window.localStorage.setItem("token", response.data.token);
-            setAuth((prev: any) => ({
-              ...prev,
+            setAuth({
+              user: username,
               token: response.data.token,
-            }));
+              role: 2000,
+            });
 
             window.localStorage.setItem("isLoggedIn", "true");
             navigate("/ogrenci");

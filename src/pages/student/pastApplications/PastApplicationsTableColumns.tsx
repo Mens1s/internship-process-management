@@ -74,7 +74,7 @@ export const columns: ColumnsType<DataType> = [
     key: "actions",
     fixed: "right",
     render: (_: any, record: any) => (
-      <Link to={`/ogrenci/past/${record.key}`}>
+      <Link to={`/ogrenci/past/${record.key}`} state={{ record }}>
         <MyButton
           text={<Text tid="view" />}
           icon={<EyeOutlined />}
