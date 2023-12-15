@@ -102,6 +102,7 @@ const data: DataType[] = [
 
 const MyTable: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const enhancedColumns = useEnhancedColumns(columns);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -114,8 +115,6 @@ const MyTable: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  const enhancedColumns = useEnhancedColumns(columns);
 
   return (
     <>

@@ -42,7 +42,9 @@ const PastApplications: React.FC = () => {
               startDate: item?.startDate,
               endDate: item?.endDate,
               type: item?.internshipType,
-              tags: [item.processStatus === "FORM" ? "Taslak" : ""],
+              tags: [
+                item.processStatus === "FORM" ? "Taslak" : "Onay Bekliyor",
+              ],
             }))
           );
         } else {

@@ -107,15 +107,14 @@ const CreateApplicationForm: React.FC = () => {
       )
       .then((response) => {
         console.log(response.data);
-        // success(); this should be here
+        success();
       })
       .catch((error) => {
         console.log("error:", error);
         console.log(jwtToken);
-        // error(); this should be here
+        error();
       });
-    // success();
-    error();
+
     // avigate("/ogrenci/past"); FIXME: Show message while navigating
     setIsModalOpen(false);
   };

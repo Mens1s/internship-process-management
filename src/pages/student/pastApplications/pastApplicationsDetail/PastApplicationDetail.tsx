@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ActiveApplicationForm from "../../activeApplication/ActiveApplicationForm";
 import ContentHeader from "src/components/ContentHeader";
 import axios from "src/services/axios";
+import ActiveApplicationViewForm from "../../activeApplication/ActiveApplicationViewForm";
 
 const StepsContainer = styled.div`
   width: 100%;
@@ -13,14 +14,15 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
   margin-top: 40px;
+  margin-bottom: ${({ showSteps }: any) => (showSteps ? "40px" : "40px")};
 `;
 
 const PastApplicationDetail = () => {
   const [data, setData] = useState([]);
-  const [showSteps, setShowStatus] = useState(false);
-  const [currentStep, setCurrentStep] = useState(2);
+  const [showSteps, setShowSteps] = useState(true);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [editable, setEditable] = useState(false);
 
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("token");
@@ -32,11 +34,11 @@ const PastApplicationDetail = () => {
       })
       .then((response) => {
         console.log(response.data.internshipProcessList);
-        let processStatus =
+        const processStatus =
           response.data.internshipProcessList[0].processStatus;
-        processStatus = "PRE1";
-        setShowStatus(true);
         setData(response.data.internshipProcessList[0]);
+
+        setEditable(response.data.internshipProcessList[0].editable);
 
         if (processStatus === "FORM") {
           setCurrentStep(0);
@@ -86,11 +88,11 @@ const PastApplicationDetail = () => {
                 },
                 {
                   title: "Staj Komisyonu",
-                  description: "Onaylandı",
+                  description: "Onay Bekliyor",
                 },
                 {
                   title: "Bölüm",
-                  description: "Reddedildi",
+                  description: "Onay Bekliyor",
                 },
                 {
                   title: "Dekanlık",
@@ -101,7 +103,11 @@ const PastApplicationDetail = () => {
           </StepsContainer>
         )}
       </Header>
-      <ActiveApplicationForm data={data} />
+      {editable ? (
+        <ActiveApplicationForm data={data} />
+      ) : (
+        <ActiveApplicationViewForm />
+      )}
     </div>
   );
 };

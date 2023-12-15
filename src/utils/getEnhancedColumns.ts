@@ -1,5 +1,3 @@
-import type { ColumnsType } from "antd/es/table";
-
 export const getEnhancedColumns = (
   columns: any,
   windowWidth: number,
