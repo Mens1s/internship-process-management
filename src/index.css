@@ -18,3 +18,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/* .ant-btn-default {
+  background: #e9eef5;
+  border: none;
+}
+ */
+
+.ant-btn,
+.ant-input-affix-wrapper,
+.ant-input {
+  border-radius: 10px;
+}
