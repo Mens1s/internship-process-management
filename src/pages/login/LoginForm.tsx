@@ -57,7 +57,7 @@ const Login: React.FC = () => {
     } else if (window.location.pathname.includes("/akademisyen/login")) {
       axios
         .post("http://localhost:8000/api/academician/auth/login", {
-          email: username,
+          mail: username,
           password: password,
         })
         .then((response) => {

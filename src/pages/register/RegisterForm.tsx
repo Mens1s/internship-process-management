@@ -5,6 +5,8 @@ import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
 import axios from "src/services/axios";
+import useDepartments from "src/hooks/useDepartments";
+import { Select } from "antd";
 
 const FormContainer = styled.div`
   display: flex;
@@ -19,7 +21,11 @@ const RegisterForm: React.FC = () => {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [mail, setMail] = useState("");
+  const [department, setDepartment] = useState("");
 
+  console.log(department);
+
+  const departmentOptions = useDepartments();
   const handleRegister = () => {
     if (window.location.pathname.includes("/ogrenci/register")) {
       axios
@@ -37,11 +43,12 @@ const RegisterForm: React.FC = () => {
         });
     } else if (window.location.pathname.includes("/akademisyen/register")) {
       axios
-        .post("https://reqres.in/api/login", {
+        .post("http://localhost:8000/api/academician/auth/register", {
           mail: mail,
           password: password,
           firstName: firstName,
           lastName: lastName,
+          departmentId: department,
         })
         .then((response) => {
           // navigate(fromAkademisyen, { replace: true });
@@ -93,6 +100,14 @@ const RegisterForm: React.FC = () => {
             onChange={(e) => setLastName(e.target.value)}
           />
         </Form.Item>
+        <Form.Item name="department">
+          <Select
+            onChange={(value) => setDepartment(value)}
+            placeholder="Select Department"
+          >
+            {departmentOptions}
+          </Select>
+        </Form.Item>
         <Form.Item
           name="mail"
           rules={[
@@ -126,10 +141,6 @@ const RegisterForm: React.FC = () => {
           />
         </Form.Item>
         <Form.Item>
-          {/*  <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item> */}
-
           <Link style={{ float: "right" }} to="/ogrenci/login">
             Giriş Yap
           </Link>

@@ -44,8 +44,10 @@ const PastApplicationDetail = () => {
       })
       .then((response) => {
         console.log(response.data.internshipProcessList);
-        const processStatus =
+        let processStatus =
           response.data.internshipProcessList[0].processStatus;
+
+        processStatus = "FORM";
         setData(response.data.internshipProcessList[0]);
         setEditable(response.data.internshipProcessList[0].editable);
 

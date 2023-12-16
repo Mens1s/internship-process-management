@@ -7,6 +7,7 @@ import { Text } from "src/context/LanguageProvider";
 import { DownloadOutlined, SearchOutlined } from "@ant-design/icons";
 import useLanguage from "src/hooks/useLanguage";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
+import axios from "src/services/axios";
 
 interface DataType {
   key?: string;
@@ -16,7 +17,7 @@ interface DataType {
   type: string;
 }
 
-const data: DataType[] = [
+const data_1: DataType[] = [
   {
     name: "John Brown",
     startDate: "03.07.2023",
@@ -77,6 +78,47 @@ const PastApplications = () => {
   const { dictionary } = useLanguage();
   const enhancedColumns = useEnhancedColumns(columns);
   const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState<DataType[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const jwtToken = window.localStorage.getItem("token");
+    axios
+      .get("http://localhost:8000/api/academician/get-all", {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        console.log(response.data.internshipProcessList);
+        const internshipProcessList = response?.data?.internshipProcessList;
+        if (internshipProcessList) {
+          setData(
+            internshipProcessList?.map((item: any) => ({
+              key: item?.id,
+              name: item?.companyId,
+              startDate: item?.startDate,
+              endDate: item?.endDate,
+              type: item?.internshipType,
+              tags: [
+                item.processStatus === "FORM" ? "Taslak" : "Onay Bekliyor",
+              ],
+            }))
+          );
+        } else {
+          console.error(
+            "Invalid or missing internshipProcessList in the response"
+          );
+        }
+      })
+      .catch((error) => {
+        console.log("error:");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const filteredData = data
     .filter((item) =>
@@ -86,7 +128,6 @@ const PastApplications = () => {
       ...filteredItem,
       key: String(index + 1),
     }));
-
   return (
     <div>
       <ContentHeader>

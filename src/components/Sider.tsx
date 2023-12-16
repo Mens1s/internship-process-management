@@ -22,9 +22,9 @@ interface MySiderProps {
 }
 
 const LogoImage = styled.img`
-  width: 200px; // Adjust the size as needed
-  margin-left: 30px;
-  margin-top: 15px;
+  width: 170px; // Adjust the size as needed
+  margin-left: 45px;
+  margin-top: 20px;
   margin-bottom: 30px;
 `;
 const MenuWrapper = styled.div`

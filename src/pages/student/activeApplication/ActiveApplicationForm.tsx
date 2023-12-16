@@ -30,6 +30,7 @@ import useAuth from "src/hooks/useAuth";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+import useDepartments from "src/hooks/useDepartments";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
@@ -83,8 +84,9 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { dictionary } = useLanguage();
-  const [departmentOptions, setDepartmentOptions] = useState([]);
   const [loadingOptions, setLoadingOptions] = useState(false);
+
+  const departmentOptions = useDepartments();
 
   const [companyOptionss, setCompanyOptionss] = useState<
     SelectProps["options"]
@@ -106,23 +108,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/department/getAll")
-      .then((response) => {
-        setDepartmentOptions(
-          response.data.departmentList.map((department: any) => (
-            <Select.Option key={department.id} value={department.id}>
-              {department.name}
-            </Select.Option>
-          ))
-        );
-      })
-      .catch((error) => {
-        console.error("Error fetching department options:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
       .get("http://localhost:8000/api/company/getAll")
       .then((response) => {
         response.data?.companyList.map((company: any, index: any) => {
@@ -137,14 +122,14 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   // Example data for the post request
   const postData = {
-    id: 2, // Replace with the actual value
-    tc: "12345678901", // Replace with the actual value
+    id: 103, // Replace with the actual value
+    tc: "11111111", // Replace with the actual value
     studentNumber: "S123456", // Replace with the actual value
     telephoneNumber: "1234567890", // Replace with the actual value
     classNumber: 3, // Replace with the actual value
     position: "Software Engineer", // Replace with the actual value
     internshipType: "Summer Internship", // Replace with the actual value
-    internshipNumber: 456, // Replace with the actual value
+    internshipNumber: 1, // Replace with the actual value
     startDate: "2023-01-01", // Replace with the actual value
     endDate: "2023-12-31", // Replace with the actual value
     companyId: 1, // Replace with the actual value
@@ -177,61 +162,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     setIsModalOpen(false);
   };
 
-  const mockInternshipProcessData = {
-    logDates: {
-      createdDate: new Date(),
-      lastModifiedDate: new Date(),
-    },
-    student: {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      // ... other student properties
-    },
-    tc: "1234567890",
-    studentNumber: "S12345",
-    telephoneNumber: "123-456-7890",
-    classNumber: 3,
-    position: "Intern",
-    internshipType: "Summer Internship",
-    internshipNumber: 1,
-    startDate: new Date("2023-06-01"),
-    endDate: new Date("2023-08-31"),
-    requestedEndDate: new Date("2023-08-31"),
-    company: {
-      id: 1,
-      name: "ABC Corporation",
-      // ... other company properties
-    },
-    department: {
-      id: 1,
-      name: "Software Engineering",
-      // ... other department properties
-    },
-    engineerMail: "engineer@example.com",
-    engineerName: "Jane Engineer",
-    choiceReason: "Interest in the company culture and projects",
-    sgkEntry: true,
-    gssEntry: false,
-    assignerId: 2,
-    mustehaklikBelgesiPath: "/path/to/mustehaklik_belgesi.pdf",
-    stajYeriFormuPath: "/path/to/staj_yeri_formu.pdf",
-    donem_ici: false,
-    mufredatDurumuPath: "/path/to/mufredat_durumu.pdf",
-    transkriptPath: "/path/to/transkript.pdf",
-    dersProgramıPath: "/path/to/ders_programi.pdf",
-    processStatus: "FORM", // Replace with the actual ProcessStatusEnum value
-    editable: true,
-    processAssignees: [
-      {
-        id: 1,
-        assigneeName: "Supervisor 1",
-        // ... other ProcessAssignee properties
-      },
-      // ... other assignees
-    ],
-  };
-
   const handleSend = () => {
     const jwtToken = window.localStorage.getItem("token");
     axios
@@ -240,14 +170,14 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
           Authorization: `Bearer ${jwtToken}`,
         },
         params: {
-          processId: 1,
+          processId: 103,
         },
       })
       .then((response) => {
         console.log(response);
       })
       .catch((error) => {
-        console.log("error:", error.response.data);
+        console.log("error:", error.response);
         console.log(jwtToken);
       });
   };

@@ -246,7 +246,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     setIsModalOpen(false);
   };
 
-  return <Descriptions bordered layout="vertical" items={items} />;
+  return <Descriptions bordered layout="horizontal" items={items} />;
 };
 
 export default ActiveApplicationViewForm;
