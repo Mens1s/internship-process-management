@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import styled from "styled-components";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
@@ -10,6 +10,7 @@ import type { DescriptionsProps } from "antd";
 import { Descriptions } from "antd";
 import axios from "src/services/axios";
 import useAuth from "src/hooks/useAuth";
+import { Button, Modal } from "antd";
 // Import styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
@@ -203,50 +204,50 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
 
-  const handleApplication = () => {
+  const confirmApplication = () => {
     const jwtToken = window.localStorage.getItem("token");
-
-    // Example data for the post request
-    const postData = {
-      id: 1, // Replace with the actual value
-      tc: "12345678901", // Replace with the actual value
-      studentNumber: "S123456", // Replace with the actual value
-      telephoneNumber: "1234567890", // Replace with the actual value
-      classNumber: 3, // Replace with the actual value
-      position: "Software Engineer", // Replace with the actual value
-      internshipType: "Summer Internship", // Replace with the actual value
-      internshipNumber: 456, // Replace with the actual value
-      startDate: "2023-01-01", // Replace with the actual value
-      endDate: "2023-12-31", // Replace with the actual value
-      companyId: 789, // Replace with the actual value
-      departmentId: 101, // Replace with the actual value
-      engineerMail: "engineer@example.com", // Replace with the actual value
-      engineerName: "John Doe", // Replace with the actual value
-      choiceReason: "I am interested in gaining experience in web development.", // Replace with the actual value
-      sgkEntry: true, // Replace with the actual value
-      gssEntry: false, // Replace with the actual value
-      mustehaklikBelgesiPath: "/path/to/mustehaklikBelgesi.pdf", // Replace with the actual value
-      stajYeriFormuPath: "/path/to/stajYeriFormu.pdf", // Replace with the actual value
-    };
-
     axios
-      .put("http://localhost:8000/api/internship-process/update", postData, {
+      .post("http://localhost:8000/api/internship-process/evaluate", {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
+        },
+        params: {
+          processId: 1,
+          approve: true,
+          comment: "güzel",
         },
       })
       .then((response) => {
         console.log(response);
       })
       .catch((error) => {
-        console.log("error:", error);
+        console.log("error:", error.response);
         console.log(jwtToken);
       });
 
+    console.log("confirmed");
     setIsModalOpen(false);
   };
 
-  return <Descriptions bordered layout="horizontal" items={items} />;
+  return (
+    <div>
+      <Descriptions bordered layout="horizontal" items={items} />
+      <div>
+        <Button>Reddet</Button>
+        <Button onClick={showModal}>Onayla</Button>
+      </div>
+      <Modal
+        title="Başvuruyu Onayla"
+        open={isModalOpen}
+        onOk={confirmApplication}
+        onCancel={handleCancel}
+      >
+        <p>
+          <Text tid="createApplicationFormApprovementModalText" />
+        </p>
+      </Modal>
+    </div>
+  );
 };
 
 export default ActiveApplicationViewForm;

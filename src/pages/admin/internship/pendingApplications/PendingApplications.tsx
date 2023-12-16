@@ -84,11 +84,15 @@ const PastApplications = () => {
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("token");
     axios
-      .get("http://localhost:8000/api/academician/get-all", {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
+      .post(
+        "http://localhost:8000/api/internship-process/get-all-process-assigned",
+        null,
+        {
+          params: {
+            academicianId: 1,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
         console.log(response.data.internshipProcessList);
@@ -97,7 +101,7 @@ const PastApplications = () => {
           setData(
             internshipProcessList?.map((item: any) => ({
               key: item?.id,
-              name: item?.companyId,
+              name: item?.companyId.toString(),
               startDate: item?.startDate,
               endDate: item?.endDate,
               type: item?.internshipType,
@@ -113,11 +117,30 @@ const PastApplications = () => {
         }
       })
       .catch((error) => {
-        console.log("error:");
+        console.log("new error:");
       })
       .finally(() => {
         setLoading(false);
       });
+    /* 
+    const academicianId = 1; // Replace with the actual value
+
+    axios
+      .post(
+        "http://localhost:8000/api/internship-process/get-all-process-assigned",
+        null,
+        {
+          params: {
+            academicianId: academicianId,
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.error(error);
+      }); */
   }, []);
 
   const filteredData = data

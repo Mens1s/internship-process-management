@@ -122,7 +122,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   // Example data for the post request
   const postData = {
-    id: 103, // Replace with the actual value
+    id: 2, // Process Id
     tc: "11111111", // Replace with the actual value
     studentNumber: "S123456", // Replace with the actual value
     telephoneNumber: "1234567890", // Replace with the actual value
@@ -165,12 +165,12 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const handleSend = () => {
     const jwtToken = window.localStorage.getItem("token");
     axios
-      .post("http://localhost:8000/api/internship-process/start", {
+      .post("http://localhost:8000/api/internship-process/start", null, {
+        params: {
+          processId: 2,
+        },
         headers: {
           Authorization: `Bearer ${jwtToken}`,
-        },
-        params: {
-          processId: 103,
         },
       })
       .then((response) => {

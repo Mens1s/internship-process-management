@@ -100,7 +100,7 @@ const Evaluate: React.FC = () => {
           <PastInternshipsContainer />
         </Modal>
       </ContentHeader>
-      <form
+      {/* <form
         onSubmit={handleSubmit}
         style={{
           display: "flex",
@@ -122,7 +122,7 @@ const Evaluate: React.FC = () => {
         >
           <PdfViewer fileUrl={viewPdf} />
         </Modal>
-      </form>
+      </form> */}
     </>
   );
 };

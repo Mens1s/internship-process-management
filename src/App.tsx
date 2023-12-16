@@ -92,7 +92,7 @@ const App: React.FC = () => {
           />
           <Route
             path="akademisyen/internship/pending/evaluate/:id"
-            element={<PendingApplicationsEvaluate />}
+            element={<PastApplicationDetail />}
           />
           {/* </Route> */}
           {/*           </Route>
