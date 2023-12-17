@@ -92,6 +92,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(true);
   const [saveLoading, setSaveLoading] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
   console.log("data", data);
   const success = () => {
     messageApi.open({
@@ -100,10 +102,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     });
   };
 
-  const errorMessage = () => {
+  const errorMessage = (content?: any) => {
     messageApi.open({
       type: "error",
-      content: "Bir hata oluştu. Lütfen tekrar deneyiniz.",
+      content: content ? content : "Bir hata oluştu. Lütfen tekrar deneyiniz.",
       duration: 5,
     });
   };
@@ -211,8 +213,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       transkriptPath: "/path/to/transkript.pdf",
       dersProgramıPath: "/path/to/dersProgramı.pdf",
       donem_ici: true,
+      stajRaporuPath: "/path/to/stajRaporu.pdf",
+      comment: "biasda",
     };
-    const postData1 = {
+    /*  const postData1 = {
       id: 102,
       tc: "12345678901",
       studentNumber: "S123456",
@@ -239,7 +243,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       donem_ici: true,
       stajRaporuPath: "/path/to/stajRaporu.pdf",
       comment: "biasda",
-    };
+    }; */
     setSaveLoading(true);
     setIsModalOpen(false);
     axios
@@ -264,6 +268,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   const handleSend = () => {
     const jwtToken = window.localStorage.getItem("token");
+    setConfirmLoading(true);
+
     axios
       .post("http://localhost:8000/api/internship-process/start", null, {
         params: {
@@ -278,8 +284,14 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       })
       .catch((error) => {
         console.log("error:", error.response);
-        console.log(jwtToken);
-        errorMessage();
+        const message =
+          error.response.status == 400
+            ? "Başvuru formu boş bırakılamaz."
+            : "Bir hata oluştu. Lütfen tekrar deneyiniz.";
+        errorMessage(message);
+      })
+      .finally(() => {
+        setConfirmLoading(false);
       });
   };
 
@@ -445,7 +457,11 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 >
                   Kaydet
                 </Button>
-                <Button type="default" onClick={handleSend}>
+                <Button
+                  type="default"
+                  onClick={handleSend}
+                  loading={confirmLoading}
+                >
                   Başvuruyu Onayla
                 </Button>
               </DatePickersContainer>

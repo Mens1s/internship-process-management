@@ -5,7 +5,7 @@ import ActiveApplicationForm from "../../activeApplication/ActiveApplicationForm
 import ContentHeader from "src/components/ContentHeader";
 import axios from "src/services/axios";
 import ActiveApplicationViewForm from "../../activeApplication/ActiveApplicationViewForm";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 const StepsContainer = styled.div`
   width: 100%;
@@ -36,88 +36,174 @@ const PastApplicationDetail = () => {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<any>("process");
   const { id } = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("token");
-    axios
-      .get("http://localhost:8000/api/internship-process/get-all", {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
-      .then((response: any) => {
-        const index = response.data.internshipProcessList.findIndex(
-          (item: any) => item.id == id
-        );
 
-        if (index !== -1) {
-          const internshipProcess = response.data.internshipProcessList[index];
-          const processStatus = internshipProcess.processStatus;
+    if (location.pathname.includes("ogrenci")) {
+      axios
+        .get("http://localhost:8000/api/internship-process/get-all", {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        })
+        .then((response: any) => {
+          const index = response.data.internshipProcessList.findIndex(
+            (item: any) => item.id == id
+          );
 
-          if (processStatus === "FORM") {
-            setCurrentStep(0);
-            setShowSteps(false);
-            setEditable(true);
-          } else if (processStatus === "REJECTED") {
-            setShowSteps(true);
-            setStatus("error");
-          } else if (processStatus === "PRE1") {
-            setShowSteps(true);
-            setCurrentStep(1);
-          } else if (processStatus === "PRE2") {
-            setShowSteps(true);
-            setCurrentStep(2);
-          } else if (processStatus === "PRE3") {
-            setShowSteps(true);
-            setCurrentStep(3);
+          if (index !== -1) {
+            const internshipProcess =
+              response.data.internshipProcessList[index];
+            const processStatus = internshipProcess.processStatus;
+
+            if (processStatus === "FORM") {
+              setCurrentStep(0);
+              setShowSteps(false);
+              setEditable(true);
+            } else if (processStatus === "REJECTED") {
+              setShowSteps(true);
+              setStatus("error");
+            } else if (processStatus === "PRE1") {
+              setShowSteps(true);
+              setCurrentStep(1);
+            } else if (processStatus === "PRE2") {
+              setShowSteps(true);
+              setCurrentStep(2);
+            } else if (processStatus === "PRE3") {
+              setShowSteps(true);
+              setCurrentStep(3);
+            } else {
+              setShowSteps(true);
+              setCurrentStep(4);
+            }
+
+            setStepItems([
+              {
+                title: "Öğrenci",
+                description: "Başvuru yapıldı",
+              },
+              {
+                title: "Staj Komisyonu",
+                description:
+                  processStatus == "PRE1" ? "Onay Bekliyor" : "Onaylandı",
+              },
+              {
+                title: "Bölüm",
+                description:
+                  processStatus != "PRE2" && processStatus != "PRE1"
+                    ? "Onaylandı"
+                    : "Onay Bekliyor",
+              },
+              {
+                title: "Dekanlık",
+                description: processStatus.includes("PRE")
+                  ? "Onay Bekliyor"
+                  : "Onaylandı",
+              },
+            ]);
+
+            setData(internshipProcess);
+            setEditable(internshipProcess.editable);
           } else {
-            setShowSteps(true);
-            setCurrentStep(4);
+            console.log(`Internship process with id ${id} not found`);
           }
 
-          setStepItems([
-            {
-              title: "Öğrenci",
-              description: "Başvuru yapıldı",
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("error:", error.response);
+          setLoading(false);
+        });
+    } else if (location.pathname.includes("akademisyen")) {
+      axios
+        .post(
+          "http://localhost:8000/api/internship-process/get-all-process-assigned",
+          null,
+          {
+            params: {
+              academicianId: 1,
             },
-            {
-              title: "Staj Komisyonu",
-              description:
-                processStatus == "PRE1" ? "Onay Bekliyor" : "Onaylandı",
-            },
-            {
-              title: "Bölüm",
-              description:
-                processStatus != "PRE2" && processStatus != "PRE1"
-                  ? "Onaylandı"
-                  : "Onay Bekliyor",
-            },
-            {
-              title: "Dekanlık",
-              description: processStatus.includes("PRE")
-                ? "Onay Bekliyor"
-                : "Onaylandı",
-            },
-          ]);
+          }
+        )
+        .then((response) => {
+          const index = response.data.internshipProcessList.findIndex(
+            (item: any) => item.id == id
+          );
 
-          setData(internshipProcess);
-          setEditable(internshipProcess.editable);
-        } else {
-          console.log(`Internship process with id ${id} not found`);
-        }
+          if (index !== -1) {
+            const internshipProcess =
+              response.data.internshipProcessList[index];
+            const processStatus = internshipProcess.processStatus;
 
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("error:", error.response);
-        setLoading(false);
-      });
+            if (processStatus === "FORM") {
+              setCurrentStep(0);
+              setShowSteps(false);
+              setEditable(true);
+            } else if (processStatus === "REJECTED") {
+              setShowSteps(true);
+              setStatus("error");
+            } else if (processStatus === "PRE1") {
+              setShowSteps(true);
+              setCurrentStep(1);
+            } else if (processStatus === "PRE2") {
+              setShowSteps(true);
+              setCurrentStep(2);
+            } else if (processStatus === "PRE3") {
+              setShowSteps(true);
+              setCurrentStep(3);
+            } else {
+              setShowSteps(true);
+              setCurrentStep(4);
+            }
+
+            setStepItems([
+              {
+                title: "Öğrenci",
+                description: "Başvuru yapıldı",
+              },
+              {
+                title: "Staj Komisyonu",
+                description:
+                  processStatus == "PRE1" ? "Onay Bekliyor" : "Onaylandı",
+              },
+              {
+                title: "Bölüm",
+                description:
+                  processStatus != "PRE2" && processStatus != "PRE1"
+                    ? "Onaylandı"
+                    : "Onay Bekliyor",
+              },
+              {
+                title: "Dekanlık",
+                description: processStatus.includes("PRE")
+                  ? "Onay Bekliyor"
+                  : "Onaylandı",
+              },
+            ]);
+
+            setData(internshipProcess);
+            setEditable(internshipProcess.editable);
+          } else {
+            console.log(`Internship process with id ${id} not found`);
+          }
+
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log("get all assigned error:");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, []);
 
   return (
     <div>
       <ContentHeader>
-        <h2>Aktif Staj Başvurum</h2>
+        <h2>Başvuru Detayları</h2>
         {/*  <Tag
           style={{
             borderRadius: 50,

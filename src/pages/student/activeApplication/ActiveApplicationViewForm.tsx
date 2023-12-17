@@ -38,10 +38,10 @@ const showDeleteConfirm = () => {
           },
         })
         .then((response) => {
-          console.log(response);
+          console.log("delete response: ", response);
         })
-        .catch((error) => {
-          console.log("error: ");
+        .catch((error: any) => {
+          console.log("delete error:", error);
         });
     },
     onCancel() {},
@@ -123,7 +123,6 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   data,
 }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [editable, setEditable] = useState<boolean>(true);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDenyOpen, setIsDenyOpen] = useState(false);
   const { dictionary } = useLanguage();
@@ -248,7 +247,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     const jwtToken = window.localStorage.getItem("token");
     axios
       .post("http://localhost:8000/api/internship-process/evaluate", {
-        processId: 152,
+        processId: data.id,
         approve: true,
         comment: "bu bir yorumdur",
         academicianId: 1,
@@ -257,11 +256,10 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
         },
       })
       .then((response) => {
-        console.log(response);
+        console.log("evaluate response: ", response);
       })
       .catch((error) => {
-        console.log("error:", error.response);
-        console.log(jwtToken);
+        console.log("evaluate error:", error.response);
       });
     setIsConfirmOpen(false);
   };

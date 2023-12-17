@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import { EditOutlined } from "@ant-design/icons";
 import MyButton from "src/components/Button";
 import { Text } from "src/context/LanguageProvider";
+import { Tag } from "antd";
 interface DataType {
+  id: number;
   key: string;
   name: string;
   startDate: string;
@@ -57,12 +59,51 @@ export const columns: ColumnsType<DataType> = [
     key: "type",
     width: "120px",
   },
+  {
+    title: "status",
+    key: "tags",
+    width: 120,
+    dataIndex: "tags",
+    render: (_: any, { tags }: any) => (
+      <>
+        {tags.map((tag: any) => {
+          let color;
+          if (tag === "Reddedildi") {
+            color = "red";
+          } else if (tag === "Onay Bekliyor") {
+            color = "gold";
+          } else if (tag === "Taslak") {
+            color = "geekblue";
+          } else {
+            color = "green";
+          }
+          return (
+            <Tag
+              style={{
+                width: "100%",
+                maxWidth: 100,
+                textAlign: "center",
+                borderRadius: "10px",
+              }}
+              color={color}
+              key={tag}
+            >
+              {tag}
+            </Tag>
+          );
+        })}
+      </>
+    ),
+  },
 
   {
     key: "actions",
     fixed: "right",
     render: (_, record) => (
-      <Link to={`/akademisyen/internship/pending/evaluate/${record.key}`}>
+      <Link
+        to={`/akademisyen/internship/pending/evaluate/${record.id}`}
+        state={{ record, processId: record.key }}
+      >
         <MyButton
           text={<Text tid="evaluate" />}
           icon={<EditOutlined />}
