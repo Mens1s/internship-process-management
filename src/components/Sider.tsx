@@ -85,7 +85,7 @@ const MySider: React.FC<MySiderProps> = ({
     getItem(dictionary.companies, "akademisyen/companies", <IdcardFilled />),
     //  getItem("Aktif Başvurum", "ogrenci/active", <EditFilled />),
     getItem("Başvurularım", "ogrenci/past", <CopyFilled />),
-    getItem("Staj Yönergeleri", "ogrenci/documents", <CopyFilled />),
+    getItem("Staj Yönergeleri", "ogrenci/", <CopyFilled />),
     // getItem("Yeni Başvuru", "ogrenci/create", <UploadOutlined />),
   ];
   const filteredMenuItems = items.filter((item) => {

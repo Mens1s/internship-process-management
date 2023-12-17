@@ -27,7 +27,7 @@ const PastApplications: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/company/getAll")
+      .get("https://internship-gj60.onrender.com/api/company/getAll")
       .then((response) => {
         console.log(response.data.companyList);
         setCompanies(response?.data?.companies);
@@ -38,7 +38,7 @@ const PastApplications: React.FC = () => {
 
     const jwtToken = window.localStorage.getItem("token");
     axios
-      .get("http://localhost:8000/api/internship-process/get-all", {
+      .get("https://internship-gj60.onrender.com/api/internship-process/get-all", {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -58,7 +58,7 @@ const PastApplications: React.FC = () => {
                 type: item?.internshipType || "-",
                 tags:
                   [
-                    item.processStatus === "FORM" ? "Taslak" : "Onay Bekliyor",
+                    item.processStatus = getStatus(item),
                   ] || "-",
               };
             })
@@ -80,7 +80,18 @@ const PastApplications: React.FC = () => {
   const handleNewApplicationClick = () => {
     navigate("/ogrenci/create");
   };
-
+  function getStatus(item:any) {
+    if (item.processStatus === "FORM") {
+      return "Taslak";
+    } else if (item.processStatus.startsWith("PRE")) {
+      return "Onay Bekliyor";
+    } else if (item.processStatus.startsWith("IN")) {
+      return "Onaylandı";
+    } else {
+      // Return a default value if none of the conditions match
+      return "-";
+    }
+  }
   return (
     <>
       <ContentHeader>

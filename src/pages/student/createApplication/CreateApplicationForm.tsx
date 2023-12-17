@@ -97,7 +97,7 @@ const CreateApplicationForm: React.FC = () => {
   const handleApplication = () => {
     axios
       .post(
-        "http://localhost:8000/api/internship-process/init",
+        "https://internship-gj60.onrender.com/api/internship-process/init",
         {},
         {
           headers: {

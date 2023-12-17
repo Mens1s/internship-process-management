@@ -28,7 +28,7 @@ const Login: React.FC = () => {
   const handleLogin = () => {
     if (window.location.pathname.includes("/ogrenci/login")) {
       axios
-        .post("http://localhost:8000/api/student/auth/login", {
+        .post("https://internship-gj60.onrender.com/api/student/auth/login", {
           mail: username,
           password: password,
         })
@@ -40,6 +40,7 @@ const Login: React.FC = () => {
             window.localStorage.setItem("token", response.data.token);
             window.localStorage.setItem("mail", username);
             window.localStorage.setItem("role", "2000");
+            window.localStorage.setItem("id", response.data.id);
 
             setAuth({
               user: username,
@@ -48,7 +49,9 @@ const Login: React.FC = () => {
             });
 
             window.localStorage.setItem("isLoggedIn", "true");
-            navigate("/ogrenci");
+            setTimeout(() => {
+              navigate("/ogrenci");
+            }, 500); 
           } else {
             console.log("Wrong mail or password!");
           }
@@ -58,7 +61,7 @@ const Login: React.FC = () => {
         });
     } else if (window.location.pathname.includes("/akademisyen/login")) {
       axios
-        .post("http://localhost:8000/api/academician/auth/login", {
+        .post("https://internship-gj60.onrender.com/api/academician/auth/login", {
           mail: username,
           password: password,
         })
@@ -72,11 +75,15 @@ const Login: React.FC = () => {
           window.localStorage.setItem("token", response.data.token);
           window.localStorage.setItem("mail", username);
           window.localStorage.setItem("role", "3000");
+          window.localStorage.setItem("id", response.data.id);
 
           // navigate(fromAkademisyen, { replace: true });
           window.localStorage.setItem("isLoggedIn", "true");
 
-          navigate("/akademisyen");
+          window.localStorage.setItem("isLoggedIn", "true");
+            setTimeout(() => {
+              navigate("/akademisyen");
+            }, 500);
         })
         .catch((error) => {
           console.error("Error:", error);

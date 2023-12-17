@@ -8,6 +8,7 @@ import { DownloadOutlined, SearchOutlined } from "@ant-design/icons";
 import useLanguage from "src/hooks/useLanguage";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import axios from "src/services/axios";
+import { user } from "firebase-functions/v1/auth";
 
 const PastApplications = () => {
   const { dictionary } = useLanguage();
@@ -19,15 +20,16 @@ const PastApplications = () => {
 
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("token");
+    const userId = window.localStorage.getItem("id");
     setLoading(true); // Set loading to true before making the API request
 
     axios
       .post(
-        "http://localhost:8000/api/internship-process/get-all-process-assigned",
+        "https://internship-gj60.onrender.com/api/internship-process/get-all-process-assigned",
         null,
         {
           params: {
-            academicianId: 1,
+            academicianId: parseInt(userId!),
           },
         }
       )

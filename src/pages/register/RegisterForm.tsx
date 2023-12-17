@@ -29,7 +29,7 @@ const RegisterForm: React.FC = () => {
   const handleRegister = () => {
     if (window.location.pathname.includes("/ogrenci/register")) {
       axios
-        .post("http://localhost:8000/api/student/auth/register", {
+        .post("https://internship-gj60.onrender.com/api/student/auth/register", {
           mail: mail,
           password: password,
           firstName: firstName,
@@ -43,7 +43,7 @@ const RegisterForm: React.FC = () => {
         });
     } else if (window.location.pathname.includes("/akademisyen/register")) {
       axios
-        .post("http://localhost:8000/api/academician/auth/register", {
+        .post("https://internship-gj60.onrender.com/api/academician/auth/register", {
           mail: mail,
           password: password,
           firstName: firstName,
@@ -52,7 +52,7 @@ const RegisterForm: React.FC = () => {
         })
         .then((response) => {
           // navigate(fromAkademisyen, { replace: true });
-          navigate("/akademisyen");
+          navigate("/onayla");
         })
         .catch((error) => {
           console.error("Error:", error);

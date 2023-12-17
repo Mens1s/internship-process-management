@@ -43,7 +43,7 @@ const PastApplicationDetail = () => {
 
     if (location.pathname.includes("ogrenci")) {
       axios
-        .get("http://localhost:8000/api/internship-process/get-all", {
+        .get("https://internship-gj60.onrender.com/api/internship-process/get-all", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
@@ -74,9 +74,12 @@ const PastApplicationDetail = () => {
             } else if (processStatus === "PRE3") {
               setShowSteps(true);
               setCurrentStep(3);
-            } else {
+            } else if (processStatus === "PRE4") {
               setShowSteps(true);
               setCurrentStep(4);
+            } else {
+              setShowSteps(true);
+              setCurrentStep(5);
             }
 
             setStepItems([
@@ -97,6 +100,12 @@ const PastApplicationDetail = () => {
                     : "Onay Bekliyor",
               },
               {
+                title: "Fakülte",
+                description: processStatus.includes("PRE")
+                  ? "Onay Bekliyor"
+                  : "Onaylandı",
+              },
+               {
                 title: "Dekanlık",
                 description: processStatus.includes("PRE")
                   ? "Onay Bekliyor"
@@ -119,7 +128,7 @@ const PastApplicationDetail = () => {
     } else if (location.pathname.includes("akademisyen")) {
       axios
         .post(
-          "http://localhost:8000/api/internship-process/get-all-process-assigned",
+          "https://internship-gj60.onrender.com/api/internship-process/get-all-process-assigned",
           null,
           {
             params: {
@@ -153,9 +162,12 @@ const PastApplicationDetail = () => {
             } else if (processStatus === "PRE3") {
               setShowSteps(true);
               setCurrentStep(3);
-            } else {
+            } else if (processStatus === "PRE4") {
               setShowSteps(true);
               setCurrentStep(4);
+            }else {
+              setShowSteps(true);
+              setCurrentStep(5);
             }
 
             setStepItems([
@@ -174,6 +186,12 @@ const PastApplicationDetail = () => {
                   processStatus != "PRE2" && processStatus != "PRE1"
                     ? "Onaylandı"
                     : "Onay Bekliyor",
+              },
+              {
+                title: "Fakülte",
+                description: processStatus.includes("PRE")
+                  ? "Onay Bekliyor"
+                  : "Onaylandı",
               },
               {
                 title: "Dekanlık",

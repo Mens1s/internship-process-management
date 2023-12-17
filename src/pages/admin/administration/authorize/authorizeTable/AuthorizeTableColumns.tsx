@@ -75,7 +75,7 @@ export const getColumns = (showModal: any) => {
         const items: MenuProps["items"] = [
           {
             label: (
-              <span onClick={() => showModal(record)}>
+              <span onClick={() => showModal(record, 1)}>
                 Internship Committee
               </span>
             ),
@@ -83,16 +83,20 @@ export const getColumns = (showModal: any) => {
           },
           {
             label: (
-              <span onClick={() => showModal(record)}>Department Chair</span>
+              <span onClick={() => showModal(record, 2)}>Department Chair</span>
             ),
             key: "2",
           },
           {
-            label: <span onClick={() => showModal(record)}>Executive</span>,
+            label: (
+            <span onClick={() => showModal(record, 3)}>Executive</span>
+            ),
             key: "3",
           },
           {
-            label: <span onClick={() => showModal(record)}>Academic</span>,
+            label: (
+            <span onClick={() => showModal(record, 4)}>Academic</span>
+            ),
             key: "4",
           },
         ];

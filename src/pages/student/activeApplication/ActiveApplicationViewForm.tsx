@@ -29,7 +29,7 @@ const showDeleteConfirm = () => {
       const jwtToken = window.localStorage.getItem("token");
 
       axios
-        .delete("http://localhost:8000/api/internship-process/delete", {
+        .delete("https://internship-gj60.onrender.com/api/internship-process/delete", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
@@ -262,17 +262,19 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
 
   const confirmApplication = () => {
     const jwtToken = window.localStorage.getItem("token");
+    const userId = window.localStorage.getItem("id");
     axios
-      .post("http://localhost:8000/api/internship-process/evaluate", {
+      .post("https://internship-gj60.onrender.com/api/internship-process/evaluate", {
         processId: data.id,
         approve: true,
         comment: "bu bir yorumdur",
-        academicianId: 1,
+        academicianId: parseInt(userId!),
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
       })
       .then((response) => {
+        alert("Başvuru onaylandı.");
         console.log("evaluate response: ", response);
       })
       .catch((error) => {

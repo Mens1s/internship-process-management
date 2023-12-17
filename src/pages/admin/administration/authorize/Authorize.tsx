@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "src/services/axios";
 import ContentHeader from "src/components/ContentHeader";
 import { Modal, Button, Input, Skeleton } from "antd";
@@ -29,20 +29,22 @@ const Authorize = () => {
   const [academics, setAcademics] = useState<AcademicDataType[]>([]);
   const [loading, setLoading] = useState(true); // Step 2: Loading state
 
-  const showModal = (record: any) => {
+  const showModal = (record: any, taskId: any) => {
     console.log(record);
     axios
-      .post("http://localhost:8000/api/academician/assignTask", null, {
+      .post("https://internship-gj60.onrender.com/api/academician/assignTask", null, {
         params: {
-          academicianId: 1,
-          taskId: record.key - 1,
+          academicianId: academics[record.key - 1].id,
+          taskId: taskId,
         },
       })
       .then((response) => {
         console.log("task response:", response);
+        alert( "Görev başarıyla atandı." );
       })
       .catch((error) => {
         console.error("task error:");
+        alert( "Görev atanamadı." );
       });
   };
 
@@ -55,10 +57,10 @@ const Authorize = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+useEffect(() => {
   const jwtToken = window.localStorage.getItem("token");
   axios
-    .get("http://localhost:8000/api/academician/get-all-not-pageable")
+    .get("https://internship-gj60.onrender.com/api/academician/get-all-not-pageable")
     .then((response) => {
       setAcademics(response.data.academicsList);
     })
@@ -68,7 +70,8 @@ const Authorize = () => {
     .finally(() => {
       setLoading(false);
     });
-
+  }, []);
+  
   const mappedData = academics.map((academic, index) => ({
     id: academic.id.toString(),
     key: index + 1,
@@ -85,9 +88,7 @@ const Authorize = () => {
           <h2>Yönetici Listesi</h2>
         </div>
 
-        <StyledButton onClick={showModal}>
-          <PlusCircleOutlined /> Yönetici Ekle
-        </StyledButton>
+        
 
         <Modal
           title="Yönetici Ekle"

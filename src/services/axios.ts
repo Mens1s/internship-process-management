@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://internship-gj60.onrender.com",
 });
 
 export const axiosPrivate = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://internship-gj60.onrender.com",
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });
