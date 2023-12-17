@@ -38,6 +38,9 @@ const Login: React.FC = () => {
             console.log("Successful");
             console.log(response.data);
             window.localStorage.setItem("token", response.data.token);
+            window.localStorage.setItem("mail", username);
+            window.localStorage.setItem("role", "2000");
+
             setAuth({
               user: username,
               token: response.data.token,
@@ -51,8 +54,7 @@ const Login: React.FC = () => {
           }
         })
         .catch((error) => {
-          //console.error("Error:", error);
-          console.log("Wrong password or mail!");
+          console.error("login error:", error);
         });
     } else if (window.location.pathname.includes("/akademisyen/login")) {
       axios
@@ -67,7 +69,13 @@ const Login: React.FC = () => {
             token: response.data.token,
             role: 3000,
           });
+          window.localStorage.setItem("token", response.data.token);
+          window.localStorage.setItem("mail", username);
+          window.localStorage.setItem("role", "3000");
+
           // navigate(fromAkademisyen, { replace: true });
+          window.localStorage.setItem("isLoggedIn", "true");
+
           navigate("/akademisyen");
         })
         .catch((error) => {

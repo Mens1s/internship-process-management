@@ -88,9 +88,14 @@ const MySider: React.FC<MySiderProps> = ({
     getItem("Staj Yönergeleri", "ogrenci/documents", <CopyFilled />),
     // getItem("Yeni Başvuru", "ogrenci/create", <UploadOutlined />),
   ];
-  const filteredMenuItems = items.filter((item) =>
-    `${item!.key}`.startsWith(role)
-  );
+  const filteredMenuItems = items.filter((item) => {
+    const mail = window.localStorage.getItem("mail");
+    if (`${item!.key}`.includes("admin") && mail === "admin@admin.com") {
+      return `${item!.key}`.startsWith(role);
+    } else if (!`${item!.key}`.includes("admin")) {
+      return `${item!.key}`.startsWith(role);
+    }
+  });
 
   return (
     <Sider

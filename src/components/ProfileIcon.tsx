@@ -55,6 +55,8 @@ const ProfileIcon: React.FC = () => {
     // Redirect the user to the login page
     window.localStorage.removeItem("isLoggedIn");
     window.localStorage.removeItem("token");
+    window.localStorage.removeItem("mail");
+    window.localStorage.removeItem("role");
     navigate("/login");
   };
 

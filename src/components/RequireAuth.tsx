@@ -3,19 +3,14 @@ import AuthContext from "../context/AuthProvider";
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
-const RequireAuth = ({ allowedRoles, loggedIn }: any) => {
-  const { auth }: any = useAuth();
+const RequireAuth = ({ allowedRoles }: any) => {
   const location = useLocation();
-  console.log(auth.role);
-  console.log(auth.user);
-  console.log(auth);
+  const role = localStorage.getItem("role");
 
-  if (allowedRoles.includes(auth?.role)) {
+  if (allowedRoles.includes(role)) {
     return <Outlet />;
-  } else if (loggedIn && auth?.user) {
-    return <Navigate to="/unauthorized" state={{ from: location }} replace />;
   } else {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/unauthorized" state={{ from: location }} replace />;
   }
 };
 
