@@ -132,24 +132,29 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       key: "id",
       label: "Id",
       children: data?.id?.toString(),
+      span: 3,
     },
     {
       key: "tc",
       label: "Tc",
+      span: 3,
       children: data?.tc,
     },
     {
       key: "studentNumber",
       label: "Student Number",
+      span: 3,
       children: data?.studentNumber,
     },
     {
       key: "telephoneNumber",
       label: "Telephone Number",
       children: data?.telephoneNumber,
+      span: 3,
     },
     {
       key: "classNumber",
+      span: 3,
       label: "Class Number",
       children: data?.classNumber?.toString(),
     },
@@ -157,23 +162,28 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       key: "position",
       label: "Position",
       children: data?.position,
+      span: 3,
     },
     {
       key: "internshipType",
       label: "Internship Type",
+      span: 3,
       children: data?.internshipType,
     },
     {
       key: "internshipNumber",
       label: "Internship Number",
+      span: 3,
       children: data?.internshipNumber?.toString(),
     },
     {
+      span: 3,
       key: "startDate",
       label: "Start Date",
       children: data?.startDate,
     },
     {
+      span: 3,
       key: "endDate",
       label: "End Date",
       children: data?.endDate,
@@ -181,14 +191,17 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     {
       key: "companyId",
       label: "Company Id",
+      span: 3,
       children: data?.companyId?.toString(),
     },
     {
       key: "departmentId",
+      span: 3,
       label: "Department Id",
       children: data?.departmentId?.toString(),
     },
     {
+      span: 3,
       key: "engineerMail",
       label: "Engineer Mail",
       children: data?.engineerMail,
@@ -196,7 +209,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     {
       key: "engineerName",
       label: "Engineer Name",
-      span: 2,
+      span: 3,
       children: data?.engineerName,
     },
     {
@@ -208,19 +221,23 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     {
       key: "sgkEntry",
       label: "SGK Entry",
+      span: 3,
       children: data?.sgkEntry?.toString(),
     },
     {
+      span: 3,
       key: "gssEntry",
       label: "GSS Entry",
       children: data?.gssEntry?.toString(),
     },
     {
+      span: 3,
       key: "mustehaklikBelgesiPath",
       label: "Mustehaklik Belgesi Path",
       children: data?.mustehaklikBelgesiPath,
     },
     {
+      span: 3,
       key: "stajYeriFormuPath",
       label: "Staj Yeri Formu Path",
       children: data?.stajYeriFormuPath,
