@@ -248,9 +248,9 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     const jwtToken = window.localStorage.getItem("token");
     axios
       .post("http://localhost:8000/api/internship-process/evaluate", {
-        processId: 152, // Process Id
-        approve: true, // Replace with the actual value
-        comment: "bu bir yorumdur", // Replace with the actual value
+        processId: 152,
+        approve: true,
+        comment: "bu bir yorumdur",
         academicianId: 1,
         headers: {
           Authorization: `Bearer ${jwtToken}`,

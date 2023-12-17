@@ -20,6 +20,8 @@ const StyledButton = styled(Button)`
 const PastApplications: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [companies, setCompanies] = useState<any>([]);
+  const [companyName, setCompanyName] = useState("");
   const navigate = useNavigate();
   const enhancedColumns = useEnhancedColumns(columns);
 
@@ -28,8 +30,11 @@ const PastApplications: React.FC = () => {
       .get("http://localhost:8000/api/company/getAll")
       .then((response) => {
         console.log(response.data.companyList);
+        setCompanies(response?.data?.companies);
       })
-      .catch((error) => {});
+      .catch((error: any) => {
+        console.log("company error: ", error);
+      });
 
     const jwtToken = window.localStorage.getItem("token");
     axios
@@ -42,17 +47,21 @@ const PastApplications: React.FC = () => {
         const internshipProcessList = response?.data?.internshipProcessList;
         if (internshipProcessList) {
           setData(
-            internshipProcessList?.map((item: any, index: any) => ({
-              key: index + 1,
-              id: item.id,
-              name: item?.companyId,
-              startDate: new Date(item?.startDate).toLocaleDateString(),
-              endDate: new Date(item?.endDate).toLocaleDateString(),
-              type: item?.internshipType,
-              tags: [
-                item.processStatus === "FORM" ? "Taslak" : "Onay Bekliyor",
-              ],
-            }))
+            internshipProcessList?.map((item: any, index: any) => {
+              return {
+                key: index + 1,
+                id: item.id,
+                name: companyName || "-",
+                startDate:
+                  new Date(item?.startDate).toLocaleDateString() || "-",
+                endDate: new Date(item?.endDate).toLocaleDateString() || "-",
+                type: item?.internshipType || "-",
+                tags:
+                  [
+                    item.processStatus === "FORM" ? "Taslak" : "Onay Bekliyor",
+                  ] || "-",
+              };
+            })
           );
         } else {
           console.error(
@@ -61,7 +70,7 @@ const PastApplications: React.FC = () => {
         }
       })
       .catch((error) => {
-        console.log("error:", error.response);
+        console.log("get error:", error.response);
       })
       .finally(() => {
         setLoading(false);
