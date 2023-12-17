@@ -90,8 +90,9 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const [form] = Form.useForm();
   const [updatedData, setUpdatedData] = useState();
   const [messageApi, contextHolder] = message.useMessage();
-  const [loading, setLoading] = useState(true); // Introduce loading state
-
+  const [loading, setLoading] = useState(true);
+  const [saveLoading, setSaveLoading] = useState(false);
+  console.log("data", data);
   const success = () => {
     messageApi.open({
       type: "success",
@@ -156,7 +157,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
           Authorization: `Bearer ${jwtToken}`,
         },
         params: {
-          internshipProcessID: 53,
+          internshipProcessID: data.id,
         },
       })
       .then((response) => {
@@ -187,7 +188,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     const formData = form.getFieldsValue();
 
     const postData = {
-      id: 54, // Process Id
+      id: data.id, // Process Id
       tc: formData?.idNumber,
       studentNumber: formData?.studentId,
       telephoneNumber: formData?.phoneNumber,
@@ -212,32 +213,35 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       donem_ici: true,
     };
     const postData1 = {
-      id: 54, // Replace with the actual value
-      tc: "12345678901", // Replace with the actual value
-      studentNumber: "S123456", // Replace with the actual value
-      telephoneNumber: "1234567890", // Replace with the actual value
-      classNumber: 3, // Replace with the actual value
-      position: "Software Engineer", // Replace with the actual value
-      internshipType: "Summer Internship", // Replace with the actual value
-      internshipNumber: 1, // Replace with the actual value
-      startDate: "2023-01-01", // Replace with the actual value
-      endDate: "2023-12-31", // Replace with the actual value
-      companyId: 1, // Replace with the actual value
-      departmentId: 1, // Replace with the actual value
-      engineerMail: "engineer@example.com", // Replace with the actual value
-      engineerName: "John Doe", // Replace with the actual value
+      id: 102,
+      tc: "12345678901",
+      studentNumber: "S123456",
+      telephoneNumber: "1234567890",
+      classNumber: 3,
+      position: "Software Engineer",
+      internshipType: "Summer Internship",
+      internshipNumber: 1,
+      startDate: "2023-01-01",
+      endDate: "2023-12-31",
+      companyId: 1,
+      departmentId: 1,
+      engineerMail: "engineer@example.com",
+      engineerName: "John Doe",
       choiceReason:
-        "I am interested in gaining experience in web development. I am interested in gaining experience in web development. I am interested in gaining experience in web development. I am interested in gaining experience in web development.", // Replace with the actual value
-      sgkEntry: true, // Replace with the actual value
-      gssEntry: false, // Replace with the actual value
-      mustehaklikBelgesiPath: "/path/to/mustehaklikBelgesi.pdf", // Replace with the actual value
-      stajYeriFormuPath: "/path/to/stajYeriFormu.pdf", // Replace with the actual value
-      mufredatDurumuPath: "/path/to/mufredatDurumu.pdf", // Replace with the actual value4
-      transkriptPath: "/path/to/transkript.pdf", // Replace with the actual value
-      dersProgramıPath: "/path/to/dersProgramı.pdf", // Replace with the actual value
-      donem_ici: true, // Replace with the actual value
+        "I am interested in gaining experience in web development. I am interested in gaining experience in web development. I am interested in gaining experience in web development. I am interested in gaining experience in web development.",
+      sgkEntry: true,
+      gssEntry: false,
+      mustehaklikBelgesiPath: "/path/to/mustehaklikBelgesi.pdf",
+      stajYeriFormuPath: "/path/to/stajYeriFormu.pdf",
+      mufredatDurumuPath: "/path/to/mufredatDurumu.pdf",
+      transkriptPath: "/path/to/transkript.pdf",
+      dersProgramıPath: "/path/to/dersProgramı.pdf",
+      donem_ici: true,
+      stajRaporuPath: "/path/to/stajRaporu.pdf",
+      comment: "biasda",
     };
-
+    setSaveLoading(true);
+    setIsModalOpen(false);
     axios
       .put("http://localhost:8000/api/internship-process/update", postData, {
         headers: {
@@ -252,9 +256,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
         console.log("error:", error);
         console.log(jwtToken);
         errorMessage();
+      })
+      .finally(() => {
+        setSaveLoading(false);
       });
-
-    setIsModalOpen(false);
   };
 
   const handleSend = () => {
@@ -262,7 +267,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     axios
       .post("http://localhost:8000/api/internship-process/start", null, {
         params: {
-          processId: 54,
+          processId: data.id,
         },
         headers: {
           Authorization: `Bearer ${jwtToken}`,
@@ -433,7 +438,11 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 <Button onClick={handleDelete} danger>
                   Sil
                 </Button>
-                <Button onClick={showModal} type="primary">
+                <Button
+                  onClick={showModal}
+                  type="primary"
+                  loading={saveLoading}
+                >
                   Kaydet
                 </Button>
                 <Button type="default" onClick={handleSend}>

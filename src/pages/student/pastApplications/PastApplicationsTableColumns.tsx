@@ -53,16 +53,25 @@ export const columns: ColumnsType<DataType> = [
         {tags.map((tag: any) => {
           let color;
           if (tag === "Reddedildi") {
-            color = "volcano";
+            color = "red";
           } else if (tag === "Onay Bekliyor") {
-            color = "geekblue";
+            color = "gold";
           } else if (tag === "Taslak") {
             color = "geekblue";
           } else {
             color = "green";
           }
           return (
-            <Tag color={color} key={tag}>
+            <Tag
+              style={{
+                width: "100%",
+                maxWidth: 100,
+                textAlign: "center",
+                borderRadius: "10px",
+              }}
+              color={color}
+              key={tag}
+            >
               {tag}
             </Tag>
           );
@@ -74,7 +83,10 @@ export const columns: ColumnsType<DataType> = [
     key: "actions",
     fixed: "right",
     render: (_: any, record: any) => (
-      <Link to={`/ogrenci/past/${record.key}`} state={{ record }}>
+      <Link
+        to={`/ogrenci/past/${record.id}`}
+        state={{ record, processId: record.key }}
+      >
         <MyButton
           text={<Text tid="view" />}
           icon={<EyeOutlined />}

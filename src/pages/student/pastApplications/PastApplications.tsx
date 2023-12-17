@@ -39,15 +39,15 @@ const PastApplications: React.FC = () => {
         },
       })
       .then((response) => {
-        console.log(response.data.internshipProcessList);
         const internshipProcessList = response?.data?.internshipProcessList;
         if (internshipProcessList) {
           setData(
-            internshipProcessList?.map((item: any) => ({
-              key: item?.id,
+            internshipProcessList?.map((item: any, index: any) => ({
+              key: index + 1,
+              id: item.id,
               name: item?.companyId,
-              startDate: item?.startDate,
-              endDate: item?.endDate,
+              startDate: new Date(item?.startDate).toLocaleDateString(),
+              endDate: new Date(item?.endDate).toLocaleDateString(),
               type: item?.internshipType,
               tags: [
                 item.processStatus === "FORM" ? "Taslak" : "Onay Bekliyor",

@@ -56,39 +56,6 @@ function getItem(
   } as MenuItem;
 }
 
-/* const menuItems = [
-  {
-    key: "ogrenci/active",
-    icon: <EditFilled />,
-    label: "Aktif Başvurum",
-  },
-  {
-    key: "ogrenci/past",
-    icon: <CopyFilled />,
-    label: "Geçmiş Başvurularım",
-  },
-  {
-    key: "ogrenci/create",
-    icon: <UploadOutlined />,
-    label: "Yeni Başvuru",
-  },
-  {
-    key: "akademisyen/pending",
-    icon: <IdcardFilled />,
-    label: "Onay Bekleyen Başvurular",
-  },
-  {
-    key: "akademisyen/authorize",
-    icon: <IdcardFilled />,
-    label: "Yetkilendir",
-  },
-  {
-    key: "akademisyen/companies",
-    icon: <IdcardFilled />,
-    label: "Şirketler",
-  },
-]; */
-
 const MySider: React.FC<MySiderProps> = ({
   collapsed,
   isMobile,
@@ -116,9 +83,10 @@ const MySider: React.FC<MySiderProps> = ({
       getItem("Tatil Günleri", "akademisyen/admin/holidays"),
     ]),
     getItem(dictionary.companies, "akademisyen/companies", <IdcardFilled />),
-    getItem("Aktif Başvurum", "ogrenci/active", <EditFilled />),
-    getItem("Geçmiş Başvurularım", "ogrenci/past", <CopyFilled />),
-    getItem("Yeni Başvuru", "ogrenci/create", <UploadOutlined />),
+    //  getItem("Aktif Başvurum", "ogrenci/active", <EditFilled />),
+    getItem("Başvurularım", "ogrenci/past", <CopyFilled />),
+    getItem("Staj Yönergeleri", "ogrenci/documents", <CopyFilled />),
+    // getItem("Yeni Başvuru", "ogrenci/create", <UploadOutlined />),
   ];
   const filteredMenuItems = items.filter((item) =>
     `${item!.key}`.startsWith(role)

@@ -8,16 +8,45 @@ import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
 import type { DescriptionsProps } from "antd";
 import { Descriptions } from "antd";
+import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
 import axios from "src/services/axios";
-import useAuth from "src/hooks/useAuth";
-import { Button, Modal } from "antd";
-import { Input } from "antd";
-
-// Import styles
+import { Button, Modal, Input } from "antd";
+import { useLocation } from "react-router-dom";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
+const { confirm } = Modal;
+const showDeleteConfirm = () => {
+  confirm({
+    title: "Staj başvurunuzu sonlandırmak istediğinize emin misiniz?",
+    icon: <ExclamationCircleFilled />,
+    content: "Sonlandırılan staj başvuruları kalıcı olarak silinir.",
+    okText: "Sil",
+    okType: "danger",
+    cancelText: "Vazgeç",
+    onOk() {
+      const jwtToken = window.localStorage.getItem("token");
+
+      axios
+        .delete("http://localhost:8000/api/internship-process/delete", {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          params: {
+            internshipProcessID: 102,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log("error: ");
+        });
+    },
+    onCancel() {},
+  });
+};
 const { TextArea } = Input;
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
@@ -49,7 +78,9 @@ const DatePickersContainer = styled.div`
   float: right;
   gap: 10px;
   margin-top: 20px;
-  min-width: 300px;
+  min-width: 200px;
+  width: 100%;
+  max-width: 250px;
 
   div {
     width: 100%;
@@ -217,13 +248,12 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     const jwtToken = window.localStorage.getItem("token");
     axios
       .post("http://localhost:8000/api/internship-process/evaluate", {
+        processId: 152, // Process Id
+        approve: true, // Replace with the actual value
+        comment: "bu bir yorumdur", // Replace with the actual value
+        academicianId: 1,
         headers: {
           Authorization: `Bearer ${jwtToken}`,
-        },
-        params: {
-          processId: 1,
-          approve: true,
-          comment: "güzel",
         },
       })
       .then((response) => {
@@ -233,21 +263,32 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
         console.log("error:", error.response);
         console.log(jwtToken);
       });
-
-    console.log("confirmed");
     setIsConfirmOpen(false);
   };
+
+  const location = useLocation();
+  const isOgrenci = location.pathname.includes("/ogrenci");
+  const isAkademisyen = location.pathname.includes("/akademisyen");
 
   return (
     <div>
       <Descriptions bordered layout="horizontal" items={items} />
       <DatePickersContainer>
-        <Button danger onClick={showDeny}>
-          Reddet
-        </Button>
-        <Button type="primary" onClick={showConfirm}>
-          Onayla
-        </Button>
+        {/* {isOgrenci && (
+          <Button type="primary" danger onClick={showDeleteConfirm}>
+            Başvuruyu Sonlandır
+          </Button>
+        )} */}
+        {isAkademisyen && (
+          <>
+            <Button danger onClick={showDeny}>
+              Reddet
+            </Button>
+            <Button type="primary" onClick={showConfirm}>
+              Onayla
+            </Button>
+          </>
+        )}
       </DatePickersContainer>
       <Modal
         title="Başvuruyu Onayla"

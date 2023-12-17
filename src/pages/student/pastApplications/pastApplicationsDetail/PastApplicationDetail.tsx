@@ -5,6 +5,7 @@ import ActiveApplicationForm from "../../activeApplication/ActiveApplicationForm
 import ContentHeader from "src/components/ContentHeader";
 import axios from "src/services/axios";
 import ActiveApplicationViewForm from "../../activeApplication/ActiveApplicationViewForm";
+import { useParams } from "react-router-dom";
 
 const StepsContainer = styled.div`
   width: 100%;
@@ -32,8 +33,10 @@ const PastApplicationDetail = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [editable, setEditable] = useState(false);
   const [stepItems, setStepItems] = useState<StepItem[]>([]);
-  const [loading, setLoading] = useState(true); // Introduce loading state
+  const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<any>("process");
+  const { id } = useParams();
+
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("token");
     axios
@@ -42,60 +45,67 @@ const PastApplicationDetail = () => {
           Authorization: `Bearer ${jwtToken}`,
         },
       })
-      .then((response) => {
-        console.log(response.data.internshipProcessList);
-        let processStatus =
-          response.data.internshipProcessList[0].processStatus;
+      .then((response: any) => {
+        const index = response.data.internshipProcessList.findIndex(
+          (item: any) => item.id == id
+        );
 
-        processStatus = "PRE1";
-        setData(response.data.internshipProcessList[0]);
-        setEditable(response.data.internshipProcessList[0].editable);
+        if (index !== -1) {
+          const internshipProcess = response.data.internshipProcessList[index];
+          const processStatus = internshipProcess.processStatus;
 
-        if (processStatus === "FORM") {
-          setCurrentStep(0);
-          setShowSteps(false);
-          setEditable(true);
-        } else if (processStatus === "REJECTED") {
-          setShowSteps(true);
-          setStatus("error");
-        } else if (processStatus === "PRE1") {
-          setShowSteps(true);
-          setCurrentStep(1);
-        } else if (processStatus === "PRE2") {
-          setShowSteps(true);
-          setCurrentStep(2);
-        } else if (processStatus === "PRE3") {
-          setShowSteps(true);
-          setCurrentStep(3);
+          if (processStatus === "FORM") {
+            setCurrentStep(0);
+            setShowSteps(false);
+            setEditable(true);
+          } else if (processStatus === "REJECTED") {
+            setShowSteps(true);
+            setStatus("error");
+          } else if (processStatus === "PRE1") {
+            setShowSteps(true);
+            setCurrentStep(1);
+          } else if (processStatus === "PRE2") {
+            setShowSteps(true);
+            setCurrentStep(2);
+          } else if (processStatus === "PRE3") {
+            setShowSteps(true);
+            setCurrentStep(3);
+          } else {
+            setShowSteps(true);
+            setCurrentStep(4);
+          }
+
+          setStepItems([
+            {
+              title: "Öğrenci",
+              description: "Başvuru yapıldı",
+            },
+            {
+              title: "Staj Komisyonu",
+              description:
+                processStatus == "PRE1" ? "Onay Bekliyor" : "Onaylandı",
+            },
+            {
+              title: "Bölüm",
+              description:
+                processStatus != "PRE2" && processStatus != "PRE1"
+                  ? "Onaylandı"
+                  : "Onay Bekliyor",
+            },
+            {
+              title: "Dekanlık",
+              description: processStatus.includes("PRE")
+                ? "Onay Bekliyor"
+                : "Onaylandı",
+            },
+          ]);
+
+          setData(internshipProcess);
+          setEditable(internshipProcess.editable);
         } else {
-          setShowSteps(true);
-          setCurrentStep(4);
+          console.log(`Internship process with id ${id} not found`);
         }
 
-        setStepItems([
-          {
-            title: "Öğrenci",
-            description: "Başvuru yapıldı",
-          },
-          {
-            title: "Staj Komisyonu",
-            description:
-              processStatus == "PRE1" ? "Onay Bekliyor" : "Onaylandı",
-          },
-          {
-            title: "Bölüm",
-            description:
-              processStatus != "PRE2" && processStatus != "PRE1"
-                ? "Onaylandı"
-                : "Onay Bekliyor",
-          },
-          {
-            title: "Dekanlık",
-            description: processStatus.includes("PRE")
-              ? "Onay Bekliyor"
-              : "Onaylandı",
-          },
-        ]);
         setLoading(false);
       })
       .catch((error) => {
@@ -137,7 +147,7 @@ const PastApplicationDetail = () => {
       </Header>
       {loading ? (
         <Skeleton active />
-      ) : true ? (
+      ) : editable ? (
         <ActiveApplicationForm data={data} />
       ) : (
         <ActiveApplicationViewForm data={data} />
