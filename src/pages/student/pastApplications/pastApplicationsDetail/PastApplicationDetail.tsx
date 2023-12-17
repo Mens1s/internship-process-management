@@ -33,7 +33,7 @@ const PastApplicationDetail = () => {
   const [editable, setEditable] = useState(false);
   const [stepItems, setStepItems] = useState<StepItem[]>([]);
   const [loading, setLoading] = useState(true); // Introduce loading state
-
+  const [status, setStatus] = useState<any>("process");
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("token");
     axios
@@ -47,7 +47,7 @@ const PastApplicationDetail = () => {
         let processStatus =
           response.data.internshipProcessList[0].processStatus;
 
-        processStatus = "FORM";
+        processStatus = "PRE1";
         setData(response.data.internshipProcessList[0]);
         setEditable(response.data.internshipProcessList[0].editable);
 
@@ -55,6 +55,9 @@ const PastApplicationDetail = () => {
           setCurrentStep(0);
           setShowSteps(false);
           setEditable(true);
+        } else if (processStatus === "REJECTED") {
+          setShowSteps(true);
+          setStatus("error");
         } else if (processStatus === "PRE1") {
           setShowSteps(true);
           setCurrentStep(1);
@@ -93,11 +96,11 @@ const PastApplicationDetail = () => {
               : "Onaylandı",
           },
         ]);
-        setLoading(false); // Set loading to false on successful data fetch
+        setLoading(false);
       })
       .catch((error) => {
         console.log("error:", error.response);
-        setLoading(false); // Set loading to false on successful data fetch
+        setLoading(false);
       });
   }, []);
 
@@ -126,18 +129,18 @@ const PastApplicationDetail = () => {
             <Steps
               size="small"
               current={currentStep}
-              status="process"
+              status={status}
               items={stepItems}
             />
           </StepsContainer>
         )}
-      </Header>{" "}
+      </Header>
       {loading ? (
         <Skeleton active />
-      ) : editable ? (
+      ) : true ? (
         <ActiveApplicationForm data={data} />
       ) : (
-        <ActiveApplicationViewForm />
+        <ActiveApplicationViewForm data={data} />
       )}
     </div>
   );

@@ -11,11 +11,14 @@ import { Descriptions } from "antd";
 import axios from "src/services/axios";
 import useAuth from "src/hooks/useAuth";
 import { Button, Modal } from "antd";
+import { Input } from "antd";
+
 // Import styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
+const { TextArea } = Input;
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
@@ -43,21 +46,23 @@ const ButtonsContainer = styled.div`
 `;
 const DatePickersContainer = styled.div`
   display: flex;
+  float: right;
   gap: 10px;
+  margin-top: 20px;
+  min-width: 300px;
 
   div {
     width: 100%;
   }
 
   button {
-    @media (max-width: 600px) {
-      width: 100%;
-    }
+    height: 40px;
+    width: 100%;
   }
 `;
 
 const postData = {
-  id: 1, // Replace with the actual value
+  id: 152, // Replace with the actual value
   tc: "12345678901", // Replace with the actual value
   studentNumber: "S123456", // Replace with the actual value
   telephoneNumber: "1234567890", // Replace with the actual value
@@ -79,108 +84,6 @@ const postData = {
   stajYeriFormuPath: "/path/to/stajYeriFormu.pdf", // Replace with the actual value
 };
 
-const items = [
-  {
-    key: "id",
-    label: "Id",
-    children: postData.id.toString(),
-  },
-  {
-    key: "tc",
-    label: "Tc",
-    children: postData.tc,
-  },
-  {
-    key: "studentNumber",
-    label: "Student Number",
-    children: postData.studentNumber,
-  },
-  {
-    key: "telephoneNumber",
-    label: "Telephone Number",
-    children: postData.telephoneNumber,
-  },
-  {
-    key: "classNumber",
-    label: "Class Number",
-    children: postData.classNumber.toString(),
-  },
-  {
-    key: "position",
-    label: "Position",
-    children: postData.position,
-  },
-  {
-    key: "internshipType",
-    label: "Internship Type",
-    children: postData.internshipType,
-  },
-  {
-    key: "internshipNumber",
-    label: "Internship Number",
-    children: postData.internshipNumber.toString(),
-  },
-  {
-    key: "startDate",
-    label: "Start Date",
-    children: postData.startDate,
-  },
-  {
-    key: "endDate",
-    label: "End Date",
-    children: postData.endDate,
-  },
-  {
-    key: "companyId",
-    label: "Company Id",
-    children: postData.companyId.toString(),
-  },
-  {
-    key: "departmentId",
-    label: "Department Id",
-    children: postData.departmentId.toString(),
-  },
-  {
-    key: "engineerMail",
-    label: "Engineer Mail",
-    children: postData.engineerMail,
-  },
-  {
-    key: "engineerName",
-    label: "Engineer Name",
-    span: 2,
-    children: postData.engineerName,
-  },
-  {
-    key: "choiceReason",
-    label: "Choice Reason",
-    span: 3,
-    children: postData.choiceReason,
-  },
-  {
-    key: "sgkEntry",
-    label: "SGK Entry",
-    children: postData.sgkEntry.toString(),
-  },
-  {
-    key: "gssEntry",
-    label: "GSS Entry",
-    children: postData.gssEntry.toString(),
-  },
-  {
-    key: "mustehaklikBelgesiPath",
-    label: "Mustehaklik Belgesi Path",
-    children: postData.mustehaklikBelgesiPath,
-  },
-  {
-    key: "stajYeriFormuPath",
-    label: "Staj Yeri Formu Path",
-    children: postData.stajYeriFormuPath,
-  },
-];
-
-console.log(items);
-
 interface ActiveApplicationFormProps {
   data?: any;
 }
@@ -190,15 +93,121 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
 }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [editable, setEditable] = useState<boolean>(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isDenyOpen, setIsDenyOpen] = useState(false);
   const { dictionary } = useLanguage();
 
-  const showModal = () => {
-    setIsModalOpen(true);
+  const items = [
+    {
+      key: "id",
+      label: "Id",
+      children: data?.id?.toString(),
+    },
+    {
+      key: "tc",
+      label: "Tc",
+      children: data?.tc,
+    },
+    {
+      key: "studentNumber",
+      label: "Student Number",
+      children: data?.studentNumber,
+    },
+    {
+      key: "telephoneNumber",
+      label: "Telephone Number",
+      children: data?.telephoneNumber,
+    },
+    {
+      key: "classNumber",
+      label: "Class Number",
+      children: data?.classNumber?.toString(),
+    },
+    {
+      key: "position",
+      label: "Position",
+      children: data?.position,
+    },
+    {
+      key: "internshipType",
+      label: "Internship Type",
+      children: data?.internshipType,
+    },
+    {
+      key: "internshipNumber",
+      label: "Internship Number",
+      children: data?.internshipNumber?.toString(),
+    },
+    {
+      key: "startDate",
+      label: "Start Date",
+      children: data?.startDate,
+    },
+    {
+      key: "endDate",
+      label: "End Date",
+      children: data?.endDate,
+    },
+    {
+      key: "companyId",
+      label: "Company Id",
+      children: data?.companyId?.toString(),
+    },
+    {
+      key: "departmentId",
+      label: "Department Id",
+      children: data?.departmentId?.toString(),
+    },
+    {
+      key: "engineerMail",
+      label: "Engineer Mail",
+      children: data?.engineerMail,
+    },
+    {
+      key: "engineerName",
+      label: "Engineer Name",
+      span: 2,
+      children: data?.engineerName,
+    },
+    {
+      key: "choiceReason",
+      label: "Choice Reason",
+      span: 3,
+      children: data?.choiceReason,
+    },
+    {
+      key: "sgkEntry",
+      label: "SGK Entry",
+      children: data?.sgkEntry?.toString(),
+    },
+    {
+      key: "gssEntry",
+      label: "GSS Entry",
+      children: data?.gssEntry?.toString(),
+    },
+    {
+      key: "mustehaklikBelgesiPath",
+      label: "Mustehaklik Belgesi Path",
+      children: data?.mustehaklikBelgesiPath,
+    },
+    {
+      key: "stajYeriFormuPath",
+      label: "Staj Yeri Formu Path",
+      children: data?.stajYeriFormuPath,
+    },
+  ];
+
+  const showConfirm = () => {
+    setIsConfirmOpen(true);
+  };
+
+  const showDeny = () => {
+    setIsDenyOpen(true);
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setIsConfirmOpen(false);
+    setIsDenyOpen(false);
   };
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
@@ -226,25 +235,49 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       });
 
     console.log("confirmed");
-    setIsModalOpen(false);
+    setIsConfirmOpen(false);
   };
 
   return (
     <div>
       <Descriptions bordered layout="horizontal" items={items} />
-      <div>
-        <Button>Reddet</Button>
-        <Button onClick={showModal}>Onayla</Button>
-      </div>
+      <DatePickersContainer>
+        <Button danger onClick={showDeny}>
+          Reddet
+        </Button>
+        <Button type="primary" onClick={showConfirm}>
+          Onayla
+        </Button>
+      </DatePickersContainer>
       <Modal
         title="Başvuruyu Onayla"
-        open={isModalOpen}
+        open={isConfirmOpen}
         onOk={confirmApplication}
         onCancel={handleCancel}
       >
         <p>
           <Text tid="createApplicationFormApprovementModalText" />
         </p>
+        <TextArea
+          style={{ marginTop: 15, resize: "none" }}
+          rows={5}
+          placeholder="Enter comments"
+        />
+      </Modal>
+      <Modal
+        title="Başvuruyu Reddet"
+        open={isDenyOpen}
+        onOk={confirmApplication}
+        onCancel={handleCancel}
+      >
+        <p>
+          <Text tid="createApplicationFormApprovementModalText" />
+        </p>
+        <TextArea
+          style={{ marginTop: 15, resize: "none" }}
+          rows={5}
+          placeholder="Enter comments"
+        />
       </Modal>
     </div>
   );

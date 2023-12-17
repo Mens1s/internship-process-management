@@ -24,6 +24,13 @@ const PastApplications: React.FC = () => {
   const enhancedColumns = useEnhancedColumns(columns);
 
   useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/company/getAll")
+      .then((response) => {
+        console.log(response.data.companyList);
+      })
+      .catch((error) => {});
+
     const jwtToken = window.localStorage.getItem("token");
     axios
       .get("http://localhost:8000/api/internship-process/get-all", {
