@@ -32,7 +32,7 @@ const Authorize = () => {
   const showModal = (record: any, taskId: any) => {
     console.log(record);
     axios
-      .post("https://internship-gj60.onrender.com/api/academician/assignTask", null, {
+      .post("http://localhost:8000/api/academician/assignTask", null, {
         params: {
           academicianId: academics[record.key - 1].id,
           taskId: taskId,
@@ -60,7 +60,7 @@ const Authorize = () => {
 useEffect(() => {
   const jwtToken = window.localStorage.getItem("token");
   axios
-    .get("https://internship-gj60.onrender.com/api/academician/get-all-not-pageable")
+    .get("http://localhost:8000/api/academician/get-all-not-pageable")
     .then((response) => {
       setAcademics(response.data.academicsList);
     })

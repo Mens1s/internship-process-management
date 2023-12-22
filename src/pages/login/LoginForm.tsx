@@ -28,7 +28,7 @@ const Login: React.FC = () => {
   const handleLogin = () => {
     if (window.location.pathname.includes("/ogrenci/login")) {
       axios
-        .post("https://internship-gj60.onrender.com/api/student/auth/login", {
+        .post("http://localhost:8000/api/student/auth/login", {
           mail: username,
           password: password,
         })
@@ -61,7 +61,7 @@ const Login: React.FC = () => {
         });
     } else if (window.location.pathname.includes("/akademisyen/login")) {
       axios
-        .post("https://internship-gj60.onrender.com/api/academician/auth/login", {
+        .post("http://localhost:8000/api/academician/auth/login", {
           mail: username,
           password: password,
         })

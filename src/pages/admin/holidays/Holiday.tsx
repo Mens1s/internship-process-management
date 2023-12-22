@@ -27,11 +27,9 @@ import {
   Button,
 } from "antd";
 import axios from "src/services/axios";
-import useAuth from "src/hooks/useAuth";
 // Import styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import useDepartments from "src/hooks/useDepartments";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
@@ -98,7 +96,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "Staj bilgileri güncellendi!",
+      content: "Tatil bilgileri güncellendi!",
     });
   };
 
@@ -187,7 +185,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       });
   }, []);
 
-  const handleApplication = () => {
+  const handleHolidayApprove = () => {
     const jwtToken = window.localStorage.getItem("token");
     const formData = form.getFieldsValue();
 
@@ -218,34 +216,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       stajRaporuPath: "/path/to/stajRaporu.pdf",
       comment: "biasda",
     };
-    /*  const postData1 = {
-      id: 102,
-      tc: "12345678901",
-      studentNumber: "S123456",
-      telephoneNumber: "1234567890",
-      classNumber: 3,
-      position: "Software Engineer",
-      internshipType: "Summer Internship",
-      internshipNumber: 1,
-      startDate: "2023-01-01",
-      endDate: "2023-12-31",
-      companyId: 1,
-      departmentId: 1,
-      engineerMail: "engineer@example.com",
-      engineerName: "John Doe",
-      choiceReason:
-        "I am interested in gaining experience in web development. I am interested in gaining experience in web development. I am interested in gaining experience in web development. I am interested in gaining experience in web development.",
-      sgkEntry: true,
-      gssEntry: false,
-      mustehaklikBelgesiPath: "/path/to/mustehaklikBelgesi.pdf",
-      stajYeriFormuPath: "/path/to/stajYeriFormu.pdf",
-      mufredatDurumuPath: "/path/to/mufredatDurumu.pdf",
-      transkriptPath: "/path/to/transkript.pdf",
-      dersProgramıPath: "/path/to/dersProgramı.pdf",
-      donem_ici: true,
-      stajRaporuPath: "/path/to/stajRaporu.pdf",
-      comment: "biasda",
-    }; */
+    
     setSaveLoading(true);
     setIsModalOpen(false);
     axios
@@ -310,61 +281,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
         >
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Form.Item name="idNumber" label={dictionary.idNumber}>
-                <Input />
-              </Form.Item>
-              <Form.Item name="studentId" label={dictionary.studentId}>
-                <Input />
-              </Form.Item>
-              <Form.Item name="phoneNumber" label={dictionary.phoneNumber}>
-                <Input />
-              </Form.Item>
-              <Form.Item name="faculty" label={dictionary.faculty}>
-                <Input />
-              </Form.Item>
-              <Form.Item name="department" label={dictionary.department}>
-                <Select>{departmentOptions}</Select>
-              </Form.Item>
-              <Form.Item name="classNumber" label={dictionary.grade}>
-                <Select>
-                  <Select.Option value="0" key="Hazırlık">
-                    <Text tid="preparation" />
-                  </Select.Option>
-                  <Select.Option value="1">
-                    <Text tid="1stgrade" />
-                  </Select.Option>
-                  <Select.Option value="2">
-                    <Text tid="2ndgrade" />
-                  </Select.Option>
-                  <Select.Option value="3">
-                    <Text tid="3rdgrade" />
-                  </Select.Option>
-                  <Select.Option value="4">
-                    <Text tid="4thgrade" />
-                  </Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                name="roleInInternship"
-                label={dictionary.roleInInternship}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="internshipType"
-                label={dictionary.internshipType}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="internshipNumber"
-                label={dictionary.whichInternship}
-              >
-                <Select>
-                  <Select.Option value="1">1</Select.Option>
-                  <Select.Option value="2">2</Select.Option>
-                </Select>
-              </Form.Item>
+              
 
               <DatePickersContainer>
                 <Form.Item name="startDate" label={dictionary.internshipDates}>
@@ -376,105 +293,14 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 </Form.Item>
               </DatePickersContainer>
 
-              <Form.Item name="companyName" label={dictionary.companyName}>
-                <Select options={companyOptionss} />
-              </Form.Item>
-              <Form.Item
-                name="companyAddress"
-                label={dictionary.companyAddress}
-              >
-                <TextArea rows={1} />
-              </Form.Item>
-            </Col>
-            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Form.Item name="companyNumber" label={dictionary.companyNumber}>
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="companyFaxNumber"
-                label={dictionary.companyFaxNumber}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="engineerName"
-                label={dictionary.engineerNameSurname}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item name="engineerMail" label={dictionary.engineerMail}>
-                <Input />
-              </Form.Item>
-              <Form.Item name="position" label={dictionary.positionToWork}>
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="choiceReason"
-                label={dictionary.reasonForCompany}
-              >
-                <TextArea rows={5} />
-              </Form.Item>
-              <Form.Item name="sgkEntry" label={dictionary.sgkEntry}>
-                <Input />
-              </Form.Item>
-              <Form.Item name="gssEntry" label={dictionary.gssEntry}>
-                <Input />
-              </Form.Item>
-              {/*  <Form.Item
-                label={dictionary.eligibilityFile}
-                valuePropName="file1"
-                getValueFromEvent={normFile}
-              >
-                <Upload
-                  action="/upload.do"
-                  listType="picture"
-                  onChange={handleChange}
-                  fileList={fileList}
-                >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
-              </Form.Item>
-              <Form.Item
-                label={dictionary.internshipForm}
-                valuePropName="file2"
-                getValueFromEvent={normFile}
-              >
-                <Upload
-                  action="/upload.do"
-                  listType="picture"
-                  onChange={handleChange}
-                  fileList={fileList}
-                >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
-              </Form.Item> */}
-
-              <DatePickersContainer>
-                <Button onClick={handleDelete} danger>
-                  Sil
-                </Button>
-                <Button
-                  onClick={showModal}
-                  type="primary"
-                  loading={saveLoading}
-                >
-                  Kaydet
-                </Button>
-                <Button
-                  type="default"
-                  onClick={handleSend}
-                  loading={confirmLoading}
-                >
-                  Başvuruyu Onayla
-                </Button>
-              </DatePickersContainer>
+              
             </Col>
           </Row>
         </Form>
         <Modal
-          title="Başvuruyu Onayla"
+          title="Tatil Gününü Onayla"
           open={isModalOpen}
-          onOk={handleApplication}
+          onOk={handleHolidayApprove}
           onCancel={handleCancel}
         >
           <p>

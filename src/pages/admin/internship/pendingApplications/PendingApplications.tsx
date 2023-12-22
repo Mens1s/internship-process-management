@@ -25,7 +25,7 @@ const PastApplications = () => {
 
     axios
       .post(
-        "https://internship-gj60.onrender.com/api/internship-process/get-all-process-assigned",
+        "http://localhost:8000/api/internship-process/get-all-process-assigned",
         null,
         {
           params: {

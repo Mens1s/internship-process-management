@@ -9,6 +9,7 @@
   "studentId": "Öğrenci Numarası",
   "phoneNumber": "Telefon Numarası",
   "companyName": "Şirket Adı",
+  "companyMail": "Şirket Mail Adresi",
   "companyAddress": "Şirket Adresi",
   "companyNumber": "Şirket Numarası",
   "companyFaxNumber": "Şirket Fax Numarası",

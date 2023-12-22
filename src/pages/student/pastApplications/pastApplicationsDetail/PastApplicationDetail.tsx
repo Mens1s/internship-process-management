@@ -43,7 +43,7 @@ const PastApplicationDetail = () => {
 
     if (location.pathname.includes("ogrenci")) {
       axios
-        .get("https://internship-gj60.onrender.com/api/internship-process/get-all", {
+        .get("http://localhost:8000/api/internship-process/get-all", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
@@ -128,7 +128,7 @@ const PastApplicationDetail = () => {
     } else if (location.pathname.includes("akademisyen")) {
       axios
         .post(
-          "https://internship-gj60.onrender.com/api/internship-process/get-all-process-assigned",
+          "http://localhost:8000/api/internship-process/get-all-process-assigned",
           null,
           {
             params: {

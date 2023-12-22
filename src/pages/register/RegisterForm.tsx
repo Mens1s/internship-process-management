@@ -29,7 +29,7 @@ const RegisterForm: React.FC = () => {
   const handleRegister = () => {
     if (window.location.pathname.includes("/ogrenci/register")) {
       axios
-        .post("https://internship-gj60.onrender.com/api/student/auth/register", {
+        .post("http://localhost:8000/api/student/auth/register", {
           mail: mail,
           password: password,
           firstName: firstName,
@@ -39,12 +39,11 @@ const RegisterForm: React.FC = () => {
           navigate("/onayla");
         })
         .catch((error) => {
-          alert(error.response.data.message);
           console.error("Error:", error);
         });
     } else if (window.location.pathname.includes("/akademisyen/register")) {
       axios
-        .post("https://internship-gj60.onrender.com/api/academician/auth/register", {
+        .post("http://localhost:8000/api/academician/auth/register", {
           mail: mail,
           password: password,
           firstName: firstName,
@@ -56,7 +55,6 @@ const RegisterForm: React.FC = () => {
           navigate("/onayla");
         })
         .catch((error) => {
-          alert(error.response.data.message);
           console.error("Error:", error);
         });
     }

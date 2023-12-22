@@ -7,7 +7,16 @@ import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import { Text } from "src/context/LanguageProvider";
 import { SearchOutlined } from "@ant-design/icons";
 import CompanyDetailsContainer from "./companyDetails/CompanyDetailsContainer";
+import styled from "styled-components";
+import { Button } from "antd";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
+const StyledButton = styled(Button)`
+  @media (max-width: 600px) {
+    flex: 1;
+  }
+`;
 interface DataType {
   key: string;
   name: string;
@@ -62,6 +71,7 @@ const data: DataType[] = [
 ];
 
 const Companies = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [id, setId] = useState(null);
@@ -81,6 +91,10 @@ const Companies = () => {
       rowNum: String(index + 1),
     }));
 
+    const handleNewCompanyAdd = () => {
+      navigate("/ogrenci/companies/new");
+    };
+
   return (
     <div>
       <ContentHeader>
@@ -90,6 +104,9 @@ const Companies = () => {
           </h2>
         </div>
         <div>
+          <StyledButton onClick={handleNewCompanyAdd}>
+            <PlusCircleOutlined /> <Text tid="addCompany" />
+          </StyledButton>
           <Input
             prefix={<SearchOutlined />}
             placeholder="Şirket ara"

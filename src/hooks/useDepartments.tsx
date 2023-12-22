@@ -12,7 +12,7 @@ const useDepartments = () => {
 
   useEffect(() => {
     axios
-      .get("https://internship-gj60.onrender.com/api/department/getAll")
+      .get("http://localhost:8000/api/department/getAll")
       .then((response) => {
         const departments: Department[] = response.data.departmentList;
 

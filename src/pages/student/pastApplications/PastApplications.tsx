@@ -27,7 +27,7 @@ const PastApplications: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("https://internship-gj60.onrender.com/api/company/getAll")
+      .get("http://localhost:8000/api/company/getAll")
       .then((response) => {
         console.log(response.data.companyList);
         setCompanies(response?.data?.companies);
@@ -38,7 +38,7 @@ const PastApplications: React.FC = () => {
 
     const jwtToken = window.localStorage.getItem("token");
     axios
-      .get("https://internship-gj60.onrender.com/api/internship-process/get-all", {
+      .get("http://localhost:8000/api/internship-process/get-all", {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
