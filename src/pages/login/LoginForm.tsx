@@ -35,8 +35,6 @@ const Login: React.FC = () => {
         .then((response) => {
           //navigate(fromStudent, { replace: true });
           if (response.status == 200) {
-            console.log("Successful");
-            console.log(response.data);
             window.localStorage.setItem("token", response.data.token);
             window.localStorage.setItem("mail", username);
             window.localStorage.setItem("role", "2000");
@@ -53,10 +51,12 @@ const Login: React.FC = () => {
               navigate("/ogrenci");
             }, 500); 
           } else {
+            alert("Wrong mail or password!");
             console.log("Wrong mail or password!");
           }
         })
         .catch((error) => {
+          alert("Wrong mail or password!");
           console.error("login error:", error);
         });
     } else if (window.location.pathname.includes("/akademisyen/login")) {
@@ -86,6 +86,7 @@ const Login: React.FC = () => {
             }, 500);
         })
         .catch((error) => {
+          alert("Wrong mail or password!");
           console.error("Error:", error);
         });
     }

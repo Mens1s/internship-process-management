@@ -163,10 +163,12 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
         },
       })
       .then((response) => {
+        alert("Intership process deleted!");
         console.log(response);
       })
       .catch((error) => {
         console.log("error: ");
+        alert("You can't delete this internship process!");
         errorMessage();
       });
   };

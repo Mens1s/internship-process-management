@@ -38,9 +38,11 @@ const showDeleteConfirm = () => {
           },
         })
         .then((response) => {
+          alert("Intership process deleted!");
           console.log("delete response: ", response);
         })
         .catch((error: any) => {
+          alert("Intership process could not be deleted!");
           console.log("delete error:", error);
         });
     },
@@ -278,6 +280,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
         console.log("evaluate response: ", response);
       })
       .catch((error) => {
+        alert("Başvuru onaylanamadı. Error: " + error.response.data.message);
         console.log("evaluate error:", error.response);
       });
     setIsConfirmOpen(false);
@@ -326,7 +329,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
         title="Başvuruyu Reddet"
         open={isDenyOpen}
         onOk={confirmApplication}
-        onCancel={handleCancel}
+        onCancel={showDeleteConfirm}
       >
         <p>
           <Text tid="createApplicationFormApprovementModalText" />

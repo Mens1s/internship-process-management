@@ -39,6 +39,7 @@ const RegisterForm: React.FC = () => {
           navigate("/onayla");
         })
         .catch((error) => {
+          alert(error.response.data.message);
           console.error("Error:", error);
         });
     } else if (window.location.pathname.includes("/akademisyen/register")) {
@@ -55,6 +56,7 @@ const RegisterForm: React.FC = () => {
           navigate("/onayla");
         })
         .catch((error) => {
+          alert(error.response.data.message);
           console.error("Error:", error);
         });
     }
