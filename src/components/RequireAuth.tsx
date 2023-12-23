@@ -6,11 +6,14 @@ import useAuth from "../hooks/useAuth";
 const RequireAuth = ({ allowedRoles }: any) => {
   const location = useLocation();
   const role = localStorage.getItem("role");
+  const loggedIn = window.localStorage.getItem("isLoggedIn");
 
-  if (allowedRoles.includes(role)) {
+  if (loggedIn && allowedRoles.includes(role)) {
     return <Outlet />;
-  } else {
+  } else if (loggedIn) {
     return <Navigate to="/unauthorized" state={{ from: location }} replace />;
+  } else {
+    return <Navigate to="/ogrenci/login" />;
   }
 };
 

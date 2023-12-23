@@ -33,6 +33,7 @@ const Login: React.FC = () => {
           password: password,
         })
         .then((response) => {
+          window.localStorage.setItem("isLoggedIn", "true");
           //navigate(fromStudent, { replace: true });
           if (response.status == 200) {
             window.localStorage.setItem("token", response.data.token);
@@ -46,10 +47,7 @@ const Login: React.FC = () => {
               role: 2000,
             });
 
-            window.localStorage.setItem("isLoggedIn", "true");
-            setTimeout(() => {
-              navigate("/ogrenci");
-            }, 500); 
+            navigate("/ogrenci");
           } else {
             alert("Wrong mail or password!");
             console.log("Wrong mail or password!");
@@ -81,9 +79,9 @@ const Login: React.FC = () => {
           window.localStorage.setItem("isLoggedIn", "true");
 
           window.localStorage.setItem("isLoggedIn", "true");
-            setTimeout(() => {
-              navigate("/akademisyen");
-            }, 500);
+          setTimeout(() => {
+            navigate("/akademisyen");
+          }, 500);
         })
         .catch((error) => {
           alert("Wrong mail or password!");

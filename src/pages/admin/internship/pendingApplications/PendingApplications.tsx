@@ -8,7 +8,6 @@ import { DownloadOutlined, SearchOutlined } from "@ant-design/icons";
 import useLanguage from "src/hooks/useLanguage";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import axios from "src/services/axios";
-import { user } from "firebase-functions/v1/auth";
 
 const PastApplications = () => {
   const { dictionary } = useLanguage();
