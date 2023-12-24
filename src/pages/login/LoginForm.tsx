@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Divider, message } from "antd";
+import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import axios from "src/services/axios";
@@ -8,6 +8,8 @@ import AuthContext from "src/context/AuthProvider";
 import useAuth from "src/hooks/useAuth";
 import { responsiveArray } from "antd/es/_util/responsiveObserver";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import { Text } from "src/context/LanguageProvider";
+import UseLanguage from "src/hooks/useLanguage";
 
 const FormContainer = styled.div`
   display: flex;
@@ -27,7 +29,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = React.useState(false);
-
+  const { dictionary } = UseLanguage();
   const handleLogin = () => {
     setLoading(true);
     if (window.location.pathname.includes("/ogrenci/login")) {
@@ -112,56 +114,62 @@ const Login: React.FC = () => {
           rules={[
             {
               required: true,
-              message: "Please input your Username!",
+              message: dictionary.pleaseInputYourMailAddress,
             },
           ]}
         >
           <Input
-            prefix={<UserOutlined className="site-form-item-icon" />}
+            prefix={<MailOutlined className="site-form-item-icon" />}
             placeholder="Mail"
             onChange={(e) => setUsername(e.target.value)}
           />
         </Form.Item>
 
         <Form.Item
+          style={{ marginBottom: 0 }}
           name="password"
           rules={[
             {
               required: true,
-              message: "Please input your Password!",
+              message: dictionary.pleaseInputYourPassword,
             },
           ]}
         >
           <Input.Password
+            style={{ marginBottom: 5 }}
             prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder="Password"
+            placeholder={dictionary.password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Item>
-        <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <Link
-            style={{ float: "right" }}
-            to="/ogrenci/register
-          "
-          >
-            Kayıt Ol
+        <Form.Item style={{ margin: 0, marginBottom: 10 }}>
+          <Link style={{ float: "right" }} to="/ogrenci/register">
+            <Text tid="forgotPassword" />
           </Link>
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item style={{ marginBottom: 10 }}>
           <Button
             loading={loading}
             type="primary"
             htmlType="submit"
             style={{ width: "100%" }}
           >
-            Giriş Yap
+            <Text tid="login" />
           </Button>
-          {/*  Or <a href="">register now!</a> */}
+        </Form.Item>
+        <Divider style={{ color: "gray" }} plain>
+          <Text tid="or" />
+        </Divider>
+        <Form.Item>
+          <Button
+            type="default"
+            htmlType="submit"
+            style={{ width: "100%" }}
+            onClick={() => navigate("/ogrenci/register")}
+          >
+            <Text tid="signUp" />
+          </Button>
         </Form.Item>
       </Form>
     </FormContainer>

@@ -7,6 +7,7 @@ import Login from "./LoginForm";
 import Register from "../register/RegisterForm";
 import { Text } from "src/context/LanguageProvider";
 import useLanguage from "src/hooks/useLanguage";
+import { Divider } from "antd";
 
 const Container = styled.div`
   display: flex;
@@ -34,6 +35,15 @@ const Header = styled.div`
   flex-direction: column; // Stack items vertically
   align-items: center;
   margin: 20px 0 40px 0;
+`;
+const Navbar = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 10px;
+  align-items: center;
+  flex-wrap: wrap;
 `;
 
 const LogoImage = styled.img`
@@ -69,6 +79,7 @@ const LoginPage: React.FC = () => {
     setImg((prevImg) =>
       prevImg === "/england_flag.png" ? "/turkey_flag.png" : "/england_flag.png"
     );
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -84,10 +95,14 @@ const LoginPage: React.FC = () => {
         height: "100vh",
       }}
     >
-      <Header>
+      <Navbar>
         <LogoImage src="/logo.jpg" alt="Logo" />
-        <h2>{dictionary.internshipManagementSystem}</h2>
-      </Header>
+        <h2 className="header" style={{ fontFamily: "roboto" }}>
+          {dictionary.internshipManagementSystem}
+        </h2>
+      </Navbar>
+      <Divider style={{ marginTop: 0 }} />
+
       <Container>
         <div
           style={{

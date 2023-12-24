@@ -72,5 +72,14 @@
   "delete": "Delete",
   "save": "Save",
   "notSpecified": "Not Specified",
-  "search": "Search"
+  "search": "Search",
+  "internshipApplicationIsCreated": "Form draft is created!",
+  "formDetailsAreUpdated": "Form details are updated!",
+  "signUp": "Sign Up",
+  "login": "Log In",
+  "forgotPassword": "Forgot Password",
+  "password": "Password",
+  "pleaseInputYourMailAddress": "Please input your mail address!",
+  "pleaseInputYourPassword": "Please input your password!",
+  "or": "or"
 }

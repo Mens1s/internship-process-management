@@ -72,5 +72,14 @@
   "delete": "Sil",
   "save": "Kaydet",
   "notSpecified": "Belirtilmedi",
-  "search": "Ara"
+  "search": "Ara",
+  "internshipApplicationIsCreated": "Başvuru taslağı oluşturuldu!",
+  "formDetailsAreUpdated": "Form bilgileri güncellendi!",
+  "signUp": "Kaydol",
+  "login": "Giriş Yap",
+  "forgotPassword": "Şifremi Unuttum",
+  "password": "Şifre",
+  "pleaseInputYourMailAddress": "Lütfen mail adresinizi giriniz!",
+  "pleaseInputYourPassword": "Lütfen şifrenizi giriniz!",
+  "or": "veya"
 }

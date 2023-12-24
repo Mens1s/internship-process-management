@@ -108,7 +108,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "Staj bilgileri güncellendi!",
+      content: dictionary.formDetailsAreUpdated,
     });
   };
 

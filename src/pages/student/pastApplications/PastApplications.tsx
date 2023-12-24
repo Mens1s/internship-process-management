@@ -37,7 +37,7 @@ const PastApplications: React.FC = () => {
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "Başvuru taslağı başarıyla oluşturuldu!",
+      content: dictionary.internshipApplicationIsCreated,
     });
   };
 
