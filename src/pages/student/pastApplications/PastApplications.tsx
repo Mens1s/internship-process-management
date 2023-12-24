@@ -9,17 +9,23 @@ import { Text } from "src/context/LanguageProvider";
 import axios from "src/services/axios";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import styled from "styled-components";
+import UseLanguage from "src/hooks/useLanguage";
 
 const StyledButton = styled(Button)`
   @media (max-width: 600px) {
     flex: 1;
   }
+
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  align-items: center;
 `;
 
 const PastApplications: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
-
+  const { dictionary } = UseLanguage();
   const [createLoading, setCreateLoading] = useState(false);
   const [data, setData] = useState([]);
   const [companies, setCompanies] = useState<any>([]);
@@ -109,12 +115,18 @@ const PastApplications: React.FC = () => {
               return {
                 key: index + 1,
                 id: item.id,
-                name: companyName || "-",
+                name: companyName || dictionary.notSpecified,
                 startDate:
-                  new Date(item?.startDate).toLocaleDateString() || "-",
-                endDate: new Date(item?.endDate).toLocaleDateString() || "-",
-                type: item?.internshipType || "-",
-                tags: [(item.processStatus = getStatus(item))] || "-",
+                  item?.startDate &&
+                  new Date(item.startDate).getFullYear() !== 1970
+                    ? new Date(item.startDate).toLocaleDateString()
+                    : dictionary.notSpecified,
+                endDate:
+                  item?.endDate && new Date(item.endDate).getFullYear() !== 1970
+                    ? new Date(item.endDate).toLocaleDateString()
+                    : dictionary.notSpecified,
+                type: item?.internshipType || dictionary.notSpecified,
+                tags: [getStatus(item)] || dictionary.notSpecified,
               };
             })
           );
@@ -134,13 +146,12 @@ const PastApplications: React.FC = () => {
 
   function getStatus(item: any) {
     if (item.processStatus === "FORM") {
-      return "Taslak";
+      return dictionary.draft;
     } else if (item.processStatus.startsWith("PRE")) {
-      return "Onay Bekliyor";
+      return dictionary.pending;
     } else if (item.processStatus.startsWith("IN")) {
-      return "Onaylandı";
+      return dictionary.approved;
     } else {
-      // Return a default value if none of the conditions match
       return "-";
     }
   }
@@ -158,7 +169,8 @@ const PastApplications: React.FC = () => {
           loading={createLoading}
           onClick={handleInit}
         >
-          <PlusCircleOutlined /> Form Oluştur
+          <PlusCircleOutlined />
+          <Text tid="createForm"></Text>
         </StyledButton>
       </ContentHeader>
       {loading ? (

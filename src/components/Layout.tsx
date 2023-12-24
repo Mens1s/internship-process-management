@@ -4,8 +4,16 @@ import { Layout, Alert, Button, theme } from "antd";
 import Header from "../components/Header";
 import Sider from "../components/Sider";
 import { Outlet } from "react-router-dom";
+import styled from "styled-components";
 
 const { Content } = Layout;
+
+const StyledContent = styled(Content)`
+  @media (max-width: 600px) {
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+`;
 
 const MyLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(window.innerWidth <= 768);
@@ -86,7 +94,7 @@ const MyLayout: React.FC = () => {
           />
         </div>
  */}
-        <Content
+        <StyledContent
           style={{
             margin: "24px 16px",
             padding: 24,
@@ -97,7 +105,7 @@ const MyLayout: React.FC = () => {
           }}
         >
           <Outlet />
-        </Content>
+        </StyledContent>
       </Layout>
     </Layout>
   );

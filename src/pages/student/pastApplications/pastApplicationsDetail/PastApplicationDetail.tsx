@@ -6,6 +6,7 @@ import ContentHeader from "src/components/ContentHeader";
 import axios from "src/services/axios";
 import ActiveApplicationViewForm from "../../activeApplication/ActiveApplicationViewForm";
 import { useLocation, useParams } from "react-router-dom";
+import { Text } from "src/context/LanguageProvider";
 
 const StepsContainer = styled.div`
   width: 100%;
@@ -105,7 +106,7 @@ const PastApplicationDetail = () => {
                   ? "Onay Bekliyor"
                   : "Onaylandı",
               },
-               {
+              {
                 title: "Dekanlık",
                 description: processStatus.includes("PRE")
                   ? "Onay Bekliyor"
@@ -165,7 +166,7 @@ const PastApplicationDetail = () => {
             } else if (processStatus === "PRE4") {
               setShowSteps(true);
               setCurrentStep(4);
-            }else {
+            } else {
               setShowSteps(true);
               setCurrentStep(5);
             }
@@ -221,7 +222,9 @@ const PastApplicationDetail = () => {
   return (
     <div>
       <ContentHeader>
-        <h2>Başvuru Detayları</h2>
+        <h2>
+          <Text tid="applicationDetails" />
+        </h2>
         {/*  <Tag
           style={{
             borderRadius: 50,

@@ -83,10 +83,8 @@ const MySider: React.FC<MySiderProps> = ({
       getItem("Tatil Günleri", "akademisyen/admin/holidays"),
     ]),
     getItem(dictionary.companies, "akademisyen/companies", <IdcardFilled />),
-    //  getItem("Aktif Başvurum", "ogrenci/active", <EditFilled />),
-    getItem("Başvurularım", "ogrenci/past", <CopyFilled />),
-    getItem("Staj Yönergeleri", "ogrenci/", <CopyFilled />),
-    // getItem("Yeni Başvuru", "ogrenci/create", <UploadOutlined />),
+    getItem(dictionary.myApplications, "ogrenci/past", <CopyFilled />),
+    getItem(dictionary.internshipGuidelines, "ogrenci/", <CopyFilled />),
   ];
   const filteredMenuItems = items.filter((item) => {
     const mail = window.localStorage.getItem("mail");

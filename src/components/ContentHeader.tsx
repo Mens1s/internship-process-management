@@ -21,6 +21,7 @@ const Header = styled.div`
     margin: 0;
     color: #292929;
     font-weight: 500;
+    font-size: 1.2rem;
   }
 
   /*  div:first-child {

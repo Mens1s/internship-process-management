@@ -8,10 +8,12 @@ import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
 import type { SelectProps } from "antd";
 import moment from "moment";
+import { Popconfirm } from "antd";
+import type { RadioChangeEvent } from "antd";
+
 import {
   Row,
   Col,
-  Space,
   Divider,
   Checkbox,
   message,
@@ -19,11 +21,8 @@ import {
   Form,
   Input,
   Select,
-  Cascader,
   DatePicker,
-  InputNumber,
   Radio,
-  Switch,
   Modal,
   Upload,
   Button,
@@ -217,7 +216,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       engineerName: formData?.engineerName,
       choiceReason: formData?.choiceReason,
       sgkEntry: formData?.sgkEntry,
-      gssEntry: formData.gssEntry,
+      gssEntry: formData?.gssEntry,
       mustehaklikBelgesiPath: "/path/to/mustehaklikBelgesi.pdf",
       stajYeriFormuPath: "/path/to/stajYeriFormu.pdf",
       mufredatDurumuPath: "/path/to/mufredatDurumu.pdf",
@@ -255,6 +254,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     const jwtToken = window.localStorage.getItem("token");
     setConfirmLoading(true);
     setIsModalOpen(false);
+    console.log(form.getFieldsValue());
 
     axios
       .post("http://localhost:8000/api/internship-process/start", null, {
@@ -333,7 +333,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               >
                 <Select
                   showSearch
-                  placeholder="Ara"
+                  placeholder={dictionary.search}
                   optionFilterProp="children"
                   filterOption={(input: any, option: any) =>
                     (option?.label ?? "").toLowerCase().includes(input)
@@ -367,18 +367,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   </Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your role in internship",
-                  },
-                ]}
-                name="roleInInternship"
-                label={dictionary.roleInInternship}
-              >
-                <Input />
-              </Form.Item>
+
               <Form.Item
                 rules={[
                   {
@@ -441,7 +430,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               >
                 <Select
                   showSearch
-                  placeholder="Ara"
+                  placeholder={dictionary.search}
                   optionFilterProp="children"
                   filterOption={(input: any, option: any) =>
                     (option?.label ?? "").toLowerCase().includes(input)
@@ -455,19 +444,27 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                         type="text"
                         icon={<PlusOutlined />}
                         onClick={() => setIsAddCompanyModalOpen(true)}
-                        style={{ width: "100%" }}
+                        style={{
+                          width: "100%",
+                          display: "flex",
+                          gap: "10px",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
                       >
-                        Şirket Ekle
+                        <Text tid="addCompany" />
                       </Button>
                     </>
                   )}
                 />
               </Form.Item>
               <Modal
-                title="Basic Modal"
+                title="Add Company"
+                width={1000}
                 open={isAddCompanyModalOpen}
                 onOk={handleAddCompany}
                 onCancel={handleCancel}
+                footer={null}
               >
                 <CompanyAdd />
               </Modal>
@@ -516,7 +513,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 name="sgkEntry"
                 label={dictionary.sgkEntry}
               >
-                <Input />
+                <Radio.Group>
+                  <Radio value={true}>Var</Radio>
+                  <Radio value={false}>Yok</Radio>
+                </Radio.Group>
               </Form.Item>
               <Form.Item
                 rules={[
@@ -525,7 +525,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 name="gssEntry"
                 label={dictionary.gssEntry}
               >
-                <Input />
+                <Radio.Group>
+                  <Radio value={true}>Var</Radio>
+                  <Radio value={false}>Yok</Radio>
+                </Radio.Group>
               </Form.Item>
               <Form.Item
                 rules={[
@@ -563,15 +566,23 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
 
               <DatePickersContainer>
-                <Button onClick={handleDelete} danger loading={deleteLoading}>
-                  Sil
-                </Button>
+                <Popconfirm
+                  title="Delete the applicaton"
+                  description="Are you sure to delete this application?"
+                  onConfirm={handleDelete}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button danger loading={deleteLoading}>
+                    <Text tid="delete" />
+                  </Button>
+                </Popconfirm>
                 <Button
                   onClick={handleUpdate}
                   type="primary"
                   loading={saveLoading}
                 >
-                  Kaydet
+                  <Text tid="save" />
                 </Button>
                 <Button
                   type="default"
@@ -579,7 +590,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   loading={confirmLoading}
                   htmlType="submit"
                 >
-                  Başvuruyu Onayla
+                  <Text tid="confirmApplication" />
                 </Button>
               </DatePickersContainer>
             </Col>

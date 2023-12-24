@@ -68,15 +68,16 @@ export const columns: ColumnsType<DataType> = [
       <>
         {tags.map((tag: any) => {
           let color;
-          if (tag === "Reddedildi") {
+          if (tag === "Reddedildi" || tag === "Rejected") {
             color = "red";
-          } else if (tag === "Onay Bekliyor") {
+          } else if (tag === "Onay Bekliyor" || tag === "Pending") {
             color = "gold";
-          } else if (tag === "Taslak") {
+          } else if (tag === "Taslak" || tag === "Draft") {
             color = "geekblue";
           } else {
             color = "green";
           }
+
           return (
             <Tag
               style={{

@@ -49,10 +49,10 @@ const PastApplications = () => {
                 tags:
                   [
                     item.processStatus === "FORM"
-                      ? "Taslak"
+                      ? dictionary.draft
                       : item.processStatus.includes("PRE")
-                      ? "Onay Bekliyor"
-                      : "Onaylandı",
+                      ? dictionary.pending
+                      : dictionary.approved,
                   ] || "-",
               };
             })

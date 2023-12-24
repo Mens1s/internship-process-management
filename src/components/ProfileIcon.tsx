@@ -48,6 +48,7 @@ const ProfileIcon: React.FC = () => {
 
   const handleLanguageChange = () => {
     // Toggle language and update the image source
+    window.location.reload();
     userLanguageChange();
     setImg((prevImg) =>
       prevImg === "/england_flag.png" ? "/turkey_flag.png" : "/england_flag.png"

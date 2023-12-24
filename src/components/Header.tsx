@@ -26,7 +26,7 @@ const Nav = styled.div`
 `;
 const TitleContainer = styled.div`
   h1 {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 500;
   }
 `;
@@ -67,15 +67,15 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
   const location = useLocation();
   const { pathname } = location;
   if (pathname.split("/").includes("internship")) {
-    title = "Staj İşlemleri";
+    title = dictionary.internshipProcedures;
   } else if (pathname.split("/").includes("admin")) {
-    title = "Yönetici İşlemleri";
+    title = dictionary.administratorOperations;
   } else if (pathname.split("/").includes("companies")) {
-    title = "Şirketler";
+    title = dictionary.companies;
   } else if (pathname.split("/").includes("past")) {
-    title = "Başvurularım";
+    title = dictionary.myApplications;
   } else {
-    title = "Ana Sayfa";
+    title = dictionary.homePage;
   }
   return (
     <>
