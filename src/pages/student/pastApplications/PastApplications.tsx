@@ -31,7 +31,7 @@ const PastApplications: React.FC = () => {
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "Boş başvuru formunuz başarıyla oluşturuldu!",
+      content: "Başvuru taslağı başarıyla oluşturuldu!",
     });
   };
 
@@ -51,6 +51,7 @@ const PastApplications: React.FC = () => {
     });
   };
 
+  const [reloadPage, setReloadPage] = useState(0);
   const handleInit = () => {
     const jwtToken = window.localStorage.getItem("token");
     setCreateLoading(true);
@@ -65,7 +66,9 @@ const PastApplications: React.FC = () => {
         }
       )
       .then((response) => {
-        window.location.reload();
+        setReloadPage((prev) => prev + 1);
+        setCanCreateNewForm((prev) => !prev);
+        success();
       })
       .catch((error) => {
         console.log("error:", error);
@@ -96,6 +99,7 @@ const PastApplications: React.FC = () => {
       })
       .then((response) => {
         const internshipProcessList = response?.data?.internshipProcessList;
+        console.log(internshipProcessList);
         if (internshipProcessList.length < 2) {
           setCanCreateNewForm(true);
         }
@@ -126,7 +130,7 @@ const PastApplications: React.FC = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [reloadPage]);
 
   function getStatus(item: any) {
     if (item.processStatus === "FORM") {

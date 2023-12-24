@@ -7,6 +7,7 @@ import axios from "src/services/axios";
 import AuthContext from "src/context/AuthProvider";
 import useAuth from "src/hooks/useAuth";
 import { responsiveArray } from "antd/es/_util/responsiveObserver";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 const FormContainer = styled.div`
   display: flex;
@@ -25,6 +26,7 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
 
   const handleLogin = () => {
     setLoading(true);
@@ -40,6 +42,7 @@ const Login: React.FC = () => {
           if (response.status == 200) {
             window.localStorage.setItem("token", response.data.token);
             window.localStorage.setItem("mail", username);
+            window.localStorage.setItem("fullName", response.data.fullName);
             window.localStorage.setItem("role", "2000");
             window.localStorage.setItem("id", response.data.id);
 
@@ -129,9 +132,8 @@ const Login: React.FC = () => {
             },
           ]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />

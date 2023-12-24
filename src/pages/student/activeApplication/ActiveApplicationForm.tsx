@@ -266,7 +266,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
         },
       })
       .then((response) => {
-        navigate("/ogrenci/past");
+        navigate("/ogrenci/past", { replace: true });
+        success();
       })
       .catch((error) => {
         console.log("error:", error.response);
@@ -330,7 +331,16 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   { required: true, message: "Please input your department!" },
                 ]}
               >
-                <Select>{departmentOptions}</Select>
+                <Select
+                  showSearch
+                  placeholder="Ara"
+                  optionFilterProp="children"
+                  filterOption={(input: any, option: any) =>
+                    (option?.label ?? "").toLowerCase().includes(input)
+                  }
+                >
+                  {departmentOptions}
+                </Select>
               </Form.Item>
               <Form.Item
                 name="classNumber"
@@ -430,6 +440,12 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 label={dictionary.companyName}
               >
                 <Select
+                  showSearch
+                  placeholder="Ara"
+                  optionFilterProp="children"
+                  filterOption={(input: any, option: any) =>
+                    (option?.label ?? "").toLowerCase().includes(input)
+                  }
                   options={companyOptions}
                   dropdownRender={(menu) => (
                     <>

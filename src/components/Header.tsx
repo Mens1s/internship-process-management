@@ -72,6 +72,8 @@ const MyHeader: React.FC<MyHeaderProps> = ({ collapsed, setCollapsed }) => {
     title = "Yönetici İşlemleri";
   } else if (pathname.split("/").includes("companies")) {
     title = "Şirketler";
+  } else if (pathname.split("/").includes("past")) {
+    title = "Başvurularım";
   } else {
     title = "Ana Sayfa";
   }

@@ -10,7 +10,7 @@ import type { DescriptionsProps } from "antd";
 import { Descriptions } from "antd";
 import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
 import axios from "src/services/axios";
-import { Button, Modal, Input } from "antd";
+import { Button, Modal, Input, Result } from "antd";
 import { useLocation } from "react-router-dom";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
@@ -105,7 +105,6 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDenyOpen, setIsDenyOpen] = useState(false);
   const { dictionary } = useLanguage();
-
   const items = [
     {
       key: "id",
@@ -270,7 +269,11 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   return (
     <>
       {data.length == 0 ? (
-        <div>Böyle bir başvuru mevcut değil.</div>
+        <Result
+          status="404"
+          title="Böyle bir başvuru mevcut değil."
+          subTitle="Arama kısmında yazım yanlışı yapmış olabilirsin."
+        />
       ) : (
         <div>
           <Descriptions bordered layout="horizontal" items={items} />

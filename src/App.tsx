@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import ActiveApplication from "./pages/student/activeApplication/ActiveApplication";
 import PastApplications from "./pages/student/pastApplications/PastApplications";
 import PendingApplications from "./pages/admin/internship/pendingApplications/PendingApplications";
 import PendingApplicationsEvaluate from "./pages/admin/internship/pendingApplications/pendingApplicationsEvaluate/PendingApplicationsEvaluate";
@@ -40,7 +39,6 @@ const App: React.FC = () => {
       <Route element={<RequireAuth allowedRoles={[ROLES.ogrenci]} />}>
         <Route element={<MyLayout />}>
           <Route path="ogrenci" element={<Home />} />
-          <Route path="ogrenci/active" element={<ActiveApplication />} />
           <Route path="ogrenci/past" element={<PastApplications />} />
           <Route path="ogrenci/companies" element={<Companies />} />
           <Route path="ogrenci/companies/new" element={<CompanyAdd />} />

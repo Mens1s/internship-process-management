@@ -62,10 +62,11 @@ const ProfileIcon: React.FC = () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("mail");
     window.localStorage.removeItem("role");
+    window.localStorage.removeItem("fullName");
     navigate("/login");
   };
 
-  const mail = window.localStorage.getItem("mail");
+  const name = window.localStorage.getItem("fullName");
 
   const items: MenuProps["items"] = [
     {
@@ -83,14 +84,19 @@ const ProfileIcon: React.FC = () => {
           <Container2>
             <UserOutlined style={{ color: "white", fontSize: "12px" }} />
           </Container2>
-          <div style={{ fontWeight: 600 }}>{mail} </div>
+          <div style={{ fontWeight: 600 }}>{name} </div>
         </div>
       ),
     },
     {
       key: "2",
       label: (
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <span onClick={handleLanguageChange} style={{ cursor: "pointer" }}>
             <div
               style={{
