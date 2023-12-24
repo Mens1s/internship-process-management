@@ -89,36 +89,29 @@ const CompanyAdd: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  
 
   const jwtToken = window.localStorage.getItem("token");
   const handleAddCompany = () => {
     const formData = form.getFieldsValue();
-    
+
     const postData = {
-        companyName: formData?.companyName,
-        companyMail: formData?.companyMail,
-        companyTelephone: formData?.companyTelephone,
-        faxNumber: formData?.faxNumber,
-        companyAddress: formData?.companyAddress,
-        
-      };
+      companyName: formData?.companyName,
+      companyMail: formData?.companyMail,
+      companyTelephone: formData?.companyTelephone,
+      faxNumber: formData?.faxNumber,
+      companyAddress: formData?.companyAddress,
+    };
     axios
-      .post(
-        "http://localhost:8000/api/company/addCompany",postData,
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      )
+      .post("http://localhost:8000/api/company/addCompany", postData, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
       .then((response) => {
-        console.log(response.data);
         success();
       })
       .catch((error) => {
         console.log("error:", error);
-        console.log(jwtToken);
         error();
       });
 
@@ -129,11 +122,7 @@ const CompanyAdd: React.FC = () => {
     <div>
       {contextHolder}
       <>
-        <Form
-          form={form}
-          layout="vertical"
-          size="large"
-        >
+        <Form form={form} layout="vertical" size="large">
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Form.Item name="companyName" label={dictionary.companyName}>
@@ -142,7 +131,10 @@ const CompanyAdd: React.FC = () => {
               <Form.Item name="companyMail" label={dictionary.companyMail}>
                 <Input />
               </Form.Item>
-              <Form.Item name="companyTelephone" label={dictionary.companyNumber}>
+              <Form.Item
+                name="companyTelephone"
+                label={dictionary.companyNumber}
+              >
                 <Input />
               </Form.Item>
             </Col>
@@ -150,7 +142,10 @@ const CompanyAdd: React.FC = () => {
               <Form.Item name="faxNumber" label={dictionary.companyFaxNumber}>
                 <Input />
               </Form.Item>
-              <Form.Item name="companyAddress" label={dictionary.companyAddress}>
+              <Form.Item
+                name="companyAddress"
+                label={dictionary.companyAddress}
+              >
                 <Input />
               </Form.Item>
               <DatePickersContainer>
@@ -178,6 +173,5 @@ const CompanyAdd: React.FC = () => {
     </div>
   );
 };
-
 
 export default CompanyAdd;

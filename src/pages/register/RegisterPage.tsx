@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Register from "./RegisterForm";
+import useLanguage from "src/hooks/useLanguage";
+import { Text } from "src/context/LanguageProvider";
 
 const Container = styled.div`
   display: flex;
@@ -12,10 +14,12 @@ const Container = styled.div`
   max-width: 300px;
   height: fit-content;
   padding: 30px;
+  padding-top: 50px;
   width: 100%;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  position: relative;
 `;
 
 const Header = styled.div`
@@ -28,6 +32,13 @@ const Header = styled.div`
 const LogoImage = styled.img`
   width: 200px; // Adjust the size as needed
   margin-bottom: 40px; // Adjust the spacing between the logo and h2
+`;
+
+const Flag = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  background-size: cover;
 `;
 
 const items = [
@@ -46,7 +57,19 @@ const items = [
 const RegisterPage: React.FC = () => {
   const location = useLocation();
   const [activeKey, setActiveKey]: [any, any] = useState(location.pathname);
+  const { dictionary } = useLanguage();
+  const { userLanguage, userLanguageChange } = useLanguage();
+  const [img, setImg] = useState(
+    userLanguage === "en" ? "/england_flag.png" : "/turkey_flag.png"
+  );
 
+  const handleLanguageChange = () => {
+    // Toggle language and update the image source
+    userLanguageChange();
+    setImg((prevImg) =>
+      prevImg === "/england_flag.png" ? "/turkey_flag.png" : "/england_flag.png"
+    );
+  };
   useEffect(() => {
     window.history.pushState(null, "", `${activeKey}`);
   }, [activeKey]);
@@ -65,6 +88,30 @@ const RegisterPage: React.FC = () => {
         <h2>Staj Başvuru Sistemi</h2>
       </Header>
       <Container>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            position: "absolute",
+            top: 20,
+            right: 10,
+          }}
+        >
+          <span onClick={handleLanguageChange} style={{ cursor: "pointer" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 10,
+                width: "80px",
+              }}
+            >
+              <Text tid="langShort" />
+              <Flag style={{ backgroundImage: `url(${img})` }} />
+            </div>
+          </span>
+        </div>
         <Tabs
           centered={true}
           activeKey={activeKey}

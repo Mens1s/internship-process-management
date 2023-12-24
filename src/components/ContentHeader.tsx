@@ -23,15 +23,14 @@ const Header = styled.div`
     font-weight: 500;
   }
 
-  div:first-child {
+  /*  div:first-child {
     flex: 3;
     min-width: 200px;
-  }
+  } */
   div:nth-child(2) {
     display: flex;
     gap: 10px;
     flex: 1;
-
     input {
       min-width: 200px;
     }

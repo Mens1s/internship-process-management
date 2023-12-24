@@ -24,8 +24,10 @@ const Login: React.FC = () => {
   const fromAkademisyen = location?.state?.from.pathname || "/akademisyen";
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
+    setLoading(true);
     if (window.location.pathname.includes("/ogrenci/login")) {
       axios
         .post("http://localhost:8000/api/student/auth/login", {
@@ -56,6 +58,9 @@ const Login: React.FC = () => {
         .catch((error) => {
           alert("Wrong mail or password!");
           console.error("login error:", error);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     } else if (window.location.pathname.includes("/akademisyen/login")) {
       axios
@@ -64,7 +69,6 @@ const Login: React.FC = () => {
           password: password,
         })
         .then((response) => {
-          console.log("RESPONSE", response.data);
           setAuth({
             user: username,
             token: response.data.token,
@@ -147,7 +151,12 @@ const Login: React.FC = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+          <Button
+            loading={loading}
+            type="primary"
+            htmlType="submit"
+            style={{ width: "100%" }}
+          >
             Giriş Yap
           </Button>
           {/*  Or <a href="">register now!</a> */}

@@ -94,29 +94,6 @@ const DatePickersContainer = styled.div`
   }
 `;
 
-const postData = {
-  id: 152, // Replace with the actual value
-  tc: "12345678901", // Replace with the actual value
-  studentNumber: "S123456", // Replace with the actual value
-  telephoneNumber: "1234567890", // Replace with the actual value
-  classNumber: 3, // Replace with the actual value
-  position: "Software Engineer", // Replace with the actual value
-  internshipType: "Summer Internship", // Replace with the actual value
-  internshipNumber: 456, // Replace with the actual value
-  startDate: "2023-01-01", // Replace with the actual value
-  endDate: "2023-12-31", // Replace with the actual value
-  companyId: 789, // Replace with the actual value
-  departmentId: 101, // Replace with the actual value
-  engineerMail: "engineer@example.com", // Replace with the actual value
-  engineerName: "John Doe", // Replace with the actual value
-  choiceReason:
-    "I am interested in gaining experience in web development. I am interested in gaining experience in web development. I am interested in gaining experience in web development. I am interested in gaining experience in web development.", // Replace with the actual value
-  sgkEntry: true, // Replace with the actual value
-  gssEntry: false, // Replace with the actual value
-  mustehaklikBelgesiPath: "/path/to/mustehaklikBelgesi.pdf", // Replace with the actual value
-  stajYeriFormuPath: "/path/to/stajYeriFormu.pdf", // Replace with the actual value
-};
-
 interface ActiveApplicationFormProps {
   data?: any;
 }
@@ -291,56 +268,57 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const isAkademisyen = location.pathname.includes("/akademisyen");
 
   return (
-    <div>
-      <Descriptions bordered layout="horizontal" items={items} />
-      <DatePickersContainer>
-        {/* {isOgrenci && (
-          <Button type="primary" danger onClick={showDeleteConfirm}>
-            Başvuruyu Sonlandır
-          </Button>
-        )} */}
-        {isAkademisyen && (
-          <>
-            <Button danger onClick={showDeny}>
-              Reddet
-            </Button>
-            <Button type="primary" onClick={showConfirm}>
-              Onayla
-            </Button>
-          </>
-        )}
-      </DatePickersContainer>
-      <Modal
-        title="Başvuruyu Onayla"
-        open={isConfirmOpen}
-        onOk={confirmApplication}
-        onCancel={handleCancel}
-      >
-        <p>
-          <Text tid="createApplicationFormApprovementModalText" />
-        </p>
-        <TextArea
-          style={{ marginTop: 15, resize: "none" }}
-          rows={5}
-          placeholder="Enter comments"
-        />
-      </Modal>
-      <Modal
-        title="Başvuruyu Reddet"
-        open={isDenyOpen}
-        onOk={confirmApplication}
-        onCancel={showDeleteConfirm}
-      >
-        <p>
-          <Text tid="createApplicationFormApprovementModalText" />
-        </p>
-        <TextArea
-          style={{ marginTop: 15, resize: "none" }}
-          rows={5}
-          placeholder="Enter comments"
-        />
-      </Modal>
-    </div>
+    <>
+      {data.length == 0 ? (
+        <div>Böyle bir başvuru mevcut değil.</div>
+      ) : (
+        <div>
+          <Descriptions bordered layout="horizontal" items={items} />
+          <DatePickersContainer>
+            {isAkademisyen && (
+              <>
+                <Button danger onClick={showDeny}>
+                  Reddet
+                </Button>
+                <Button type="primary" onClick={showConfirm}>
+                  Onayla
+                </Button>
+              </>
+            )}
+          </DatePickersContainer>
+          <Modal
+            title="Başvuruyu Onayla"
+            open={isConfirmOpen}
+            onOk={confirmApplication}
+            onCancel={handleCancel}
+          >
+            <p>
+              <Text tid="createApplicationFormApprovementModalText" />
+            </p>
+            <TextArea
+              style={{ marginTop: 15, resize: "none" }}
+              rows={5}
+              placeholder="Enter comments"
+            />
+          </Modal>
+          <Modal
+            title="Başvuruyu Reddet"
+            open={isDenyOpen}
+            onOk={confirmApplication}
+            onCancel={showDeleteConfirm}
+          >
+            <p>
+              <Text tid="createApplicationFormApprovementModalText" />
+            </p>
+            <TextArea
+              style={{ marginTop: 15, resize: "none" }}
+              rows={5}
+              placeholder="Enter comments"
+            />
+          </Modal>
+        </div>
+      )}
+    </>
   );
 };
 

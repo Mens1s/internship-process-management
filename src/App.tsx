@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ActiveApplication from "./pages/student/activeApplication/ActiveApplication";
-import CreateApplication from "./pages/student/createApplication/CreateApplication";
 import PastApplications from "./pages/student/pastApplications/PastApplications";
 import PendingApplications from "./pages/admin/internship/pendingApplications/PendingApplications";
 import PendingApplicationsEvaluate from "./pages/admin/internship/pendingApplications/pendingApplicationsEvaluate/PendingApplicationsEvaluate";
@@ -13,7 +12,6 @@ import LoginPage from "./pages/login/LoginPage";
 import RegisterPage from "./pages/register/RegisterPage";
 import Home from "./pages/home/Home";
 import EmailApprove from "./pages/email-approve/EmailApprove";
-import Profile from "./pages/student/profile/Profile";
 import RequireAuth from "./components/RequireAuth";
 import Companies from "./pages/admin/companies/Companies";
 import NotFound from "./pages/notfound/NotFound";
@@ -27,6 +25,7 @@ const ROLES = {
   ogrenci: "2000",
   akademisyen: "3000",
 };
+
 const App: React.FC = () => {
   return (
     <Routes>
@@ -37,20 +36,20 @@ const App: React.FC = () => {
       <Route path="akademisyen/login" element={<LoginPage />} />
       <Route path="ogrenci/register" element={<RegisterPage />} />
       <Route path="akademisyen/register" element={<RegisterPage />} />
-      <Route element={<MyLayout />}>
-        // student routes
-        <Route element={<RequireAuth allowedRoles={[ROLES.ogrenci]} />}>
+      // student routes
+      <Route element={<RequireAuth allowedRoles={[ROLES.ogrenci]} />}>
+        <Route element={<MyLayout />}>
           <Route path="ogrenci" element={<Home />} />
           <Route path="ogrenci/active" element={<ActiveApplication />} />
-          <Route path="ogrenci/create" element={<CreateApplication />} />
           <Route path="ogrenci/past" element={<PastApplications />} />
-          <Route path="ogrenci/profile" element={<Profile />} />
           <Route path="ogrenci/companies" element={<Companies />} />
           <Route path="ogrenci/companies/new" element={<CompanyAdd />} />
           <Route path="ogrenci/past/:id" element={<PastApplicationDetail />} />
         </Route>
-        // academician routes
-        <Route element={<RequireAuth allowedRoles={[ROLES.akademisyen]} />}>
+      </Route>
+      // academician routes
+      <Route element={<RequireAuth allowedRoles={[ROLES.akademisyen]} />}>
+        <Route element={<MyLayout />}>
           <Route path="akademisyen" element={<Home />} />
           <Route
             path="akademisyen/internship/pending"
@@ -77,8 +76,6 @@ const App: React.FC = () => {
           />
         </Route>
       </Route>
-      {/*       <Route path="/" element={<Navigate to="/ogrenci/login" />} />
-       */}{" "}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

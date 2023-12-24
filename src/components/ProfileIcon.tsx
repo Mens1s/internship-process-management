@@ -25,6 +25,11 @@ const Container = styled.div`
     background: gray;
   }
 `;
+const Container2 = styled(Container)`
+  width: 20px;
+  height: 20px;
+  border-radius: 7px;
+`;
 
 const Flag = styled.div`
   width: 20px;
@@ -60,19 +65,32 @@ const ProfileIcon: React.FC = () => {
     navigate("/login");
   };
 
+  const mail = window.localStorage.getItem("mail");
+
   const items: MenuProps["items"] = [
-    /*  {
+    {
       key: "1",
       label: (
-        <Link rel="noopener noreferrer" to="ogrenci/profile">
-          Profil
-        </Link>
+        <div
+          style={{
+            display: "flex",
+            gap: 5,
+            justifyContent: "center",
+            alignItems: "center",
+            pointerEvents: "none",
+          }}
+        >
+          <Container2>
+            <UserOutlined style={{ color: "white", fontSize: "12px" }} />
+          </Container2>
+          <div style={{ fontWeight: 600 }}>{mail} </div>
+        </div>
       ),
-    }, */
+    },
     {
       key: "2",
       label: (
-        <div style={{ textAlign: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <span onClick={handleLanguageChange} style={{ cursor: "pointer" }}>
             <div
               style={{
@@ -93,7 +111,7 @@ const ProfileIcon: React.FC = () => {
     {
       key: "3",
       label: (
-        <div style={{ textAlign: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <span
             onClick={handleLogout}
             style={{ cursor: "pointer", color: "red" }}

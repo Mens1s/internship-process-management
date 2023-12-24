@@ -11,8 +11,6 @@ const Container = styled.div`
 `;
 
 const Home = () => {
-  const { auth }: any = useContext(AuthContext);
-
   return (
     <>
       <Container>

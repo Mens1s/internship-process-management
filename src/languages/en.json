@@ -1,6 +1,7 @@
 {
   "welcomeHeader": "Welcome to the Gebze Technical University internship management system.",
   "lang": "English",
+  "langShort": "EN",
   "signOut": "Log Out",
   "pendingApplications": "Pending Applications",
   "myInternshipApplications": "My Internship Applications",
@@ -56,5 +57,8 @@
   "confirmApplication": "Confirm the Application",
   "cancel": "Cancel",
   "confirm": "Confirm",
-  "createApplicationFormApprovementModalText": "Do you want to approve?"
+  "createApplicationFormApprovementModalText": "Do you want to approve?",
+  "studentLogin": "Student Login",
+  "academicianLogin": "Academician Login",
+  "internshipManagementSystem": "Internship Management System"
 }

@@ -1,6 +1,7 @@
 {
   "welcomeHeader": "Gebze Teknik Üniversitesi staj yönetim sistemine hoş geldiniz.",
   "lang": "Türkçe",
+  "langShort": "TR",
   "signOut": "Çıkış Yap",
   "pendingApplications": "Onay Bekleyen Başvurular",
   "myInternshipApplications": "Staj Başvurularım",
@@ -55,5 +56,8 @@
   "confirmApplication": "Başvuruyu Onayla",
   "cancel": "Vazgeç",
   "confirm": "Onayla",
-  "createApplicationFormApprovementModalText": "Staj başvurunuzu onaylamak istediğinize emin misiniz?"
+  "createApplicationFormApprovementModalText": "Staj başvurunuzu onaylamak istediğinize emin misiniz?",
+  "studentLogin": "Öğrenci Girişi",
+  "academicianLogin": "Akademisyen Girişi",
+  "internshipManagementSystem": "Staj Başvuru Sistemi"
 }

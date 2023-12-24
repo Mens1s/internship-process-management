@@ -7,13 +7,15 @@ import type { RcFile, UploadProps } from "antd/es/upload";
 import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
 import type { SelectProps } from "antd";
-import { message, Skeleton } from "antd";
 import moment from "moment";
-
 import {
   Row,
   Col,
+  Space,
+  Divider,
   Checkbox,
+  message,
+  Skeleton,
   Form,
   Input,
   Select,
@@ -26,6 +28,8 @@ import {
   Upload,
   Button,
 } from "antd";
+import type { InputRef } from "antd";
+
 import axios from "src/services/axios";
 import useAuth from "src/hooks/useAuth";
 // Import styles
@@ -33,6 +37,8 @@ import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import useDepartments from "src/hooks/useDepartments";
+import { useNavigate } from "react-router-dom";
+import CompanyAdd from "src/pages/admin/companies/companyAdd/CompanyAdd";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
@@ -88,13 +94,18 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const { dictionary } = useLanguage();
   const [loadingOptions, setLoadingOptions] = useState(false);
   const [form] = Form.useForm();
-  const [updatedData, setUpdatedData] = useState();
   const [messageApi, contextHolder] = message.useMessage();
-  const [loading, setLoading] = useState(true);
-  const [saveLoading, setSaveLoading] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
+  const [isAddCompanyModalOpen, setIsAddCompanyModalOpen] = useState(false);
+  const navigate = useNavigate();
 
-  console.log("data", data);
+  const handleAddCompany = () => {
+    setIsAddCompanyModalOpen(false);
+  };
+
   const success = () => {
     messageApi.open({
       type: "success",
@@ -113,7 +124,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const initialValues = {
     idNumber: data?.tc,
     studentId: data?.studentNumber,
-    faculty: data?.faculty,
     engineerName: data?.engineerName,
     engineerMail: data?.engineerMail,
     department: data?.departmentId,
@@ -131,20 +141,17 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   };
 
   const departmentOptions = useDepartments();
-  const [companyOptionss, setCompanyOptionss] = useState<
-    SelectProps["options"]
-  >([]);
-
-  const companyOptions: SelectProps["options"] = [];
+  const [companyOptions, setCompanyOptions] = useState<SelectProps["options"]>(
+    []
+  );
 
   const showModal = () => {
     setIsModalOpen(true);
-    console.log("form", form.getFieldsValue());
-    console.log("data ", data);
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsAddCompanyModalOpen(false);
   };
 
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
@@ -152,7 +159,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   const handleDelete = () => {
     const jwtToken = window.localStorage.getItem("token");
-
+    setDeleteLoading(true);
     axios
       .delete("http://localhost:8000/api/internship-process/delete", {
         headers: {
@@ -163,31 +170,33 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
         },
       })
       .then((response) => {
-        alert("Intership process deleted!");
-        console.log(response);
+        navigate("/ogrenci/past");
       })
       .catch((error) => {
         console.log("error: ");
-        alert("You can't delete this internship process!");
         errorMessage();
+      })
+      .finally(() => {
+        setDeleteLoading(false);
       });
   };
 
+  const options: SelectProps["options"] = [];
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/company/getAll")
       .then((response) => {
-        response.data?.companyList.map((company: any, index: any) => {
-          companyOptions.push({ value: index + 1, label: company.companyName });
+        response.data?.companyList.map((company: any) => {
+          options.push({ value: company.id, label: company.companyName });
         });
-        setCompanyOptionss(companyOptions);
+        setCompanyOptions(options);
       })
       .catch((error) => {
         console.error("Error fetching department options:", error);
       });
   }, []);
 
-  const handleApplication = () => {
+  const handleUpdate = () => {
     const jwtToken = window.localStorage.getItem("token");
     const formData = form.getFieldsValue();
 
@@ -218,36 +227,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       stajRaporuPath: "/path/to/stajRaporu.pdf",
       comment: "biasda",
     };
-    /*  const postData1 = {
-      id: 102,
-      tc: "12345678901",
-      studentNumber: "S123456",
-      telephoneNumber: "1234567890",
-      classNumber: 3,
-      position: "Software Engineer",
-      internshipType: "Summer Internship",
-      internshipNumber: 1,
-      startDate: "2023-01-01",
-      endDate: "2023-12-31",
-      companyId: 1,
-      departmentId: 1,
-      engineerMail: "engineer@example.com",
-      engineerName: "John Doe",
-      choiceReason:
-        "I am interested in gaining experience in web development. I am interested in gaining experience in web development. I am interested in gaining experience in web development. I am interested in gaining experience in web development.",
-      sgkEntry: true,
-      gssEntry: false,
-      mustehaklikBelgesiPath: "/path/to/mustehaklikBelgesi.pdf",
-      stajYeriFormuPath: "/path/to/stajYeriFormu.pdf",
-      mufredatDurumuPath: "/path/to/mufredatDurumu.pdf",
-      transkriptPath: "/path/to/transkript.pdf",
-      dersProgramıPath: "/path/to/dersProgramı.pdf",
-      donem_ici: true,
-      stajRaporuPath: "/path/to/stajRaporu.pdf",
-      comment: "biasda",
-    }; */
+
     setSaveLoading(true);
-    setIsModalOpen(false);
     axios
       .put("http://localhost:8000/api/internship-process/update", postData, {
         headers: {
@@ -255,22 +236,25 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
         },
       })
       .then((response) => {
-        console.log(response);
         success();
       })
       .catch((error) => {
         console.log("error:", error);
-        console.log(jwtToken);
-        errorMessage();
+        const message =
+          error.response.status == 400
+            ? "Bütün bilgileri doğru girdiğinizden emin olunuz."
+            : "Bir hata oluştu. Lütfen tekrar deneyiniz.";
+        errorMessage(message);
       })
       .finally(() => {
         setSaveLoading(false);
       });
   };
 
-  const handleSend = () => {
+  const handleStart = () => {
     const jwtToken = window.localStorage.getItem("token");
     setConfirmLoading(true);
+    setIsModalOpen(false);
 
     axios
       .post("http://localhost:8000/api/internship-process/start", null, {
@@ -282,8 +266,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
         },
       })
       .then((response) => {
-        alert("Başvurunuz başarıyla alındı işleme koyuldu.");
-        console.log(response);
+        navigate("/ogrenci/past");
       })
       .catch((error) => {
         console.log("error:", error.response);
@@ -310,22 +293,52 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
         >
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Form.Item name="idNumber" label={dictionary.idNumber}>
+              <Form.Item
+                rules={[
+                  { required: true, message: "Please input your ID number!" },
+                ]}
+                name="idNumber"
+                label={dictionary.idNumber}
+              >
                 <Input />
               </Form.Item>
-              <Form.Item name="studentId" label={dictionary.studentId}>
+              <Form.Item
+                name="studentId"
+                label={dictionary.studentId}
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
+              >
                 <Input />
               </Form.Item>
-              <Form.Item name="phoneNumber" label={dictionary.phoneNumber}>
+              <Form.Item
+                name="phoneNumber"
+                label={dictionary.phoneNumber}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your phone number!",
+                  },
+                ]}
+              >
                 <Input />
               </Form.Item>
-              <Form.Item name="faculty" label={dictionary.faculty}>
-                <Input />
-              </Form.Item>
-              <Form.Item name="department" label={dictionary.department}>
+              <Form.Item
+                name="department"
+                label={dictionary.department}
+                rules={[
+                  { required: true, message: "Please input your department!" },
+                ]}
+              >
                 <Select>{departmentOptions}</Select>
               </Form.Item>
-              <Form.Item name="classNumber" label={dictionary.grade}>
+              <Form.Item
+                name="classNumber"
+                label={dictionary.grade}
+                rules={[
+                  { required: true, message: "Please input your grade!" },
+                ]}
+              >
                 <Select>
                   <Select.Option value="0" key="Hazırlık">
                     <Text tid="preparation" />
@@ -345,18 +358,33 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 </Select>
               </Form.Item>
               <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your role in internship",
+                  },
+                ]}
                 name="roleInInternship"
                 label={dictionary.roleInInternship}
               >
                 <Input />
               </Form.Item>
               <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your internship type",
+                  },
+                ]}
                 name="internshipType"
                 label={dictionary.internshipType}
               >
                 <Input />
               </Form.Item>
               <Form.Item
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
                 name="internshipNumber"
                 label={dictionary.whichInternship}
               >
@@ -367,60 +395,126 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
 
               <DatePickersContainer>
-                <Form.Item name="startDate" label={dictionary.internshipDates}>
+                <Form.Item
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your student ID!",
+                    },
+                  ]}
+                  name="startDate"
+                  label={dictionary.internshipDates}
+                >
                   <DatePicker />
                 </Form.Item>
 
-                <Form.Item name="endDate" label=" ">
+                <Form.Item
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your student ID!",
+                    },
+                  ]}
+                  name="endDate"
+                  label=" "
+                >
                   <DatePicker />
                 </Form.Item>
               </DatePickersContainer>
 
-              <Form.Item name="companyName" label={dictionary.companyName}>
-                <Select options={companyOptionss} />
-              </Form.Item>
               <Form.Item
-                name="companyAddress"
-                label={dictionary.companyAddress}
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
+                name="companyName"
+                label={dictionary.companyName}
               >
-                <TextArea rows={1} />
+                <Select
+                  options={companyOptions}
+                  dropdownRender={(menu) => (
+                    <>
+                      {menu}
+                      <Divider style={{ margin: "8px 0" }} />
+                      <Button
+                        type="text"
+                        icon={<PlusOutlined />}
+                        onClick={() => setIsAddCompanyModalOpen(true)}
+                        style={{ width: "100%" }}
+                      >
+                        Şirket Ekle
+                      </Button>
+                    </>
+                  )}
+                />
               </Form.Item>
+              <Modal
+                title="Basic Modal"
+                open={isAddCompanyModalOpen}
+                onOk={handleAddCompany}
+                onCancel={handleCancel}
+              >
+                <CompanyAdd />
+              </Modal>
             </Col>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <Form.Item name="companyNumber" label={dictionary.companyNumber}>
-                <Input />
-              </Form.Item>
               <Form.Item
-                name="companyFaxNumber"
-                label={dictionary.companyFaxNumber}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
                 name="engineerName"
                 label={dictionary.engineerNameSurname}
               >
                 <Input />
               </Form.Item>
-              <Form.Item name="engineerMail" label={dictionary.engineerMail}>
-                <Input />
+              <Form.Item
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
+                name="engineerMail"
+                label={dictionary.engineerMail}
+              >
+                <Input type="email" />
               </Form.Item>
-              <Form.Item name="position" label={dictionary.positionToWork}>
+              <Form.Item
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
+                name="position"
+                label={dictionary.positionToWork}
+              >
                 <Input />
               </Form.Item>
               <Form.Item
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
                 name="choiceReason"
                 label={dictionary.reasonForCompany}
               >
                 <TextArea rows={5} />
               </Form.Item>
-              <Form.Item name="sgkEntry" label={dictionary.sgkEntry}>
+              <Form.Item
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
+                name="sgkEntry"
+                label={dictionary.sgkEntry}
+              >
                 <Input />
               </Form.Item>
-              <Form.Item name="gssEntry" label={dictionary.gssEntry}>
+              <Form.Item
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
+                name="gssEntry"
+                label={dictionary.gssEntry}
+              >
                 <Input />
               </Form.Item>
-              {/*  <Form.Item
+              <Form.Item
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
                 label={dictionary.eligibilityFile}
                 valuePropName="file1"
                 getValueFromEvent={normFile}
@@ -435,6 +529,9 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 </Upload>
               </Form.Item>
               <Form.Item
+                rules={[
+                  { required: true, message: "Please input your student ID!" },
+                ]}
                 label={dictionary.internshipForm}
                 valuePropName="file2"
                 getValueFromEvent={normFile}
@@ -447,14 +544,14 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 >
                   <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
-              </Form.Item> */}
+              </Form.Item>
 
               <DatePickersContainer>
-                <Button onClick={handleDelete} danger>
+                <Button onClick={handleDelete} danger loading={deleteLoading}>
                   Sil
                 </Button>
                 <Button
-                  onClick={showModal}
+                  onClick={handleUpdate}
                   type="primary"
                   loading={saveLoading}
                 >
@@ -462,25 +559,26 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 </Button>
                 <Button
                   type="default"
-                  onClick={handleSend}
+                  onClick={showModal}
                   loading={confirmLoading}
+                  htmlType="submit"
                 >
                   Başvuruyu Onayla
                 </Button>
               </DatePickersContainer>
             </Col>
           </Row>
+          <Modal
+            title="Başvuruyu Onayla"
+            open={isModalOpen}
+            onOk={handleStart}
+            onCancel={handleCancel}
+          >
+            <p>
+              <Text tid="createApplicationFormApprovementModalText" />
+            </p>
+          </Modal>
         </Form>
-        <Modal
-          title="Başvuruyu Onayla"
-          open={isModalOpen}
-          onOk={handleApplication}
-          onCancel={handleCancel}
-        >
-          <p>
-            <Text tid="createApplicationFormApprovementModalText" />
-          </p>
-        </Modal>
       </>
     </div>
   );
