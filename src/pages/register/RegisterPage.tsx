@@ -13,20 +13,28 @@ const Container = styled.div`
   align-items: center;
   max-width: 300px;
   height: fit-content;
-  padding: 30px;
+  padding: 20px;
   padding-top: 50px;
   width: 100%;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border: 1px solid lightgray;
   position: relative;
+  background: white;
+  margin-bottom: 20px;
 `;
 
-const Header = styled.div`
-  display: flex; // Make it a flex container
-  flex-direction: column; // Stack items vertically
+const Navbar = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
   align-items: center;
-  margin: 20px 0 40px 0;
+  flex-wrap: wrap;
+  padding: 20px 10px 10px 10px;
+  box-sizing: border-box;
+  background: white;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 20px;
 `;
 
 const LogoImage = styled.img`
@@ -80,13 +88,24 @@ const RegisterPage: React.FC = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        height: "100vh",
+        background: "#f7f7f7",
       }}
     >
-      <Header>
+      <Navbar>
         <LogoImage src="/logo.jpg" alt="Logo" />
-        <h2>Staj Başvuru Sistemi</h2>
-      </Header>
+        <h2
+          className="header"
+          style={{
+            fontFamily: "roboto",
+            textAlign: "center",
+            fontSize: "1.2rem",
+            marginTop: "10px",
+          }}
+        >
+          {dictionary.internshipManagementSystem}
+        </h2>
+      </Navbar>
+
       <Container>
         <div
           style={{
@@ -122,7 +141,9 @@ const RegisterPage: React.FC = () => {
             ...tabItem,
             children: tabItem.render(),
           }))}
-          onChange={(key: string) => setActiveKey(key)}
+          onChange={(key: string) => {
+            setActiveKey(key);
+          }}
         />
       </Container>
     </div>

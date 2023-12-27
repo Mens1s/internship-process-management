@@ -15,13 +15,13 @@ const Container = styled.div`
   align-items: center;
   max-width: 300px;
   height: fit-content;
-  padding: 30px;
+  padding: 20px;
   padding-top: 50px;
   width: 100%;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border: 1px solid lightgray;
   position: relative;
+  background: white;
 `;
 const Flag = styled.div`
   width: 20px;
@@ -30,25 +30,23 @@ const Flag = styled.div`
   background-size: cover;
 `;
 
-const Header = styled.div`
-  display: flex; // Make it a flex container
-  flex-direction: column; // Stack items vertically
-  align-items: center;
-  margin: 20px 0 40px 0;
-`;
 const Navbar = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 10px;
-  padding-top: 10px;
   align-items: center;
   flex-wrap: wrap;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  background: white;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 20px;
 `;
 
 const LogoImage = styled.img`
-  width: 200px; // Adjust the size as needed
-  margin-bottom: 40px; // Adjust the spacing between the logo and h2
+  width: 200px;
+  margin-bottom: 20px;
 `;
 
 const LoginPage: React.FC = () => {
@@ -93,15 +91,23 @@ const LoginPage: React.FC = () => {
         flexDirection: "column",
         alignItems: "center",
         height: "100vh",
+        background: "#f7f7f7",
       }}
     >
       <Navbar>
         <LogoImage src="/logo.jpg" alt="Logo" />
-        <h2 className="header" style={{ fontFamily: "roboto" }}>
+        <h2
+          className="header"
+          style={{
+            fontFamily: "roboto",
+            textAlign: "center",
+            fontSize: "1.2rem",
+            marginTop: "10px",
+          }}
+        >
           {dictionary.internshipManagementSystem}
         </h2>
       </Navbar>
-      <Divider style={{ marginTop: 0 }} />
 
       <Container>
         <div
@@ -119,7 +125,7 @@ const LoginPage: React.FC = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: 10,
+                gap: 5,
                 width: "80px",
               }}
             >

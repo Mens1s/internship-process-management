@@ -1,12 +1,13 @@
 import React from "react";
-import { Form, Input, Button, Checkbox, Tabs } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { useNavigate, Link } from "react-router-dom";
+import { Form, Input, Button, Divider } from "antd";
+import { MailOutlined, UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useState, useRef, useEffect } from "react";
 import axios from "src/services/axios";
 import useDepartments from "src/hooks/useDepartments";
 import { Select } from "antd";
+import { Text } from "src/context/LanguageProvider";
 
 const FormContainer = styled.div`
   display: flex;
@@ -22,11 +23,16 @@ const RegisterForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const [mail, setMail] = useState("");
   const [department, setDepartment] = useState("");
-
-  console.log(department);
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const [isStudent, setIsStudent] = useState(
+    location.pathname.includes("ogrenci")
+  );
 
   const departmentOptions = useDepartments();
+
   const handleRegister = () => {
+    setLoading(true);
     if (window.location.pathname.includes("/ogrenci/register")) {
       axios
         .post("http://localhost:8000/api/student/auth/register", {
@@ -56,6 +62,9 @@ const RegisterForm: React.FC = () => {
         })
         .catch((error) => {
           console.error("Error:", error);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
@@ -100,14 +109,6 @@ const RegisterForm: React.FC = () => {
             onChange={(e) => setLastName(e.target.value)}
           />
         </Form.Item>
-        <Form.Item name="department">
-          <Select
-            onChange={(value) => setDepartment(value)}
-            placeholder="Select Department"
-          >
-            {departmentOptions}
-          </Select>
-        </Form.Item>
         <Form.Item
           name="mail"
           rules={[
@@ -118,11 +119,21 @@ const RegisterForm: React.FC = () => {
           ]}
         >
           <Input
-            prefix={<UserOutlined className="site-form-item-icon" />}
+            prefix={<MailOutlined className="site-form-item-icon" />}
             placeholder="Mail"
             onChange={(e) => setMail(e.target.value)}
           />
         </Form.Item>
+        {!isStudent && (
+          <Form.Item name="department">
+            <Select
+              onChange={(value) => setDepartment(value)}
+              placeholder="Select Department"
+            >
+              {departmentOptions}
+            </Select>
+          </Form.Item>
+        )}
 
         <Form.Item
           name="password"
@@ -140,20 +151,44 @@ const RegisterForm: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Item>
-        <Form.Item>
-          <Link style={{ float: "right" }} to="/ogrenci/login">
-            Giriş Yap
-          </Link>
+
+        <Form.Item
+          name="password-again"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Password!",
+            },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Password again"
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item style={{ marginBottom: 10 }}>
           <Button
+            loading={loading}
             type="primary"
             htmlType="submit"
             style={{ width: "100%" }}
-            onClick={handleRegister}
           >
-            Kayıt Ol
+            <Text tid="signUp" />
+          </Button>
+        </Form.Item>
+        <Divider style={{ color: "gray" }} plain>
+          <Text tid="or" />
+        </Divider>
+        <Form.Item>
+          <Button
+            type="default"
+            style={{ width: "100%" }}
+            onClick={() => navigate("/ogrenci/login")}
+          >
+            <Text tid="login" />
           </Button>
         </Form.Item>
       </Form>

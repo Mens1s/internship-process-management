@@ -30,6 +30,16 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   const { dictionary } = UseLanguage();
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const errorMessage: any = () => {
+    messageApi.open({
+      type: "error",
+      content: dictionary.wrongMailOrPassword,
+      duration: 5,
+    });
+  };
+
   const handleLogin = () => {
     setLoading(true);
     if (window.location.pathname.includes("/ogrenci/login")) {
@@ -53,16 +63,14 @@ const Login: React.FC = () => {
               token: response.data.token,
               role: 2000,
             });
-
             navigate("/ogrenci");
           } else {
-            alert("Wrong mail or password!");
-            console.log("Wrong mail or password!");
+            errorMessage();
           }
         })
         .catch((error) => {
-          alert("Wrong mail or password!");
-          console.error("login error:", error);
+          errorMessage();
+          console.error("Login error:", error);
         })
         .finally(() => {
           setLoading(false);
@@ -93,7 +101,7 @@ const Login: React.FC = () => {
           }, 500);
         })
         .catch((error) => {
-          alert("Wrong mail or password!");
+          errorMessage();
           console.error("Error:", error);
         });
     }
@@ -101,6 +109,7 @@ const Login: React.FC = () => {
 
   return (
     <FormContainer>
+      {contextHolder}
       <Form
         name="normal_login"
         style={{ width: "100%" }}
@@ -164,7 +173,6 @@ const Login: React.FC = () => {
         <Form.Item>
           <Button
             type="default"
-            htmlType="submit"
             style={{ width: "100%" }}
             onClick={() => navigate("/ogrenci/register")}
           >

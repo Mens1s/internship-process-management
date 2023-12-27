@@ -81,5 +81,6 @@
   "password": "Şifre",
   "pleaseInputYourMailAddress": "Lütfen mail adresinizi giriniz!",
   "pleaseInputYourPassword": "Lütfen şifrenizi giriniz!",
-  "or": "veya"
+  "or": "veya",
+  "wrongMailOrPassword": "Yanlış mail veya şifre!"
 }

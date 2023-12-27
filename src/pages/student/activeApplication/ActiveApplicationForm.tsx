@@ -10,6 +10,7 @@ import type { SelectProps } from "antd";
 import moment from "moment";
 import { Popconfirm } from "antd";
 import type { RadioChangeEvent } from "antd";
+import { Result } from "antd";
 
 import {
   Row,
@@ -198,6 +199,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const handleUpdate = () => {
     const jwtToken = window.localStorage.getItem("token");
     const formData = form.getFieldsValue();
+    console.log(formData);
 
     const postData = {
       id: data.id, // Process Id
@@ -226,6 +228,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       stajRaporuPath: "/path/to/stajRaporu.pdf",
       comment: "biasda",
     };
+
+    console.log(postData);
 
     setSaveLoading(true);
     axios
@@ -266,8 +270,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
         },
       })
       .then((response) => {
-        navigate("/ogrenci/past", { replace: true });
-        success();
+        showSuccessModal();
       })
       .catch((error) => {
         console.log("error:", error.response);
@@ -280,6 +283,17 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       .finally(() => {
         setConfirmLoading(false);
       });
+  };
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  const showSuccessModal = () => {
+    setIsSuccessModalOpen(true);
+  };
+
+  const handleSuccessModalOk = () => {
+    setIsSuccessModalOpen(false);
+    navigate("/ogrenci/past", { replace: true });
   };
 
   return (
@@ -604,6 +618,18 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
             <p>
               <Text tid="createApplicationFormApprovementModalText" />
             </p>
+          </Modal>
+          <Modal open={isSuccessModalOpen} footer={null} closable={false}>
+            <Result
+              status="success"
+              title="Staj başvurunuz başarıyla alınmıştır!"
+              subTitle="Başvurularım sayfasından başvurunuzun onay durumunu ve detaylarını inceleyebilirsiniz."
+              extra={[
+                <Button type="primary" onClick={handleSuccessModalOk}>
+                  Tamam
+                </Button>,
+              ]}
+            />
           </Modal>
         </Form>
       </>

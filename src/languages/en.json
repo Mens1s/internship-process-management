@@ -81,5 +81,6 @@
   "password": "Password",
   "pleaseInputYourMailAddress": "Please input your mail address!",
   "pleaseInputYourPassword": "Please input your password!",
-  "or": "or"
+  "or": "or",
+  "wrongMailOrPassword": "Wrong mail or password!"
 }

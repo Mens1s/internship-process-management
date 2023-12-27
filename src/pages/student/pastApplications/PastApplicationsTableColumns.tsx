@@ -24,24 +24,80 @@ export const columns: ColumnsType<DataType> = [
     dataIndex: "name",
     key: "name",
     width: 120,
+    render(text) {
+      const isNotSpecified =
+        text === "Belirtilmedi" || text === "Not Specified";
+      const textStyle = isNotSpecified
+        ? { fontStyle: "italic", color: "#c4c4c4" }
+        : {};
+
+      return {
+        props: {
+          style: textStyle,
+        },
+        children: <div>{text}</div>,
+      };
+    },
   },
   {
     title: "startDate",
     dataIndex: "startDate",
     key: "startDate",
     width: 120,
+    render(text) {
+      const isNotSpecified =
+        text === "Belirtilmedi" || text === "Not Specified";
+      const textStyle = isNotSpecified
+        ? { fontStyle: "italic", color: "#c4c4c4" }
+        : {};
+
+      return {
+        props: {
+          style: textStyle,
+        },
+        children: <div>{text}</div>,
+      };
+    },
   },
   {
     title: "endDate",
     dataIndex: "endDate",
     key: "endDate",
     width: 120,
+    render(text) {
+      const isNotSpecified =
+        text === "Belirtilmedi" || text === "Not Specified";
+      const textStyle = isNotSpecified
+        ? { fontStyle: "italic", color: "#c4c4c4" }
+        : {};
+
+      return {
+        props: {
+          style: textStyle,
+        },
+        children: <div>{text}</div>,
+      };
+    },
   },
   {
     title: "type",
     dataIndex: "type",
     key: "type",
     width: 120,
+    render(text) {
+      const isNotSpecified =
+        text === "Belirtilmedi" || text === "Not Specified";
+      const textStyle = isNotSpecified
+        ? { fontStyle: "italic", color: "#c4c4c4" }
+        : {};
+
+      return {
+        props: {
+          style: textStyle,
+        },
+        children: <div>{text}</div>,
+      };
+    },
   },
   {
     title: "status",
