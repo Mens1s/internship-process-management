@@ -82,5 +82,11 @@
   "pleaseInputYourMailAddress": "Please input your mail address!",
   "pleaseInputYourPassword": "Please input your password!",
   "or": "or",
-  "wrongMailOrPassword": "Wrong mail or password!"
+  "wrongMailOrPassword": "Wrong mail or password!",
+  "student": "Student",
+  "internshipCommision": "Internship Commision",
+  "deanery": "Deanery",
+  "applied": "Applied",
+  "applicationRejected": "Application Rejected",
+  "applicationApproved": "Application Approved"
 }

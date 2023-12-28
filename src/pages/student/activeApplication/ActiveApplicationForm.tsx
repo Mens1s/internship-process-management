@@ -11,6 +11,7 @@ import moment from "moment";
 import { Popconfirm } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { Result } from "antd";
+import type { RangePickerProps } from "antd/es/date-picker";
 
 import {
   Row,
@@ -131,8 +132,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     companyName: data?.companyId,
     sgkEntry: data?.sgkEntry,
     gssEntry: data?.gssEntry,
-    startDate: data?.startDate ? moment(data.startDate) : null,
-    endDate: data?.endDate ? moment(data.endDate) : null,
+    startDate: data?.startDate ? moment(data.startDate, "YYYY-MM-DD") : null,
+    endDate: data?.endDate ? moment(data.endDate, "YYYY-MM-DD") : null,
     phoneNumber: data?.telephoneNumber,
     internshipType: data?.internshipType,
     internshipNumber: data?.internshipNumber,
@@ -313,6 +314,16 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     navigate("/ogrenci/past", { replace: true });
   };
 
+  const disabledStartDate: RangePickerProps["disabledDate"] = (current) => {
+    return current < moment().startOf("day");
+  };
+  const disabledEndDate: RangePickerProps["disabledDate"] = (current) => {
+    const today = moment().startOf("day");
+    const endOfAllowedRange = today.clone().add(20, "days").endOf("day");
+
+    return current && current < endOfAllowedRange;
+  };
+
   return (
     <div>
       {contextHolder}
@@ -322,6 +333,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
           layout="vertical"
           size="large"
           initialValues={initialValues}
+          hideRequiredMark
         >
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -435,7 +447,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   name="startDate"
                   label={dictionary.internshipDates}
                 >
-                  <DatePicker />
+                  <DatePicker
+                    format="YYYY-MM-DD"
+                    disabledDate={disabledStartDate}
+                  />
                 </Form.Item>
 
                 <Form.Item
@@ -448,7 +463,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   name="endDate"
                   label=" "
                 >
-                  <DatePicker />
+                  <DatePicker
+                    format="YYYY-MM-DD"
+                    disabledDate={disabledEndDate}
+                  />
                 </Form.Item>
               </DatePickersContainer>
 

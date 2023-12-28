@@ -82,5 +82,11 @@
   "pleaseInputYourMailAddress": "Lütfen mail adresinizi giriniz!",
   "pleaseInputYourPassword": "Lütfen şifrenizi giriniz!",
   "or": "veya",
-  "wrongMailOrPassword": "Yanlış mail veya şifre!"
+  "wrongMailOrPassword": "Yanlış mail veya şifre!",
+  "student": "Öğrenci",
+  "internshipCommision": "Staj Komisyonu",
+  "deanery": "Dekanlık",
+  "applied": "Başvuru Yapıldı",
+  "applicationRejected": "Başvuru Reddedildi",
+  "applicationApproved": "Başvuru Onaylandı"
 }

@@ -7,6 +7,7 @@ import axios from "src/services/axios";
 import ActiveApplicationViewForm from "../../activeApplication/ActiveApplicationViewForm";
 import { useLocation, useParams } from "react-router-dom";
 import { Text } from "src/context/LanguageProvider";
+import UseLanguage from "src/hooks/useLanguage";
 
 const StepsContainer = styled.div`
   width: 100%;
@@ -41,6 +42,7 @@ const PastApplicationDetail = () => {
   const [showMessage, setShowMessage] = useState(false);
   const { id } = useParams();
   const location = useLocation();
+  const { dictionary } = UseLanguage();
 
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("token");
@@ -54,7 +56,7 @@ const PastApplicationDetail = () => {
         })
         .then((response: any) => {
           const index = response.data.internshipProcessList.findIndex(
-            (item: any) => item.id === id
+            (item: any) => item.id == id
           );
 
           if (index !== -1) {
@@ -66,7 +68,7 @@ const PastApplicationDetail = () => {
               setShowSteps(true);
               setStatus("error");
               setShowMessage(true);
-              setMessageTitle("Başvuru Reddedildi");
+              setMessageTitle(dictionary.applicationRejected);
               setMessageType("error");
             }
             if (processStatus === "FORM") {
@@ -89,7 +91,7 @@ const PastApplicationDetail = () => {
               setShowSteps(true);
               setStatus("done");
               setShowMessage(true);
-              setMessageTitle("Başvuru Onaylandı");
+              setMessageTitle(dictionary.applicationApproved);
               setMessageType("success");
             } else {
               setShowSteps(false);
@@ -97,32 +99,35 @@ const PastApplicationDetail = () => {
 
             setStepItems([
               {
-                title: "Öğrenci",
-                description: "Başvuru yapıldı",
+                title: dictionary.student,
+                description: dictionary.applied,
               },
               {
-                title: "Staj Komisyonu",
-                description:
-                  processStatus == "PRE1" ? "Onay Bekliyor" : "Onaylandı",
+                title: dictionary.internshipCommision,
+                description: isRejected
+                  ? dictionary.rejected
+                  : processStatus == "PRE1"
+                  ? dictionary.pending
+                  : dictionary.approved,
               },
               {
-                title: "Bölüm",
+                title: dictionary.department,
                 description:
                   processStatus != "PRE2" && processStatus != "PRE1"
-                    ? "Onaylandı"
-                    : "Onay Bekliyor",
+                    ? dictionary.approved
+                    : dictionary.pending,
               },
               {
-                title: "Fakülte",
+                title: dictionary.faculty,
                 description: processStatus.includes("PRE")
-                  ? "Onay Bekliyor"
-                  : "Onaylandı",
+                  ? dictionary.pending
+                  : dictionary.approved,
               },
               {
-                title: "Dekanlık",
+                title: dictionary.deanery,
                 description: processStatus.includes("PRE")
-                  ? "Onay Bekliyor"
-                  : "Onaylandı",
+                  ? dictionary.pending
+                  : dictionary.approved,
               },
             ]);
 
@@ -151,7 +156,7 @@ const PastApplicationDetail = () => {
         )
         .then((response) => {
           const index = response.data.internshipProcessList.findIndex(
-            (item: any) => item.id === id
+            (item: any) => item.id == id
           );
 
           if (index !== -1) {
@@ -200,8 +205,11 @@ const PastApplicationDetail = () => {
               },
               {
                 title: "Staj Komisyonu",
-                description:
-                  processStatus == "PRE1" ? "Onay Bekliyor" : "Onaylandı",
+                description: isRejected
+                  ? dictionary.rejected
+                  : processStatus == "PRE1"
+                  ? "Onay Bekliyor"
+                  : "Onaylandı",
               },
               {
                 title: "Bölüm",
