@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Steps, Tag, Skeleton } from "antd";
+import { Steps, Tag, Skeleton, Alert } from "antd";
 import styled from "styled-components";
 import ActiveApplicationForm from "../../activeApplication/ActiveApplicationForm";
 import ContentHeader from "src/components/ContentHeader";
@@ -35,7 +35,10 @@ const PastApplicationDetail = () => {
   const [editable, setEditable] = useState(false);
   const [stepItems, setStepItems] = useState<StepItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [messageTitle, setMessageTitle] = useState("");
+  const [messageType, setMessageType] = useState<any>("error");
   const [status, setStatus] = useState<any>("process");
+  const [showMessage, setShowMessage] = useState(false);
   const { id } = useParams();
   const location = useLocation();
 
@@ -66,6 +69,9 @@ const PastApplicationDetail = () => {
             } else if (processStatus === "REJECTED") {
               setShowSteps(true);
               setStatus("error");
+              setShowMessage(true);
+              setMessageTitle("Başvuru Reddedildi");
+              setMessageType("error");
             } else if (processStatus === "PRE1") {
               setShowSteps(true);
               setCurrentStep(1);
@@ -79,8 +85,7 @@ const PastApplicationDetail = () => {
               setShowSteps(true);
               setCurrentStep(4);
             } else {
-              setShowSteps(true);
-              setCurrentStep(5);
+              setShowSteps(false);
             }
 
             setStepItems([
@@ -225,21 +230,17 @@ const PastApplicationDetail = () => {
         <h2>
           <Text tid="applicationDetails" />
         </h2>
-        {/*  <Tag
-          style={{
-            borderRadius: 50,
-            width: 150,
-            height: 40,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "1rem",
-          }}
-          color={"geekblue"}
-        >
-          Onay Bekliyor
-        </Tag> */}
       </ContentHeader>
+      {showMessage && (
+        <Alert
+          message={messageTitle} // messageTitle
+          description="Akademisyen Notu: This is an error message about rejected internship." // data.comment
+          type={messageType} // messageType
+          showIcon
+          style={{ marginBottom: 20 }}
+          closable
+        />
+      )}
       <Header showSteps={showSteps}>
         {showSteps && (
           <StepsContainer>

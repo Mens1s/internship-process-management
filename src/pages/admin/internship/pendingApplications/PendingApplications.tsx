@@ -88,9 +88,19 @@ const PastApplications = () => {
           </h2>
         </div>
         <div>
-          <Button>
-            <DownloadOutlined /> <Text tid="download" />
-          </Button>
+          <div
+            style={{
+              display: "flex",
+              gap: 10,
+            }}
+          >
+            <Button>
+              <SearchOutlined /> <Text tid="search" />
+            </Button>
+            <Button>
+              <DownloadOutlined /> <Text tid="download" />
+            </Button>
+          </div>
           <Input
             prefix={<SearchOutlined />}
             placeholder={dictionary.searchStudent}

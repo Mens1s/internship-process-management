@@ -11,8 +11,17 @@ const Header = styled.div`
   border-bottom: 1px solid #f0f0f0;
   padding-bottom: 20px;
 
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     margin-bottom: 0;
+
+    div:nth-child(2) {
+      width: 100%; // Set width to 100% when the screen width is 500px or less
+    }
+
+    input {
+      width: 100%;
+      max-width: 200px; // Keep the maximum width for larger screens
+    }
   }
 
   h2,
@@ -24,16 +33,17 @@ const Header = styled.div`
     font-size: 1.2rem;
   }
 
-  /*  div:first-child {
-    flex: 3;
-    min-width: 200px;
-  } */
+  div:first-child {
+    white-space: nowrap;
+  }
+
   div:nth-child(2) {
     display: flex;
     gap: 10px;
-    flex: 1;
+
     input {
-      min-width: 200px;
+      width: 100%;
+      max-width: 200px;
     }
   }
 `;

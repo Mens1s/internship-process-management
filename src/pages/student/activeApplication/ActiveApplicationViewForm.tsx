@@ -7,7 +7,7 @@ import type { RcFile, UploadProps } from "antd/es/upload";
 import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
 import type { DescriptionsProps } from "antd";
-import { Descriptions } from "antd";
+import { Descriptions, Alert } from "antd";
 import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
 import axios from "src/services/axios";
 import { Button, Modal, Input, Result } from "antd";
@@ -265,7 +265,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const location = useLocation();
   const isOgrenci = location.pathname.includes("/ogrenci");
   const isAkademisyen = location.pathname.includes("/akademisyen");
-
+  const labelStyle = {};
   return (
     <>
       {data.length == 0 ? (
@@ -276,7 +276,13 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
         />
       ) : (
         <div>
-          <Descriptions bordered layout="horizontal" items={items} />
+          <Descriptions
+            bordered
+            items={items}
+            labelStyle={labelStyle}
+            column={{ xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 }}
+            size="middle"
+          />
           <DatePickersContainer>
             {isAkademisyen && (
               <>
