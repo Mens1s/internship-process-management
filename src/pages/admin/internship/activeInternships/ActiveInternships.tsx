@@ -11,20 +11,6 @@ import styled from "styled-components";
 const ActiveInternships = () => {
   const { dictionary } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
-  const items: TabsProps["items"] = [
-    {
-      key: "1",
-      label: " Sonuçlandırılmayı Bekleyen Stajlar",
-    },
-    {
-      key: "2",
-      label: "Sonuçlandırılmış Stajlar",
-    },
-  ];
-
-  const onChange = (key: string) => {
-    console.log(key);
-  };
 
   return (
     <div>

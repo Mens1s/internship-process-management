@@ -2,7 +2,7 @@ import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import { UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Dropdown } from "antd";
+import { Dropdown, Divider } from "antd";
 import { Text, LanguageContext } from "../context/LanguageProvider";
 import React, { useContext, useState } from "react";
 import { languageOptions } from "../languages";
@@ -24,11 +24,6 @@ const Container = styled.div`
   &:hover {
     background: gray;
   }
-`;
-const Container2 = styled(Container)`
-  width: 20px;
-  height: 20px;
-  border-radius: 7px;
 `;
 
 const Flag = styled.div`
@@ -80,14 +75,14 @@ const ProfileIcon: React.FC = () => {
             justifyContent: "center",
             alignItems: "center",
             pointerEvents: "none",
+            flexDirection: "column",
           }}
         >
-          <Container2>
-            <UserOutlined style={{ color: "white", fontSize: "12px" }} />
-          </Container2>
           <div style={{ fontWeight: 600 }}>{name} </div>
+          <Divider style={{ margin: 0 }} />
         </div>
       ),
+      type: "group",
     },
     {
       key: "2",

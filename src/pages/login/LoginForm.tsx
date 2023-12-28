@@ -89,6 +89,7 @@ const Login: React.FC = () => {
           });
           window.localStorage.setItem("token", response.data.token);
           window.localStorage.setItem("mail", username);
+          window.localStorage.setItem("fullName", response.data.fullName);
           window.localStorage.setItem("role", "3000");
           window.localStorage.setItem("id", response.data.id);
 

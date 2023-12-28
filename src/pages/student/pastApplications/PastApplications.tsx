@@ -89,7 +89,6 @@ const PastApplications: React.FC = () => {
     axios
       .get("http://localhost:8000/api/company/getAll")
       .then((response) => {
-        console.log(response.data.companyList);
         setCompanies(response?.data?.companies);
       })
       .catch((error: any) => {
@@ -105,7 +104,7 @@ const PastApplications: React.FC = () => {
       })
       .then((response) => {
         const internshipProcessList = response?.data?.internshipProcessList;
-        console.log(internshipProcessList);
+        //FIX: reddedilenler dışında 2den küçük olmalı
         if (internshipProcessList.length < 2) {
           setCanCreateNewForm(true);
         }
@@ -145,14 +144,18 @@ const PastApplications: React.FC = () => {
   }, [reloadPage]);
 
   function getStatus(item: any) {
-    if (item.processStatus === "FORM") {
-      return dictionary.draft;
-    } else if (item.processStatus.startsWith("PRE")) {
-      return dictionary.pending;
-    } else if (item.processStatus.startsWith("IN")) {
-      return dictionary.approved;
+    if (item.rejected) {
+      return dictionary.rejected;
     } else {
-      return "-";
+      if (item.processStatus === "FORM") {
+        return dictionary.draft;
+      } else if (item.processStatus.startsWith("PRE")) {
+        return dictionary.pending;
+      } else if (item.processStatus.startsWith("IN")) {
+        return dictionary.approved;
+      } else {
+        return "-";
+      }
     }
   }
   return (

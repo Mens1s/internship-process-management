@@ -7,7 +7,7 @@ import type { RcFile, UploadProps } from "antd/es/upload";
 import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
 import type { DescriptionsProps } from "antd";
-import { Descriptions, Alert } from "antd";
+import { Descriptions, Alert, message } from "antd";
 import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
 import axios from "src/services/axios";
 import { Button, Modal, Input, Result } from "antd";
@@ -105,6 +105,9 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDenyOpen, setIsDenyOpen] = useState(false);
   const { dictionary } = useLanguage();
+  const [denyReason, setDenyReason] = useState<string>(""); // State to store the deny reason
+  const [isApproved, setIsApproved] = useState<boolean>(false);
+
   const items = [
     {
       key: "id",
@@ -238,25 +241,35 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
 
-  const confirmApplication = () => {
+  const handleEvaluation = () => {
     const jwtToken = window.localStorage.getItem("token");
     const userId = window.localStorage.getItem("id");
+    if (!denyReason) {
+      message.error("Reddetme nedenini giriniz.");
+      return;
+    }
+
     axios
-      .post("http://localhost:8000/api/internship-process/evaluate", {
-        processId: data.id,
-        approve: true,
-        comment: "bu bir yorumdur",
-        academicianId: parseInt(userId!),
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
+      .post(
+        "http://localhost:8000/api/internship-process/evaluate",
+        {
+          processId: data.id,
+          approve: isApproved,
+          comment: denyReason,
+          academicianId: userId,
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
       .then((response) => {
-        alert("Başvuru onaylandı.");
+        message.success("Başvuru onaylandı!");
         console.log("evaluate response: ", response);
       })
       .catch((error) => {
-        alert("Başvuru onaylanamadı. Error: " + error.response.data.message);
+        message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyiniz.");
         console.log("evaluate error:", error.response);
       });
     setIsConfirmOpen(false);
@@ -298,12 +311,13 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
           <Modal
             title="Başvuruyu Onayla"
             open={isConfirmOpen}
-            onOk={confirmApplication}
+            onOk={() => {
+              setIsApproved(true);
+              handleEvaluation();
+            }}
             onCancel={handleCancel}
           >
-            <p>
-              <Text tid="createApplicationFormApprovementModalText" />
-            </p>
+            <p>Staj başvurusunu onaylamak istediğinize emin misiniz?</p>
             <TextArea
               style={{ marginTop: 15, resize: "none" }}
               rows={5}
@@ -313,16 +327,20 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
           <Modal
             title="Başvuruyu Reddet"
             open={isDenyOpen}
-            onOk={confirmApplication}
-            onCancel={showDeleteConfirm}
+            onOk={() => {
+              setIsApproved(false);
+              handleEvaluation();
+            }}
+            onCancel={handleCancel}
           >
-            <p>
-              <Text tid="createApplicationFormApprovementModalText" />
-            </p>
+            <p>Staj başvurusunu reddetmek istediğinize emin misiniz? </p>
             <TextArea
               style={{ marginTop: 15, resize: "none" }}
               rows={5}
               placeholder="Enter comments"
+              required
+              value={denyReason}
+              onChange={(e) => setDenyReason(e.target.value)}
             />
           </Modal>
         </div>

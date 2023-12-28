@@ -89,7 +89,8 @@ interface ActiveApplicationFormProps {
 const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   data,
 }) => {
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [fileList1, setFileList1] = useState<UploadFile[]>([]);
+  const [fileList2, setFileList2] = useState<UploadFile[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { dictionary } = useLanguage();
   const [loadingOptions, setLoadingOptions] = useState(false);
@@ -138,6 +139,9 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     position: data?.position,
     choiceReason: data?.choiceReason,
     classNumber: data?.classNumber,
+    /*   mustehaklikBelgesiPath:
+      data?.mustehaklikBelgesi[0]?.originFileObj?.name || "",
+    stajYeriFormuPath: data?.stajYeriFormu[0]?.originFileObj?.name || "", */
   };
 
   const departmentOptions = useDepartments();
@@ -154,9 +158,22 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     setIsAddCompanyModalOpen(false);
   };
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
+  const handleChangeFile1: UploadProps["onChange"] = ({
+    fileList: newFileList,
+  }) => {
+    setFileList1(newFileList);
+    form.setFieldsValue({
+      mustehaklikBelgesiPath: newFileList[0]?.response?.path,
+    });
+    console.log(newFileList);
+  };
 
+  const handleChangeFile2: UploadProps["onChange"] = ({
+    fileList: newFileList,
+  }) => {
+    setFileList2(newFileList);
+    form.setFieldsValue({ stajYeriFormuPath: newFileList[0]?.response?.path });
+  };
   const handleDelete = () => {
     const jwtToken = window.localStorage.getItem("token");
     setDeleteLoading(true);
@@ -199,6 +216,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const handleUpdate = () => {
     const jwtToken = window.localStorage.getItem("token");
     const formData = form.getFieldsValue();
+    const mustehaklikBelgesiPath = formData?.mustehaklikBelgesiPath;
+    const stajYeriFormuPath = formData?.stajYeriFormuPath;
     console.log(formData);
 
     const postData = {
@@ -219,8 +238,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       choiceReason: formData?.choiceReason,
       sgkEntry: formData?.sgkEntry,
       gssEntry: formData?.gssEntry,
-      mustehaklikBelgesiPath: "/path/to/mustehaklikBelgesi.pdf",
-      stajYeriFormuPath: "/path/to/stajYeriFormu.pdf",
+      mustehaklikBelgesiPath: mustehaklikBelgesiPath || "/path/to/default.pdf",
+      stajYeriFormuPath: stajYeriFormuPath || "/path/to/default.pdf",
       mufredatDurumuPath: "/path/to/mufredatDurumu.pdf",
       transkriptPath: "/path/to/transkript.pdf",
       dersProgramıPath: "/path/to/dersProgramı.pdf",
@@ -228,8 +247,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       stajRaporuPath: "/path/to/stajRaporu.pdf",
       comment: "biasda",
     };
-
-    console.log(postData);
 
     setSaveLoading(true);
     axios
@@ -551,12 +568,13 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 label={dictionary.eligibilityFile}
                 valuePropName="file1"
                 getValueFromEvent={normFile}
+                name="mustehaklikBelgesi"
               >
                 <Upload
-                  action="/upload.do"
                   listType="picture"
-                  onChange={handleChange}
-                  fileList={fileList}
+                  onChange={handleChangeFile1}
+                  fileList={fileList1}
+                  data={{ type: "mustehaklikBelgesi" }} // Optional: Additional data for the API
                 >
                   <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
@@ -568,12 +586,13 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 label={dictionary.internshipForm}
                 valuePropName="file2"
                 getValueFromEvent={normFile}
+                name="stajYeriFormu"
               >
                 <Upload
-                  action="/upload.do"
                   listType="picture"
-                  onChange={handleChange}
-                  fileList={fileList}
+                  onChange={handleChangeFile2}
+                  fileList={fileList2}
+                  data={{ type: "stajYeriFormu" }}
                 >
                   <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>

@@ -54,24 +54,25 @@ const PastApplicationDetail = () => {
         })
         .then((response: any) => {
           const index = response.data.internshipProcessList.findIndex(
-            (item: any) => item.id == id
+            (item: any) => item.id === id
           );
 
           if (index !== -1) {
             const internshipProcess =
               response.data.internshipProcessList[index];
             const processStatus = internshipProcess.processStatus;
-
-            if (processStatus === "FORM") {
-              setCurrentStep(0);
-              setShowSteps(false);
-              setEditable(true);
-            } else if (processStatus === "REJECTED") {
+            const isRejected = internshipProcess.rejected;
+            if (isRejected) {
               setShowSteps(true);
               setStatus("error");
               setShowMessage(true);
               setMessageTitle("Başvuru Reddedildi");
               setMessageType("error");
+            }
+            if (processStatus === "FORM") {
+              setCurrentStep(0);
+              setShowSteps(false);
+              setEditable(true);
             } else if (processStatus === "PRE1") {
               setShowSteps(true);
               setCurrentStep(1);
@@ -84,6 +85,12 @@ const PastApplicationDetail = () => {
             } else if (processStatus === "PRE4") {
               setShowSteps(true);
               setCurrentStep(4);
+            } else if (processStatus === "IN1") {
+              setShowSteps(true);
+              setStatus("done");
+              setShowMessage(true);
+              setMessageTitle("Başvuru Onaylandı");
+              setMessageType("success");
             } else {
               setShowSteps(false);
             }
@@ -144,21 +151,26 @@ const PastApplicationDetail = () => {
         )
         .then((response) => {
           const index = response.data.internshipProcessList.findIndex(
-            (item: any) => item.id == id
+            (item: any) => item.id === id
           );
 
           if (index !== -1) {
             const internshipProcess =
               response.data.internshipProcessList[index];
             const processStatus = internshipProcess.processStatus;
+            const isRejected = internshipProcess.rejected;
 
+            if (isRejected) {
+              setShowSteps(true);
+              setStatus("error");
+              setShowMessage(true);
+              setMessageTitle("Başvuru Reddedildi");
+              setMessageType("error");
+            }
             if (processStatus === "FORM") {
               setCurrentStep(0);
               setShowSteps(false);
               setEditable(true);
-            } else if (processStatus === "REJECTED") {
-              setShowSteps(true);
-              setStatus("error");
             } else if (processStatus === "PRE1") {
               setShowSteps(true);
               setCurrentStep(1);
@@ -171,9 +183,14 @@ const PastApplicationDetail = () => {
             } else if (processStatus === "PRE4") {
               setShowSteps(true);
               setCurrentStep(4);
-            } else {
+            } else if (processStatus === "IN1") {
               setShowSteps(true);
-              setCurrentStep(5);
+              setStatus("done");
+              setShowMessage(true);
+              setMessageTitle("Başvuru Onaylandı");
+              setMessageType("success");
+            } else {
+              setShowSteps(false);
             }
 
             setStepItems([
@@ -233,9 +250,9 @@ const PastApplicationDetail = () => {
       </ContentHeader>
       {showMessage && (
         <Alert
-          message={messageTitle} // messageTitle
+          message={messageTitle}
           description="Akademisyen Notu: This is an error message about rejected internship." // data.comment
-          type={messageType} // messageType
+          type={messageType}
           showIcon
           style={{ marginBottom: 20 }}
           closable
