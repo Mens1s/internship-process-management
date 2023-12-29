@@ -24,24 +24,20 @@ export const getColumns = (showModal: any) => {
     },
     {
       title: "companyName",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "companyName",
+      key: "companyName",
     },
     {
-      title: "startDate",
-      dataIndex: "startDate",
-      key: "startDate",
+      title: "companyMail",
+      dataIndex: "companyMail",
+      key: "companyMail",
     },
     {
-      title: "endDate",
-      dataIndex: "endDate",
-      key: "endDate",
+      title: "companyTelephone",
+      dataIndex: "companyTelephone",
+      key: "companyTelephone",
     },
-    {
-      title: "type",
-      dataIndex: "type",
-      key: "type",
-    },
+
     {
       key: "actions",
       fixed: "right",

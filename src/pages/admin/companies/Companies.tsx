@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ContentHeader from "src/components/ContentHeader";
 import { getColumns } from "./CompaniesTableColumns";
 import Table from "src/components/Table";
-import { Input, Modal } from "antd";
+import { Input, Modal, Skeleton } from "antd";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import { Text } from "src/context/LanguageProvider";
 import { SearchOutlined } from "@ant-design/icons";
@@ -11,70 +11,21 @@ import styled from "styled-components";
 import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import axios from "src/services/axios";
 
 const StyledButton = styled(Button)`
   @media (max-width: 600px) {
     flex: 1;
   }
 `;
-interface DataType {
-  key: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-  type: string;
-}
-
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "Turkcell",
-    startDate: "03.07.2023",
-    endDate: "03.07.2023",
-    type: "Zorunlu",
-  },
-  {
-    key: "2",
-    name: "Aselsan",
-    startDate: "18.08.2023",
-    endDate: "18.08.2023",
-    type: "Zorunlu",
-  },
-  {
-    key: "3",
-    name: "OBSS",
-    startDate: "05.06.2022",
-    endDate: "05.06.2022",
-    type: "İsteğe Bağlı",
-  },
-  {
-    key: "4",
-    name: "Vakıfbank",
-    startDate: "03.07.2023",
-    endDate: "03.07.2023",
-    type: "Zorunlu",
-  },
-  {
-    key: "5",
-    name: "Baykar",
-    startDate: "18.08.2023",
-    endDate: "18.08.2023",
-    type: "Zorunlu",
-  },
-  {
-    key: "6",
-    name: "Turk Telekom",
-    startDate: "05.06.2022",
-    endDate: "05.06.2022",
-    type: "İsteğe Bağlı",
-  },
-];
 
 const Companies = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [id, setId] = useState(null);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const showModal = (record: any) => {
     setId(record.name);
@@ -83,17 +34,32 @@ const Companies = () => {
   const enhancedColumns = useEnhancedColumns(getColumns(showModal));
 
   const filteredData = data
-    .filter((item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    .filter((item: any) =>
+      item.companyName.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    .map((filteredItem, index) => ({
+    .map((filteredItem: any, index: any) => ({
       ...filteredItem,
       rowNum: String(index + 1),
     }));
 
-    const handleNewCompanyAdd = () => {
-      navigate("/ogrenci/companies/new");
-    };
+  const handleNewCompanyAdd = () => {
+    navigate("/ogrenci/companies/new");
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("http://localhost:8000/api/company/getAll")
+      .then((response) => {
+        const companyList = response.data?.companyList;
+        setData(companyList);
+        console.log(response.data.companyList);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <div>
@@ -115,7 +81,11 @@ const Companies = () => {
           />
         </div>
       </ContentHeader>
-      <Table tableProps={{ columns: enhancedColumns, data: filteredData }} />
+      {loading ? (
+        <Skeleton active />
+      ) : (
+        <Table tableProps={{ columns: enhancedColumns, data: filteredData }} />
+      )}
 
       <Modal
         centered

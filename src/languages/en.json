@@ -92,5 +92,6 @@
   "date": "Date",
   "studentNumber": "Student ID",
   "fullName": "Full Name",
-  "pastInternships": "Past Internships"
+  "pastInternships": "Past Internships",
+  "companyTelephone": "Company Phone Number"
 }

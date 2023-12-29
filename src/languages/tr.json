@@ -92,5 +92,6 @@
   "date": "Tarih",
   "studentNumber": "Öğrenci Numarası",
   "fullName": "İsim Soyisim",
-  "pastInternships": "Geçmiş Stajlar"
+  "pastInternships": "Geçmiş Stajlar",
+  "companyTelephone": "Şirket Telefonu"
 }
