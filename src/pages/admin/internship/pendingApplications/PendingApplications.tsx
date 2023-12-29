@@ -41,11 +41,9 @@ const PastApplications = () => {
               return {
                 key: index + 1,
                 id: item.id,
-                name: companyName || "-",
-                startDate:
-                  new Date(item?.startDate).toLocaleDateString() || "-",
-                endDate: new Date(item?.endDate).toLocaleDateString() || "-",
-                type: item?.internshipType || "-",
+                studentNumber: item.studentNumber,
+                fullName: item.fullName || "-",
+                date: new Date(item?.updateDate).toLocaleDateString() || "-",
                 tags:
                   [
                     item.processStatus === "FORM"
@@ -73,7 +71,7 @@ const PastApplications = () => {
 
   const filteredData = data
     .filter((item: any) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      item.fullName.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .map((filteredItem: any, index: any) => ({
       ...filteredItem,

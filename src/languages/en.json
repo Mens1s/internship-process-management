@@ -88,5 +88,9 @@
   "deanery": "Deanery",
   "applied": "Applied",
   "applicationRejected": "Application Rejected",
-  "applicationApproved": "Application Approved"
+  "applicationApproved": "Application Approved",
+  "date": "Date",
+  "studentNumber": "Student ID",
+  "fullName": "Full Name",
+  "pastInternships": "Past Internships"
 }

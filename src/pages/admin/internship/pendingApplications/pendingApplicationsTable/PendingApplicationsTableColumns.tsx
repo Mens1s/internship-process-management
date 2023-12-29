@@ -21,42 +21,21 @@ export const columns: ColumnsType<DataType> = [
     width: "70px",
   },
   {
-    title: "companyName",
-    dataIndex: "name",
-    key: "name",
+    title: "fullName",
+    dataIndex: "fullName",
+    key: "fullName",
     width: "120px",
   },
   {
-    title: "startDate",
-    dataIndex: "startDate",
-    key: "startDate",
-    width: "120px",
-    filters: [
-      {
-        text: "2022-2023",
-        value: "Joe",
-      },
-      {
-        text: "2023-2024",
-        value: "Category 1",
-      },
-      {
-        text: "2024-2025",
-        value: "Category 2",
-      },
-    ],
-    filterSearch: true,
-  },
-  {
-    title: "endDate",
-    dataIndex: "endDate",
-    key: "endDate",
+    title: "studentNumber",
+    dataIndex: "studentNumber",
+    key: "studentNumber",
     width: "120px",
   },
   {
-    title: "type",
-    dataIndex: "type",
-    key: "type",
+    title: "date",
+    dataIndex: "date",
+    key: "date",
     width: "120px",
   },
   {

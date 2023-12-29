@@ -105,7 +105,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDenyOpen, setIsDenyOpen] = useState(false);
   const { dictionary } = useLanguage();
-  const [denyReason, setDenyReason] = useState<string>(""); // State to store the deny reason
+  const [comment, setComment] = useState<string>(""); // State to store the deny reason
   const [isApproved, setIsApproved] = useState<boolean>(false);
 
   const items = [
@@ -244,7 +244,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const handleEvaluation = () => {
     const jwtToken = window.localStorage.getItem("token");
     const userId = window.localStorage.getItem("id");
-    if (!denyReason) {
+    if (isDenyOpen && !comment) {
       message.error("Reddetme nedenini giriniz.");
       return;
     }
@@ -255,7 +255,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
         {
           processId: data.id,
           approve: isApproved,
-          comment: denyReason,
+          comment: comment,
           academicianId: userId,
         },
         {
@@ -276,7 +276,6 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   };
 
   const location = useLocation();
-  const isOgrenci = location.pathname.includes("/ogrenci");
   const isAkademisyen = location.pathname.includes("/akademisyen");
   const labelStyle = {};
   return (
@@ -339,8 +338,8 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
               rows={5}
               placeholder="Enter comments"
               required
-              value={denyReason}
-              onChange={(e) => setDenyReason(e.target.value)}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
             />
           </Modal>
         </div>

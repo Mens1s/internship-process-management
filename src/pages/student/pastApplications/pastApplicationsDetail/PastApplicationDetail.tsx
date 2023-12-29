@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Steps, Tag, Skeleton, Alert } from "antd";
+import { Steps, Tag, Skeleton, Alert, Button } from "antd";
 import styled from "styled-components";
 import ActiveApplicationForm from "../../activeApplication/ActiveApplicationForm";
 import ContentHeader from "src/components/ContentHeader";
@@ -8,9 +8,21 @@ import ActiveApplicationViewForm from "../../activeApplication/ActiveApplication
 import { useLocation, useParams } from "react-router-dom";
 import { Text } from "src/context/LanguageProvider";
 import UseLanguage from "src/hooks/useLanguage";
+import { HistoryOutlined } from "@ant-design/icons";
 
 const StepsContainer = styled.div`
   width: 100%;
+`;
+
+const StyledButton = styled(Button)`
+  @media (max-width: 600px) {
+    flex: 1;
+  }
+
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  align-items: center;
 `;
 
 interface HeaderProps {
@@ -38,11 +50,14 @@ const PastApplicationDetail = () => {
   const [loading, setLoading] = useState(true);
   const [messageTitle, setMessageTitle] = useState("");
   const [messageType, setMessageType] = useState<any>("error");
+  const [comment, setComment] = useState<any>("");
   const [status, setStatus] = useState<any>("process");
   const [showMessage, setShowMessage] = useState(false);
   const { id } = useParams();
-  const location = useLocation();
   const { dictionary } = UseLanguage();
+
+  const location = useLocation();
+  const isAcademician = location.pathname.includes("/akademisyen");
 
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("token");
@@ -70,6 +85,7 @@ const PastApplicationDetail = () => {
               setShowMessage(true);
               setMessageTitle(dictionary.applicationRejected);
               setMessageType("error");
+              setComment(internshipProcess.comment);
             }
             if (processStatus === "FORM") {
               setCurrentStep(0);
@@ -150,6 +166,7 @@ const PastApplicationDetail = () => {
           null,
           {
             params: {
+              //FIX: dinamik olmalı
               academicianId: 1,
             },
           }
@@ -255,11 +272,18 @@ const PastApplicationDetail = () => {
         <h2>
           <Text tid="applicationDetails" />
         </h2>
+
+        {isAcademician && (
+          <StyledButton>
+            <HistoryOutlined />
+            <Text tid="pastInternships" />
+          </StyledButton>
+        )}
       </ContentHeader>
       {showMessage && (
         <Alert
           message={messageTitle}
-          description="Akademisyen Notu: This is an error message about rejected internship." // data.comment
+          description={`Akademisyen Notu: ${comment}`}
           type={messageType}
           showIcon
           style={{ marginBottom: 20 }}

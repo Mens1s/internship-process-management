@@ -88,5 +88,9 @@
   "deanery": "Dekanlık",
   "applied": "Başvuru Yapıldı",
   "applicationRejected": "Başvuru Reddedildi",
-  "applicationApproved": "Başvuru Onaylandı"
+  "applicationApproved": "Başvuru Onaylandı",
+  "date": "Tarih",
+  "studentNumber": "Öğrenci Numarası",
+  "fullName": "İsim Soyisim",
+  "pastInternships": "Geçmiş Stajlar"
 }

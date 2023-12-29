@@ -40,11 +40,11 @@ const Authorize = () => {
       })
       .then((response) => {
         console.log("task response:", response);
-        alert( "Görev başarıyla atandı." );
+        alert("Görev başarıyla atandı.");
       })
       .catch((error) => {
         console.error("task error:");
-        alert( "Görev atanamadı." );
+        alert("Görev atanamadı.");
       });
   };
 
@@ -57,21 +57,22 @@ const Authorize = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-useEffect(() => {
-  const jwtToken = window.localStorage.getItem("token");
-  axios
-    .get("http://localhost:8000/api/academician/get-all-not-pageable")
-    .then((response) => {
-      setAcademics(response.data.academicsList);
-    })
-    .catch((error) => {
-      console.error("auth error:");
-    })
-    .finally(() => {
-      setLoading(false);
-    });
+  useEffect(() => {
+    const jwtToken = window.localStorage.getItem("token");
+    axios
+      .get("http://localhost:8000/api/academician/get-all-not-pageable")
+      .then((response) => {
+        setAcademics(response.data.academicsList);
+        console.log(response.data.academicsList);
+      })
+      .catch((error) => {
+        console.error("auth error:");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
-  
+
   const mappedData = academics.map((academic, index) => ({
     id: academic.id.toString(),
     key: index + 1,
@@ -87,8 +88,6 @@ useEffect(() => {
         <div>
           <h2>Yönetici Listesi</h2>
         </div>
-
-        
 
         <Modal
           title="Yönetici Ekle"

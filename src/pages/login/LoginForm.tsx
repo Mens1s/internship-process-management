@@ -104,6 +104,9 @@ const Login: React.FC = () => {
         .catch((error) => {
           errorMessage();
           console.error("Error:", error);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
