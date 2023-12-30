@@ -5,13 +5,14 @@ import { EditOutlined } from "@ant-design/icons";
 import MyButton from "src/components/Button";
 import { Text } from "src/context/LanguageProvider";
 import { Tag } from "antd";
+
 interface DataType {
   id: number;
   key: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-  type: string;
+  fullName: string; // Fixing type for fullName
+  studentNumber: string; // Fixing type for studentNumber
+  date: string; // Fixing type for date
+  tags: string[]; // Fixing type for tags
 }
 
 export const columns: ColumnsType<DataType> = [
@@ -79,9 +80,12 @@ export const columns: ColumnsType<DataType> = [
   {
     key: "actions",
     fixed: "right",
-    render: (_, record) => (
+    render: (
+      _,
+      record: DataType // Fixing type for record
+    ) => (
       <Link
-        to={`/akademisyen/internship/pending/evaluate/${record.id}`}
+        to={`/akademisyen/internships/pending/evaluate/${record.id}`}
         state={{ record, processId: record.key }}
       >
         <MyButton

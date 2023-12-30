@@ -70,12 +70,12 @@ const MySider: React.FC<MySiderProps> = ({
   const items: MenuItem[] = [
     getItem(
       dictionary.internshipProcedures,
-      "akademisyen/internship",
+      "akademisyen/internships",
       <SnippetsFilled />,
       [
-        getItem("Onay Bekleyen Başvurular", "akademisyen/internship/pending"),
-        getItem("Aktif Stajlar", "akademisyen/internship/active"),
-        getItem("Tamamlanmış Stajlar", "akademisyen/internship/past"),
+        getItem("Onay Bekleyen Başvurular", "akademisyen/internships/pending"),
+        getItem("Aktif Stajlar", "akademisyen/internships/active"),
+        getItem("Tamamlanmış Stajlar", "akademisyen/internships/past"),
       ]
     ),
     getItem("Yönetici İşlemleri", "akademisyen/admin", <SettingFilled />, [

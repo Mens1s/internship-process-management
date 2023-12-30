@@ -33,7 +33,6 @@ const PastApplications = () => {
         }
       )
       .then((response: any) => {
-        console.log("get-all-assigned response: ", response);
         const internshipProcessList = response?.data?.internshipProcessList;
         if (internshipProcessList) {
           setData(

@@ -105,8 +105,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDenyOpen, setIsDenyOpen] = useState(false);
   const { dictionary } = useLanguage();
-  const [comment, setComment] = useState<string>(""); // State to store the deny reason
-  const [isApproved, setIsApproved] = useState<boolean>(false);
+  const [comment, setComment] = useState<any>(null); // State to store the deny reason
 
   const items = [
     {
@@ -241,7 +240,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
 
-  const handleEvaluation = () => {
+  const handleEvaluation = (isApproved: boolean) => {
     const jwtToken = window.localStorage.getItem("token");
     const userId = window.localStorage.getItem("id");
     if (isDenyOpen && !comment) {
@@ -277,6 +276,8 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
 
   const location = useLocation();
   const isAkademisyen = location.pathname.includes("/akademisyen");
+  const isInEvaluatePage = location.pathname.split("/").includes("evaluate");
+
   const labelStyle = {};
   return (
     <>
@@ -296,7 +297,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
             size="middle"
           />
           <DatePickersContainer>
-            {isAkademisyen && (
+            {isAkademisyen && isInEvaluatePage && (
               <>
                 <Button danger onClick={showDeny}>
                   Reddet
@@ -311,8 +312,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
             title="Başvuruyu Onayla"
             open={isConfirmOpen}
             onOk={() => {
-              setIsApproved(true);
-              handleEvaluation();
+              handleEvaluation(true);
             }}
             onCancel={handleCancel}
           >
@@ -327,8 +327,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
             title="Başvuruyu Reddet"
             open={isDenyOpen}
             onOk={() => {
-              setIsApproved(false);
-              handleEvaluation();
+              handleEvaluation(false);
             }}
             onCancel={handleCancel}
           >

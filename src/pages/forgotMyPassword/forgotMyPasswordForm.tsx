@@ -19,7 +19,7 @@ const FormContainer = styled.div`
   gap: 30px;
 `;
 
-const Login: React.FC = () => {
+const ForgotMyPasswordForm: React.FC = () => {
   const { setAuth }: any = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -139,29 +139,6 @@ const Login: React.FC = () => {
           />
         </Form.Item>
 
-        <Form.Item
-          style={{ marginBottom: 0 }}
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: dictionary.pleaseInputYourPassword,
-            },
-          ]}
-        >
-          <Input.Password
-            style={{ marginBottom: 5 }}
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder={dictionary.password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Item>
-        <Form.Item style={{ margin: 0, marginBottom: 10 }}>
-          <Link style={{ float: "right" }} to="/ogrenci/forgot-my-password">
-            <Text tid="forgotPassword" />
-          </Link>
-        </Form.Item>
-
         <Form.Item style={{ marginBottom: 10 }}>
           <Button
             loading={loading}
@@ -169,19 +146,19 @@ const Login: React.FC = () => {
             htmlType="submit"
             style={{ width: "100%" }}
           >
-            <Text tid="login" />
+            Şifremi Yenile
           </Button>
         </Form.Item>
         <Divider style={{ color: "gray" }} plain>
           <Text tid="or" />
         </Divider>
-        <Form.Item>
+        <Form.Item style={{ marginBottom: 10 }}>
           <Button
             type="default"
             style={{ width: "100%" }}
-            onClick={() => navigate("/ogrenci/register")}
+            onClick={() => navigate("/ogrenci/login")}
           >
-            <Text tid="signUp" />
+            <Text tid="login" />
           </Button>
         </Form.Item>
       </Form>
@@ -189,4 +166,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default ForgotMyPasswordForm;

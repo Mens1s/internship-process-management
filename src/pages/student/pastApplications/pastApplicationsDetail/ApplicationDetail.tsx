@@ -5,7 +5,12 @@ import ActiveApplicationForm from "../../activeApplication/ActiveApplicationForm
 import ContentHeader from "src/components/ContentHeader";
 import axios from "src/services/axios";
 import ActiveApplicationViewForm from "../../activeApplication/ActiveApplicationViewForm";
-import { useLocation, useParams } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { Text } from "src/context/LanguageProvider";
 import UseLanguage from "src/hooks/useLanguage";
 import { HistoryOutlined } from "@ant-design/icons";
@@ -42,7 +47,7 @@ interface StepItem {
 }
 
 const PastApplicationDetail = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const [showSteps, setShowSteps] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [editable, setEditable] = useState(false);
@@ -55,6 +60,7 @@ const PastApplicationDetail = () => {
   const [showMessage, setShowMessage] = useState(false);
   const { id } = useParams();
   const { dictionary } = UseLanguage();
+  const navigate = useNavigate();
 
   const location = useLocation();
   const isAcademician = location.pathname.includes("/akademisyen");
@@ -160,14 +166,14 @@ const PastApplicationDetail = () => {
           setLoading(false);
         });
     } else if (location.pathname.includes("akademisyen")) {
+      const academicianId = window.localStorage.getItem("id");
       axios
         .post(
           "http://localhost:8000/api/internship-process/get-all-process-assigned",
           null,
           {
             params: {
-              //FIX: dinamik olmalı
-              academicianId: 1,
+              academicianId: academicianId,
             },
           }
         )
@@ -266,6 +272,8 @@ const PastApplicationDetail = () => {
     }
   }, []);
 
+  const isInEvaluatePage = location.pathname.split("/").includes("evaluate");
+
   return (
     <div>
       <ContentHeader>
@@ -273,8 +281,12 @@ const PastApplicationDetail = () => {
           <Text tid="applicationDetails" />
         </h2>
 
-        {isAcademician && (
-          <StyledButton>
+        {isAcademician && isInEvaluatePage && (
+          <StyledButton
+            onClick={() =>
+              navigate(`/akademisyen/${data.studentId}/internships`)
+            }
+          >
             <HistoryOutlined />
             <Text tid="pastInternships" />
           </StyledButton>
@@ -304,7 +316,7 @@ const PastApplicationDetail = () => {
       </Header>
       {loading ? (
         <Skeleton active />
-      ) : editable ? (
+      ) : editable && !isAcademician ? (
         <ActiveApplicationForm data={data} />
       ) : (
         <ActiveApplicationViewForm data={data} />
