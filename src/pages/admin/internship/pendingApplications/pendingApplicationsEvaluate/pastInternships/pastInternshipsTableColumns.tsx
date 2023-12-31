@@ -6,12 +6,14 @@ import { EyeOutlined } from "@ant-design/icons";
 import MyButton from "src/components/Button";
 interface DataType {
   key: string;
-  id: string; // Add this line
+  id: string;
+  studentId: string;
   name: string;
   startDate: string;
   endDate: string;
   type: string;
   tags: string[];
+  internshipProcessList: any;
 }
 
 export const columns: ColumnsType<DataType> = [
@@ -22,8 +24,8 @@ export const columns: ColumnsType<DataType> = [
   },
   {
     title: "companyName",
-    dataIndex: "name",
-    key: "name",
+    dataIndex: "companyName",
+    key: "companyName",
     width: 120,
     render(text) {
       const isNotSpecified =
@@ -143,7 +145,11 @@ export const columns: ColumnsType<DataType> = [
     render: (_: any, record: any) => (
       <Link
         to={`/akademisyen/${record.studentId}/internships/${record.id}`}
-        state={{ record, processId: record.key }}
+        state={{
+          record,
+          processId: record.id,
+          internshipProcessList: record.internshipProcessList,
+        }}
       >
         <MyButton
           text={<Text tid="view" />}

@@ -93,5 +93,6 @@
   "studentNumber": "Öğrenci Numarası",
   "fullName": "İsim Soyisim",
   "pastInternships": "Geçmiş Stajlar",
-  "companyTelephone": "Şirket Telefonu"
+  "companyTelephone": "Şirket Telefonu",
+  "task": "Görev"
 }

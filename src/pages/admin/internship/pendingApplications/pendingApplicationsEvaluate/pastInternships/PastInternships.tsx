@@ -11,17 +11,6 @@ import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import styled from "styled-components";
 import UseLanguage from "src/hooks/useLanguage";
 
-const StyledButton = styled(Button)`
-  @media (max-width: 600px) {
-    flex: 1;
-  }
-
-  display: flex;
-  gap: 7px;
-  justify-content: center;
-  align-items: center;
-`;
-
 const PastApplications: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
@@ -30,30 +19,6 @@ const PastApplications: React.FC = () => {
   const [companyName, setCompanyName] = useState("");
   const [fullName, setFullName] = useState("");
   const enhancedColumns = useEnhancedColumns(columns);
-  const [canCreateNewForm, setCanCreateNewForm] = useState(false);
-
-  const success = () => {
-    messageApi.open({
-      type: "success",
-      content: dictionary.internshipApplicationIsCreated,
-    });
-  };
-
-  const errorMessage = (code: any) => {
-    let text;
-    if (code == 400) {
-      text = "Aynı anda ikiden fazla başvuruya sahip olunamaz.";
-    } else if (code == 500) {
-      text = "Bağlantı hatası oluştu. Lütfen tekrar deneyiniz.";
-    } else {
-      text = "Bir hata oluştu. Lütfen tekrar deneyiniz.";
-    }
-    messageApi.open({
-      type: "error",
-      content: text,
-      duration: 5,
-    });
-  };
 
   const [reloadPage, setReloadPage] = useState(0);
 
@@ -61,6 +26,7 @@ const PastApplications: React.FC = () => {
     let currentURL = window.location.href;
     let match = currentURL.match(/\/akademisyen\/(\d+)\/internships/);
     let studentId = match ? match[1] : null;
+    setLoading(true);
 
     const jwtToken = window.localStorage.getItem("token");
     axios
@@ -75,12 +41,9 @@ const PastApplications: React.FC = () => {
           },
         }
       )
-      .then((response) => {
+      .then((response: any) => {
         const internshipProcessList = response?.data?.internshipProcessList;
         console.log(internshipProcessList);
-        if (internshipProcessList.length < 2) {
-          setCanCreateNewForm(true);
-        }
         if (internshipProcessList) {
           setFullName(internshipProcessList[0].fullName);
           setData(
@@ -88,8 +51,8 @@ const PastApplications: React.FC = () => {
               return {
                 key: index + 1,
                 id: item.id,
-                fullName: item.fullName,
                 studentId: item.studentId,
+                companyName: item.companyName,
                 name: companyName || dictionary.notSpecified,
                 startDate:
                   item?.startDate &&
@@ -102,6 +65,7 @@ const PastApplications: React.FC = () => {
                     : dictionary.notSpecified,
                 type: item?.internshipType || dictionary.notSpecified,
                 tags: [getStatus(item)] || dictionary.notSpecified,
+                internshipProcessList: internshipProcessList,
               };
             })
           );
@@ -141,7 +105,12 @@ const PastApplications: React.FC = () => {
       <ContentHeader>
         <div>
           <h2>
-            {fullName}&nbsp;&middot;&nbsp;
+            {loading ? (
+              <Skeleton.Input active size="small"></Skeleton.Input>
+            ) : (
+              <span>{fullName}</span>
+            )}
+            &nbsp;&middot;&nbsp;
             <Text tid="pastInternships" />
           </h2>
         </div>

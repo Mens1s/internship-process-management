@@ -46,7 +46,7 @@ interface StepItem {
   description: string;
 }
 
-const PastApplicationDetail = () => {
+const ApplicationDetail = () => {
   const [data, setData] = useState<any>([]);
   const [showSteps, setShowSteps] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
@@ -158,117 +158,195 @@ const PastApplicationDetail = () => {
           } else {
             console.log(`Internship process with id ${id} not found`);
           }
-
-          setLoading(false);
         })
         .catch((error) => {
           console.log("error:", error.response);
-          setLoading(false);
-        });
+        })
+        .finally(() => setLoading(false));
     } else if (location.pathname.includes("akademisyen")) {
       const academicianId = window.localStorage.getItem("id");
-      axios
-        .post(
-          "http://localhost:8000/api/internship-process/get-all-process-assigned",
-          null,
+
+      if (location.state?.internshipProcessList) {
+        const internshipProcessList = location.state?.internshipProcessList;
+        const processId = location.state?.processId;
+        const internshipProcess = internshipProcessList.find(
+          (process: any) => process.id === processId
+        );
+        setData(internshipProcess);
+        setLoading(false);
+
+        const processStatus = internshipProcess.processStatus;
+        const isRejected = internshipProcess.rejected;
+
+        if (isRejected) {
+          setShowSteps(true);
+          setStatus("error");
+          setShowMessage(true);
+          setMessageTitle("Başvuru Reddedildi");
+          setMessageType("error");
+        }
+        if (processStatus === "FORM") {
+          setCurrentStep(0);
+          setShowSteps(false);
+          setEditable(true);
+        } else if (processStatus === "PRE1") {
+          setShowSteps(true);
+          setCurrentStep(1);
+        } else if (processStatus === "PRE2") {
+          setShowSteps(true);
+          setCurrentStep(2);
+        } else if (processStatus === "PRE3") {
+          setShowSteps(true);
+          setCurrentStep(3);
+        } else if (processStatus === "PRE4") {
+          setShowSteps(true);
+          setCurrentStep(4);
+        } else if (processStatus === "IN1") {
+          setShowSteps(true);
+          setStatus("done");
+          setShowMessage(true);
+          setMessageTitle("Başvuru Onaylandı");
+          setMessageType("success");
+        }
+
+        setStepItems([
           {
-            params: {
-              academicianId: academicianId,
-            },
-          }
-        )
-        .then((response) => {
-          const index = response.data.internshipProcessList.findIndex(
-            (item: any) => item.id == id
-          );
-
-          if (index !== -1) {
-            const internshipProcess =
-              response.data.internshipProcessList[index];
-            const processStatus = internshipProcess.processStatus;
-            const isRejected = internshipProcess.rejected;
-
-            if (isRejected) {
-              setShowSteps(true);
-              setStatus("error");
-              setShowMessage(true);
-              setMessageTitle("Başvuru Reddedildi");
-              setMessageType("error");
+            title: "Öğrenci",
+            description: "Başvuru yapıldı",
+          },
+          {
+            title: "Staj Komisyonu",
+            description: isRejected
+              ? dictionary.rejected
+              : processStatus == "PRE1"
+              ? "Onay Bekliyor"
+              : "Onaylandı",
+          },
+          {
+            title: "Bölüm",
+            description:
+              processStatus != "PRE2" && processStatus != "PRE1"
+                ? "Onaylandı"
+                : "Onay Bekliyor",
+          },
+          {
+            title: "Fakülte",
+            description: processStatus.includes("PRE")
+              ? "Onay Bekliyor"
+              : "Onaylandı",
+          },
+          {
+            title: "Dekanlık",
+            description: processStatus.includes("PRE")
+              ? "Onay Bekliyor"
+              : "Onaylandı",
+          },
+        ]);
+        setEditable(internshipProcess.editable);
+      } else {
+        axios
+          .post(
+            "http://localhost:8000/api/internship-process/get-all-process-assigned",
+            null,
+            {
+              params: {
+                academicianId: academicianId,
+              },
             }
-            if (processStatus === "FORM") {
-              setCurrentStep(0);
-              setShowSteps(false);
-              setEditable(true);
-            } else if (processStatus === "PRE1") {
-              setShowSteps(true);
-              setCurrentStep(1);
-            } else if (processStatus === "PRE2") {
-              setShowSteps(true);
-              setCurrentStep(2);
-            } else if (processStatus === "PRE3") {
-              setShowSteps(true);
-              setCurrentStep(3);
-            } else if (processStatus === "PRE4") {
-              setShowSteps(true);
-              setCurrentStep(4);
-            } else if (processStatus === "IN1") {
-              setShowSteps(true);
-              setStatus("done");
-              setShowMessage(true);
-              setMessageTitle("Başvuru Onaylandı");
-              setMessageType("success");
+          )
+          .then((response) => {
+            const index = response.data.internshipProcessList.findIndex(
+              (item: any) => item.id == id
+            );
+
+            if (index !== -1) {
+              const internshipProcess =
+                response.data.internshipProcessList[index];
+              const processStatus = internshipProcess.processStatus;
+              const isRejected = internshipProcess.rejected;
+
+              if (isRejected) {
+                setShowSteps(true);
+                setStatus("error");
+                setShowMessage(true);
+                setMessageTitle("Başvuru Reddedildi");
+                setMessageType("error");
+              }
+              if (processStatus === "FORM") {
+                setCurrentStep(0);
+                setShowSteps(false);
+                setEditable(true);
+              } else if (processStatus === "PRE1") {
+                setShowSteps(true);
+                setCurrentStep(1);
+              } else if (processStatus === "PRE2") {
+                setShowSteps(true);
+                setCurrentStep(2);
+              } else if (processStatus === "PRE3") {
+                setShowSteps(true);
+                setCurrentStep(3);
+              } else if (processStatus === "PRE4") {
+                setShowSteps(true);
+                setCurrentStep(4);
+              } else if (processStatus === "IN1") {
+                setShowSteps(true);
+                setStatus("done");
+                setShowMessage(true);
+                setMessageTitle("Başvuru Onaylandı");
+                setMessageType("success");
+              } else {
+                setShowSteps(false);
+              }
+
+              setStepItems([
+                {
+                  title: "Öğrenci",
+                  description: "Başvuru yapıldı",
+                },
+                {
+                  title: "Staj Komisyonu",
+                  description: isRejected
+                    ? dictionary.rejected
+                    : processStatus == "PRE1"
+                    ? "Onay Bekliyor"
+                    : "Onaylandı",
+                },
+                {
+                  title: "Bölüm",
+                  description:
+                    processStatus != "PRE2" && processStatus != "PRE1"
+                      ? "Onaylandı"
+                      : "Onay Bekliyor",
+                },
+                {
+                  title: "Fakülte",
+                  description: processStatus.includes("PRE")
+                    ? "Onay Bekliyor"
+                    : "Onaylandı",
+                },
+                {
+                  title: "Dekanlık",
+                  description: processStatus.includes("PRE")
+                    ? "Onay Bekliyor"
+                    : "Onaylandı",
+                },
+              ]);
+
+              setData(internshipProcess);
+              setEditable(internshipProcess.editable);
             } else {
-              setShowSteps(false);
+              console.log(`Internship process with id ${id} not found`);
             }
 
-            setStepItems([
-              {
-                title: "Öğrenci",
-                description: "Başvuru yapıldı",
-              },
-              {
-                title: "Staj Komisyonu",
-                description: isRejected
-                  ? dictionary.rejected
-                  : processStatus == "PRE1"
-                  ? "Onay Bekliyor"
-                  : "Onaylandı",
-              },
-              {
-                title: "Bölüm",
-                description:
-                  processStatus != "PRE2" && processStatus != "PRE1"
-                    ? "Onaylandı"
-                    : "Onay Bekliyor",
-              },
-              {
-                title: "Fakülte",
-                description: processStatus.includes("PRE")
-                  ? "Onay Bekliyor"
-                  : "Onaylandı",
-              },
-              {
-                title: "Dekanlık",
-                description: processStatus.includes("PRE")
-                  ? "Onay Bekliyor"
-                  : "Onaylandı",
-              },
-            ]);
-
-            setData(internshipProcess);
-            setEditable(internshipProcess.editable);
-          } else {
-            console.log(`Internship process with id ${id} not found`);
-          }
-
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log("get all assigned error:");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log("get all assigned error:");
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      }
     }
   }, []);
 
@@ -286,6 +364,7 @@ const PastApplicationDetail = () => {
             onClick={() =>
               navigate(`/akademisyen/${data.studentId}/internships`)
             }
+            disabled={loading}
           >
             <HistoryOutlined />
             <Text tid="pastInternships" />
@@ -325,4 +404,4 @@ const PastApplicationDetail = () => {
   );
 };
 
-export default PastApplicationDetail;
+export default ApplicationDetail;

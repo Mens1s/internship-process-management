@@ -93,5 +93,6 @@
   "studentNumber": "Student ID",
   "fullName": "Full Name",
   "pastInternships": "Past Internships",
-  "companyTelephone": "Company Phone Number"
+  "companyTelephone": "Company Phone Number",
+  "task": "Task"
 }

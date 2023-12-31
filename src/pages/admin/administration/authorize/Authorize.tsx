@@ -19,9 +19,7 @@ interface AcademicDataType {
   firstName: string;
   lastName: string;
   mail: string;
-  department: {
-    departmentName: string;
-  };
+  departmentName: string;
 }
 
 const Authorize = () => {
@@ -74,12 +72,12 @@ const Authorize = () => {
   }, []);
 
   const mappedData = academics.map((academic, index) => ({
-    id: academic.id.toString(),
+    id: academic.id,
     key: index + 1,
-    name: academic.firstName,
+    name: `${academic.firstName} ${academic.lastName}`,
     surname: academic.lastName,
     mail: academic.mail,
-    department: academic.department.departmentName,
+    department: academic.departmentName,
   }));
 
   return (

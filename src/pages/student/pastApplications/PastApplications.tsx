@@ -29,7 +29,6 @@ const PastApplications: React.FC = () => {
   const [createLoading, setCreateLoading] = useState(false);
   const [data, setData] = useState([]);
   const [companies, setCompanies] = useState<any>([]);
-  const [companyName, setCompanyName] = useState("");
   const navigate = useNavigate();
   const enhancedColumns = useEnhancedColumns(columns);
   const [canCreateNewForm, setCanCreateNewForm] = useState(false);
@@ -104,7 +103,6 @@ const PastApplications: React.FC = () => {
       })
       .then((response) => {
         const internshipProcessList = response?.data?.internshipProcessList;
-        //FIX: reddedilenler dışında 2den küçük olmalı
         if (internshipProcessList.length < 2) {
           setCanCreateNewForm(true);
         }
@@ -114,7 +112,7 @@ const PastApplications: React.FC = () => {
               return {
                 key: index + 1,
                 id: item.id,
-                name: companyName || dictionary.notSpecified,
+                name: item.companyName || dictionary.notSpecified,
                 startDate:
                   item?.startDate &&
                   new Date(item.startDate).getFullYear() !== 1970
@@ -158,6 +156,7 @@ const PastApplications: React.FC = () => {
       }
     }
   }
+
   return (
     <>
       {contextHolder}

@@ -52,11 +52,6 @@ export const getColumns = (showModal: any) => {
       dataIndex: "name",
       key: "name",
     },
-    {
-      title: "surname",
-      dataIndex: "surname",
-      key: "surname",
-    },
 
     {
       title: "mail",
@@ -67,6 +62,11 @@ export const getColumns = (showModal: any) => {
       title: "department",
       dataIndex: "department",
       key: "department",
+    },
+    {
+      title: "task",
+      dataIndex: "task",
+      key: "task",
     },
     {
       key: "actions",
@@ -88,15 +88,11 @@ export const getColumns = (showModal: any) => {
             key: "2",
           },
           {
-            label: (
-            <span onClick={() => showModal(record, 3)}>Executive</span>
-            ),
+            label: <span onClick={() => showModal(record, 3)}>Executive</span>,
             key: "3",
           },
           {
-            label: (
-            <span onClick={() => showModal(record, 4)}>Academic</span>
-            ),
+            label: <span onClick={() => showModal(record, 4)}>Academic</span>,
             key: "4",
           },
         ];

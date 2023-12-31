@@ -32,14 +32,6 @@ const Login: React.FC = () => {
   const { dictionary } = UseLanguage();
   const [messageApi, contextHolder] = message.useMessage();
 
-  const errorMessage: any = () => {
-    messageApi.open({
-      type: "error",
-      content: dictionary.wrongMailOrPassword,
-      duration: 5,
-    });
-  };
-
   const handleLogin = () => {
     setLoading(true);
     if (window.location.pathname.includes("/ogrenci/login")) {
@@ -50,26 +42,20 @@ const Login: React.FC = () => {
         })
         .then((response) => {
           window.localStorage.setItem("isLoggedIn", "true");
-          //navigate(fromStudent, { replace: true });
-          if (response.status == 200) {
-            window.localStorage.setItem("token", response.data.token);
-            window.localStorage.setItem("mail", username);
-            window.localStorage.setItem("fullName", response.data.fullName);
-            window.localStorage.setItem("role", "2000");
-            window.localStorage.setItem("id", response.data.id);
-
-            setAuth({
-              user: username,
-              token: response.data.token,
-              role: 2000,
-            });
-            navigate("/ogrenci");
-          } else {
-            errorMessage();
-          }
+          window.localStorage.setItem("token", response.data.token);
+          window.localStorage.setItem("mail", username);
+          window.localStorage.setItem("fullName", response.data.fullName);
+          window.localStorage.setItem("role", "2000");
+          window.localStorage.setItem("id", response.data.id);
+          setAuth({
+            user: username,
+            token: response.data.token,
+            role: 2000,
+          });
+          navigate("/ogrenci", { replace: true });
         })
         .catch((error) => {
-          errorMessage();
+          message.error(dictionary.wrongMailOrPassword);
           console.error("Login error:", error);
         })
         .finally(() => {
@@ -94,16 +80,15 @@ const Login: React.FC = () => {
           window.localStorage.setItem("role", "3000");
           window.localStorage.setItem("id", response.data.id);
 
-          // navigate(fromAkademisyen, { replace: true });
           window.localStorage.setItem("isLoggedIn", "true");
 
           window.localStorage.setItem("isLoggedIn", "true");
           setTimeout(() => {
-            navigate("/akademisyen");
+            navigate("/akademisyen", { replace: true });
           }, 500);
         })
         .catch((error) => {
-          errorMessage();
+          message.error(dictionary.wrongMailOrPassword);
           console.error("Error:", error);
         })
         .finally(() => {
