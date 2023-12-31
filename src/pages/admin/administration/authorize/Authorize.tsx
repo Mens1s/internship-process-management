@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "src/services/axios";
 import ContentHeader from "src/components/ContentHeader";
-import { Modal, Button, Input, Skeleton } from "antd";
+import { Modal, Button, Input, Skeleton, message } from "antd";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import { getColumns } from "./authorizeTable/AuthorizeTableColumns";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -25,10 +25,11 @@ interface AcademicDataType {
 const Authorize = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [academics, setAcademics] = useState<AcademicDataType[]>([]);
-  const [loading, setLoading] = useState(true); // Step 2: Loading state
+  const [loading, setLoading] = useState(true);
+  const [assignLoading, setAssignLoading] = useState(false);
 
   const showModal = (record: any, taskId: any) => {
-    console.log(record);
+    setAssignLoading(true);
     axios
       .post("http://localhost:8000/api/academician/assignTask", null, {
         params: {
@@ -38,12 +39,13 @@ const Authorize = () => {
       })
       .then((response) => {
         console.log("task response:", response);
-        alert("Görev başarıyla atandı.");
+        message.success("Görev başarıyla atandı.");
       })
       .catch((error) => {
         console.error("task error:");
-        alert("Görev atanamadı.");
-      });
+        message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyiniz.");
+      })
+      .finally(() => setAssignLoading(false));
   };
 
   const enhancedColumns = useEnhancedColumns(getColumns(showModal));
@@ -61,7 +63,7 @@ const Authorize = () => {
       .get("http://localhost:8000/api/academician/get-all-not-pageable")
       .then((response) => {
         setAcademics(response.data.academicsList);
-        console.log(response.data.academicsList);
+        console.log(response.data);
       })
       .catch((error) => {
         console.error("auth error:");
@@ -100,8 +102,14 @@ const Authorize = () => {
       {loading ? (
         <Skeleton active />
       ) : (
-        <Table tableProps={{ columns: enhancedColumns, data: mappedData }} />
-      )}{" "}
+        <Table
+          tableProps={{
+            columns: enhancedColumns,
+            data: mappedData,
+            loading: assignLoading,
+          }}
+        />
+      )}
     </>
   );
 };

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Table from "src/components/Table";
-import { Button, Modal, Skeleton, message } from "antd";
+import { Button, Modal, Skeleton, message, Tour } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { columns } from "./PastApplicationsTableColumns";
@@ -10,6 +10,7 @@ import axios from "src/services/axios";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import styled from "styled-components";
 import UseLanguage from "src/hooks/useLanguage";
+import type { TourProps } from "antd";
 
 const StyledButton = styled(Button)`
   @media (max-width: 600px) {
@@ -32,6 +33,18 @@ const PastApplications: React.FC = () => {
   const navigate = useNavigate();
   const enhancedColumns = useEnhancedColumns(columns);
   const [canCreateNewForm, setCanCreateNewForm] = useState(false);
+  const [isTourOpen, setIsTourOpen] = useState<boolean>(false);
+
+  const ref = useRef(null);
+
+  const steps: TourProps["steps"] = [
+    {
+      title: "Başvuru Taslağı Oluşturuldu",
+      description: "Başvurularını buradan inceleyebilirsin",
+      target: () => ref.current,
+      placement: "bottom",
+    },
+  ];
 
   const success = () => {
     messageApi.open({
@@ -57,6 +70,7 @@ const PastApplications: React.FC = () => {
   };
 
   const [reloadPage, setReloadPage] = useState(0);
+
   const handleInit = () => {
     const jwtToken = window.localStorage.getItem("token");
     setCreateLoading(true);
@@ -73,6 +87,7 @@ const PastApplications: React.FC = () => {
       .then((response) => {
         setReloadPage((prev) => prev + 1);
         setCanCreateNewForm((prev) => !prev);
+        setIsTourOpen(true);
         success();
       })
       .catch((error) => {
@@ -178,8 +193,23 @@ const PastApplications: React.FC = () => {
       {loading ? (
         <Skeleton active={true} paragraph={{ rows: 4 }} />
       ) : (
-        <Table tableProps={{ columns: enhancedColumns, data: data }} />
+        <div ref={ref}>
+          <Table
+            tableProps={{
+              columns: enhancedColumns,
+              data,
+              loading: createLoading,
+            }}
+          />
+        </div>
       )}
+      {/*  <Tour
+        open={isTourOpen}
+        onClose={() => setIsTourOpen(false)}
+        type="primary"
+        steps={steps}
+        mask={false}
+      /> */}
     </>
   );
 };

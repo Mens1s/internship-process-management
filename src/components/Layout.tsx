@@ -70,30 +70,6 @@ const MyLayout: React.FC = () => {
       />
       <Layout>
         <Header collapsed={collapsed} setCollapsed={toggleSider} />
-        {/*   <div
-          style={{
-            margin: 10,
-            marginBottom: 0,
-            display: "flex",
-            flexDirection: "column",
-            gap: 10,
-          }}
-        >
-          <Alert
-            message="Staj başvurunuz onaylandı."
-            type="success"
-            showIcon
-            closable
-          />
-          <Alert
-            message="Staj başvurunuz eksik belge sebebi ile reddedildi."
-            type="error"
-            showIcon
-            action={<Button size="small">Düzenle</Button>}
-            closable
-          />
-        </div>
- */}
         <StyledContent
           style={{
             margin: "24px 16px",

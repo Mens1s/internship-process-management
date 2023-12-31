@@ -111,10 +111,12 @@ const ApplicationDetail = () => {
               setCurrentStep(4);
             } else if (processStatus === "IN1") {
               setShowSteps(true);
+              setCurrentStep(5);
               setStatus("done");
               setShowMessage(true);
               setMessageTitle(dictionary.applicationApproved);
               setMessageType("success");
+              setComment(internshipProcess.comment);
             } else {
               setShowSteps(false);
             }
@@ -374,7 +376,7 @@ const ApplicationDetail = () => {
       {showMessage && (
         <Alert
           message={messageTitle}
-          description={`Akademisyen Notu: ${comment}`}
+          description={comment && `Akademisyen Notu: ${comment}`}
           type={messageType}
           showIcon
           style={{ marginBottom: 20 }}

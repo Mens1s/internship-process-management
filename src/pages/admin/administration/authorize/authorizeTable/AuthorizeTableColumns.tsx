@@ -63,11 +63,11 @@ export const getColumns = (showModal: any) => {
       dataIndex: "department",
       key: "department",
     },
-    {
+    /* {
       title: "task",
       dataIndex: "task",
       key: "task",
-    },
+    }, */
     {
       key: "actions",
       fixed: "right",

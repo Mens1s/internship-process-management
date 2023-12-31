@@ -5,7 +5,8 @@ import { ColumnsType } from "antd/es/table";
 interface MyTableProps {
   tableProps?: {
     columns: ColumnsType<any>; // You can replace `any` with the specific type if needed
-    data: any[]; // Replace `any` with the specific type if needed
+    data: any[];
+    loading?: boolean;
   };
 }
 
@@ -18,6 +19,7 @@ const MyTable: React.FC<MyTableProps> = ({ tableProps }) => {
       scroll={{ x: 600 }}
       pagination={{ pageSize: 50 }}
       size="middle"
+      loading={tableProps?.loading}
     />
   );
 };
