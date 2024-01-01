@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Register from "./RegisterForm";
 import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -82,6 +83,8 @@ const RegisterPage: React.FC = () => {
     window.history.pushState(null, "", `${activeKey}`);
   }, [activeKey]);
 
+  const navigate = useNavigate();
+
   return (
     <div
       style={{
@@ -143,6 +146,7 @@ const RegisterPage: React.FC = () => {
           }))}
           onChange={(key: string) => {
             setActiveKey(key);
+            navigate(key);
           }}
         />
       </Container>
