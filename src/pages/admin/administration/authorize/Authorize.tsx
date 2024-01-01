@@ -3,10 +3,11 @@ import axios from "src/services/axios";
 import ContentHeader from "src/components/ContentHeader";
 import { Modal, Button, Input, Skeleton, message, theme } from "antd";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
-import { getColumns } from "./authorizeTable/AuthorizeTableColumns";
+import { GetColumns } from "./authorizeTable/AuthorizeTableColumns";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import Table from "src/components/Table";
 import styled from "styled-components";
+import { API } from "src/config/api";
 
 const StyledButton = styled(Button)`
   @media (max-width: 600px) {
@@ -23,25 +24,32 @@ interface AcademicDataType {
 }
 
 const Authorize = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [academics, setAcademics] = useState<AcademicDataType[]>([]);
   const [loading, setLoading] = useState(true);
   const [assignLoading, setAssignLoading] = useState(false);
-
   const { useToken } = theme;
 
   const showModal = (record: any, taskId: any) => {
     setAssignLoading(true);
+    console.log(taskId);
+    const modifiedTaskIds = taskId.reduce((acc: any, id: any, index: any) => {
+      if (id) {
+        acc.push(index + 1);
+      }
+      return acc;
+    }, []);
+
+    const modifiedTasksString = modifiedTaskIds.join(",");
+    console.log(modifiedTasksString);
     axios
-      .post("http://localhost:8000/api/academician/assignTask", null, {
+      .post(API.ACADEMICIAN.ASSIGN_TASK, null, {
         params: {
           academicianId: academics[record.key - 1].id,
-          taskId: taskId,
+          taskId: modifiedTasksString,
         },
       })
       .then((response) => {
-        console.log("task response:", response);
-        message.success("Görev başarıyla atandı.");
+        window.location.reload();
       })
       .catch((error) => {
         console.error("task error:");
@@ -52,22 +60,15 @@ const Authorize = () => {
 
   const { token } = useToken();
 
-  const enhancedColumns = useEnhancedColumns(getColumns(showModal, token));
+  const enhancedColumns = useEnhancedColumns(
+    GetColumns(showModal, token, academics, assignLoading)
+  );
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   useEffect(() => {
-    const jwtToken = window.localStorage.getItem("token");
     axios
-      .get("http://localhost:8000/api/academician/get-all-not-pageable")
+      .get(API.ACADEMICIAN.GET_ALL_NOT_PAGEABLE)
       .then((response) => {
         setAcademics(response.data.academicsList);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("auth error:");
@@ -92,16 +93,6 @@ const Authorize = () => {
         <div>
           <h2>Yönetici Listesi</h2>
         </div>
-
-        <Modal
-          title="Yönetici Ekle"
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-        >
-          <p>Eklemek istediğiniz yöneticiyi giriniz.</p>
-          <Input style={{ margin: "20px 0" }} placeholder="Kişi ara" />
-        </Modal>
       </ContentHeader>
       {loading ? (
         <Skeleton active />
@@ -110,7 +101,6 @@ const Authorize = () => {
           tableProps={{
             columns: enhancedColumns,
             data: mappedData,
-            loading: assignLoading,
           }}
         />
       )}

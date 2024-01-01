@@ -1,50 +1,56 @@
-import type { ColumnsType } from "antd/es/table";
-import { Modal, Dropdown } from "antd";
-import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
+import React, { useState } from "react";
+import { Dropdown, Form, Tooltip } from "antd";
 import MyButton from "src/components/Button";
 import { Text } from "src/context/LanguageProvider";
 import { MoreOutlined } from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Link } from "react-router-dom";
-import React from "react";
-import { DownOutlined } from "@ant-design/icons";
-import { Space, Divider, Button, Checkbox } from "antd";
+import { Space, Button, Checkbox } from "antd";
 
-const { confirm } = Modal;
+export const GetColumns = (
+  showModal: any,
+  token: any,
+  academics: any,
+  loading: any
+) => {
+  const [form] = Form.useForm();
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [currentRecord, setCurrentRecord] = useState<any>(null);
 
-const items = [
-  { id: 1, name: "Internship Committee" },
-  { id: 2, name: "Department Chair" },
-  { id: 3, name: "Executive" },
-  { id: 4, name: "Academic" },
-];
+  const handleCheckboxChange = (key: string, record: any) => {
+    setCurrentRecord(record);
 
-const showDeleteConfirm = () => {
-  confirm({
-    title: "Bu yöneticiyi kaldırmak istediğinize emin misiniz?",
-    icon: <ExclamationCircleFilled />,
-    /*     content: "Some descriptions",
-     */ okText: "Kaldır",
-    okType: "danger",
-    cancelText: "Vazgeç",
-    onOk() {
-      console.log("OK");
-    },
-    onCancel() {
-      console.log("Cancel");
-    },
-  });
-};
-interface DataType {
-  key: string;
-  name: string;
-  surname: string;
-  mail: string;
-  department: string;
-}
+    setSelectedCheckboxes((prevSelected) => {
+      const index = parseInt(key) - 1;
+      const updatedSelected = [...prevSelected];
+      updatedSelected[index] = !updatedSelected[index];
+      return updatedSelected;
+    });
+  };
 
-export const getColumns = (showModal: any, token: any) => {
-  const columns: ColumnsType<DataType> = [
+  const handleSubmit = () => {
+    if (currentRecord) {
+      showModal(currentRecord, selectedCheckboxes);
+    } else {
+      window.location.reload();
+    }
+  };
+  const setInitialCheckboxValues = (record: any) => {
+    const academicIndex = record.key - 1;
+    const academicData = academics[academicIndex];
+
+    setSelectedCheckboxes([
+      academicData?.internshipCommittee || false,
+      academicData?.departmentChair || false,
+      academicData?.executive || false,
+      academicData?.academic || false,
+    ]);
+  };
+
+  const columns = [
     {
       dataIndex: "key",
       rowScope: "row",
@@ -74,73 +80,85 @@ export const getColumns = (showModal: any, token: any) => {
     {
       key: "actions",
       fixed: "right",
-      render: (_, record) => {
-        const items: MenuProps["items"] = [
+      render: (_: any, record: any) => {
+        const items = [
           {
-            label: (
-              <span onClick={() => showModal(record, 1)}>
-                Internship Committee
-              </span>
-            ),
+            label: " Internship Committee",
             key: "1",
           },
           {
-            label: (
-              <span onClick={() => showModal(record, 2)}>Department Chair</span>
-            ),
+            label: "Department Chair",
             key: "2",
           },
           {
-            label: <span onClick={() => showModal(record, 3)}>Executive</span>,
+            label: "Executive",
             key: "3",
           },
           {
-            label: <span onClick={() => showModal(record, 4)}>Academic</span>,
+            label: "Academic",
             key: "4",
           },
         ];
-        const contentStyle: React.CSSProperties = {
+        const contentStyle = {
           backgroundColor: token.colorBgElevated,
           borderRadius: token.borderRadiusLG,
           boxShadow: token.boxShadowSecondary,
+          paddingTop: 10,
         };
 
-        const menuStyle: React.CSSProperties = {
-          boxShadow: "none",
-        };
         return (
           <Dropdown
             menu={{ items }}
             placement="bottomRight"
             trigger={["click"]}
-            dropdownRender={(menu) => (
-              <div style={contentStyle}>
-                {React.cloneElement(menu as React.ReactElement, {
-                  style: menuStyle,
-                })}
-                <Divider style={{ margin: 0 }} />
+            onVisibleChange={(visible) => {
+              if (visible) {
+                setInitialCheckboxValues(record);
+              }
+            }}
+            dropdownRender={() => (
+              <Form form={form} onFinish={handleSubmit}>
+                <div style={contentStyle}>
+                  {items.map((item, index) => (
+                    <Form.Item
+                      key={item?.key}
+                      name={`checkbox_${item?.key}`}
+                      style={{ minHeight: 0, height: 10 }}
+                    >
+                      <div
+                        style={{
+                          padding: "0 10px 0 10px",
+                        }}
+                      >
+                        <Checkbox
+                          checked={selectedCheckboxes[index]}
+                          style={{ marginRight: 10 }}
+                          onChange={() =>
+                            handleCheckboxChange(item?.key, record)
+                          }
+                        />
+                        {item?.label}
+                      </div>
+                    </Form.Item>
+                  ))}
 
-                {items.map((item) => (
-                  <div
-                    key={item?.key}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "8px",
-                    }}
-                  >
-                    <Checkbox />
-                    elma
-                  </div>
-                ))}
-
-                <Space style={{ padding: 8 }}>
-                  <Button type="primary">Click me!</Button>
-                </Space>
-              </div>
+                  <Space style={{ padding: 8 }}>
+                    <Button
+                      style={{ width: "100" }}
+                      type="primary"
+                      htmlType="submit"
+                      loading={loading}
+                    >
+                      Onayla
+                    </Button>
+                  </Space>
+                </div>
+              </Form>
             )}
           >
-            <MyButton icon={<MoreOutlined />} type="text" />
+            <Tooltip title="Görev Ata">
+              <MyButton icon={<MoreOutlined />} type="text" />
+            </Tooltip>
           </Dropdown>
         );
       },
