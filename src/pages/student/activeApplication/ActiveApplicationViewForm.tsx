@@ -15,40 +15,11 @@ import { useLocation } from "react-router-dom";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+import { API } from "src/config/api";
+import getAxiosConfig from "src/config/axiosConfig";
 
 const { confirm } = Modal;
-const showDeleteConfirm = () => {
-  confirm({
-    title: "Staj başvurunuzu sonlandırmak istediğinize emin misiniz?",
-    icon: <ExclamationCircleFilled />,
-    content: "Sonlandırılan staj başvuruları kalıcı olarak silinir.",
-    okText: "Sil",
-    okType: "danger",
-    cancelText: "Vazgeç",
-    onOk() {
-      const jwtToken = window.localStorage.getItem("token");
 
-      axios
-        .delete("http://localhost:8000/api/internship-process/delete", {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-          params: {
-            internshipProcessID: 102,
-          },
-        })
-        .then((response) => {
-          alert("Intership process deleted!");
-          console.log("delete response: ", response);
-        })
-        .catch((error: any) => {
-          alert("Intership process could not be deleted!");
-          console.log("delete error:", error);
-        });
-    },
-    onCancel() {},
-  });
-};
 const { TextArea } = Input;
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
@@ -241,31 +212,24 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     setFileList(newFileList);
 
   const handleEvaluation = (isApproved: boolean) => {
-    const jwtToken = window.localStorage.getItem("token");
     const userId = window.localStorage.getItem("id");
     if (isDenyOpen && !comment) {
       message.error("Reddetme nedenini giriniz.");
       return;
     }
-
     axios
       .post(
-        "http://localhost:8000/api/internship-process/evaluate",
+        API.INTERNSHIP_PROCESS.EVALUATE,
         {
           processId: data.id,
           approve: isApproved,
           comment: comment,
           academicianId: userId,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
+        getAxiosConfig()
       )
       .then((response) => {
         message.success("Başvuru onaylandı!");
-        console.log("evaluate response: ", response);
       })
       .catch((error) => {
         message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyiniz.");

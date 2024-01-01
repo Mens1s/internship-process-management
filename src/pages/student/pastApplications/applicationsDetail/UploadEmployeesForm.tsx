@@ -29,6 +29,7 @@ const Wrapper = styled.div`
 
 const DatePickersContainer = styled.div`
   display: flex;
+  justify-content: end;
   gap: 10px;
 
   div {
@@ -64,34 +65,25 @@ const UploadEmployeesForm = () => {
         }}
       >
         <Panel
-          header="Çalışan bilgilerini girmek için tıklayınız."
+          header="Stajınızdan sorumlu mühendisin bilgilerini girmek için tıklayınız."
           key="1"
           extra={<MoreOutlined />}
         >
           <Form form={form} layout="vertical" size="large">
             <Row gutter={16}>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Form.Item name="companyName" label={dictionary.companyName}>
+                <Form.Item name="companyName" label={"İsim Soyisim"}>
                   <Input />
                 </Form.Item>
-                <Form.Item name="companyMail" label={dictionary.companyMail}>
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  name="companyTelephone"
-                  label={dictionary.companyNumber}
-                >
+                <Form.Item name="companyMail" label={"Mail Adresi"}>
                   <Input />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Form.Item name="faxNumber" label={dictionary.companyFaxNumber}>
+                <Form.Item name="companyTelephone" label={"Telefon Numarası"}>
                   <Input />
                 </Form.Item>
-                <Form.Item
-                  name="companyAddress"
-                  label={dictionary.companyAddress}
-                >
+                <Form.Item name="faxNumber" label={"Şirketteki Pozisyonu"}>
                   <Input />
                 </Form.Item>
               </Col>

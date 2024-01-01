@@ -116,6 +116,8 @@ export const columns: ColumnsType<DataType> = [
           } else if (tag === "Onay Bekliyor" || tag === "Pending") {
             color = "gold";
           } else if (tag === "Taslak" || tag === "Draft") {
+            color = "default";
+          } else if (tag === "Değerlendirme" || tag === "Evaluation") {
             color = "geekblue";
           } else {
             color = "green";

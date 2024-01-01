@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Collapse } from "antd";
 import styled from "styled-components";
 import { WarningFilled, MoreOutlined } from "@ant-design/icons";
+import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
+
 import {
   Row,
   Col,
@@ -30,6 +32,7 @@ const Wrapper = styled.div`
 const DatePickersContainer = styled.div`
   display: flex;
   gap: 10px;
+  justify-content: end;
 
   div {
     width: 100%;
@@ -84,34 +87,20 @@ const UploadReportsForm = () => {
           key="1"
           extra={<MoreOutlined />}
         >
-          <Form form={form} layout="vertical" size="large">
-            <Row gutter={16}>
-              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Form.Item name="companyName" label={dictionary.companyName}>
-                  <Input />
-                </Form.Item>
-                <Form.Item name="companyMail" label={dictionary.companyMail}>
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  name="companyTelephone"
-                  label={dictionary.companyNumber}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-                <Form.Item name="faxNumber" label={dictionary.companyFaxNumber}>
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  name="companyAddress"
-                  label={dictionary.companyAddress}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
+          <Form
+            form={form}
+            layout="vertical"
+            size="large"
+            style={{ marginTop: 10 }}
+          >
+            <Form.Item name="companyName">
+              <Upload
+                listType="picture"
+                data={{ type: "mustehaklikBelgesi" }} // Optional: Additional data for the API
+              >
+                <Button icon={<UploadOutlined />}>Upload</Button>
+              </Upload>
+            </Form.Item>
           </Form>
           <DatePickersContainer>
             <Popconfirm

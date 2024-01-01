@@ -12,7 +12,6 @@ import { Popconfirm } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { Result } from "antd";
 import type { RangePickerProps } from "antd/es/date-picker";
-
 import {
   Row,
   Col,
@@ -30,10 +29,8 @@ import {
   Button,
 } from "antd";
 import type { InputRef } from "antd";
-
 import axios from "src/services/axios";
 import useAuth from "src/hooks/useAuth";
-// Import styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
@@ -96,7 +93,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { dictionary } = useLanguage();
-  const [loadingOptions, setLoadingOptions] = useState(false);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -206,7 +202,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   }, []);
 
   const handleUpdate = () => {
-    const jwtToken = window.localStorage.getItem("token");
     const formData = form.getFieldsValue();
     const mustehaklikBelgesiPath = formData?.mustehaklikBelgesiPath;
     const stajYeriFormuPath = formData?.stajYeriFormuPath;
