@@ -13,7 +13,8 @@ import {
 } from "react-router-dom";
 import { Text } from "src/context/LanguageProvider";
 import UseLanguage from "src/hooks/useLanguage";
-import { HistoryOutlined } from "@ant-design/icons";
+import { HistoryOutlined, CalendarOutlined } from "@ant-design/icons";
+import UploadReportsForm from "./UploadReportsForm";
 
 const StepsContainer = styled.div`
   width: 100%;
@@ -56,8 +57,10 @@ const ApplicationDetail = () => {
   const [messageTitle, setMessageTitle] = useState("");
   const [messageType, setMessageType] = useState<any>("error");
   const [comment, setComment] = useState<any>("");
-  const [status, setStatus] = useState<any>("process");
+  const [stepsStatus, setStepsStatus] = useState<any>("process");
   const [showMessage, setShowMessage] = useState(false);
+  const [showLoadReports, setShowLoadReports] = useState(false);
+  const [processStatus, setProcessStatus] = useState("FORM");
   const { id } = useParams();
   const { dictionary } = UseLanguage();
   const navigate = useNavigate();
@@ -87,7 +90,7 @@ const ApplicationDetail = () => {
             const isRejected = internshipProcess.rejected;
             if (isRejected) {
               setShowSteps(true);
-              setStatus("error");
+              setStepsStatus("error");
               setShowMessage(true);
               setMessageTitle(dictionary.applicationRejected);
               setMessageType("error");
@@ -112,11 +115,16 @@ const ApplicationDetail = () => {
             } else if (processStatus === "IN1") {
               setShowSteps(true);
               setCurrentStep(5);
-              setStatus("done");
+              setStepsStatus("done");
               setShowMessage(true);
               setMessageTitle(dictionary.applicationApproved);
               setMessageType("success");
               setComment(internshipProcess.comment);
+            } else if (processStatus === "POST") {
+              setShowSteps(true);
+              setCurrentStep(5);
+              setStepsStatus("done");
+              setShowLoadReports(true);
             } else {
               setShowSteps(false);
             }
@@ -182,7 +190,7 @@ const ApplicationDetail = () => {
 
         if (isRejected) {
           setShowSteps(true);
-          setStatus("error");
+          setStepsStatus("error");
           setShowMessage(true);
           setMessageTitle("Başvuru Reddedildi");
           setMessageType("error");
@@ -205,7 +213,7 @@ const ApplicationDetail = () => {
           setCurrentStep(4);
         } else if (processStatus === "IN1") {
           setShowSteps(true);
-          setStatus("done");
+          setStepsStatus("done");
           setShowMessage(true);
           setMessageTitle("Başvuru Onaylandı");
           setMessageType("success");
@@ -269,7 +277,7 @@ const ApplicationDetail = () => {
 
               if (isRejected) {
                 setShowSteps(true);
-                setStatus("error");
+                setStepsStatus("error");
                 setShowMessage(true);
                 setMessageTitle("Başvuru Reddedildi");
                 setMessageType("error");
@@ -292,7 +300,7 @@ const ApplicationDetail = () => {
                 setCurrentStep(4);
               } else if (processStatus === "IN1") {
                 setShowSteps(true);
-                setStatus("done");
+                setStepsStatus("done");
                 setShowMessage(true);
                 setMessageTitle("Başvuru Onaylandı");
                 setMessageType("success");
@@ -372,6 +380,17 @@ const ApplicationDetail = () => {
             <Text tid="pastInternships" />
           </StyledButton>
         )}
+
+        {!isAcademician && (
+          <StyledButton
+          /*   disabled={!canCreateNewForm}
+            loading={createLoading}
+            onClick={handleInit} */
+          >
+            <CalendarOutlined />
+            Extend Internship
+          </StyledButton>
+        )}
       </ContentHeader>
       {showMessage && (
         <Alert
@@ -383,13 +402,15 @@ const ApplicationDetail = () => {
           closable
         />
       )}
+      {/*   burası showLoadReports olacak */}
+      {!loading && !isAcademician && true && <UploadReportsForm />}
       <Header showSteps={showSteps}>
         {showSteps && (
           <StepsContainer>
             <Steps
               size="small"
               current={currentStep}
-              status={status}
+              status={stepsStatus}
               items={stepItems}
             />
           </StepsContainer>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "src/services/axios";
 import ContentHeader from "src/components/ContentHeader";
-import { Modal, Button, Input, Skeleton, message } from "antd";
+import { Modal, Button, Input, Skeleton, message, theme } from "antd";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import { getColumns } from "./authorizeTable/AuthorizeTableColumns";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -28,6 +28,8 @@ const Authorize = () => {
   const [loading, setLoading] = useState(true);
   const [assignLoading, setAssignLoading] = useState(false);
 
+  const { useToken } = theme;
+
   const showModal = (record: any, taskId: any) => {
     setAssignLoading(true);
     axios
@@ -48,7 +50,9 @@ const Authorize = () => {
       .finally(() => setAssignLoading(false));
   };
 
-  const enhancedColumns = useEnhancedColumns(getColumns(showModal));
+  const { token } = useToken();
+
+  const enhancedColumns = useEnhancedColumns(getColumns(showModal, token));
 
   const handleOk = () => {
     setIsModalOpen(false);

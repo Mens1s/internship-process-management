@@ -6,6 +6,9 @@ import { Text } from "src/context/LanguageProvider";
 import { MoreOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Link } from "react-router-dom";
+import React from "react";
+import { DownOutlined } from "@ant-design/icons";
+import { Space, Divider, Button, Checkbox } from "antd";
 
 const { confirm } = Modal;
 
@@ -40,7 +43,7 @@ interface DataType {
   department: string;
 }
 
-export const getColumns = (showModal: any) => {
+export const getColumns = (showModal: any, token: any) => {
   const columns: ColumnsType<DataType> = [
     {
       dataIndex: "key",
@@ -51,6 +54,11 @@ export const getColumns = (showModal: any) => {
       title: "name",
       dataIndex: "name",
       key: "name",
+    },
+    {
+      title: "surname",
+      dataIndex: "surname",
+      key: "surname",
     },
 
     {
@@ -63,11 +71,6 @@ export const getColumns = (showModal: any) => {
       dataIndex: "department",
       key: "department",
     },
-    /* {
-      title: "task",
-      dataIndex: "task",
-      key: "task",
-    }, */
     {
       key: "actions",
       fixed: "right",
@@ -96,25 +99,51 @@ export const getColumns = (showModal: any) => {
             key: "4",
           },
         ];
+        const contentStyle: React.CSSProperties = {
+          backgroundColor: token.colorBgElevated,
+          borderRadius: token.borderRadiusLG,
+          boxShadow: token.boxShadowSecondary,
+        };
+
+        const menuStyle: React.CSSProperties = {
+          boxShadow: "none",
+        };
         return (
           <Dropdown
             menu={{ items }}
             placement="bottomRight"
             trigger={["click"]}
+            dropdownRender={(menu) => (
+              <div style={contentStyle}>
+                {React.cloneElement(menu as React.ReactElement, {
+                  style: menuStyle,
+                })}
+                <Divider style={{ margin: 0 }} />
+
+                {items.map((item) => (
+                  <div
+                    key={item?.key}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    <Checkbox />
+                    elma
+                  </div>
+                ))}
+
+                <Space style={{ padding: 8 }}>
+                  <Button type="primary">Click me!</Button>
+                </Space>
+              </div>
+            )}
           >
             <MyButton icon={<MoreOutlined />} type="text" />
           </Dropdown>
         );
       },
-      /*  render: (_, record) => (
-        <MyButton
-        text={<Text tid="remove" />}
-        icon={<DeleteFilled />}
-        onClick={showDeleteConfirm}
-        type="primary"
-        danger
-      /> 
-    ), */
     },
   ];
   return columns;

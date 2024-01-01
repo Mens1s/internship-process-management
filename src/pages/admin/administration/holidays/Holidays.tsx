@@ -4,15 +4,7 @@ import { Text } from "src/context/LanguageProvider";
 import type { SelectProps } from "antd";
 import { message, Skeleton } from "antd";
 
-import {
-  Row,
-  Col,
-  Form,
-  Input,
-  DatePicker,
-  Modal,
-  Button,
-} from "antd";
+import { Row, Col, Form, Input, DatePicker, Modal, Button } from "antd";
 import axios from "src/services/axios";
 // Import styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
@@ -33,7 +25,6 @@ const DatePickersContainer = styled.div`
     }
   }
 `;
-
 
 const Holidays: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,7 +47,6 @@ const Holidays: React.FC = () => {
       duration: 5,
     });
   };
-
 
   const departmentOptions = useDepartments();
   const [companyOptionss, setCompanyOptionss] = useState<
@@ -83,7 +73,7 @@ const Holidays: React.FC = () => {
       name: formData?.holidayName,
       description: formData?.holidayDescription,
     };
-    
+
     setSaveLoading(true);
     setIsModalOpen(false);
     axios
@@ -112,8 +102,7 @@ const Holidays: React.FC = () => {
 
     axios
       .post("http://localhost:8000/api/internship-process/start", null, {
-        params: {
-        },
+        params: {},
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -139,14 +128,9 @@ const Holidays: React.FC = () => {
     <div>
       {contextHolder}
       <>
-        <Form
-          form={form}
-          layout="vertical"
-          size="large"
-        >
+        <Form form={form} layout="vertical" size="large">
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              
               <Form.Item name="holidayName" label="Tatil Adını Giriniz">
                 <Input />
               </Form.Item>
