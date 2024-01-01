@@ -24,7 +24,7 @@ const Companies = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [id, setId] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isAddCompanyModalOpen, setIsAddCompanyModalOpen] = useState(false);
@@ -34,7 +34,7 @@ const Companies = () => {
   };
 
   const showModal = (record: any) => {
-    setId(record.name);
+    setSelectedCompany(record);
     setOpen(true);
   };
   const enhancedColumns = useEnhancedColumns(getColumns(showModal));
@@ -110,7 +110,7 @@ const Companies = () => {
         width={1000}
         footer={null}
       >
-        <CompanyDetailsContainer id={id} />
+        <CompanyDetailsContainer company={selectedCompany} />
       </Modal>
     </div>
   );

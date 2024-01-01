@@ -5,47 +5,49 @@ import CompanyDetailsTable from "./CompanyDetailsTable";
 import { Descriptions } from "antd";
 import type { DescriptionsProps } from "antd";
 import styled from "styled-components";
+import UseLanguage from "src/hooks/useLanguage";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
 `;
+const CompanyDetailsContainer = ({ company }: any) => {
+  const { dictionary } = UseLanguage();
 
-const items: DescriptionsProps["items"] = [
-  {
-    key: "1",
-    label: "Şirket Adı",
-    children: "Zhou Maomao",
-  },
-  {
-    key: "2",
-    label: "Telefon Numarası",
-    children: "1810000000",
-  },
-  {
-    key: "3",
-    label: "Fax Numarası",
-    children: "Hangzhou, Zhejiang",
-  },
-  {
-    key: "4",
-    label: "Adres",
-    span: 2,
-    children: "No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China",
-  },
-  {
-    key: "5",
-    label: "Remark",
-    children: "empty",
-  },
-];
-const CompanyDetailsContainer = ({ id }: any) => {
+  const items: DescriptionsProps["items"] = [
+    {
+      key: "1",
+      label: dictionary.companyName,
+      children: company.companyName,
+    },
+    {
+      key: "2",
+      label: dictionary.phoneNumber,
+      children: company.companyTelephone,
+    },
+    {
+      key: "3",
+      label: dictionary.mail,
+      children: company.companyMail,
+    },
+    {
+      key: "4",
+      label: dictionary.companyFaxNumber,
+      children: company.faxNumber,
+    },
+    {
+      key: "5",
+      label: dictionary.companyAddress,
+      span: 2,
+      children: company.companyAddress,
+    },
+  ];
   return (
     <Container>
       <div>
         <ContentHeader>
-          <h3>{id}</h3>
+          <h3>{company.companyName}</h3>
         </ContentHeader>
         <Descriptions layout="vertical" items={items} />
       </div>
