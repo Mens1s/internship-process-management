@@ -46,19 +46,24 @@ const UploadReportsForm = () => {
   const [form] = Form.useForm();
   const { dictionary } = useLanguage();
   const [loading, setLoading] = useState(false);
-
   const handleLoadReport = () => {
-    console.log("handle load report clicked");
-
-    const jwtToken = window.localStorage.getItem("token");
+    /*  axios
+      .put(`http://localhost:8000/api/internship-process/post`, {
+        head,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      }); */
     setLoading(true);
-    const id = window.localStorage.getItem("id");
     const requestData = {
+      id: 652,
       stajRaporuPath: "/stajRaporuPath",
-      id: id,
     };
     axios
-      .put(API.INTERNSHIP_PROCESS.LOAD_REPORT, getAxiosConfig())
+      .put(API.INTERNSHIP_PROCESS.LOAD_REPORT, requestData, getAxiosConfig())
       .then((response) => {
         console.log(response.data);
       })

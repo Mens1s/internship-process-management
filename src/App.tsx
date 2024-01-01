@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import PastApplications from "./pages/student/pastApplications/PastApplications";
 import PendingApplications from "./pages/admin/internship/pendingApplications/PendingApplications";
 import Authorize from "./pages/admin/administration/authorize/Authorize";
-import ApplicationDetail from "./pages/student/pastApplications/pastApplicationsDetail/ApplicationDetail";
+import ApplicationDetail from "./pages/student/pastApplications/applicationsDetail/ApplicationDetail";
 import MyLayout from "./components/Layout";
 import LoginPage from "./pages/login/LoginPage";
 import RegisterPage from "./pages/register/RegisterPage";
