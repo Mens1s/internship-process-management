@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { API } from "src/config/api";
+import getAxiosConfig from "src/config/axiosConfig";
+
 import { Steps, Tag, Skeleton, Alert, Button } from "antd";
 import styled from "styled-components";
 import ActiveApplicationForm from "../../activeApplication/ActiveApplicationForm";
@@ -73,11 +76,7 @@ const ApplicationDetail = () => {
 
     if (location.pathname.includes("ogrenci")) {
       axios
-        .get("http://localhost:8000/api/internship-process/get-all", {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        })
+        .get(API.INTERNSHIP_PROCESS.GET_ALL, getAxiosConfig())
         .then((response: any) => {
           const index = response.data.internshipProcessList.findIndex(
             (item: any) => item.id == id

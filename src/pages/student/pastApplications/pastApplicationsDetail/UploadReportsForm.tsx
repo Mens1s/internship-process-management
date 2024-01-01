@@ -15,6 +15,8 @@ import {
 import { Text } from "src/context/LanguageProvider";
 import useLanguage from "src/hooks/useLanguage";
 import axios from "src/services/axios";
+import { API } from "src/config/api";
+import getAxiosConfig from "src/config/axiosConfig";
 const { Panel } = Collapse;
 
 const Wrapper = styled.div`
@@ -56,15 +58,7 @@ const UploadReportsForm = () => {
       id: id,
     };
     axios
-      .put(
-        "http://localhost:8000/api/internship-process/load-report",
-        requestData,
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      )
+      .put(API.INTERNSHIP_PROCESS.LOAD_REPORT, getAxiosConfig())
       .then((response) => {
         console.log(response.data);
       })
