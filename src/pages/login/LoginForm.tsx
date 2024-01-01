@@ -7,7 +7,6 @@ import axios from "src/services/axios";
 import AuthContext from "src/context/AuthProvider";
 import useAuth from "src/hooks/useAuth";
 import { responsiveArray } from "antd/es/_util/responsiveObserver";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Text } from "src/context/LanguageProvider";
 import UseLanguage from "src/hooks/useLanguage";
 

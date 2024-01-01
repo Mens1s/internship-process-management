@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Divider } from "antd";
+import { Form, Input, Button, Divider, message } from "antd";
 import { MailOutlined, UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ import axios from "src/services/axios";
 import useDepartments from "src/hooks/useDepartments";
 import { Select } from "antd";
 import { Text } from "src/context/LanguageProvider";
+import { API } from "src/config/api";
 
 const FormContainer = styled.div`
   display: flex;
@@ -21,6 +22,7 @@ const RegisterForm: React.FC = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordAgain, setPasswordAgain] = useState("");
   const [mail, setMail] = useState("");
   const [department, setDepartment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,40 +34,49 @@ const RegisterForm: React.FC = () => {
   const departmentOptions = useDepartments();
 
   const handleRegister = () => {
-    setLoading(true);
-    if (window.location.pathname.includes("/ogrenci/register")) {
-      axios
-        .post("http://localhost:8000/api/student/auth/register", {
-          mail: mail,
-          password: password,
-          firstName: firstName,
-          lastName: lastName,
-        })
-        .then((response) => {
-          navigate("/onayla");
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    } else if (window.location.pathname.includes("/akademisyen/register")) {
-      axios
-        .post("http://localhost:8000/api/academician/auth/register", {
-          mail: mail,
-          password: password,
-          firstName: firstName,
-          lastName: lastName,
-          departmentId: department,
-        })
-        .then((response) => {
-          // navigate(fromAkademisyen, { replace: true });
-          navigate("/onayla");
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+    if (password != passwordAgain) {
+      message.error("Şifrenizi aynı girdiğinizden emin olun!");
+    } else {
+      window.localStorage.removeItem("isLoggedIn");
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("mail");
+      window.localStorage.removeItem("role");
+      window.localStorage.removeItem("fullName");
+      setLoading(true);
+      if (window.location.pathname.includes("/ogrenci/register")) {
+        axios
+          .post(API.STUDENT.REGISTER, {
+            mail: mail,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+          })
+          .then((response) => {
+            navigate("/onayla");
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      } else if (window.location.pathname.includes("/akademisyen/register")) {
+        axios
+          .post(API.ACADEMICIAN.REGISTER, {
+            mail: mail,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            departmentId: department,
+          })
+          .then((response) => {
+            // navigate(fromAkademisyen, { replace: true });
+            navigate("/onayla");
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      }
     }
   };
 
@@ -144,7 +155,7 @@ const RegisterForm: React.FC = () => {
             },
           ]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
@@ -161,11 +172,11 @@ const RegisterForm: React.FC = () => {
             },
           ]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password again"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPasswordAgain(e.target.value)}
           />
         </Form.Item>
 

@@ -241,6 +241,19 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const location = useLocation();
   const isAkademisyen = location.pathname.includes("/akademisyen");
   const isInEvaluatePage = location.pathname.split("/").includes("evaluate");
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 800);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 800);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const labelStyle = {};
   return (
@@ -254,6 +267,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       ) : (
         <div>
           <Descriptions
+            layout={isSmallScreen ? "vertical" : "horizontal"}
             bordered
             items={items}
             labelStyle={labelStyle}
