@@ -9,7 +9,8 @@ export const API = {
     GET_STUDENT_ALL_PROCESSES: (studentId) =>
       `${API_URL}/internship-process/get-student-all-processes?studentId=${studentId}`,
     UPDATE: `${API_URL}/internship-process/update`,
-    DELETE: `${API_URL}/internship-process/delete`,
+    DELETE: (processId) =>
+      `${API_URL}/internship-process/delete?internshipProcessID=${processId}`,
     START_APPROVAL_PROCESS: (processId) =>
       `${API_URL}/internship-process/start?processId=${processId}`,
     EVALUATE: `${API_URL}/internship-process/evaluate`,

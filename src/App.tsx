@@ -17,7 +17,7 @@ import Holidays from "./pages/admin/administration/holidays/Holidays";
 import AllApplications from "./pages/admin/internship/pastApplications/PastApplications";
 import Students from "./pages/admin/companies/students/Students";
 import ActiveInternships from "./pages/admin/internship/activeInternships/ActiveInternships";
-import CompanyAdd from "./pages/admin/companies/companyAdd/CompanyAdd";
+import CompanyAdd from "./pages/admin/companies/addCompany/AddCompanyForm";
 import ForgotMyPasswordPage from "./pages/forgotMyPassword/forgotMyPasswordPage";
 import PastInternships from "./pages/admin/internship/pendingApplications/pendingApplicationsEvaluate/pastInternships/PastInternships";
 

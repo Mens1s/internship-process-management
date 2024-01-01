@@ -11,6 +11,8 @@ import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import styled from "styled-components";
 import UseLanguage from "src/hooks/useLanguage";
 import type { TourProps } from "antd";
+import { API } from "src/config/api";
+import getAxiosConfig from "src/config/axiosConfig";
 
 const StyledButton = styled(Button)`
   @media (max-width: 600px) {
@@ -29,22 +31,8 @@ const PastApplications: React.FC = () => {
   const { dictionary } = UseLanguage();
   const [createLoading, setCreateLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [companies, setCompanies] = useState<any>([]);
-  const navigate = useNavigate();
   const enhancedColumns = useEnhancedColumns(columns);
   const [canCreateNewForm, setCanCreateNewForm] = useState(false);
-  const [isTourOpen, setIsTourOpen] = useState<boolean>(false);
-
-  const ref = useRef(null);
-
-  const steps: TourProps["steps"] = [
-    {
-      title: "Başvuru Taslağı Oluşturuldu",
-      description: "Başvurularını buradan inceleyebilirsin",
-      target: () => ref.current,
-      placement: "bottom",
-    },
-  ];
 
   const success = () => {
     messageApi.open({
@@ -75,19 +63,10 @@ const PastApplications: React.FC = () => {
     const jwtToken = window.localStorage.getItem("token");
     setCreateLoading(true);
     axios
-      .post(
-        "http://localhost:8000/api/internship-process/init",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      )
+      .post(API.INTERNSHIP_PROCESS.INIT, {}, getAxiosConfig())
       .then((response) => {
         setReloadPage((prev) => prev + 1);
         setCanCreateNewForm((prev) => !prev);
-        setIsTourOpen(true);
         success();
       })
       .catch((error) => {
@@ -101,21 +80,7 @@ const PastApplications: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/company/getAll")
-      .then((response) => {
-        setCompanies(response?.data?.companies);
-      })
-      .catch((error: any) => {
-        console.log("company error: ", error);
-      });
-
-    const jwtToken = window.localStorage.getItem("token");
-    axios
-      .get("http://localhost:8000/api/internship-process/get-all", {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
+      .get(API.INTERNSHIP_PROCESS.GET_ALL, getAxiosConfig())
       .then((response) => {
         const internshipProcessList = response?.data?.internshipProcessList;
         if (internshipProcessList.length < 2) {
@@ -195,23 +160,14 @@ const PastApplications: React.FC = () => {
       {loading ? (
         <Skeleton active={true} paragraph={{ rows: 4 }} />
       ) : (
-        <div ref={ref}>
-          <Table
-            tableProps={{
-              columns: enhancedColumns,
-              data,
-              loading: createLoading,
-            }}
-          />
-        </div>
+        <Table
+          tableProps={{
+            columns: enhancedColumns,
+            data,
+            loading: createLoading,
+          }}
+        />
       )}
-      {/*  <Tour
-        open={isTourOpen}
-        onClose={() => setIsTourOpen(false)}
-        type="primary"
-        steps={steps}
-        mask={false}
-      /> */}
     </>
   );
 };

@@ -32,6 +32,8 @@ import useAuth from "src/hooks/useAuth";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+import getAxiosConfig from "src/config/axiosConfig";
+import { API } from "src/config/api";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
@@ -44,6 +46,7 @@ const normFile = (e: any) => {
 
 const DatePickersContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
   gap: 10px;
 
   div {
@@ -58,42 +61,13 @@ const DatePickersContainer = styled.div`
 `;
 
 const CompanyAdd: React.FC = () => {
-  const navigate = useNavigate();
-  const [messageApi, contextHolder] = message.useMessage();
-  const { auth }: any = useAuth();
   const { dictionary } = useLanguage();
   const [form] = Form.useForm();
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const success = () => {
-    messageApi.open({
-      type: "success",
-      content: "Şirket bilgileri alındı!",
-    });
-  };
-
-  const error = () => {
-    messageApi.open({
-      type: "error",
-      content: "Bir hata oluştu. Lütfen tekrar deneyiniz.",
-      duration: 5,
-    });
-  };
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
-  const jwtToken = window.localStorage.getItem("token");
   const handleAddCompany = () => {
+    setLoading(true);
     const formData = form.getFieldsValue();
-
     const postData = {
       companyName: formData?.companyName,
       companyMail: formData?.companyMail,
@@ -102,25 +76,24 @@ const CompanyAdd: React.FC = () => {
       companyAddress: formData?.companyAddress,
     };
     axios
-      .post("http://localhost:8000/api/company/addCompany", postData, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
+      .post(API.COMPANY.ADD, postData, getAxiosConfig())
       .then((response) => {
-        success();
+        message.success("Şirket başarıyla eklendi!");
+        form.resetFields();
       })
       .catch((error) => {
         console.log("error:", error);
-        error();
-      });
-
-    // avigate("/ogrenci/past"); FIXME: Show message while navigating
-    setIsModalOpen(false);
+        if (error.response.status == 400) {
+          message.error("Form boş bırakılamaz!");
+        } else {
+          message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyiniz.");
+        }
+      })
+      .finally(() => setLoading(false));
   };
+
   return (
     <div>
-      {contextHolder}
       <>
         <Form form={form} layout="vertical" size="large">
           <Row gutter={16}>
@@ -148,27 +121,14 @@ const CompanyAdd: React.FC = () => {
               >
                 <Input />
               </Form.Item>
-              <DatePickersContainer>
-                <Button onClick={handleCancel}>
-                  <Text tid="cancel" />
-                </Button>
-                <Button onClick={showModal} type="primary">
-                  <Text tid="confirm" />
-                </Button>
-              </DatePickersContainer>
             </Col>
           </Row>
         </Form>
-        <Modal
-          title="Şirket Eklemeyi Onayla"
-          open={isModalOpen}
-          onOk={handleAddCompany}
-          onCancel={handleCancel}
-        >
-          <p>
-            <Text tid="createApplicationFormApprovementModalText" />
-          </p>
-        </Modal>
+        <DatePickersContainer>
+          <Button onClick={handleAddCompany} type="primary" loading={loading}>
+            Ekle
+          </Button>
+        </DatePickersContainer>
       </>
     </div>
   );

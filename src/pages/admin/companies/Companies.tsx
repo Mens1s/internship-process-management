@@ -12,6 +12,7 @@ import { Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "src/services/axios";
+import CompanyAdd from "./addCompany/AddCompanyForm";
 
 const StyledButton = styled(Button)`
   @media (max-width: 600px) {
@@ -26,6 +27,11 @@ const Companies = () => {
   const [id, setId] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isAddCompanyModalOpen, setIsAddCompanyModalOpen] = useState(false);
+
+  const handleCancel = () => {
+    setIsAddCompanyModalOpen(false);
+  };
 
   const showModal = (record: any) => {
     setId(record.name);
@@ -70,9 +76,18 @@ const Companies = () => {
           </h2>
         </div>
         <div>
-          <StyledButton onClick={handleNewCompanyAdd}>
+          <StyledButton onClick={() => setIsAddCompanyModalOpen(true)}>
             <PlusCircleOutlined /> <Text tid="addCompany" />
           </StyledButton>
+          <Modal
+            title="Add Company"
+            width={1000}
+            open={isAddCompanyModalOpen}
+            onCancel={handleCancel}
+            footer={null}
+          >
+            <CompanyAdd />
+          </Modal>
           <Input
             prefix={<SearchOutlined />}
             placeholder="Şirket ara"

@@ -39,7 +39,9 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import useDepartments from "src/hooks/useDepartments";
 import { useNavigate } from "react-router-dom";
-import CompanyAdd from "src/pages/admin/companies/companyAdd/CompanyAdd";
+import CompanyAdd from "src/pages/admin/companies/addCompany/AddCompanyForm";
+import { API } from "src/config/api";
+import getAxiosConfig from "src/config/axiosConfig";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
@@ -103,10 +105,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const [saveLoading, setSaveLoading] = useState(false);
   const [isAddCompanyModalOpen, setIsAddCompanyModalOpen] = useState(false);
   const navigate = useNavigate();
-
-  const handleAddCompany = () => {
-    setIsAddCompanyModalOpen(false);
-  };
 
   const success = () => {
     messageApi.open({
@@ -175,18 +173,11 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     setFileList2(newFileList);
     form.setFieldsValue({ stajYeriFormuPath: newFileList[0]?.response?.path });
   };
+
   const handleDelete = () => {
-    const jwtToken = window.localStorage.getItem("token");
     setDeleteLoading(true);
     axios
-      .delete("http://localhost:8000/api/internship-process/delete", {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-        params: {
-          internshipProcessID: data.id,
-        },
-      })
+      .delete(API.INTERNSHIP_PROCESS.DELETE(data.id), getAxiosConfig())
       .then((response) => {
         navigate("/ogrenci/past");
       })
@@ -202,7 +193,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const options: SelectProps["options"] = [];
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/company/getAll")
+      .get(API.COMPANY.GET_ALL)
       .then((response) => {
         response.data?.companyList.map((company: any) => {
           options.push({ value: company.id, label: company.companyName });
@@ -251,11 +242,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
     setSaveLoading(true);
     axios
-      .put("http://localhost:8000/api/internship-process/update", postData, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
+      .put(API.INTERNSHIP_PROCESS.UPDATE, postData, getAxiosConfig())
       .then((response) => {
         success();
       })
@@ -273,20 +260,14 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   };
 
   const handleStart = () => {
-    const jwtToken = window.localStorage.getItem("token");
     setConfirmLoading(true);
     setIsModalOpen(false);
-    console.log(form.getFieldsValue());
-
     axios
-      .post("http://localhost:8000/api/internship-process/start", null, {
-        params: {
-          processId: data.id,
-        },
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
+      .post(
+        API.INTERNSHIP_PROCESS.START_APPROVAL_PROCESS(data.id),
+        null,
+        getAxiosConfig()
+      )
       .then((response) => {
         showSuccessModal();
       })
@@ -511,7 +492,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 title="Add Company"
                 width={1000}
                 open={isAddCompanyModalOpen}
-                onOk={handleAddCompany}
                 onCancel={handleCancel}
                 footer={null}
               >
