@@ -166,6 +166,8 @@ const PastApplications: React.FC = () => {
         return dictionary.pending;
       } else if (item.processStatus.startsWith("IN")) {
         return dictionary.approved;
+      } else if (item.processStatus.startsWith("POST")) {
+        return dictionary.evaluation;
       } else {
         return "-";
       }

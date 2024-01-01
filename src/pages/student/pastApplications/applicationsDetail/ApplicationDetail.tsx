@@ -13,6 +13,7 @@ import { Text } from "src/context/LanguageProvider";
 import UseLanguage from "src/hooks/useLanguage";
 import { HistoryOutlined, CalendarOutlined } from "@ant-design/icons";
 import UploadReportsForm from "./UploadReportsForm";
+import UploadEmployeesForm from "./UploadEmployeesForm";
 
 const StepsContainer = styled.div`
   width: 100%;
@@ -57,7 +58,6 @@ const ApplicationDetail = () => {
   const [comment, setComment] = useState<any>("");
   const [stepsStatus, setStepsStatus] = useState<any>("process");
   const [showMessage, setShowMessage] = useState(false);
-  const [showLoadReports, setShowLoadReports] = useState(false);
   const [processStatus, setProcessStatus] = useState("FORM");
   const { dictionary } = UseLanguage();
   const navigate = useNavigate();
@@ -222,7 +222,7 @@ const ApplicationDetail = () => {
           </StyledButton>
         )}
 
-        {!isAcademician && (
+        {!isAcademician && processStatus == "IN1" && (
           <StyledButton>
             <CalendarOutlined />
             Extend Internship
@@ -239,8 +239,13 @@ const ApplicationDetail = () => {
           closable
         />
       )}
-      {/*   burası processStatus == "POST" olacak */}
-      {!loading && !isAcademician && true && <UploadReportsForm />}
+      {!loading && !isAcademician && processStatus == "IN1" && (
+        <UploadEmployeesForm />
+      )}
+      {!loading && !isAcademician && processStatus == "POST" && (
+        <UploadReportsForm />
+      )}
+
       <Header showSteps={showSteps}>
         {showSteps && (
           <StepsContainer>

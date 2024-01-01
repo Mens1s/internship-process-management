@@ -42,27 +42,11 @@ const DatePickersContainer = styled.div`
   }
 `;
 
-const UploadReportsForm = () => {
+const UploadEmployeesForm = () => {
   const [form] = Form.useForm();
   const { dictionary } = useLanguage();
   const [loading, setLoading] = useState(false);
-
-  const handleLoadReport = () => {
-    setLoading(true);
-    const requestData = {
-      id: 652,
-      stajRaporuPath: "/stajRaporuPath",
-    };
-    axios
-      .put(API.INTERNSHIP_PROCESS.LOAD_REPORT, requestData, getAxiosConfig())
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      })
-      .finally(() => setLoading(false));
-  };
+  const handleLoadReport = () => {};
 
   return (
     <Wrapper>
@@ -80,7 +64,7 @@ const UploadReportsForm = () => {
         }}
       >
         <Panel
-          header="Staj raporunu yüklemek için tıklayınız"
+          header="Çalışan bilgilerini girmek için tıklayınız."
           key="1"
           extra={<MoreOutlined />}
         >
@@ -132,4 +116,4 @@ const UploadReportsForm = () => {
   );
 };
 
-export default UploadReportsForm;
+export default UploadEmployeesForm;

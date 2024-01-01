@@ -94,5 +94,6 @@
   "fullName": "Full Name",
   "pastInternships": "Past Internships",
   "companyTelephone": "Company Phone Number",
-  "task": "Task"
+  "task": "Task",
+  "evaluation": "Evaluation"
 }
