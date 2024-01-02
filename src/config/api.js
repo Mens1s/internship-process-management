@@ -49,4 +49,9 @@ export const API = {
     ADD_HOLIDAY: `${API_URL}/holiday/addHoliday`,
     IS_GIVEN_WORK_DAY_TRUE: `${API_URL}/holiday/isGivenWorkDayTrue`,
   },
+  COMPANY_STAFF: {
+    ADD: `${API_URL}/staff/addCompanyStaff`,
+    UPDATE: `${API_URL}/staff/updateCompanyStaff`,
+    GET_ALL_BY_COMPANY: `${API_URL}/staff/getAllByCompany`,
+  },
 };

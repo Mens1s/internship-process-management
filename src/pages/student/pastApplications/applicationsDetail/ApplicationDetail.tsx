@@ -203,6 +203,8 @@ const ApplicationDetail = () => {
     }
   }, []);
 
+  console.log(data);
+
   return (
     <div>
       <ContentHeader>

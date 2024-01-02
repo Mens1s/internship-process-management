@@ -17,6 +17,7 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 const { confirm } = Modal;
 
@@ -77,7 +78,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const [isDenyOpen, setIsDenyOpen] = useState(false);
   const { dictionary } = useLanguage();
   const [comment, setComment] = useState<any>(null); // State to store the deny reason
-
+  const [loading, setLoading] = useState(false);
   const items = [
     {
       key: "id",
@@ -213,10 +214,14 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
 
   const handleEvaluation = (isApproved: boolean) => {
     const userId = window.localStorage.getItem("id");
+    setLoading(true);
     if (isDenyOpen && !comment) {
       message.error("Reddetme nedenini giriniz.");
+      setLoading(false);
       return;
     }
+    setIsDenyOpen(false);
+    setIsConfirmOpen(false);
     axios
       .post(
         API.INTERNSHIP_PROCESS.EVALUATE,
@@ -229,12 +234,13 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
         getAxiosConfig()
       )
       .then((response) => {
-        message.success("Başvuru onaylandı!");
+        showSuccessModal();
       })
       .catch((error) => {
         message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyiniz.");
         console.log("evaluate error:", error.response);
-      });
+      })
+      .finally(() => setLoading(false));
     setIsConfirmOpen(false);
   };
 
@@ -256,6 +262,20 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const labelStyle = {};
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  const showSuccessModal = () => {
+    setIsSuccessModalOpen(true);
+  };
+
+  const navigate = useNavigate();
+
+  const handleSuccessModalOk = () => {
+    setIsSuccessModalOpen(false);
+    navigate("/akademisyen/internships/pending", { replace: true });
+  };
+
   return (
     <>
       {data.length == 0 ? (
@@ -277,10 +297,10 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
           <DatePickersContainer>
             {isAkademisyen && isInEvaluatePage && (
               <>
-                <Button danger onClick={showDeny}>
+                <Button disabled={loading} danger onClick={showDeny}>
                   Reddet
                 </Button>
-                <Button type="primary" onClick={showConfirm}>
+                <Button disabled={loading} type="primary" onClick={showConfirm}>
                   Onayla
                 </Button>
               </>
@@ -317,6 +337,17 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
               required
               value={comment}
               onChange={(e) => setComment(e.target.value)}
+            />
+          </Modal>
+          <Modal open={isSuccessModalOpen} footer={null} closable={false}>
+            <Result
+              status="success"
+              title="Başvuru değerlendirmesi başarıyla alındı!"
+              extra={[
+                <Button type="primary" onClick={handleSuccessModalOk}>
+                  Tamam
+                </Button>,
+              ]}
             />
           </Modal>
         </div>

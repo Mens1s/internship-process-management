@@ -32,6 +32,7 @@ const App: React.FC = () => {
       <Route path="/" element={<Navigate to="/ogrenci/login" />} />
       <Route path="onayla" element={<EmailApprove />} />
       <Route path="login" element={<Navigate to="/ogrenci/login" />} />
+      <Route path="register" element={<Navigate to="/ogrenci/register" />} />
       <Route index path="ogrenci/login" element={<LoginPage />} />
       <Route path="akademisyen/login" element={<LoginPage />} />
       <Route
