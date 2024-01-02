@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ContentHeader from "src/components/ContentHeader";
-import MyTable from "src/components/Table";
-import CompanyDetailsTable from "./CompanyDetailsTable";
-import { Descriptions } from "antd";
+import { Descriptions, message, Form } from "antd";
 import type { DescriptionsProps } from "antd";
 import styled from "styled-components";
 import UseLanguage from "src/hooks/useLanguage";
+import axios from "src/services/axios";
+import { API } from "src/config/api";
+import getAxiosConfig from "src/config/axiosConfig";
+import { columns } from "./companyDetailsTableColumns";
+import useEnhancedColumns from "src/hooks/useEnhancedColumns";
+import Table from "src/components/Table";
 
 const Container = styled.div`
   display: flex;
@@ -14,6 +18,9 @@ const Container = styled.div`
 `;
 const CompanyDetailsContainer = ({ company }: any) => {
   const { dictionary } = UseLanguage();
+  const enhancedColumns = useEnhancedColumns(columns);
+  const [companyStaff, setCompanyStaff] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const items: DescriptionsProps["items"] = [
     {
@@ -43,6 +50,26 @@ const CompanyDetailsContainer = ({ company }: any) => {
       children: company.companyAddress,
     },
   ];
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(API.COMPANY_STAFF.GET_ALL_BY_COMPANY(company.id), getAxiosConfig())
+      .then((response) => {
+        const modifiedCompanyStaff = response.data.companyStaffList.map(
+          (staff: any) => ({
+            ...staff,
+            fullName: `${staff.name} ${staff.surname}`,
+          })
+        );
+        setCompanyStaff(modifiedCompanyStaff);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      })
+      .finally(() => setLoading(false));
+  }, [company.id]);
+
   return (
     <Container>
       <div>
@@ -55,7 +82,14 @@ const CompanyDetailsContainer = ({ company }: any) => {
         <ContentHeader>
           <h3>Çalışan Bilgileri</h3>
         </ContentHeader>
-        <CompanyDetailsTable />
+        <Table
+          tableProps={{
+            columns: enhancedColumns,
+            data: companyStaff,
+            loading: loading,
+          }}
+        ></Table>
+        ;
       </div>
     </Container>
   );

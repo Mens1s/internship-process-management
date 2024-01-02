@@ -15,27 +15,33 @@ interface DataType {
 
 export const columns: ColumnsType<DataType> = [
   {
-    title: "name",
-    dataIndex: "name",
-    key: "name",
-    width: "120px",
-  },
-  {
-    title: "position",
-    dataIndex: "position",
-    key: "position",
-    width: "120px",
-  },
-  {
-    title: "phoneNumber",
-    dataIndex: "phoneNumber",
-    key: "phoneNumber",
+    title: "fullName",
+    dataIndex: "fullName",
+    key: "fullName",
     width: "120px",
   },
   {
     title: "mail",
     dataIndex: "mail",
     key: "mail",
+    width: "120px",
+  },
+  {
+    title: "telephone",
+    dataIndex: "telephone",
+    key: "telephone",
+    width: "120px",
+  },
+  {
+    title: "title",
+    dataIndex: "title",
+    key: "title",
+    width: "120px",
+  },
+  {
+    title: "department",
+    dataIndex: "department",
+    key: "department",
     width: "120px",
   },
 ];

@@ -52,6 +52,7 @@ export const API = {
   COMPANY_STAFF: {
     ADD: `${API_URL}/staff/addCompanyStaff`,
     UPDATE: `${API_URL}/staff/updateCompanyStaff`,
-    GET_ALL_BY_COMPANY: `${API_URL}/staff/getAllByCompany`,
+    GET_ALL_BY_COMPANY: (companyId) =>
+      `${API_URL}/staff/getAllByCompany?companyId=${companyId}`,
   },
 };

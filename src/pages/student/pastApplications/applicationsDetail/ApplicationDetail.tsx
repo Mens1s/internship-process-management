@@ -203,8 +203,6 @@ const ApplicationDetail = () => {
     }
   }, []);
 
-  console.log(data);
-
   return (
     <div>
       <ContentHeader>
@@ -242,7 +240,7 @@ const ApplicationDetail = () => {
         />
       )}
       {!loading && !isAcademician && processStatus == "IN1" && (
-        <UploadEmployeesForm />
+        <UploadEmployeesForm companyId={data.companyId} />
       )}
       {!loading && !isAcademician && processStatus == "POST" && (
         <UploadReportsForm />

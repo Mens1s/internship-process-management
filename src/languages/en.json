@@ -95,5 +95,7 @@
   "pastInternships": "Past Internships",
   "companyTelephone": "Company Phone Number",
   "task": "Task",
-  "evaluation": "Evaluation"
+  "evaluation": "Evaluation",
+  "title": "Title",
+  "telephone": "Phone Number"
 }

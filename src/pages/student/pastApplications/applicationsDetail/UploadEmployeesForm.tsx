@@ -43,7 +43,7 @@ const DatePickersContainer = styled.div`
   }
 `;
 
-const UploadEmployeesForm = () => {
+const UploadEmployeesForm = ({ companyId }: any) => {
   const [form] = Form.useForm();
   const { dictionary } = useLanguage();
   const [loading, setLoading] = useState(false);
@@ -60,10 +60,8 @@ const UploadEmployeesForm = () => {
           telephone: values.telephone,
           title: values.title,
           department: values.department,
-          companyId: 204,
+          companyId: companyId,
         };
-
-        console.log("post", postRequest);
         axios
           .post(API.COMPANY_STAFF.ADD, postRequest, getAxiosConfig())
           .then((response) => {
