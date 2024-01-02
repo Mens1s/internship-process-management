@@ -203,6 +203,21 @@ const ApplicationDetail = () => {
     }
   }, []);
 
+  // Test için burada kaldırılmalı
+  /*  useEffect(() => {
+    // Assuming getAxiosConfig() is a function that returns your Axios configuration
+    const jwtToken = window.localStorage.getItem("token");
+
+    axios
+      .put("http://localhost:8000/api/internship-process/post?processId=802")
+      .then((response: any) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("error:", error.response);
+      });
+  }, []); */
+
   return (
     <div>
       <ContentHeader>
@@ -243,7 +258,7 @@ const ApplicationDetail = () => {
         <UploadEmployeesForm companyId={data.companyId} />
       )}
       {!loading && !isAcademician && processStatus == "POST" && (
-        <UploadReportsForm />
+        <UploadReportsForm processId={data.id} />
       )}
 
       <Header showSteps={showSteps}>

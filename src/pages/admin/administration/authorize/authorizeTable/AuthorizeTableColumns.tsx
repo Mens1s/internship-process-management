@@ -4,7 +4,17 @@ import MyButton from "src/components/Button";
 import { Text } from "src/context/LanguageProvider";
 import { MoreOutlined } from "@ant-design/icons";
 import { Space, Button, Checkbox } from "antd";
+import styled from "styled-components";
 
+const ClickableDiv = styled.div`
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #f0f0f0; /* Adjust the color as needed */
+  }
+`;
 export const GetColumns = (
   showModal: any,
   token: any,
@@ -13,6 +23,7 @@ export const GetColumns = (
 ) => {
   const [form] = Form.useForm();
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<boolean[]>([
+    false,
     false,
     false,
     false,
@@ -41,12 +52,12 @@ export const GetColumns = (
   const setInitialCheckboxValues = (record: any) => {
     const academicIndex = record.key - 1;
     const academicData = academics[academicIndex];
-
     setSelectedCheckboxes([
       academicData?.internshipCommittee || false,
       academicData?.departmentChair || false,
       academicData?.executive || false,
       academicData?.academic || false,
+      academicData?.researchAssistant || false,
     ]);
   };
 
@@ -98,12 +109,16 @@ export const GetColumns = (
             label: "Academic",
             key: "4",
           },
+          {
+            label: "Research Assistant",
+            key: "5",
+          },
         ];
         const contentStyle = {
           backgroundColor: token.colorBgElevated,
           borderRadius: token.borderRadiusLG,
           boxShadow: token.boxShadowSecondary,
-          paddingTop: 10,
+          padding: "5px 5px 0 5px",
         };
 
         return (
@@ -123,12 +138,10 @@ export const GetColumns = (
                     <Form.Item
                       key={item?.key}
                       name={`checkbox_${item?.key}`}
-                      style={{ minHeight: 0, height: 10 }}
+                      style={{ marginBottom: 0, marginTop: 0 }}
                     >
-                      <div
-                        style={{
-                          padding: "0 10px 0 10px",
-                        }}
+                      <ClickableDiv
+                        onClick={() => handleCheckboxChange(item?.key, record)}
                       >
                         <Checkbox
                           checked={selectedCheckboxes[index]}
@@ -138,13 +151,13 @@ export const GetColumns = (
                           }
                         />
                         {item?.label}
-                      </div>
+                      </ClickableDiv>
                     </Form.Item>
                   ))}
 
                   <Space style={{ padding: 8 }}>
                     <Button
-                      style={{ width: "100" }}
+                      style={{ width: "170px" }}
                       type="primary"
                       htmlType="submit"
                       loading={loading}

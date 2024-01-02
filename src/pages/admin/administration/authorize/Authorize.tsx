@@ -48,7 +48,7 @@ const Authorize = () => {
           taskId: modifiedTasksString,
         },
       })
-      .then((response) => {
+      .then((response: any) => {
         window.location.reload();
       })
       .catch((error) => {

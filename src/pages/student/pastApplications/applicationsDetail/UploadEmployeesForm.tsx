@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Collapse, message } from "antd";
 import styled from "styled-components";
-import { WarningFilled, MoreOutlined } from "@ant-design/icons";
+import {
+  WarningFilled,
+  MoreOutlined,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 import {
   Row,
   Col,
@@ -23,7 +27,7 @@ const Wrapper = styled.div`
   .ant-collapse-content-box {
     background: white;
     border-radius: 0 0 8px 8px;
-    border-top: 1px solid #ffe58f;
+    border-top: 1px solid #91caff;
   }
 `;
 
@@ -87,17 +91,17 @@ const UploadEmployeesForm = ({ companyId }: any) => {
         size="small"
         bordered={false}
         expandIcon={() => (
-          <WarningFilled style={{ color: "#faad14", fontSize: "16px" }} />
+          <PlusCircleOutlined style={{ color: "#91caff", fontSize: "16px" }} />
         )}
         style={{
-          background: "#fffbe6",
-          border: "1px solid #ffe58f",
-          borderBottom: "1px solid #ffe58f",
-          borderTop: "1px solid #ffe58f",
+          background: "#e6f4ff",
+          border: "1px solid #91caff",
+          borderBottom: "1px solid #91caff",
+          borderTop: "1px solid #91caff",
         }}
       >
         <Panel
-          header="Stajınızdan sorumlu mühendisin bilgilerini girmek için tıklayınız."
+          header="Çalışan bilgisi eklemek için tıklayınız."
           key="1"
           extra={<MoreOutlined />}
         >

@@ -45,15 +45,16 @@ const DatePickersContainer = styled.div`
   }
 `;
 
-const UploadReportsForm = () => {
+const UploadReportsForm = ({ processId }: any) => {
   const [form] = Form.useForm();
   const { dictionary } = useLanguage();
   const [loading, setLoading] = useState(false);
 
   const handleLoadReport = () => {
+    console.log("process", processId);
     setLoading(true);
     const requestData = {
-      id: 652,
+      id: processId,
       stajRaporuPath: "/stajRaporuPath",
     };
     axios
@@ -83,7 +84,7 @@ const UploadReportsForm = () => {
         }}
       >
         <Panel
-          header="Staj raporunu yüklemek için tıklayınız"
+          header="Staj raporunu yüklemek için tıklayınız."
           key="1"
           extra={<MoreOutlined />}
         >
