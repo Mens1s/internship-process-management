@@ -9,12 +9,13 @@ import { EyeOutlined } from "@ant-design/icons";
 
 interface DataType {
   companyId: number;
-  processId: number;
+  processId: any;
   key: string;
   fullName: string;
   studentNumber: string;
   date: string;
   tags: string[];
+  internshipProcessList: any;
 }
 
 export const columns: ColumnsType<DataType> = [
@@ -85,7 +86,7 @@ export const columns: ColumnsType<DataType> = [
         to={`/akademisyen/companies/${record.companyId}/internships/${record.processId}`}
         state={{
           record,
-          processId: record.id,
+          processId: record.processId,
           internshipProcessList: record.internshipProcessList,
         }}
       >

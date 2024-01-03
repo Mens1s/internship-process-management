@@ -211,11 +211,13 @@ const ApplicationDetail = () => {
     const internshipProcess = internshipProcessList.find(
       (process: any) => process.id === processId
     );
+
     handleInternshipProcess(internshipProcess, dictionary);
     setLoading(false);
   };
 
   useEffect(() => {
+    console.log(location.state);
     if (location.pathname.includes("ogrenci")) {
       fetchDataForStudent();
     } else if (location.pathname.includes("akademisyen")) {

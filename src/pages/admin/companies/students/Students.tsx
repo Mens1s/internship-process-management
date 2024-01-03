@@ -53,6 +53,7 @@ const Students = () => {
                     ? dictionary.pending
                     : dictionary.approved,
                 ] || "-",
+              internshipProcessList: internshipProcessList,
             };
           })
         );
