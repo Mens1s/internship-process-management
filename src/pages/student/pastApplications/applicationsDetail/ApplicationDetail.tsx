@@ -119,6 +119,9 @@ const ApplicationDetail = () => {
         setCurrentStep(5);
         setStepsStatus("done");
         break;
+      case "REPORT1":
+        setShowSteps(false);
+        break;
       default:
         setShowSteps(false);
     }
@@ -203,13 +206,34 @@ const ApplicationDetail = () => {
     }
   }, []);
 
+  const handleExtension = () => {
+    const postData = {
+      processId: data.id,
+      requestDate: new Date(2024, 2, 17),
+      extensionDayNumber: "20",
+    };
+    axios
+      .post(API.INTERNSHIP_PROCESS.EXTENSION, postData, getAxiosConfig())
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log("extension error:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  console.log(data);
+
   // Test için burada kaldırılmalı
   /*  useEffect(() => {
     // Assuming getAxiosConfig() is a function that returns your Axios configuration
     const jwtToken = window.localStorage.getItem("token");
 
     axios
-      .put("http://localhost:8000/api/internship-process/post?processId=802")
+      .put("http://localhost:8000/api/internship-process/post?processId=952")
       .then((response: any) => {
         console.log(response);
       })
@@ -238,7 +262,7 @@ const ApplicationDetail = () => {
         )}
 
         {!isAcademician && processStatus == "IN1" && (
-          <StyledButton>
+          <StyledButton onClick={handleExtension}>
             <CalendarOutlined />
             Extend Internship
           </StyledButton>

@@ -89,7 +89,6 @@ const CompanyDetailsContainer = ({ company }: any) => {
             loading: loading,
           }}
         ></Table>
-        ;
       </div>
     </Container>
   );

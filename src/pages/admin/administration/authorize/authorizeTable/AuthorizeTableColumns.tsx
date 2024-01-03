@@ -12,7 +12,7 @@ const ClickableDiv = styled.div`
   cursor: pointer;
   transition: background-color 0.3s;
   &:hover {
-    background-color: #f0f0f0; /* Adjust the color as needed */
+    background-color: #f0f0f0;
   }
 `;
 export const GetColumns = (

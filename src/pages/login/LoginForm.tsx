@@ -46,15 +46,14 @@ const Login: React.FC = () => {
           window.localStorage.setItem("fullName", response.data.fullName);
           window.localStorage.setItem("role", "2000");
           window.localStorage.setItem("id", response.data.id);
-          setAuth({
-            user: username,
-            token: response.data.token,
-            role: 2000,
-          });
           navigate("/ogrenci", { replace: true });
         })
         .catch((error) => {
-          message.error(dictionary.wrongMailOrPassword);
+          if (error.response.status === 400) {
+            message.error(dictionary.wrongMailOrPassword);
+          } else {
+            message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyin.");
+          }
           console.error("Login error:", error);
         })
         .finally(() => {
@@ -78,17 +77,16 @@ const Login: React.FC = () => {
           window.localStorage.setItem("fullName", response.data.fullName);
           window.localStorage.setItem("role", "3000");
           window.localStorage.setItem("id", response.data.id);
-
           window.localStorage.setItem("isLoggedIn", "true");
-
-          window.localStorage.setItem("isLoggedIn", "true");
-          setTimeout(() => {
-            navigate("/akademisyen", { replace: true });
-          }, 500);
+          navigate("/akademisyen", { replace: true });
         })
         .catch((error) => {
-          message.error(dictionary.wrongMailOrPassword);
-          console.error("Error:", error);
+          if (error.response.status === 400) {
+            message.error(dictionary.wrongMailOrPassword);
+          } else {
+            message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyin.");
+          }
+          console.error("Login error:", error);
         })
         .finally(() => {
           setLoading(false);

@@ -133,6 +133,8 @@ const PastApplications: React.FC = () => {
         return dictionary.approved;
       } else if (item.processStatus.startsWith("POST")) {
         return dictionary.evaluation;
+      } else if (item.processStatus.startsWith("REPORT")) {
+        return dictionary.evaluation;
       } else {
         return "-";
       }
