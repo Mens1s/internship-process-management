@@ -40,7 +40,8 @@ const Students = () => {
           internshipProcessList?.map((item: any, index: any) => {
             return {
               key: index + 1,
-              id: item.id,
+              processId: item.id,
+              companyId: id,
               studentNumber: item.studentNumber,
               fullName: item.fullName || "-",
               date: new Date(item?.updateDate).toLocaleDateString() || "-",

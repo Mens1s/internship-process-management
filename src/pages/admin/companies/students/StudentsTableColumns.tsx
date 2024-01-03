@@ -8,7 +8,8 @@ import { Tag } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 
 interface DataType {
-  id: number;
+  companyId: number;
+  processId: number;
   key: string;
   fullName: string;
   studentNumber: string;
@@ -81,7 +82,7 @@ export const columns: ColumnsType<DataType> = [
     fixed: "right",
     render: (_: any, record: any) => (
       <Link
-        to={`/akademisyen/${record.studentId}/internships/${record.id}`}
+        to={`/akademisyen/companies/${record.companyId}/internships/${record.processId}`}
         state={{
           record,
           processId: record.id,

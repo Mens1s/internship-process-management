@@ -84,7 +84,7 @@ const App: React.FC = () => {
           />
           <Route
             path="akademisyen/companies/:id/internships/:id"
-            element={<Students />}
+            element={<ApplicationDetail />}
           />
           <Route
             path="akademisyen/internships/pending/evaluate/:id"
