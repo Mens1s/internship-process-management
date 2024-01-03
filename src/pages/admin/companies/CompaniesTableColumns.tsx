@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 
 interface DataType {
   key: string;
+  id: number;
   name: string;
   startDate: string;
   endDate: string;
@@ -45,7 +46,7 @@ export const getColumns = (showModal: any) => {
         const items: MenuProps["items"] = [
           {
             label: (
-              <Link to={`${record.key}/internships`}>
+              <Link to={`${record.id}/internships`}>
                 <Text tid="internshipInformation" />
               </Link>
             ),

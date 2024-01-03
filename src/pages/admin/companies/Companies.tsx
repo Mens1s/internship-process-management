@@ -13,6 +13,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import axios from "src/services/axios";
 import CompanyAdd from "./addCompany/AddCompanyForm";
+import { API } from "src/config/api";
 
 const StyledButton = styled(Button)`
   @media (max-width: 600px) {
@@ -46,20 +47,16 @@ const Companies = () => {
     .map((filteredItem: any, index: any) => ({
       ...filteredItem,
       rowNum: String(index + 1),
+      id: filteredItem.id,
     }));
-
-  const handleNewCompanyAdd = () => {
-    navigate("/ogrenci/companies/new");
-  };
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:8000/api/company/getAll")
+      .get(API.COMPANY.GET_ALL)
       .then((response) => {
         const companyList = response.data?.companyList;
         setData(companyList);
-        console.log(response.data.companyList);
       })
       .catch((error) => {
         console.error("Error:", error);

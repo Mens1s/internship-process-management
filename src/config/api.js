@@ -21,6 +21,8 @@ export const API = {
     GET_ASSIGNED_PROCESS: `${API_URL}/internship-process/get-assigned-process`,
     GET_ALL_PROCESS_ASSIGNED: (academicianId) =>
       `${API_URL}/internship-process/get-all-process-assigned?academicianId=${academicianId}`,
+    GET_ALL_BY_COMPANY: (companyId) =>
+      `${API_URL}/internship-process/get-all-by-company?companyId=${companyId}`,
   },
   STUDENT: {
     REGISTER: `${API_URL}/student/auth/register`,

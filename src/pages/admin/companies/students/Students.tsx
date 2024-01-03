@@ -1,57 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"; // Import useParams from React Router
 import ContentHeader from "src/components/ContentHeader";
-import MyTable from "src/components/Table";
+import Table from "src/components/Table";
 import { columns } from "./StudentsTableColumns";
 import { DownloadOutlined, SearchOutlined } from "@ant-design/icons";
 import { Text } from "src/context/LanguageProvider";
-import { Button, Input } from "antd";
+import { Button, Input, Skeleton } from "antd";
 import useLanguage from "src/hooks/useLanguage";
-interface DataType {
-  key?: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-  type: string;
-}
-const data: DataType[] = [
-  {
-    name: "Joe Black",
-    startDate: "05.06.2022",
-    endDate: "05.06.2022",
-    type: "İsteğe Bağlı",
-  },
-  {
-    name: "John Brown",
-    startDate: "03.07.2023",
-    endDate: "03.07.2023",
-    type: "Zorunlu",
-  },
-  {
-    name: "Jim Green",
-    startDate: "18.08.2023",
-    endDate: "18.08.2023",
-    type: "Zorunlu",
-  },
-  {
-    name: "Joe Black",
-    startDate: "05.06.2022",
-    endDate: "05.06.2022",
-    type: "İsteğe Bağlı",
-  },
-];
+import axios from "src/services/axios";
+import { API } from "src/config/api";
+import useEnhancedColumns from "src/hooks/useEnhancedColumns";
+import getAxiosConfig from "src/config/axiosConfig";
 
 const Students = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { dictionary } = useLanguage();
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const { id } = useParams(); // Get the 'id' parameter from the URL
+  const enhancedColumns = useEnhancedColumns(columns);
 
-  const filteredData = data
+  /*  const filteredData = data
     .filter((item) =>
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .map((filteredItem, index) => ({
       ...filteredItem,
       key: String(index + 1),
-    }));
+    })); */
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(API.INTERNSHIP_PROCESS.GET_ALL_BY_COMPANY(id), getAxiosConfig())
+      .then((response: any) => {
+        console.log(response);
+        const internshipProcessList = response.data?.internshipProcessList;
+        setData(
+          internshipProcessList?.map((item: any, index: any) => {
+            return {
+              key: index + 1,
+              id: item.id,
+              studentNumber: item.studentNumber,
+              fullName: item.fullName || "-",
+              date: new Date(item?.updateDate).toLocaleDateString() || "-",
+              tags:
+                [
+                  item.processStatus === "REPORT1"
+                    ? dictionary.evaluation
+                    : item.processStatus.includes("PRE")
+                    ? dictionary.pending
+                    : dictionary.approved,
+                ] || "-",
+            };
+          })
+        );
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <div>
@@ -72,7 +81,11 @@ const Students = () => {
           />
         </div>
       </ContentHeader>
-      <MyTable tableProps={{ columns, data: filteredData }}></MyTable>
+      {loading ? (
+        <Skeleton />
+      ) : (
+        <Table tableProps={{ columns: enhancedColumns, data }} />
+      )}
     </div>
   );
 };
