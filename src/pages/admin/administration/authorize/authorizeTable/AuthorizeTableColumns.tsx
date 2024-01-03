@@ -5,6 +5,7 @@ import { Text } from "src/context/LanguageProvider";
 import { MoreOutlined } from "@ant-design/icons";
 import { Space, Button, Checkbox } from "antd";
 import styled from "styled-components";
+import UseLanguage from "src/hooks/useLanguage";
 
 const ClickableDiv = styled.div`
   padding: 5px 10px;
@@ -30,6 +31,7 @@ export const GetColumns = (
     false,
   ]);
   const [currentRecord, setCurrentRecord] = useState<any>(null);
+  const { dictionary } = UseLanguage();
 
   const handleCheckboxChange = (key: string, record: any) => {
     setCurrentRecord(record);
@@ -169,7 +171,7 @@ export const GetColumns = (
               </Form>
             )}
           >
-            <Tooltip title="Görev Ata">
+            <Tooltip title={dictionary.assignTask}>
               <MyButton icon={<MoreOutlined />} type="text" />
             </Tooltip>
           </Dropdown>

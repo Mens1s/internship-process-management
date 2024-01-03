@@ -44,12 +44,18 @@ export const getColumns = (showModal: any) => {
       render: (_, record) => {
         const items: MenuProps["items"] = [
           {
-            label: <Link to={`${record.key}/internships`}>Staj Bilgileri</Link>,
+            label: (
+              <Link to={`${record.key}/internships`}>
+                <Text tid="internshipInformation" />
+              </Link>
+            ),
             key: "0",
           },
           {
             label: (
-              <span onClick={() => showModal(record)}>Şirket Bilgileri</span>
+              <span onClick={() => showModal(record)}>
+                <Text tid="companyInformation" />
+              </span>
             ),
             key: "1",
           },

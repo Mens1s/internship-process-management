@@ -73,15 +73,22 @@ const MySider: React.FC<MySiderProps> = ({
       "akademisyen/internships",
       <SnippetsFilled />,
       [
-        getItem("Onay Bekleyen Başvurular", "akademisyen/internships/pending"),
+        getItem(
+          dictionary.pendingApplications,
+          "akademisyen/internships/pending"
+        ),
         getItem("Aktif Stajlar", "akademisyen/internships/active"),
-        getItem("Tamamlanmış Stajlar", "akademisyen/internships/past"),
       ]
     ),
-    getItem("Yönetici İşlemleri", "akademisyen/admin", <SettingFilled />, [
-      getItem("Yetkilendirme", "akademisyen/admin/authorize"),
-      getItem("Tatil Günleri", "akademisyen/admin/holidays"),
-    ]),
+    getItem(
+      dictionary.adminOperations,
+      "akademisyen/admin",
+      <SettingFilled />,
+      [
+        getItem(dictionary.authorization, "akademisyen/admin/authorize"),
+        getItem(dictionary.holidays, "akademisyen/admin/holidays"),
+      ]
+    ),
     getItem(dictionary.companies, "akademisyen/companies", <IdcardFilled />),
     getItem(dictionary.myApplications, "ogrenci/past", <CopyFilled />),
     getItem(dictionary.internshipGuidelines, "ogrenci/", <CopyFilled />),

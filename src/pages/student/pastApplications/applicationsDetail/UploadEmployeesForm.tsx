@@ -101,7 +101,7 @@ const UploadEmployeesForm = ({ companyId }: any) => {
         }}
       >
         <Panel
-          header="Çalışan bilgisi eklemek için tıklayınız."
+          header={dictionary.clickToAddEmployeeInformation}
           key="1"
           extra={<MoreOutlined />}
         >

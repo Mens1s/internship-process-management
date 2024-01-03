@@ -298,10 +298,10 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
             {isAkademisyen && isInEvaluatePage && (
               <>
                 <Button disabled={loading} danger onClick={showDeny}>
-                  Reddet
+                  <Text tid="reject" />
                 </Button>
                 <Button disabled={loading} type="primary" onClick={showConfirm}>
-                  Onayla
+                  <Text tid="approve" />
                 </Button>
               </>
             )}
@@ -319,6 +319,8 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
               style={{ marginTop: 15, resize: "none" }}
               rows={5}
               placeholder="Enter comments"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
             />
           </Modal>
           <Modal

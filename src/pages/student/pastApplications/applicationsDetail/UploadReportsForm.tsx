@@ -60,7 +60,7 @@ const UploadReportsForm = ({ processId }: any) => {
     axios
       .put(API.INTERNSHIP_PROCESS.LOAD_REPORT, requestData, getAxiosConfig())
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
       })
       .catch((error) => {
         console.log(error.response.data);

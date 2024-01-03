@@ -97,5 +97,17 @@
   "task": "Görev",
   "evaluation": "Değerlendirme",
   "title": "Ünvan",
-  "telephone": "Telefon Numarası"
+  "telephone": "Telefon Numarası",
+  "assignTask": "Görev Ata",
+  "adminOperations": "Yönetici İşlemleri",
+  "holidays": "Tatil Günleri",
+  "authorization": "Yetkilendirme",
+  "academicianList": "Akademisyen Listesi",
+  "companyInformation": "Şirket Bilgileri",
+  "internshipInformation": "Staj Bilgileri",
+  "approve": "Onayla",
+  "reject": "Reddet",
+  "clickToAddEmployeeInformation": "Çalışan bilgisi girmek için tıklayınız.",
+  "employeeInformation": "Çalışan Bilgileri",
+  "loading": "Yükleniyor"
 }

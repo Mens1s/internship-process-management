@@ -3,7 +3,7 @@ interface StepItem {
   description: string;
 }
 
-const getStepItems = (
+const getPreStepItems = (
   processStatus: string,
   isRejected: boolean,
   dictionary: any
@@ -52,4 +52,27 @@ const getStepItems = (
   return defaultItems;
 };
 
-export { getStepItems };
+const getPostStepItems = (
+  processStatus: string,
+  isRejected: boolean,
+  dictionary: any
+): StepItem[] => {
+  const defaultItems: StepItem[] = [
+    {
+      title: "Rapor Yüklenmesi",
+      description: "Rapor Bekleniyor",
+    },
+    {
+      title: "Araştırma Görevlisi",
+      description: "Onay Bekleniyor",
+    },
+    {
+      title: "Akademisyen",
+      description: "Onay Bekleniyor",
+    },
+  ];
+
+  return defaultItems;
+};
+
+export { getPreStepItems, getPostStepItems };

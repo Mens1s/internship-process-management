@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
-import { Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Text } from "src/context/LanguageProvider";
 
 const RequireAuth = ({ allowedRoles }: any) => {
   const location = useLocation();
@@ -25,19 +24,11 @@ const RequireAuth = ({ allowedRoles }: any) => {
   }, [allowedRoles, location]);
 
   if (loading) {
-    // You can render a loading indicator here
     return (
-      /*  <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: 20,
-          height: "100vh", // Full height of the viewport
-        }}
-      >
-        <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
-      </div> */
-      <div style={{ marginLeft: 10, marginTop: 10 }}>Yükleniyor...</div>
+      <div style={{ marginLeft: 10, marginTop: 10 }}>
+        <Text tid="loading" />
+        ...
+      </div>
     );
   }
 

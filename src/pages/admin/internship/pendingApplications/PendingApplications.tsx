@@ -45,8 +45,8 @@ const PastApplications = () => {
                 date: new Date(item?.updateDate).toLocaleDateString() || "-",
                 tags:
                   [
-                    item.processStatus === "FORM"
-                      ? dictionary.draft
+                    item.processStatus === "REPORT1"
+                      ? dictionary.evaluation
                       : item.processStatus.includes("PRE")
                       ? dictionary.pending
                       : dictionary.approved,

@@ -10,6 +10,7 @@ import getAxiosConfig from "src/config/axiosConfig";
 import { columns } from "./companyDetailsTableColumns";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import Table from "src/components/Table";
+import { Text } from "src/context/LanguageProvider";
 
 const Container = styled.div`
   display: flex;
@@ -80,7 +81,9 @@ const CompanyDetailsContainer = ({ company }: any) => {
       </div>
       <div>
         <ContentHeader>
-          <h3>Çalışan Bilgileri</h3>
+          <h3>
+            <Text tid="employeeInformation" />
+          </h3>
         </ContentHeader>
         <Table
           tableProps={{

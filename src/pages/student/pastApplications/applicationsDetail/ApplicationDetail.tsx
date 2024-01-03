@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
-import { getStepItems } from "./applicationUtils";
+import { getPreStepItems, getPostStepItems } from "./applicationUtils";
 import { Steps, Tag, Skeleton, Alert, Button } from "antd";
 import styled from "styled-components";
 import ActiveApplicationForm from "../../activeApplication/ActiveApplicationForm";
@@ -48,15 +48,18 @@ interface StepItem {
 
 const ApplicationDetail = () => {
   const [data, setData] = useState<any>([]);
-  const [showSteps, setShowSteps] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [showPreSteps, setShowPreSteps] = useState(false);
+  const [showPostSteps, setShowPostSteps] = useState(false);
+  const [preCurrentStep, setPreCurrentStep] = useState(0);
+  const [postCurrentStep, setPostCurrentStep] = useState(0);
   const [editable, setEditable] = useState(false);
-  const [stepItems, setStepItems] = useState<StepItem[]>([]);
+  const [preStepItems, setPreStepItems] = useState<StepItem[]>([]);
+  const [postStepItems, setPostStepItems] = useState<StepItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [messageTitle, setMessageTitle] = useState("");
   const [messageType, setMessageType] = useState<any>("error");
   const [comment, setComment] = useState<any>("");
-  const [stepsStatus, setStepsStatus] = useState<any>("process");
+  const [preStepsStatus, setPreStepsStatus] = useState<any>("process");
   const [showMessage, setShowMessage] = useState(false);
   const [processStatus, setProcessStatus] = useState("FORM");
   const { dictionary } = UseLanguage();
@@ -75,8 +78,8 @@ const ApplicationDetail = () => {
     const isRejected = internshipProcess.rejected;
 
     if (isRejected) {
-      setShowSteps(true);
-      setStepsStatus("error");
+      setShowPreSteps(true);
+      setPreStepsStatus("error");
       setShowMessage(true);
       setMessageTitle(dictionary.applicationRejected);
       setMessageType("error");
@@ -85,56 +88,74 @@ const ApplicationDetail = () => {
 
     switch (processStatus) {
       case "FORM":
-        setCurrentStep(0);
-        setShowSteps(false);
+        setPreCurrentStep(0);
+        setShowPreSteps(false);
         setEditable(true);
         break;
       case "PRE1":
-        setShowSteps(true);
-        setCurrentStep(1);
+        setShowPreSteps(true);
+        setPreCurrentStep(1);
         break;
       case "PRE2":
-        setShowSteps(true);
-        setCurrentStep(2);
+        setShowPreSteps(true);
+        setPreCurrentStep(2);
         break;
       case "PRE3":
-        setShowSteps(true);
-        setCurrentStep(3);
+        setShowPreSteps(true);
+        setPreCurrentStep(3);
         break;
       case "PRE4":
-        setShowSteps(true);
-        setCurrentStep(4);
+        setShowPreSteps(true);
+        setPreCurrentStep(4);
         break;
       case "IN1":
-        setShowSteps(true);
-        setCurrentStep(5);
-        setStepsStatus("done");
+        setShowPreSteps(true);
+        setPreCurrentStep(5);
+        setPreStepsStatus("done");
         setShowMessage(true);
         setMessageTitle(dictionary.applicationApproved);
         setMessageType("success");
         setComment(internshipProcess.comment);
         break;
       case "POST":
-        setShowSteps(true);
-        setCurrentStep(5);
-        setStepsStatus("done");
+        setShowPreSteps(false);
+        setShowPostSteps(true);
+        setPostCurrentStep(0);
         break;
       case "REPORT1":
-        setShowSteps(false);
+        setShowPreSteps(false);
+        setShowPostSteps(true);
+        setPostCurrentStep(1);
         break;
-      default:
-        setShowSteps(false);
+      case "REPORT2":
+        setShowPreSteps(false);
+        setShowPostSteps(true);
+        setPostCurrentStep(2);
+        break;
     }
   };
 
   const handleInternshipProcess = (internshipProcess: any, dictionary: any) => {
     const isRejected = internshipProcess.rejected;
     processInternshipDetails(internshipProcess, dictionary);
-
+    const preEnums = ["FORM", "PRE1", "PRE2", "PRE3", "PRE4", "IN1", "IN2"];
     const processStatus = internshipProcess.processStatus;
-    const stepItems = getStepItems(processStatus, isRejected, dictionary);
 
-    setStepItems(stepItems);
+    if (preEnums.includes(processStatus)) {
+      const preStepItems = getPreStepItems(
+        processStatus,
+        isRejected,
+        dictionary
+      );
+      setPreStepItems(preStepItems);
+    } else {
+    }
+    const postStepItems = getPostStepItems(
+      processStatus,
+      isRejected,
+      dictionary
+    );
+    setPostStepItems(postStepItems);
     setData(internshipProcess);
     setEditable(internshipProcess.editable);
   };
@@ -233,15 +254,15 @@ const ApplicationDetail = () => {
     const jwtToken = window.localStorage.getItem("token");
 
     axios
-      .put("http://localhost:8000/api/internship-process/post?processId=952")
+      .put("http://localhost:8000/api/internship-process/post?processId=953")
       .then((response: any) => {
         console.log(response);
       })
       .catch((error) => {
         console.log("error:", error.response);
       });
-  }, []); */
-
+  }, []);
+ */
   return (
     <div>
       <ContentHeader>
@@ -285,14 +306,24 @@ const ApplicationDetail = () => {
         <UploadReportsForm processId={data.id} />
       )}
 
-      <Header showSteps={showSteps}>
-        {showSteps && (
+      <Header showSteps={showPreSteps || showPostSteps}>
+        {showPreSteps && (
           <StepsContainer>
             <Steps
               size="small"
-              current={currentStep}
-              status={stepsStatus}
-              items={stepItems}
+              current={preCurrentStep}
+              status={preStepsStatus}
+              items={preStepItems}
+            />
+          </StepsContainer>
+        )}
+        {showPostSteps && (
+          <StepsContainer>
+            <Steps
+              size="small"
+              current={postCurrentStep}
+              status={preStepsStatus}
+              items={postStepItems}
             />
           </StepsContainer>
         )}

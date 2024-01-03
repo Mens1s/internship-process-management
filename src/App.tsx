@@ -14,7 +14,6 @@ import RequireAuth from "./components/RequireAuth";
 import Companies from "./pages/admin/companies/Companies";
 import NotFound from "./pages/notfound/NotFound";
 import Holidays from "./pages/admin/administration/holidays/Holidays";
-import AllApplications from "./pages/admin/internship/pastApplications/PastApplications";
 import Students from "./pages/admin/companies/students/Students";
 import ActiveInternships from "./pages/admin/internship/activeInternships/ActiveInternships";
 import CompanyAdd from "./pages/admin/companies/addCompany/AddCompanyForm";
@@ -71,10 +70,7 @@ const App: React.FC = () => {
             path="akademisyen/:id/internships/:id"
             element={<ApplicationDetail />}
           />
-          <Route
-            path="akademisyen/internships/past"
-            element={<AllApplications />}
-          />
+
           <Route
             path="akademisyen/internships/active"
             element={<ActiveInternships />}

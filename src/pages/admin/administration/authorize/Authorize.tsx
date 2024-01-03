@@ -8,6 +8,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import Table from "src/components/Table";
 import styled from "styled-components";
 import { API } from "src/config/api";
+import { Text } from "src/context/LanguageProvider";
 
 const StyledButton = styled(Button)`
   @media (max-width: 600px) {
@@ -91,7 +92,9 @@ const Authorize = () => {
     <>
       <ContentHeader>
         <div>
-          <h2>Yönetici Listesi</h2>
+          <h2>
+            <Text tid="academicianList" />
+          </h2>
         </div>
       </ContentHeader>
       {loading ? (

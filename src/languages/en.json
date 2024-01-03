@@ -97,5 +97,17 @@
   "task": "Task",
   "evaluation": "Evaluation",
   "title": "Title",
-  "telephone": "Phone Number"
+  "telephone": "Phone Number",
+  "assignTask": "Assign Task",
+  "adminOperations": "Admin Operations",
+  "holidays": "Holidays",
+  "authorization": "Authorization",
+  "academicianList": "Academician List",
+  "companyInformation": "Company Information",
+  "internshipInformation": "Internship Information",
+  "approve": "Approve",
+  "reject": "Reject",
+  "clickToAddEmployeeInformation": "Click to add employee information.",
+  "employeeInformation": "Employee Information",
+  "loading": "Loading"
 }
