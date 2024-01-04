@@ -17,6 +17,29 @@ const PastApplications = () => {
   const [loading, setLoading] = useState(false);
   const [companyName, setCompanyName] = useState("");
 
+  function getStatus(item: any) {
+    if (item.rejected) {
+      return dictionary.rejected;
+    } else {
+      if (item.processStatus === "FORM") {
+        return dictionary.draft;
+      } else if (item.processStatus.includes("PRE")) {
+        return dictionary.pending;
+      } else if (item.processStatus.includes("IN")) {
+        return dictionary.approved;
+      } else if (item.processStatus.includes("POST")) {
+        return dictionary.evaluation;
+      } else if (item.processStatus.includes("REPORT")) {
+        return dictionary.evaluation;
+      } else if (item.processStatus.includes("DONE")) {
+        return dictionary.completed;
+      } else if (item.processStatus.includes("FAIL")) {
+        return dictionary.rejected;
+      } else {
+        return " ";
+      }
+    }
+  }
   useEffect(() => {
     const jwtToken = window.localStorage.getItem("token");
     const userId = window.localStorage.getItem("id");
@@ -43,14 +66,7 @@ const PastApplications = () => {
                 studentNumber: item.studentNumber,
                 fullName: item.fullName || "-",
                 date: new Date(item?.updateDate).toLocaleDateString() || "-",
-                tags:
-                  [
-                    item.processStatus.includes("REPORT")
-                      ? dictionary.evaluation
-                      : item.processStatus.includes("PRE")
-                      ? dictionary.pending
-                      : dictionary.approved,
-                  ] || "-",
+                tags: [getStatus(item)],
               };
             })
           );

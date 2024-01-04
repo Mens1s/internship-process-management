@@ -132,6 +132,22 @@ const ApplicationDetail = () => {
         setShowPostSteps(true);
         setPostCurrentStep(2);
         break;
+      case "FAIL":
+        setShowPreSteps(false);
+        setShowPostSteps(false);
+        setShowMessage(true);
+        setMessageTitle(dictionary.applicationRejected);
+        setMessageType("error");
+        setComment(internshipProcess.comment);
+        break;
+      case "DONE":
+        setShowPreSteps(false);
+        setShowPostSteps(false);
+        setShowMessage(true);
+        setMessageTitle(dictionary.applicationApproved);
+        setMessageType("success");
+        setComment(internshipProcess.comment);
+        break;
     }
   };
 
@@ -167,7 +183,6 @@ const ApplicationDetail = () => {
         const index = response.data.internshipProcessList.findIndex(
           (item: any) => item.id == id
         );
-
         if (index !== -1) {
           const internshipProcess = response.data.internshipProcessList[index];
           handleInternshipProcess(internshipProcess, dictionary);

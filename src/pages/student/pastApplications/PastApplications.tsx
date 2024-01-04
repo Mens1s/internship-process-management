@@ -83,7 +83,7 @@ const PastApplications: React.FC = () => {
       .get(API.INTERNSHIP_PROCESS.GET_ALL, getAxiosConfig())
       .then((response) => {
         const internshipProcessList = response?.data?.internshipProcessList;
-        if (internshipProcessList.length < 2) {
+        if (internshipProcessList.length < 20) {
           setCanCreateNewForm(true);
         }
         if (internshipProcessList) {
@@ -127,16 +127,18 @@ const PastApplications: React.FC = () => {
     } else {
       if (item.processStatus === "FORM") {
         return dictionary.draft;
-      } else if (item.processStatus.startsWith("PRE")) {
+      } else if (item.processStatus.includes("PRE")) {
         return dictionary.pending;
-      } else if (item.processStatus.startsWith("IN")) {
+      } else if (item.processStatus.includes("IN")) {
         return dictionary.approved;
-      } else if (item.processStatus.startsWith("POST")) {
+      } else if (item.processStatus.includes("POST")) {
         return dictionary.evaluation;
-      } else if (item.processStatus.startsWith("REPORT")) {
+      } else if (item.processStatus.includes("REPORT")) {
         return dictionary.evaluation;
-      } else if (item.processStatus.startsWith("DONE")) {
+      } else if (item.processStatus.includes("DONE")) {
         return dictionary.completed;
+      } else if (item.processStatus.includes("FAIL")) {
+        return dictionary.rejected;
       } else {
         return " ";
       }

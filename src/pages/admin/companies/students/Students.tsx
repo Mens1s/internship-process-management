@@ -29,6 +29,30 @@ const Students = () => {
       key: String(index + 1),
     })); */
 
+  function getStatus(item: any) {
+    if (item.rejected) {
+      return dictionary.rejected;
+    } else {
+      if (item.processStatus === "FORM") {
+        return dictionary.draft;
+      } else if (item.processStatus.includes("PRE")) {
+        return dictionary.pending;
+      } else if (item.processStatus.includes("IN")) {
+        return dictionary.approved;
+      } else if (item.processStatus.includes("POST")) {
+        return dictionary.evaluation;
+      } else if (item.processStatus.includes("REPORT")) {
+        return dictionary.evaluation;
+      } else if (item.processStatus.includes("DONE")) {
+        return dictionary.completed;
+      } else if (item.processStatus.includes("FAIL")) {
+        return dictionary.rejected;
+      } else {
+        return " ";
+      }
+    }
+  }
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -45,14 +69,7 @@ const Students = () => {
               studentNumber: item.studentNumber,
               fullName: item.fullName || "-",
               date: new Date(item?.updateDate).toLocaleDateString() || "-",
-              tags:
-                [
-                  item.processStatus === "REPORT1"
-                    ? dictionary.evaluation
-                    : item.processStatus.includes("PRE")
-                    ? dictionary.pending
-                    : dictionary.approved,
-                ] || "-",
+              tags: [getStatus(item)],
               internshipProcessList: internshipProcessList,
             };
           })
