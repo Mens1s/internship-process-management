@@ -135,8 +135,10 @@ const PastApplications: React.FC = () => {
         return dictionary.evaluation;
       } else if (item.processStatus.startsWith("REPORT")) {
         return dictionary.evaluation;
+      } else if (item.processStatus.startsWith("DONE")) {
+        return dictionary.completed;
       } else {
-        return "-";
+        return " ";
       }
     }
   }

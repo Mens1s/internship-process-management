@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
 import { getPreStepItems, getPostStepItems } from "./applicationUtils";
-import { Steps, Tag, Skeleton, Alert, Button } from "antd";
+import { Steps, Skeleton, Alert, Button } from "antd";
 import styled from "styled-components";
 import ActiveApplicationForm from "../../activeApplication/ActiveApplicationForm";
 import ContentHeader from "src/components/ContentHeader";
@@ -109,7 +109,7 @@ const ApplicationDetail = () => {
         setPreCurrentStep(4);
         break;
       case "IN1":
-        setShowPreSteps(true);
+        setShowPreSteps(false);
         setPreCurrentStep(5);
         setPreStepsStatus("done");
         setShowMessage(true);
@@ -217,7 +217,6 @@ const ApplicationDetail = () => {
   };
 
   useEffect(() => {
-    console.log(location.state);
     if (location.pathname.includes("ogrenci")) {
       fetchDataForStudent();
     } else if (location.pathname.includes("akademisyen")) {
@@ -250,21 +249,6 @@ const ApplicationDetail = () => {
 
   console.log(data);
 
-  // Test için burada kaldırılmalı
-  /*  useEffect(() => {
-    // Assuming getAxiosConfig() is a function that returns your Axios configuration
-    const jwtToken = window.localStorage.getItem("token");
-
-    axios
-      .put("http://localhost:8000/api/internship-process/post?processId=953")
-      .then((response: any) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("error:", error.response);
-      });
-  }, []);
- */
   return (
     <div>
       <ContentHeader>

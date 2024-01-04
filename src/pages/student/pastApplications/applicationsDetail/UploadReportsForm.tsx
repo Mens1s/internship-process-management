@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Collapse } from "antd";
+import { Collapse, message, Modal, Result } from "antd";
 import styled from "styled-components";
 import { WarningFilled, MoreOutlined } from "@ant-design/icons";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 import {
   Row,
@@ -61,11 +62,25 @@ const UploadReportsForm = ({ processId }: any) => {
       .put(API.INTERNSHIP_PROCESS.LOAD_REPORT, requestData, getAxiosConfig())
       .then((response) => {
         console.log(response);
+        setIsSuccessModalOpen(true);
       })
       .catch((error) => {
         console.log(error.response.data);
+        message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyin.");
       })
       .finally(() => setLoading(false));
+  };
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  const showSuccessModal = () => {
+    setIsSuccessModalOpen(true);
+  };
+
+  const navigate = useNavigate();
+  const handleSuccessModalOk = () => {
+    setIsSuccessModalOpen(false);
+    navigate("/ogrenci/past", { replace: true });
   };
 
   return (
@@ -104,20 +119,24 @@ const UploadReportsForm = ({ processId }: any) => {
             </Form.Item>
           </Form>
           <DatePickersContainer>
-            <Popconfirm
-              title="Delete the applicaton"
-              description="Are you sure to delete this application?"
-              onConfirm={handleLoadReport}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button loading={loading} type="primary">
-                <Text tid="confirm" />
-              </Button>
-            </Popconfirm>
+            <Button loading={loading} type="primary" onClick={handleLoadReport}>
+              <Text tid="confirm" />
+            </Button>
           </DatePickersContainer>
         </Panel>
       </Collapse>
+      <Modal open={isSuccessModalOpen} footer={null} closable={false}>
+        <Result
+          status="success"
+          title="Staj raporunuz başarıyla sisteme yüklenmiştir!"
+          subTitle="Başvurularım sayfasından raporunuzun onay durumunu ve detaylarını inceleyebilirsiniz."
+          extra={[
+            <Button type="primary" onClick={handleSuccessModalOk}>
+              Tamam
+            </Button>,
+          ]}
+        />
+      </Modal>
     </Wrapper>
   );
 };

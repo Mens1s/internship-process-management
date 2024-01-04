@@ -109,5 +109,6 @@
   "reject": "Reject",
   "clickToAddEmployeeInformation": "Click to add employee information.",
   "employeeInformation": "Employee Information",
-  "loading": "Loading"
+  "loading": "Loading",
+  "completed": "Completed"
 }

@@ -19,6 +19,7 @@ import ActiveInternships from "./pages/admin/internship/activeInternships/Active
 import CompanyAdd from "./pages/admin/companies/addCompany/AddCompanyForm";
 import ForgotMyPasswordPage from "./pages/forgotMyPassword/forgotMyPasswordPage";
 import PastInternships from "./pages/admin/internship/pendingApplications/pendingApplicationsEvaluate/pastInternships/PastInternships";
+import MakePost from "./test/MakePost";
 
 const ROLES = {
   ogrenci: "2000",
@@ -34,6 +35,7 @@ const App: React.FC = () => {
       <Route path="register" element={<Navigate to="/ogrenci/register" />} />
       <Route index path="ogrenci/login" element={<LoginPage />} />
       <Route path="akademisyen/login" element={<LoginPage />} />
+      <Route path="test" element={<MakePost />} />
       <Route
         path="ogrenci/forgot-my-password"
         element={<ForgotMyPasswordPage />}

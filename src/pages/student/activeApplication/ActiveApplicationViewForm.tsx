@@ -7,7 +7,7 @@ import type { RcFile, UploadProps } from "antd/es/upload";
 import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
 import type { DescriptionsProps } from "antd";
-import { Descriptions, Alert, message } from "antd";
+import { Descriptions, Alert, message, Checkbox } from "antd";
 import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
 import axios from "src/services/axios";
 import { Button, Modal, Input, Result } from "antd";
@@ -65,6 +65,11 @@ const DatePickersContainer = styled.div`
     width: 100%;
   }
 `;
+const EditableSettingsContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
 
 interface ActiveApplicationFormProps {
   data?: any;
@@ -79,6 +84,11 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const { dictionary } = useLanguage();
   const [comment, setComment] = useState<any>(null); // State to store the deny reason
   const [loading, setLoading] = useState(false);
+  const [reportEditRequest, setReportEditRequest] = useState<boolean>(true);
+  const [reportEditDays, setReportEditDays] = useState<number>(7);
+  const processStatus = data?.processStatus || null;
+  const sentEditable = processStatus?.includes("REPORT") || null;
+
   const items = [
     {
       key: "id",
@@ -230,6 +240,9 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
           approve: isApproved,
           comment: comment,
           academicianId: userId,
+          reportEditRequest:
+            sentEditable && !isApproved ? reportEditRequest : null,
+          reportEditDays: sentEditable && !isApproved ? reportEditDays : null,
         },
         getAxiosConfig()
       )
@@ -259,7 +272,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []); // Empty dependency array ensures the effect runs only once on mount
+  }, []);
 
   const labelStyle = {};
 
@@ -340,6 +353,45 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
+            {sentEditable && (
+              <EditableSettingsContainer>
+                <div
+                  style={{
+                    marginTop: 15,
+                  }}
+                >
+                  <label
+                    style={{
+                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Checkbox
+                      disabled={processStatus == "REPORT1"}
+                      style={{ marginRight: 10, marginTop: 1 }}
+                      checked={reportEditRequest}
+                      onChange={() => setReportEditRequest(!reportEditRequest)}
+                    />
+                    Düzenlemeye Aç
+                  </label>
+                </div>
+                {reportEditRequest && (
+                  <div style={{ marginTop: 15 }}>
+                    <Input
+                      placeholder="Gün Sınırı"
+                      style={{ width: 150 }}
+                      type="number"
+                      value={reportEditDays}
+                      onChange={(e) =>
+                        setReportEditDays(Number(e.target.value))
+                      }
+                    />
+                  </div>
+                )}
+              </EditableSettingsContainer>
+            )}
           </Modal>
           <Modal open={isSuccessModalOpen} footer={null} closable={false}>
             <Result
