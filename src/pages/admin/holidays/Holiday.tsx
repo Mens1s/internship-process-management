@@ -148,29 +148,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
     setFileList(newFileList);
 
-  const handleDelete = () => {
-    const jwtToken = window.localStorage.getItem("token");
-
-    axios
-      .delete("http://localhost:8000/api/internship-process/delete", {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-        params: {
-          internshipProcessID: data.id,
-        },
-      })
-      .then((response) => {
-        alert("Intership process deleted!");
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("error: ");
-        alert("You can't delete this internship process!");
-        errorMessage();
-      });
-  };
-
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/company/getAll")
@@ -216,7 +193,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       stajRaporuPath: "/path/to/stajRaporu.pdf",
       comment: "biasda",
     };
-    
+
     setSaveLoading(true);
     setIsModalOpen(false);
     axios
@@ -281,8 +258,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
         >
           <Row gutter={16}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              
-
               <DatePickersContainer>
                 <Form.Item name="startDate" label={dictionary.internshipDates}>
                   <DatePicker />
@@ -292,8 +267,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   <DatePicker />
                 </Form.Item>
               </DatePickersContainer>
-
-              
             </Col>
           </Row>
         </Form>

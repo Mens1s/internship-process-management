@@ -10,6 +10,8 @@ import axios from "src/services/axios";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import useDepartments from "src/hooks/useDepartments";
+import { API } from "src/config/api";
+import getAxiosConfig from "src/config/axiosConfig";
 
 const DatePickersContainer = styled.div`
   display: flex;
@@ -48,13 +50,6 @@ const Holidays: React.FC = () => {
     });
   };
 
-  const departmentOptions = useDepartments();
-  const [companyOptionss, setCompanyOptionss] = useState<
-    SelectProps["options"]
-  >([]);
-
-  const companyOptions: SelectProps["options"] = [];
-
   const showModal = () => {
     setIsModalOpen(true);
     console.log("form", form.getFieldsValue());
@@ -77,11 +72,7 @@ const Holidays: React.FC = () => {
     setSaveLoading(true);
     setIsModalOpen(false);
     axios
-      .post("http://localhost:8000/api/holiday/addHoliday", postData, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
+      .post(API.HOLIDAY.ADD_HOLIDAY, postData, getAxiosConfig())
       .then((response) => {
         console.log(response);
         success();
@@ -93,34 +84,6 @@ const Holidays: React.FC = () => {
       })
       .finally(() => {
         setSaveLoading(false);
-      });
-  };
-
-  const handleSend = () => {
-    const jwtToken = window.localStorage.getItem("token");
-    setConfirmLoading(true);
-
-    axios
-      .post("http://localhost:8000/api/internship-process/start", null, {
-        params: {},
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
-      .then((response) => {
-        alert("Başvurunuz başarıyla alındı işleme koyuldu.");
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("error:", error.response);
-        const message =
-          error.response.status == 400
-            ? "Başvuru formu boş bırakılamaz."
-            : "Bir hata oluştu. Lütfen tekrar deneyiniz.";
-        errorMessage(message);
-      })
-      .finally(() => {
-        setConfirmLoading(false);
       });
   };
 

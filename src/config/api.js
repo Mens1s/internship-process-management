@@ -57,4 +57,9 @@ export const API = {
     GET_ALL_BY_COMPANY: (companyId) =>
       `${API_URL}/staff/getAllByCompany?companyId=${companyId}`,
   },
+  DEPARTMENT: {
+    GET_ALL: `${API_URL}/department/getAll`,
+    ADD: `${API_URL}/department/addDepartment`,
+    UPDATE: `${API_URL}/department/updateDepartment`,
+  },
 };

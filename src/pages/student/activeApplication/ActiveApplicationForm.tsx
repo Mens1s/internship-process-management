@@ -244,7 +244,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       .catch((error) => {
         console.log("error:", error);
         const message =
-          error.response.status == 400
+          error.response?.status == 400
             ? "Bütün bilgileri doğru girdiğinizden emin olunuz."
             : "Bir hata oluştu. Lütfen tekrar deneyiniz.";
         errorMessage(message);
@@ -269,7 +269,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       .catch((error) => {
         console.log("error:", error.response);
         const message =
-          error.response.status == 400
+          error.response?.status == 400
             ? "Başvuru formu boş bırakılamaz."
             : "Bir hata oluştu. Lütfen tekrar deneyiniz.";
         errorMessage(message);

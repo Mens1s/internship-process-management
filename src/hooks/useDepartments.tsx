@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "src/services/axios";
 import { Select } from "antd";
+import { API } from "src/config/api";
 
 interface Department {
   id: number;
@@ -12,7 +13,7 @@ const useDepartments = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/department/getAll")
+      .get(API.DEPARTMENT.GET_ALL)
       .then((response) => {
         const departments: Department[] = response.data.departmentList;
 

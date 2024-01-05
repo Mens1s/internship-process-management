@@ -110,5 +110,6 @@
   "clickToAddEmployeeInformation": "Click to add employee information.",
   "employeeInformation": "Employee Information",
   "loading": "Loading",
-  "completed": "Completed"
+  "completed": "Completed",
+  "generalErrorMessage": "we encountered a problem. please try again."
 }

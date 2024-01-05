@@ -10,6 +10,8 @@ import axios from "src/services/axios";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import styled from "styled-components";
 import UseLanguage from "src/hooks/useLanguage";
+import { API } from "src/config/api";
+import getAxiosConfig from "src/config/axiosConfig";
 
 const PastApplications: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -27,19 +29,10 @@ const PastApplications: React.FC = () => {
     let match = currentURL.match(/\/akademisyen\/(\d+)\/internships/);
     let studentId = match ? match[1] : null;
     setLoading(true);
-
-    const jwtToken = window.localStorage.getItem("token");
     axios
       .get(
-        "http://localhost:8000/api/internship-process/get-student-all-processes",
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-          params: {
-            studentId: studentId,
-          },
-        }
+        API.INTERNSHIP_PROCESS.GET_STUDENT_ALL_PROCESSES(studentId),
+        getAxiosConfig()
       )
       .then((response: any) => {
         const internshipProcessList = response?.data?.internshipProcessList;

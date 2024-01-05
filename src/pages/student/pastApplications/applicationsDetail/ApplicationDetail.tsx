@@ -57,8 +57,8 @@ const ApplicationDetail = () => {
   const [postStepItems, setPostStepItems] = useState<StepItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [messageTitle, setMessageTitle] = useState("");
+  const [commentOwner, setCommentOwner] = useState("");
   const [messageType, setMessageType] = useState<any>("error");
-  const [comment, setComment] = useState<any>("");
   const [preStepsStatus, setPreStepsStatus] = useState<any>("process");
   const [showMessage, setShowMessage] = useState(false);
   const [processStatus, setProcessStatus] = useState("FORM");
@@ -83,7 +83,6 @@ const ApplicationDetail = () => {
       setShowMessage(true);
       setMessageTitle(dictionary.applicationRejected);
       setMessageType("error");
-      setComment(internshipProcess.comment);
     }
 
     switch (processStatus) {
@@ -115,7 +114,6 @@ const ApplicationDetail = () => {
         setShowMessage(true);
         setMessageTitle(dictionary.applicationApproved);
         setMessageType("success");
-        setComment(internshipProcess.comment);
         break;
       case "POST":
         setShowPreSteps(false);
@@ -138,7 +136,6 @@ const ApplicationDetail = () => {
         setShowMessage(true);
         setMessageTitle(dictionary.applicationRejected);
         setMessageType("error");
-        setComment(internshipProcess.comment);
         break;
       case "DONE":
         setShowPreSteps(false);
@@ -146,7 +143,6 @@ const ApplicationDetail = () => {
         setShowMessage(true);
         setMessageTitle(dictionary.applicationApproved);
         setMessageType("success");
-        setComment(internshipProcess.comment);
         break;
     }
   };
@@ -293,7 +289,20 @@ const ApplicationDetail = () => {
       {showMessage && (
         <Alert
           message={messageTitle}
-          description={comment && `Akademisyen Notu: ${comment}`}
+          description={
+            data.comment && (
+              <span>
+                <strong>Akademisyen Notu:</strong>
+                <br />
+                <span
+                  style={{ color: data.commentOwner ? "black" : "inherit" }}
+                >
+                  {data.commentOwner && `${data.commentOwner}: `}
+                </span>
+                {data.comment}
+              </span>
+            )
+          }
           type={messageType}
           showIcon
           style={{ marginBottom: 20 }}

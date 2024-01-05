@@ -8,6 +8,7 @@ import { DownloadOutlined, SearchOutlined } from "@ant-design/icons";
 import useLanguage from "src/hooks/useLanguage";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import axios from "src/services/axios";
+import { API } from "src/config/api";
 
 const PastApplications = () => {
   const { dictionary } = useLanguage();
@@ -41,20 +42,10 @@ const PastApplications = () => {
     }
   }
   useEffect(() => {
-    const jwtToken = window.localStorage.getItem("token");
     const userId = window.localStorage.getItem("id");
-    setLoading(true); // Set loading to true before making the API request
-
+    setLoading(true);
     axios
-      .post(
-        "http://localhost:8000/api/internship-process/get-all-process-assigned",
-        null,
-        {
-          params: {
-            academicianId: parseInt(userId!),
-          },
-        }
-      )
+      .post(API.INTERNSHIP_PROCESS.GET_ALL_PROCESS_ASSIGNED(userId))
       .then((response: any) => {
         const internshipProcessList = response?.data?.internshipProcessList;
         if (internshipProcessList) {

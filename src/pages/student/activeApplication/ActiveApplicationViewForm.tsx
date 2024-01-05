@@ -250,7 +250,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
         showSuccessModal();
       })
       .catch((error) => {
-        message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyiniz.");
+        message.error(dictionary.generalErrorMessage);
         console.log("evaluate error:", error.response);
       })
       .finally(() => setLoading(false));

@@ -110,5 +110,6 @@
   "clickToAddEmployeeInformation": "Çalışan bilgisi girmek için tıklayınız.",
   "employeeInformation": "Çalışan Bilgileri",
   "loading": "Yükleniyor",
-  "completed": "Tamamlandı"
+  "completed": "Tamamlandı",
+  "generalErrorMessage": "Bir sorunla karşılaştık. Lütfen tekrar deneyiniz."
 }

@@ -65,8 +65,8 @@ const UploadReportsForm = ({ processId }: any) => {
         setIsSuccessModalOpen(true);
       })
       .catch((error) => {
-        console.log(error.response.data);
-        message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyin.");
+        console.log(error.response?.data);
+        message.error(dictionary.generalErrorMessage);
       })
       .finally(() => setLoading(false));
   };

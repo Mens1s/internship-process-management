@@ -83,10 +83,10 @@ const CompanyAdd: React.FC = () => {
       })
       .catch((error) => {
         console.log("error:", error);
-        if (error.response.status == 400) {
+        if (error.response?.status == 400) {
           message.error("Form boş bırakılamaz!");
         } else {
-          message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyiniz.");
+          message.error(dictionary.generalErrorMessage);
         }
       })
       .finally(() => setLoading(false));

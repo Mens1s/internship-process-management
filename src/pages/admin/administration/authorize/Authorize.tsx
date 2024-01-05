@@ -9,6 +9,8 @@ import Table from "src/components/Table";
 import styled from "styled-components";
 import { API } from "src/config/api";
 import { Text } from "src/context/LanguageProvider";
+import UseLanguage from "src/hooks/useLanguage";
+import getAxiosConfig from "src/config/axiosConfig";
 
 const StyledButton = styled(Button)`
   @media (max-width: 600px) {
@@ -29,6 +31,7 @@ const Authorize = () => {
   const [loading, setLoading] = useState(true);
   const [assignLoading, setAssignLoading] = useState(false);
   const { useToken } = theme;
+  const { dictionary } = UseLanguage();
 
   const showModal = (record: any, taskId: any) => {
     setAssignLoading(true);
@@ -54,7 +57,7 @@ const Authorize = () => {
       })
       .catch((error) => {
         console.error("task error:");
-        message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyiniz.");
+        message.error(dictionary.generalErrorMessage);
       })
       .finally(() => setAssignLoading(false));
   };
@@ -67,7 +70,7 @@ const Authorize = () => {
 
   useEffect(() => {
     axios
-      .get(API.ACADEMICIAN.GET_ALL_NOT_PAGEABLE)
+      .get(API.ACADEMICIAN.GET_ALL_NOT_PAGEABLE, getAxiosConfig())
       .then((response) => {
         setAcademics(response.data.academicsList);
       })

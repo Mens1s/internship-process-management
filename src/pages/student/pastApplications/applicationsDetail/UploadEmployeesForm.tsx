@@ -73,7 +73,7 @@ const UploadEmployeesForm = ({ companyId }: any) => {
             form.resetFields();
           })
           .catch((error) => {
-            message.success("Bir sorunla karşılaştık. Lütfen tekrar deneyin.");
+            message.error(dictionary.generalErrorMessage);
             console.error("Error:", error);
           })
           .finally(() => {

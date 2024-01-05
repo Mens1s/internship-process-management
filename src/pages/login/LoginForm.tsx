@@ -9,6 +9,7 @@ import useAuth from "src/hooks/useAuth";
 import { responsiveArray } from "antd/es/_util/responsiveObserver";
 import { Text } from "src/context/LanguageProvider";
 import UseLanguage from "src/hooks/useLanguage";
+import { API } from "src/config/api";
 
 const FormContainer = styled.div`
   display: flex;
@@ -35,7 +36,7 @@ const Login: React.FC = () => {
     setLoading(true);
     if (window.location.pathname.includes("/ogrenci/login")) {
       axios
-        .post("http://localhost:8000/api/student/auth/login", {
+        .post(API.STUDENT.LOGIN, {
           mail: username,
           password: password,
         })
@@ -49,10 +50,10 @@ const Login: React.FC = () => {
           navigate("/ogrenci", { replace: true });
         })
         .catch((error) => {
-          if (error.response.status === 400) {
+          if (error.response?.status === 400) {
             message.error(dictionary.wrongMailOrPassword);
           } else {
-            message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyin.");
+            message.error(dictionary.generalErrorMessage);
           }
           console.error("Login error:", error);
         })
@@ -61,7 +62,7 @@ const Login: React.FC = () => {
         });
     } else if (window.location.pathname.includes("/akademisyen/login")) {
       axios
-        .post("http://localhost:8000/api/academician/auth/login", {
+        .post(API.ACADEMICIAN.LOGIN, {
           mail: username,
           password: password,
         })
@@ -81,10 +82,10 @@ const Login: React.FC = () => {
           navigate("/akademisyen", { replace: true });
         })
         .catch((error) => {
-          if (error.response.status === 400) {
+          if (error.response?.status === 400) {
             message.error(dictionary.wrongMailOrPassword);
           } else {
-            message.error("Bir sorunla karşılaştık. Lütfen tekrar deneyin.");
+            message.error(dictionary.generalErrorMessage);
           }
           console.error("Login error:", error);
         })
