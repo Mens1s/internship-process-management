@@ -83,7 +83,11 @@ const ApplicationDetail = () => {
       setShowMessage(true);
       setMessageTitle(dictionary.applicationRejected);
       setMessageType("error");
-    }
+    } /* else if (internshipProcess.comment) {
+      setShowMessage(true);
+      setMessageTitle("");
+      setMessageType("info");
+    } */
 
     switch (processStatus) {
       case "FORM":
@@ -118,7 +122,6 @@ const ApplicationDetail = () => {
       case "POST":
         setShowPreSteps(false);
         setShowPostSteps(true);
-        setPostCurrentStep(0);
         break;
       case "REPORT1":
         setShowPreSteps(false);
