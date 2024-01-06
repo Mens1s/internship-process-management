@@ -31,7 +31,7 @@ const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/ogrenci/login" />} />
-      <Route path="onayla" element={<EmailApprove />} />
+      <Route path="onayla/:mail" element={<EmailApprove />} />
       <Route path="login" element={<Navigate to="/ogrenci/login" />} />
       <Route path="register" element={<Navigate to="/ogrenci/register" />} />
       <Route index path="ogrenci/login" element={<LoginPage />} />

@@ -52,7 +52,7 @@ const RegisterForm: React.FC = () => {
             lastName: lastName,
           })
           .then((response) => {
-            navigate("/onayla");
+            navigate("/onayla/" + mail);
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -68,7 +68,7 @@ const RegisterForm: React.FC = () => {
           })
           .then((response) => {
             // navigate(fromAkademisyen, { replace: true });
-            navigate("/onayla");
+            navigate("/onayla/"+ mail);
           })
           .catch((error) => {
             console.error("Error:", error);
