@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Form, Input, Button, Divider, message, Radio} from "antd";
+import { Form, Input, Button, Divider, message, Radio } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -11,6 +11,7 @@ import { Text } from "src/context/LanguageProvider";
 import UseLanguage from "src/hooks/useLanguage";
 import { API } from "src/config/api";
 import { useParams } from "react-router-dom";
+import { Segmented } from "antd";
 
 const FormContainer = styled.div`
   display: flex;
@@ -32,35 +33,38 @@ const RenewPasswordForm: React.FC = () => {
   const { dictionary } = UseLanguage();
   const [messageApi, contextHolder] = message.useMessage();
 
-  const handleLogin = (userType : any) => {
-    let url = "http://localhost:8000/api/academician/auth/resetPassword"
+  const handleLogin = (userType: any) => {
+    let url = "http://localhost:8000/api/academician/auth/resetPassword";
 
-    if(userType.userType === 'student')
-        url = "http://localhost:8000/api/student/auth/resetPassword"
-    
-    
-    if(password !== passwordConfirm){
-        message.error(dictionary.passwordsNotMatch);
-    }else{
-        console.log(token);
-        setLoading(true);
-        
-        axios
-        .post(url,null, {
-            params: {
-                token: token,
-                newPassword: password,
-            },
-          }) 
+    if (
+      userType.userType.toLowerCase() === "student" ||
+      userType.userType.toLowerCase() === "öğrenci"
+    ) {
+      url = "http://localhost:8000/api/student/auth/resetPassword";
+    }
+
+    if (password !== passwordConfirm) {
+      message.error(dictionary.passwordsNotMatch);
+    } else {
+      console.log(token);
+      setLoading(true);
+
+      axios
+        .post(url, null, {
+          params: {
+            token: token,
+            newPassword: password,
+          },
+        })
         .then((response) => {
-            message.success("Şifren başarılı bir şekilde değiştirildi.");
-            navigate("/onayla");
+          message.success("Şifren başarılı bir şekilde değiştirildi.");
+          navigate("/login");
         })
         .catch((error) => {
-            message.error("Error: token is invalid");
+          message.error("Geçersiz link!");
         })
         .finally(() => {
-            setLoading(false);
+          setLoading(false);
         });
     }
   };
@@ -68,29 +72,35 @@ const RenewPasswordForm: React.FC = () => {
   return (
     <FormContainer>
       {contextHolder}
+
       <Form
         name="normal_login"
         style={{ width: "100%" }}
         initialValues={{
           remember: true,
-          userType: 'student' 
+          userType: dictionary.student,
         }}
-
         onFinish={handleLogin}
       >
-        <Form.Item
-        name="userType"
-        label="Select User Type"
-        rules={[{ required: true, message: 'Please select user type!' }]}
+        {/* <Form.Item
+          name="userType"
+          rules={[{ required: true, message: "Please select user type!" }]}
+          style={{ margin: 10 }}
         >
-            <Radio.Group>
+          <Radio.Group>
             <Radio value="academician">Academician</Radio>
             <Radio value="student">Student</Radio>
-            </Radio.Group>
-        </Form.Item>
+          </Radio.Group>
+        </Form.Item>  */}
 
-         <Form.Item
-          style={{ marginBottom: 0 }}
+        <Form.Item name="userType" style={{ marginBottom: 20 }}>
+          <Segmented
+            options={[dictionary.student, dictionary.academician]}
+            block
+          />
+        </Form.Item>
+        <Form.Item
+          style={{ marginBottom: 10 }}
           name="password"
           rules={[
             {
@@ -100,15 +110,15 @@ const RenewPasswordForm: React.FC = () => {
           ]}
         >
           <Input.Password
-            style={{ marginBottom: 5 }}
+            style={{ marginBottom: 0 }}
             prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder={dictionary.password}
+            placeholder={dictionary.newPassword}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Item>
 
         <Form.Item
-          style={{ marginBottom: 0 }}
+          style={{ marginBottom: 20 }}
           name="confirm-password"
           rules={[
             {
@@ -118,9 +128,9 @@ const RenewPasswordForm: React.FC = () => {
           ]}
         >
           <Input.Password
-            style={{ marginBottom: 5 }}
+            style={{ marginBottom: 0 }}
             prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder={"Confirm "+dictionary.password}
+            placeholder={dictionary.passwordAgain}
             onChange={(e) => setPasswordConfirm(e.target.value)}
           />
         </Form.Item>
@@ -132,7 +142,7 @@ const RenewPasswordForm: React.FC = () => {
             htmlType="submit"
             style={{ width: "100%" }}
           >
-            <Text tid="Confirm" />
+            <Text tid="confirm" />
           </Button>
         </Form.Item>
 
@@ -142,17 +152,14 @@ const RenewPasswordForm: React.FC = () => {
 
         <Form.Item style={{ marginBottom: 10 }}>
           <Button
-            loading={loading}
-            type="primary"
+            type="default"
             htmlType="submit"
             style={{ width: "100%" }}
-            onClick={() => navigate("/ogrenci/login")}
+            onClick={() => navigate("/ogrenci/login", { replace: true })}
           >
-            <Text tid="Login Page" />
-            
+            <Text tid="login" />
           </Button>
         </Form.Item>
-        
       </Form>
     </FormContainer>
   );

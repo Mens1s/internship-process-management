@@ -61,10 +61,9 @@ const RenewPasswordPage: React.FC = () => {
   const items = [
     {
       key: "/ogrenci/login",
-      label: "Sifre Yenileme",
+      label: dictionary.resetPassword,
       render: () => <Login />,
     },
-    
   ];
 
   const handleLanguageChange = () => {
@@ -134,7 +133,7 @@ const RenewPasswordPage: React.FC = () => {
           centered={true}
           tabPosition="top"
           animated={{ inkBar: false, tabPane: false }}
-          indicatorSize={(origin) => origin}
+          indicatorSize={250}
           items={items.map((tabItem) => ({
             ...tabItem,
             children: tabItem.render(),

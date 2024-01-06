@@ -98,6 +98,7 @@ const UploadEmployeesForm = ({ companyId }: any) => {
           border: "1px solid #91caff",
           borderBottom: "1px solid #91caff",
           borderTop: "1px solid #91caff",
+          borderLeft: "5px solid #91caff",
         }}
       >
         <Panel

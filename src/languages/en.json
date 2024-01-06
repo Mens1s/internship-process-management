@@ -111,5 +111,9 @@
   "employeeInformation": "Employee Information",
   "loading": "Loading",
   "completed": "Completed",
-  "generalErrorMessage": "we encountered a problem. please try again."
+  "generalErrorMessage": "Encountered a problem. Please try again.",
+  "academician": "Academician",
+  "resetPassword": "Reset Password",
+  "newPassword": "New Password",
+  "passwordAgain": "Password Again"
 }

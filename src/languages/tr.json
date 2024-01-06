@@ -111,5 +111,9 @@
   "employeeInformation": "Çalışan Bilgileri",
   "loading": "Yükleniyor",
   "completed": "Tamamlandı",
-  "generalErrorMessage": "Bir sorunla karşılaştık. Lütfen tekrar deneyiniz."
+  "generalErrorMessage": "Bir sorunla karşılaştık. Lütfen tekrar deneyiniz.",
+  "academician": "Akademisyen",
+  "resetPassword": "Şifre Sıfırla",
+  "newPassword": "Yeni Şifre",
+  "passwordAgain": "Şifre Tekrar"
 }
