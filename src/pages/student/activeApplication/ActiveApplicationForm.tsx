@@ -89,7 +89,6 @@ interface ActiveApplicationFormProps {
 const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   data,
 }) => {
-  const [fileList1, setFileList1] = useState<UploadFile[]>([]);
   const [fileList2, setFileList2] = useState<UploadFile[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { dictionary } = useLanguage();
@@ -101,6 +100,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const [saveLoading, setSaveLoading] = useState(false);
   const [isAddCompanyModalOpen, setIsAddCompanyModalOpen] = useState(false);
   const navigate = useNavigate();
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState(null);
 
   const success = () => {
     messageApi.open({
@@ -116,6 +117,43 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       duration: 5,
     });
   };
+
+  const handleFileChange = (event : any) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    setFileName(selectedFile.name);
+  };
+  
+  const handleSubmit = async () => {
+    const userId = window.localStorage.getItem("id");
+    if (!file) {
+      alert('Please select a file.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('id', userId+"");
+    try {
+      const response = await fetch("http://localhost:8000/api/file/upload" , {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert('File uploaded successfully!');
+        // Handle success response as needed
+      } else {
+        // Handle error response
+        alert('Failed to upload file.');
+      }
+    } catch (error) {
+      // Handle network errors or exceptions
+      console.error('Error uploading file:', error);
+      alert('An error occurred while uploading the file.');
+    }
+  };
+
 
   const initialValues = {
     idNumber: data?.tc,
@@ -153,21 +191,13 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     setIsAddCompanyModalOpen(false);
   };
 
-  const handleChangeFile1: UploadProps["onChange"] = ({
-    fileList: newFileList,
-  }) => {
-    setFileList1(newFileList);
-    form.setFieldsValue({
-      mustehaklikBelgesiPath: newFileList[0]?.response?.path,
-    });
-    console.log(newFileList);
-  };
+
 
   const handleChangeFile2: UploadProps["onChange"] = ({
     fileList: newFileList,
   }) => {
     setFileList2(newFileList);
-    form.setFieldsValue({ stajYeriFormuPath: newFileList[0]?.response?.path });
+    form.setFieldsValue({ stajYeriFormuPath: newFileList[0] });
   };
 
   const handleDelete = () => {
@@ -225,16 +255,17 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       choiceReason: formData?.choiceReason,
       sgkEntry: formData?.sgkEntry,
       gssEntry: formData?.gssEntry,
-      mustehaklikBelgesiPath: mustehaklikBelgesiPath || "/path/to/default.pdf",
-      stajYeriFormuPath: stajYeriFormuPath || "/path/to/default.pdf",
-      mufredatDurumuPath: "/path/to/mufredatDurumu.pdf",
-      transkriptPath: "/path/to/transkript.pdf",
-      dersProgramıPath: "/path/to/dersProgramı.pdf",
+      mustehaklikBelgesiPath: data.id+"_mustehaklik.pdf",
+      stajYeriFormuPath: data.id+"_stajyeri.pdf",
+      mufredatDurumuPath: data.id+"_mufredat.pdf",
+      transkriptPath: data.id+"_transkript.pdf",
+      dersProgramıPath: data.id+"_dersProgramı.pdf",
       donem_ici: true,
       stajRaporuPath: "/path/to/stajRaporu.pdf",
       comment: "biasda",
+      mustehaklikBelgesi: fileName,
+      //stajYeriFormu: fileList2,
     };
-
     setSaveLoading(true);
     axios
       .put(API.INTERNSHIP_PROCESS.UPDATE, postData, getAxiosConfig())
@@ -561,27 +592,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   <Radio value={false}>Yok</Radio>
                 </Radio.Group>
               </Form.Item>
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input necessary document!",
-                  },
-                ]}
-                label={dictionary.eligibilityFile}
-                valuePropName="file1"
-                getValueFromEvent={normFile}
-                name="mustehaklikBelgesi"
-              >
-                <Upload
-                  listType="picture"
-                  onChange={handleChangeFile1}
-                  fileList={fileList1}
-                  data={{ type: "mustehaklikBelgesi" }}
-                >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
-              </Form.Item>
+              <div>
+                <input type="file" onChange={handleFileChange} />
+                <button onClick={handleSubmit}>Upload</button>
+              </div>
               <Form.Item
                 rules={[
                   {
@@ -595,7 +609,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 name="stajYeriFormu"
               >
                 <Upload
-                  listType="picture"
+                  listType="text"
                   onChange={handleChangeFile2}
                   fileList={fileList2}
                   data={{ type: "stajYeriFormu" }}
