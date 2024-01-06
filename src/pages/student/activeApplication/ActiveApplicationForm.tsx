@@ -100,8 +100,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const [saveLoading, setSaveLoading] = useState(false);
   const [isAddCompanyModalOpen, setIsAddCompanyModalOpen] = useState(false);
   const navigate = useNavigate();
-  const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState(null);
+  const [fileStaj, setFileStaj] = useState(null);
+  const [fileStajName, setFileStajName] = useState(null);
+  const [fileMustehaklik, setFileMustehaklik] = useState(null);
+  const [fileMustehaklikName, setFileMustehaklikName] = useState(null);
 
   const success = () => {
     messageApi.open({
@@ -118,26 +120,74 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     });
   };
 
-  const handleFileChange = (event: any) => {
+  const handleFileChangeStajYeri = (event: any) => {
     const selectedFile = event.target.files[0];
-    setFile(selectedFile);
-    setFileName(selectedFile.name);
+    setFileStaj(selectedFile);
+    setFileStajName(selectedFile.name);
   };
 
-  const handleSubmit = async () => {
+  const handleFileChangeMustehaklik = (event: any) => {
+    const selectedFile = event.target.files[0];
+    setFileMustehaklik(selectedFile);
+    setFileMustehaklikName(selectedFile.name);
+  };
+
+  const handleSubmitFirst = async () => {
     const userId = window.localStorage.getItem("id");
-    if (!file) {
+    if (!fileStaj) {
       alert("Please select a file.");
       return;
     }
 
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("id", userId + "");
+    formData.append("file", fileStaj);
+    formData.append("type", "mufredatDurumuID");
+    formData.append("processId", data.id);
+    let jwtToken = window.localStorage.getItem("token");
+
     try {
       const response = await fetch("http://localhost:8000/api/file/upload", {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      if (response.ok) {
+        alert("File uploaded successfully!");
+        // Handle success response as needed
+      } else {
+        // Handle error response
+        alert("Failed to upload file.");
+      }
+    } catch (error) {
+      // Handle network errors or exceptions
+      console.error("Error uploading file:", error);
+      alert("An error occurred while uploading the file.");
+    }
+  };
+
+  const handleSubmitSecond = async () => {
+    const userId = window.localStorage.getItem("id");
+    if (!fileMustehaklik) {
+      alert("Please select a file.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", fileMustehaklik);
+    formData.append("type", "stajRaporuID");
+    formData.append("processId", data.id);
+    let jwtToken = window.localStorage.getItem("token");
+
+    try {
+      const response = await fetch("http://localhost:8000/api/file/upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
       });
 
       if (response.ok) {
@@ -234,6 +284,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     const stajYeriFormuPath = formData?.stajYeriFormuPath;
     const userId = window.localStorage.getItem("id");
 
+
     const postData = {
       id: data.id, // Process Id
       tc: formData?.idNumber,
@@ -252,17 +303,18 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       choiceReason: formData?.choiceReason,
       sgkEntry: formData?.sgkEntry,
       gssEntry: formData?.gssEntry,
-      mustehaklikBelgesiPath: userId + "_mustehaklik.pdf",
-      stajYeriFormuPath: userId + "_" + "stajYeriFormuPath.pdf",
+      mustehaklikBelgesiPath: userId + "_" + fileMustehaklikName,
+      stajYeriFormuPath: userId + "_" + fileStajName,
       mufredatDurumuPath: userId + "_mufredat.pdf",
       transkriptPath: userId + "_transkript.pdf",
       dersProgramıPath: userId + "_dersProgramı.pdf",
       donem_ici: true,
-      stajRaporuPath: "/path/to/stajRaporu.pdf",
+      stajRaporuPath: "id_DOSYAADI.pdf",
       comment: "biasda",
       // mustehaklikBelgesi: fileName,
       //stajYeriFormu: fileList2,
     };
+
     setSaveLoading(true);
     axios
       .put(API.INTERNSHIP_PROCESS.UPDATE, postData, getAxiosConfig())
@@ -590,30 +642,13 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 </Radio.Group>
               </Form.Item>
               <div>
-                <input type="file" onChange={handleFileChange} />
-                <button onClick={handleSubmit}>Upload</button>
+                <input type="file" onChange={handleFileChangeStajYeri} />
+                <button onClick={handleSubmitFirst}>Upload</button>
               </div>
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input necessary document!",
-                  },
-                ]}
-                label={dictionary.internshipForm}
-                valuePropName="file2"
-                getValueFromEvent={normFile}
-                name="stajYeriFormu"
-              >
-                <Upload
-                  listType="text"
-                  onChange={handleChangeFile2}
-                  fileList={fileList2}
-                  data={{ type: "stajYeriFormu" }}
-                >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
-              </Form.Item>
+              <div>
+                <input type="file" onChange={handleFileChangeMustehaklik} />
+                <button onClick={handleSubmitSecond}>Upload</button>
+              </div>
 
               <DatePickersContainer>
                 <Popconfirm
