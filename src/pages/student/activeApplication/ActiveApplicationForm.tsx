@@ -391,7 +391,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 rules={[
                   {
                     required: true,
-                    message: "Please input your internship type",
+                    message: "Please input your internship type!",
                   },
                 ]}
                 name="internshipType"
@@ -401,7 +401,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
               <Form.Item
                 rules={[
-                  { required: true, message: "Please input your student ID!" },
+                  {
+                    required: true,
+                    message: "Please input your internship number!",
+                  },
                 ]}
                 name="internshipNumber"
                 label={dictionary.whichInternship}
@@ -417,7 +420,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   rules={[
                     {
                       required: true,
-                      message: "Please input your student ID!",
+                      message: "Please input start date!",
                     },
                   ]}
                   name="startDate"
@@ -433,7 +436,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   rules={[
                     {
                       required: true,
-                      message: "Please input your student ID!",
+                      message: "Please input end date!",
                     },
                   ]}
                   name="endDate"
@@ -448,7 +451,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
               <Form.Item
                 rules={[
-                  { required: true, message: "Please input your student ID!" },
+                  { required: true, message: "Please input company name!" },
                 ]}
                 name="companyName"
                 label={dictionary.companyName}
@@ -496,7 +499,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <Form.Item
                 rules={[
-                  { required: true, message: "Please input your student ID!" },
+                  { required: true, message: "Please input engineer name!" },
                 ]}
                 name="engineerName"
                 label={dictionary.engineerNameSurname}
@@ -505,7 +508,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
               <Form.Item
                 rules={[
-                  { required: true, message: "Please input your student ID!" },
+                  { required: true, message: "Please input engineer mail!" },
                 ]}
                 name="engineerMail"
                 label={dictionary.engineerMail}
@@ -513,9 +516,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 <Input type="email" />
               </Form.Item>
               <Form.Item
-                rules={[
-                  { required: true, message: "Please input your student ID!" },
-                ]}
+                rules={[{ required: true, message: "Please input position!" }]}
                 name="position"
                 label={dictionary.positionToWork}
               >
@@ -523,7 +524,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
               <Form.Item
                 rules={[
-                  { required: true, message: "Please input your student ID!" },
+                  { required: true, message: "Please input chocice reason!" },
                 ]}
                 name="choiceReason"
                 label={dictionary.reasonForCompany}
@@ -532,7 +533,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
               <Form.Item
                 rules={[
-                  { required: true, message: "Please input your student ID!" },
+                  {
+                    required: true,
+                    message: "Please input necessary information!",
+                  },
                 ]}
                 name="sgkEntry"
                 label={dictionary.sgkEntry}
@@ -544,7 +548,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
               <Form.Item
                 rules={[
-                  { required: true, message: "Please input your student ID!" },
+                  {
+                    required: true,
+                    message: "Please input necessary information!",
+                  },
                 ]}
                 name="gssEntry"
                 label={dictionary.gssEntry}
@@ -556,7 +563,10 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
               <Form.Item
                 rules={[
-                  { required: true, message: "Please input your student ID!" },
+                  {
+                    required: true,
+                    message: "Please input necessary document!",
+                  },
                 ]}
                 label={dictionary.eligibilityFile}
                 valuePropName="file1"
@@ -567,14 +577,17 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   listType="picture"
                   onChange={handleChangeFile1}
                   fileList={fileList1}
-                  data={{ type: "mustehaklikBelgesi" }} // Optional: Additional data for the API
+                  data={{ type: "mustehaklikBelgesi" }}
                 >
                   <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
               </Form.Item>
               <Form.Item
                 rules={[
-                  { required: true, message: "Please input your student ID!" },
+                  {
+                    required: true,
+                    message: "Please input necessary document!",
+                  },
                 ]}
                 label={dictionary.internshipForm}
                 valuePropName="file2"
