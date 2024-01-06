@@ -118,42 +118,41 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     });
   };
 
-  const handleFileChange = (event : any) => {
+  const handleFileChange = (event: any) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
     setFileName(selectedFile.name);
   };
-  
+
   const handleSubmit = async () => {
     const userId = window.localStorage.getItem("id");
     if (!file) {
-      alert('Please select a file.');
+      alert("Please select a file.");
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('id', userId+"");
+    formData.append("file", file);
+    formData.append("id", userId + "");
     try {
-      const response = await fetch("http://localhost:8000/api/file/upload" , {
-        method: 'POST',
+      const response = await fetch("http://localhost:8000/api/file/upload", {
+        method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        alert('File uploaded successfully!');
+        alert("File uploaded successfully!");
         // Handle success response as needed
       } else {
         // Handle error response
-        alert('Failed to upload file.');
+        alert("Failed to upload file.");
       }
     } catch (error) {
       // Handle network errors or exceptions
-      console.error('Error uploading file:', error);
-      alert('An error occurred while uploading the file.');
+      console.error("Error uploading file:", error);
+      alert("An error occurred while uploading the file.");
     }
   };
-
 
   const initialValues = {
     idNumber: data?.tc,
@@ -190,8 +189,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     setIsModalOpen(false);
     setIsAddCompanyModalOpen(false);
   };
-
-
 
   const handleChangeFile2: UploadProps["onChange"] = ({
     fileList: newFileList,
@@ -235,7 +232,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     const formData = form.getFieldsValue();
     const mustehaklikBelgesiPath = formData?.mustehaklikBelgesiPath;
     const stajYeriFormuPath = formData?.stajYeriFormuPath;
-    console.log(formData);
+    const userId = window.localStorage.getItem("id");
 
     const postData = {
       id: data.id, // Process Id
@@ -255,15 +252,15 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       choiceReason: formData?.choiceReason,
       sgkEntry: formData?.sgkEntry,
       gssEntry: formData?.gssEntry,
-      mustehaklikBelgesiPath: data.id+"_mustehaklik.pdf",
-      stajYeriFormuPath: data.id+"_stajyeri.pdf",
-      mufredatDurumuPath: data.id+"_mufredat.pdf",
-      transkriptPath: data.id+"_transkript.pdf",
-      dersProgramıPath: data.id+"_dersProgramı.pdf",
+      mustehaklikBelgesiPath: userId + "_mustehaklik.pdf",
+      stajYeriFormuPath: userId + "_" + "stajYeriFormuPath.pdf",
+      mufredatDurumuPath: userId + "_mufredat.pdf",
+      transkriptPath: userId + "_transkript.pdf",
+      dersProgramıPath: userId + "_dersProgramı.pdf",
       donem_ici: true,
       stajRaporuPath: "/path/to/stajRaporu.pdf",
       comment: "biasda",
-      mustehaklikBelgesi: fileName,
+      // mustehaklikBelgesi: fileName,
       //stajYeriFormu: fileList2,
     };
     setSaveLoading(true);

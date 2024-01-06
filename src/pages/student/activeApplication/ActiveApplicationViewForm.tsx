@@ -18,6 +18,7 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
 import { useNavigate } from "react-router-dom";
+import PdfViewer from "src/components/PdfViewer";
 
 const { confirm } = Modal;
 
@@ -79,6 +80,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   data,
 }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [viewLoading, setViewLoading] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDenyOpen, setIsDenyOpen] = useState(false);
   const { dictionary } = useLanguage();
@@ -88,22 +90,28 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const [reportEditDays, setReportEditDays] = useState<number>(7);
   const processStatus = data?.processStatus || null;
   const sentEditable = processStatus?.includes("REPORT") || null;
-  const handleButtonClick = async () => {
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [pdfFileUrl, setPdfFileUrl] = useState(""); // State to store the PDF file URL
+
+  /*  const handleButtonClick = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/file/download', {
-        params: {
-          fileName: '1_200104004066_AhmetYigit_HW2.pdf', // Replace with the actual file name
-        },
-        responseType: 'blob', // Set the response type to 'blob'
-      });
+      const response = await axios.get(
+        "http://localhost:8000/api/file/download",
+        {
+          params: {
+            fileName: "1_200104004066_AhmetYigit_HW2.pdf", // Replace with the actual file name
+          },
+          responseType: "blob", // Set the response type to 'blob'
+        }
+      );
 
       // Create a blob URL for the downloaded file
       const url = window.URL.createObjectURL(new Blob([response.data]));
-      
+
       // Create a temporary link element to initiate the download
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', 'downloaded_file.pdf'); // Set the file name
+      link.setAttribute("download", "downloaded_file.pdf"); // Set the file name
       document.body.appendChild(link);
       link.click();
 
@@ -112,8 +120,34 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     } catch (error) {
       // Handle error
     }
+  }; */
+
+  const handleView = async () => {
+    setViewLoading(true);
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/file/download",
+        {
+          params: {
+            fileName: "1053_downloaded_file.pdf", // Replace with the actual file name
+          },
+          responseType: "blob", // Set the response type to 'blob'
+        }
+      );
+
+      // Create a blob URL for the downloaded file
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // Set the PDF file URL and open the PDF modal
+      setPdfFileUrl(url);
+      setIsPdfModalOpen(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setViewLoading(false);
+    }
   };
-  
+
   const items = [
     {
       key: "id",
@@ -229,7 +263,14 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       label: "Staj Yeri Formu Path",
       children: [
         data?.stajYeriFormuPath,
-        <Button key="viewButton" onClick={handleButtonClick}>View</Button>
+        <Button
+          style={{ marginLeft: 10 }}
+          loading={viewLoading}
+          key="viewButton"
+          onClick={handleView}
+        >
+          View
+        </Button>,
       ],
     },
   ];
@@ -431,6 +472,15 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
                 </Button>,
               ]}
             />
+          </Modal>
+          <Modal
+            title="View PDF"
+            width={600}
+            open={isPdfModalOpen}
+            onCancel={() => setIsPdfModalOpen(false)}
+            footer={null}
+          >
+            <PdfViewer fileUrl={pdfFileUrl} />
           </Modal>
         </div>
       )}
