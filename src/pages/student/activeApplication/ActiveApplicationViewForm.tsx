@@ -88,7 +88,32 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const [reportEditDays, setReportEditDays] = useState<number>(7);
   const processStatus = data?.processStatus || null;
   const sentEditable = processStatus?.includes("REPORT") || null;
+  const handleButtonClick = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/file/download', {
+        params: {
+          fileName: '1_200104004066_AhmetYigit_HW2.pdf', // Replace with the actual file name
+        },
+        responseType: 'blob', // Set the response type to 'blob'
+      });
 
+      // Create a blob URL for the downloaded file
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      
+      // Create a temporary link element to initiate the download
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'downloaded_file.pdf'); // Set the file name
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up
+      link.parentNode?.removeChild(link);
+    } catch (error) {
+      // Handle error
+    }
+  };
+  
   const items = [
     {
       key: "id",
@@ -202,7 +227,10 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       span: 3,
       key: "stajYeriFormuPath",
       label: "Staj Yeri Formu Path",
-      children: data?.stajYeriFormuPath,
+      children: [
+        data?.stajYeriFormuPath,
+        <Button key="viewButton" onClick={handleButtonClick}>View</Button>
+      ],
     },
   ];
 
