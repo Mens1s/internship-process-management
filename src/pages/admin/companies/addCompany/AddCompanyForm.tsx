@@ -60,7 +60,9 @@ const DatePickersContainer = styled.div`
   }
 `;
 
-const CompanyAdd: React.FC = () => {
+const CompanyAdd: React.FC<{ addCompanyRequest?: any }> = ({
+  addCompanyRequest,
+}: any) => {
   const { dictionary } = useLanguage();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
@@ -75,21 +77,7 @@ const CompanyAdd: React.FC = () => {
       faxNumber: formData?.faxNumber,
       companyAddress: formData?.companyAddress,
     };
-    axios
-      .post(API.COMPANY.ADD, postData, getAxiosConfig())
-      .then((response) => {
-        message.success("Şirket başarıyla eklendi!");
-        form.resetFields();
-      })
-      .catch((error) => {
-        console.log("error:", error);
-        if (error.response?.status == 400) {
-          message.error("Form boş bırakılamaz!");
-        } else {
-          message.error(dictionary.generalErrorMessage);
-        }
-      })
-      .finally(() => setLoading(false));
+    addCompanyRequest(postData, form, setLoading);
   };
 
   return (

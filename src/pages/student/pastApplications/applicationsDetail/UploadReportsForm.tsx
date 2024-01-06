@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { WarningFilled, MoreOutlined } from "@ant-design/icons";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { InboxOutlined } from "@ant-design/icons";
+import type { UploadProps } from "antd";
 
 import {
   Row,
@@ -21,6 +23,7 @@ import axios from "src/services/axios";
 import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
 const { Panel } = Collapse;
+const { Dragger } = Upload;
 
 const Wrapper = styled.div`
   .ant-collapse-content-box {
@@ -45,6 +48,31 @@ const DatePickersContainer = styled.div`
     }
   }
 `;
+
+const customRequest = ({ onSuccess }: any) =>
+  setTimeout(() => {
+    onSuccess("ok", null);
+  }, 0);
+
+const props: UploadProps = {
+  name: "file",
+  multiple: true,
+  customRequest: customRequest,
+  onChange(info) {
+    const { status } = info.file;
+    if (status !== "uploading") {
+      console.log(info.file, info.fileList);
+    }
+    /*  if (status === "done") {
+      message.success(`${info.file.name} file uploaded successfully.`);
+    } else if (status === "error") {
+      message.error(`${info.file.name} file upload failed.`);
+    } */
+  },
+  onDrop(e) {
+    console.log("Dropped files", e.dataTransfer.files);
+  },
+};
 
 const UploadReportsForm = ({ processId }: any) => {
   const [form] = Form.useForm();
@@ -96,6 +124,7 @@ const UploadReportsForm = ({ processId }: any) => {
           border: "1px solid #ffe58f",
           borderBottom: "1px solid #ffe58f",
           borderTop: "1px solid #ffe58f",
+          borderLeft: "5px solid #faad14",
         }}
       >
         <Panel
@@ -103,21 +132,20 @@ const UploadReportsForm = ({ processId }: any) => {
           key="1"
           extra={<MoreOutlined />}
         >
-          <Form
-            form={form}
-            layout="vertical"
-            size="large"
-            style={{ marginTop: 10 }}
-          >
-            <Form.Item name="companyName">
-              <Upload
-                listType="picture"
-                data={{ type: "mustehaklikBelgesi" }} // Optional: Additional data for the API
-              >
-                <Button icon={<UploadOutlined />}>Upload</Button>
-              </Upload>
-            </Form.Item>
-          </Form>
+          <div style={{ padding: "10px 0" }}>
+            <Dragger {...props}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Staj raporunu bu alana tıklayarak veya sürükleyerek
+                yükleyebilirsiniz
+              </p>
+              <p className="ant-upload-hint">
+                Raporu tek bir pdf dosyası şeklinde yükleyiniz.
+              </p>
+            </Dragger>
+          </div>
           <DatePickersContainer>
             <Button loading={loading} type="primary" onClick={handleLoadReport}>
               <Text tid="confirm" />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ContentHeader from "src/components/ContentHeader";
 import { getColumns } from "./CompaniesTableColumns";
 import Table from "src/components/Table";
-import { Input, Modal, Skeleton } from "antd";
+import { Input, Modal, Skeleton, message } from "antd";
 import useEnhancedColumns from "src/hooks/useEnhancedColumns";
 import { Text } from "src/context/LanguageProvider";
 import { SearchOutlined } from "@ant-design/icons";
@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "src/services/axios";
 import CompanyAdd from "./addCompany/AddCompanyForm";
 import { API } from "src/config/api";
+import getAxiosConfig from "src/config/axiosConfig";
+import UseLanguage from "src/hooks/useLanguage";
 
 const StyledButton = styled(Button)`
   @media (max-width: 600px) {
@@ -29,6 +31,8 @@ const Companies = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isAddCompanyModalOpen, setIsAddCompanyModalOpen] = useState(false);
+  const { dictionary } = UseLanguage();
+  const [reloadPage, setReloadPage] = useState(0);
 
   const handleCancel = () => {
     setIsAddCompanyModalOpen(false);
@@ -62,7 +66,26 @@ const Companies = () => {
         console.error("Error:", error);
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [reloadPage]);
+
+  const addCompanyRequest = (postData: any, form: any, setLoading: any) => {
+    axios
+      .post(API.COMPANY.ADD, postData, getAxiosConfig())
+      .then((response) => {
+        message.success("Şirket başarıyla eklendi!");
+        form.resetFields();
+        setReloadPage((prev) => prev + 1);
+      })
+      .catch((error) => {
+        console.log("error:", error);
+        if (error.response?.status == 400) {
+          message.error("Form boş bırakılamaz!");
+        } else {
+          message.error(dictionary.generalErrorMessage);
+        }
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <div>
@@ -83,7 +106,7 @@ const Companies = () => {
             onCancel={handleCancel}
             footer={null}
           >
-            <CompanyAdd />
+            <CompanyAdd addCompanyRequest={addCompanyRequest} />
           </Modal>
           <Input
             prefix={<SearchOutlined />}
@@ -96,7 +119,12 @@ const Companies = () => {
       {loading ? (
         <Skeleton active />
       ) : (
-        <Table tableProps={{ columns: enhancedColumns, data: filteredData }} />
+        <Table
+          tableProps={{
+            columns: enhancedColumns,
+            data: filteredData,
+          }}
+        />
       )}
 
       <Modal

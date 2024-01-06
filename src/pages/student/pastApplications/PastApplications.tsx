@@ -33,6 +33,7 @@ const PastApplications: React.FC = () => {
   const [data, setData] = useState([]);
   const enhancedColumns = useEnhancedColumns(columns);
   const [canCreateNewForm, setCanCreateNewForm] = useState(false);
+  const [reloadPage, setReloadPage] = useState(0);
 
   const success = () => {
     messageApi.open({
@@ -57,10 +58,7 @@ const PastApplications: React.FC = () => {
     });
   };
 
-  const [reloadPage, setReloadPage] = useState(0);
-
   const handleInit = () => {
-    const jwtToken = window.localStorage.getItem("token");
     setCreateLoading(true);
     axios
       .post(API.INTERNSHIP_PROCESS.INIT, {}, getAxiosConfig())

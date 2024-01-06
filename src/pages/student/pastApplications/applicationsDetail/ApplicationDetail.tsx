@@ -308,7 +308,12 @@ const ApplicationDetail = () => {
           }
           type={messageType}
           showIcon
-          style={{ marginBottom: 20 }}
+          style={{
+            marginBottom: 20,
+            borderLeft: `5px solid ${
+              messageType === "success" ? "#52c41a" : "#ff4d4f"
+            }`,
+          }}
           closable
         />
       )}
