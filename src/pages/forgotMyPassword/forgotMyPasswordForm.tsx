@@ -40,71 +40,36 @@ const ForgotMyPasswordForm: React.FC = () => {
     });
   };
 
-  const handleLogin = () => {
+  const handleForgotPassword = () => {
     setLoading(true);
-    if (window.location.pathname.includes("/ogrenci/login")) {
+    if (window.location.pathname.includes("/ogrenci/forgot-my-password")) {
       axios
-        .post("http://localhost:8000/api/student/auth/login", {
-          mail: username,
-          password: password,
+        .post("http://localhost:8000/api/student/auth/forgotPassword",null, {
+          params: {
+            email: username,
+          },
         })
         .then((response) => {
-          window.localStorage.setItem("isLoggedIn", "true");
-          //navigate(fromStudent, { replace: true });
-          if (response.status == 200) {
-            window.localStorage.setItem("token", response.data.token);
-            window.localStorage.setItem("mail", username);
-            window.localStorage.setItem("fullName", response.data.fullName);
-            window.localStorage.setItem("role", "2000");
-            window.localStorage.setItem("id", response.data.id);
-
-            setAuth({
-              user: username,
-              token: response.data.token,
-              role: 2000,
-            });
-            navigate("/ogrenci");
-          } else {
-            errorMessage();
-          }
+          message.success("Your reset password link has been sent to your mail.");
         })
         .catch((error) => {
-          errorMessage();
-          console.error("Login error:", error);
+          message.error("Error: E-mail is invalid");
         })
         .finally(() => {
           setLoading(false);
         });
-    } else if (window.location.pathname.includes("/akademisyen/login")) {
+    } else if (window.location.pathname.includes("/akademisyen/forgot-my-password")) {
       axios
-        .post("http://localhost:8000/api/academician/auth/login", {
-          mail: username,
-          password: password,
+        .post("http://localhost:8000/api/academician/auth/forgotPassword",null, {
+          params: {
+            email: username,
+          },
         })
         .then((response) => {
-          console.log(response);
-          setAuth({
-            user: username,
-            token: response.data.token,
-            role: 3000,
-          });
-          window.localStorage.setItem("token", response.data.token);
-          window.localStorage.setItem("mail", username);
-          window.localStorage.setItem("fullName", response.data.fullName);
-          window.localStorage.setItem("role", "3000");
-          window.localStorage.setItem("id", response.data.id);
-
-          // navigate(fromAkademisyen, { replace: true });
-          window.localStorage.setItem("isLoggedIn", "true");
-
-          window.localStorage.setItem("isLoggedIn", "true");
-          setTimeout(() => {
-            navigate("/akademisyen");
-          }, 500);
+          message.success("Your reset password link has been sent to your mail.");
         })
         .catch((error) => {
-          errorMessage();
-          console.error("Error:", error);
+          message.error("Error: E-mail is invalid");
         })
         .finally(() => {
           setLoading(false);
@@ -116,12 +81,12 @@ const ForgotMyPasswordForm: React.FC = () => {
     <FormContainer>
       {contextHolder}
       <Form
-        name="normal_login"
+        name="reset_password"
         style={{ width: "100%" }}
         initialValues={{
           remember: true,
         }}
-        onFinish={handleLogin}
+        onFinish={handleForgotPassword}
       >
         <Form.Item
           name="username"

@@ -20,6 +20,7 @@ import CompanyAdd from "./pages/admin/companies/addCompany/AddCompanyForm";
 import ForgotMyPasswordPage from "./pages/forgotMyPassword/forgotMyPasswordPage";
 import PastInternships from "./pages/admin/internship/pendingApplications/pendingApplicationsEvaluate/pastInternships/PastInternships";
 import MakePost from "./test/MakePost";
+import RenewPasswordPage from "./pages/renewPassword/renewPasswordPage";
 
 const ROLES = {
   ogrenci: "2000",
@@ -44,6 +45,7 @@ const App: React.FC = () => {
         path="akademisyen/forgot-my-password"
         element={<ForgotMyPasswordPage />}
       />
+      <Route path="auth/resetPassword/:token" element={<RenewPasswordPage />} />
       <Route path="ogrenci/register" element={<RegisterPage />} />
       <Route path="akademisyen/register" element={<RegisterPage />} />
       // student routes
@@ -54,6 +56,7 @@ const App: React.FC = () => {
           <Route path="ogrenci/companies" element={<Companies />} />
           <Route path="ogrenci/companies/new" element={<CompanyAdd />} />
           <Route path="ogrenci/past/:id" element={<ApplicationDetail />} />
+          
         </Route>
       </Route>
       // academician routes
