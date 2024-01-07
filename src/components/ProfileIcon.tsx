@@ -51,14 +51,12 @@ const ProfileIcon: React.FC = () => {
   };
 
   const handleLogout = () => {
-    // Perform logout actions, such as clearing the token from local storage
-
-    // Redirect the user to the login page
     window.localStorage.removeItem("isLoggedIn");
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("mail");
     window.localStorage.removeItem("role");
     window.localStorage.removeItem("fullName");
+    window.localStorage.removeItem("id");
     navigate("/login");
   };
 

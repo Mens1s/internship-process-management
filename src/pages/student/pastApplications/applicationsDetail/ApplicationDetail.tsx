@@ -172,7 +172,11 @@ const ApplicationDetail = () => {
     );
     setPostStepItems(postStepItems);
     setData(internshipProcess);
-    setEditable(internshipProcess.editable);
+    setEditable(
+      internshipProcess.processStatus === "POST"
+        ? false
+        : internshipProcess.editable
+    );
   };
 
   const fetchDataForStudent = () => {
