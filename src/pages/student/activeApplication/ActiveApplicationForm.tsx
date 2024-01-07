@@ -176,7 +176,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     formData.append("type", "mustehaklikBelgesiID");
     formData.append("processId", data.id);
     let jwtToken = window.localStorage.getItem("token");
-    console.log("formData", formData);
 
     try {
       const response = await fetch("http://localhost:8000/api/file/upload", {

@@ -7,7 +7,8 @@ import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 
 const PDFContainer = styled.div`
   width: 100%;
-  height: 700px;
+  height: fit-content;
+  height: 900px;
   overflow-y: auto;
   display: flex;
   justify-content: center;
@@ -16,7 +17,7 @@ const PDFContainer = styled.div`
 `;
 
 interface PdfViewerProps {
-  fileUrl?: any; // Define the type of fileUrl prop
+  fileUrl?: any;
 }
 
 const PdfViewer: React.FC<PdfViewerProps> = ({ fileUrl }: any) => {

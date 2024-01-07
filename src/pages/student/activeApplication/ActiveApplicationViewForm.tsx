@@ -91,7 +91,6 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
 
   const handleView = async (file: any) => {
     setViewLoading(true);
-    console.log(data.stajRaporuId);
     try {
       const response = await axios.get(
         "http://localhost:8000/api/file/download",
@@ -449,7 +448,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
           </Modal>
           <Modal
             title="View PDF"
-            width={600}
+            width={800}
             open={isPdfModalOpen}
             onCancel={() => setIsPdfModalOpen(false)}
             footer={null}
