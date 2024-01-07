@@ -1,20 +1,16 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import styled from "styled-components";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
-import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
+import { EyeOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
-import type { RcFile, UploadProps } from "antd/es/upload";
+import type { UploadProps } from "antd/es/upload";
 import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
-import type { DescriptionsProps } from "antd";
-import { Descriptions, Alert, message, Checkbox } from "antd";
-import { ExclamationCircleFilled, DeleteFilled } from "@ant-design/icons";
+import { Descriptions, message, Checkbox } from "antd";
 import axios from "src/services/axios";
 import { Button, Modal, Input, Result } from "antd";
 import { useLocation } from "react-router-dom";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
 import { useNavigate } from "react-router-dom";
@@ -91,59 +87,27 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const processStatus = data?.processStatus || null;
   const sentEditable = processStatus?.includes("REPORT") || null;
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
-  const [pdfFileUrl, setPdfFileUrl] = useState(""); // State to store the PDF file URL
-
-  /*  const handleButtonClick = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8000/api/file/download",
-        {
-          params: {
-            fileName: "1_200104004066_AhmetYigit_HW2.pdf", // Replace with the actual file name
-          },
-          responseType: "blob", // Set the response type to 'blob'
-        }
-      );
-
-      // Create a blob URL for the downloaded file
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-
-      // Create a temporary link element to initiate the download
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "downloaded_file.pdf"); // Set the file name
-      document.body.appendChild(link);
-      link.click();
-
-      // Clean up
-      link.parentNode?.removeChild(link);
-    } catch (error) {
-      // Handle error
-    }
-  }; */
+  const [pdfFileUrl, setPdfFileUrl] = useState("");
 
   const handleView = async () => {
     setViewLoading(true);
     try {
-
       const response = await axios.get(
         "http://localhost:8000/api/file/download",
         {
           params: {
-            fileId: data?.stajRaporuId, // Replace with the actual file name
+            fileId: data?.stajRaporuId,
           },
-          responseType: "blob", // Set the response type to 'blob'
+          responseType: "blob",
         }
       );
-
-      // Create a blob URL for the downloaded file
       const url = window.URL.createObjectURL(new Blob([response.data]));
 
-      // Set the PDF file URL and open the PDF modal
       setPdfFileUrl(url);
       setIsPdfModalOpen(true);
     } catch (error) {
       console.log(error);
+      message.error("Dosyayı görüntülerken bir sorunla karşılaştık.");
     } finally {
       setViewLoading(false);
     }
@@ -256,21 +220,29 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       span: 3,
       key: "mustehaklikBelgesiPath",
       label: "Mustehaklik Belgesi Path",
-      children: data?.mustehaklikBelgesiPath,
+      children: [
+        <Button
+          icon={<EyeOutlined />}
+          loading={viewLoading}
+          key="viewButton"
+          onClick={handleView}
+        >
+          {dictionary.view}
+        </Button>,
+      ],
     },
     {
       span: 3,
       key: "stajYeriFormuPath",
       label: "Staj Yeri Formu Path",
       children: [
-        data?.stajYeriFormuPath,
         <Button
-          style={{ marginLeft: 10 }}
+          icon={<EyeOutlined />}
           loading={viewLoading}
           key="viewButton"
           onClick={handleView}
         >
-          View
+          {dictionary.view}
         </Button>,
       ],
     },

@@ -133,18 +133,16 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   };
 
   const handleSubmitFirst = async () => {
-    const userId = window.localStorage.getItem("id");
     if (!fileStaj) {
       alert("Please select a file.");
       return;
     }
-
     const formData = new FormData();
     formData.append("file", fileStaj);
     formData.append("type", "mufredatDurumuID");
     formData.append("processId", data.id);
     let jwtToken = window.localStorage.getItem("token");
-
+    console.log("formData", formData);
     try {
       const response = await fetch("http://localhost:8000/api/file/upload", {
         method: "POST",
@@ -156,9 +154,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
       if (response.ok) {
         alert("File uploaded successfully!");
-        // Handle success response as needed
+        console.log(formData);
       } else {
-        // Handle error response
         alert("Failed to upload file.");
       }
     } catch (error) {
@@ -169,7 +166,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   };
 
   const handleSubmitSecond = async () => {
-    const userId = window.localStorage.getItem("id");
     if (!fileMustehaklik) {
       alert("Please select a file.");
       return;
@@ -180,6 +176,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     formData.append("type", "stajRaporuID");
     formData.append("processId", data.id);
     let jwtToken = window.localStorage.getItem("token");
+    console.log("formData", formData);
 
     try {
       const response = await fetch("http://localhost:8000/api/file/upload", {
@@ -192,9 +189,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
       if (response.ok) {
         alert("File uploaded successfully!");
-        // Handle success response as needed
       } else {
-        // Handle error response
         alert("Failed to upload file.");
       }
     } catch (error) {
@@ -240,13 +235,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     setIsAddCompanyModalOpen(false);
   };
 
-  const handleChangeFile2: UploadProps["onChange"] = ({
-    fileList: newFileList,
-  }) => {
-    setFileList2(newFileList);
-    form.setFieldsValue({ stajYeriFormuPath: newFileList[0] });
-  };
-
   const handleDelete = () => {
     setDeleteLoading(true);
     axios
@@ -284,7 +272,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     const stajYeriFormuPath = formData?.stajYeriFormuPath;
     const userId = window.localStorage.getItem("id");
 
-
     const postData = {
       id: data.id, // Process Id
       tc: formData?.idNumber,
@@ -311,8 +298,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       donem_ici: true,
       stajRaporuPath: "id_DOSYAADI.pdf",
       comment: "biasda",
-      // mustehaklikBelgesi: fileName,
-      //stajYeriFormu: fileList2,
     };
 
     setSaveLoading(true);
