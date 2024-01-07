@@ -1,17 +1,20 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Viewer, Worker } from "@react-pdf-viewer/core";
-import { UploadOutlined, PlusOutlined, FileOutlined } from "@ant-design/icons";
-import type { UploadFile } from "antd/es/upload/interface";
-import type { RcFile, UploadProps } from "antd/es/upload";
+import {
+  UploadOutlined,
+  PlusOutlined,
+  FileOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
 import type { SelectProps } from "antd";
 import moment from "moment";
 import { Popconfirm } from "antd";
-import type { RadioChangeEvent } from "antd";
-import { Result } from "antd";
+import { Result, Spin } from "antd";
 import type { RangePickerProps } from "antd/es/date-picker";
+import PdfViewer from "src/components/PdfViewer";
+
 import {
   Row,
   Col,
@@ -87,6 +90,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   data,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [saveDisabled, setSaveDisabled] = useState(false);
   const { dictionary } = useLanguage();
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
@@ -96,11 +100,42 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
   const [isAddCompanyModalOpen, setIsAddCompanyModalOpen] = useState(false);
+  const [viewStajLoading, setViewStajLoading] = useState(false);
+  const [viewMustehaklikLoading, setViewMustehaklikLoading] = useState(false);
   const navigate = useNavigate();
   const [fileStajName, setFileStajName] = useState(data?.stajRaporuID);
   const [fileMustehaklikName, setFileMustehaklikName] = useState(
     data?.mustehaklikBelgesiID
   );
+
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [pdfFileUrl, setPdfFileUrl] = useState("");
+
+  const handleView = async (file: any, loadNum: any) => {
+    loadNum === 1 ? setViewStajLoading(true) : setViewMustehaklikLoading(true);
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/file/download",
+        {
+          params: {
+            fileId: file,
+          },
+          responseType: "blob",
+        }
+      );
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      setPdfFileUrl(url);
+      setIsPdfModalOpen(true);
+    } catch (error) {
+      console.log(error);
+      message.error("Dosyayı görüntülerken bir sorunla karşılaştık.");
+    } finally {
+      loadNum === 1
+        ? setViewStajLoading(false)
+        : setViewMustehaklikLoading(false);
+    }
+  };
 
   const success = () => {
     messageApi.open({
@@ -120,6 +155,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const handleFileChangeStajYeri = async (fileList: any) => {
     const selectedFile = fileList;
     setStajLoading(true);
+    setSaveDisabled(true);
 
     const formData = new FormData();
     formData.append("file", selectedFile);
@@ -148,6 +184,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       message.error("An error occurred while uploading the file.");
     } finally {
       setStajLoading(false);
+      setSaveDisabled(false);
     }
   };
 
@@ -315,6 +352,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   const handleFileChangeMustehaklik = async (file: any) => {
     setMustehaklikLoading(true);
+    setSaveDisabled(true);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -342,6 +380,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       message.error("An error occurred while uploading the file.");
     } finally {
       setMustehaklikLoading(false);
+      setSaveDisabled(false);
     }
   };
 
@@ -630,11 +669,19 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
               {fileStajName && (
                 <List>
-                  <ListItem>
-                    <p>
-                      <FileOutlined style={{ marginRight: 10 }} />{" "}
-                      {fileStajName}
-                    </p>
+                  <ListItem onClick={() => handleView(data?.stajRaporuID, 1)}>
+                    {viewStajLoading ? (
+                      <Spin
+                        indicator={
+                          <LoadingOutlined style={{ fontSize: 24 }} spin />
+                        }
+                      />
+                    ) : (
+                      <p>
+                        <FileOutlined style={{ marginRight: 10 }} />
+                        {fileStajName}
+                      </p>
+                    )}
                   </ListItem>
                 </List>
               )}
@@ -665,14 +712,34 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
               {fileMustehaklikName && (
                 <List>
-                  <ListItem>
-                    <p>
-                      <FileOutlined style={{ marginRight: 10 }} />
-                      {fileMustehaklikName}
-                    </p>
+                  <ListItem
+                    onClick={() => handleView(data?.mustehaklikBelgesiID, 2)}
+                  >
+                    {viewMustehaklikLoading ? (
+                      <Spin
+                        indicator={
+                          <LoadingOutlined style={{ fontSize: 24 }} spin />
+                        }
+                      />
+                    ) : (
+                      <p>
+                        <FileOutlined style={{ marginRight: 10 }} />
+                        {fileMustehaklikName}
+                      </p>
+                    )}
                   </ListItem>
                 </List>
               )}
+
+              <Modal
+                title="View PDF"
+                width={800}
+                open={isPdfModalOpen}
+                onCancel={() => setIsPdfModalOpen(false)}
+                footer={null}
+              >
+                <PdfViewer fileUrl={pdfFileUrl} />
+              </Modal>
 
               <DatePickersContainer>
                 <Popconfirm
@@ -682,11 +749,16 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   okText="Yes"
                   cancelText="No"
                 >
-                  <Button danger loading={deleteLoading}>
+                  <Button
+                    disabled={saveDisabled}
+                    danger
+                    loading={deleteLoading}
+                  >
                     <Text tid="delete" />
                   </Button>
                 </Popconfirm>
                 <Button
+                  disabled={saveDisabled}
                   onClick={handleUpdate}
                   type="primary"
                   loading={saveLoading}
@@ -694,6 +766,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   <Text tid="save" />
                 </Button>
                 <Button
+                  disabled={saveDisabled}
                   type="default"
                   onClick={showModal}
                   loading={confirmLoading}
