@@ -548,7 +548,9 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   placeholder={dictionary.search}
                   optionFilterProp="children"
                   filterOption={(input: any, option: any) =>
-                    (option?.label ?? "").toLowerCase().includes(input)
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
                   }
                   options={companyOptions}
                   dropdownRender={(menu) => (

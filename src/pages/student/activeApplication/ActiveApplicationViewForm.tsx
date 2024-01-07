@@ -256,7 +256,10 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
 
   if (
     data.processStatus.includes("REPORT") ||
-    window.location.href.includes("akademisyen")
+    data.processStatus.includes("DONE") ||
+    data.processStatus.includes("FAIL") ||
+    (!data.processStatus.includes("PRE") &&
+      window.location.href.includes("akademisyen"))
   ) {
     items.push({
       span: 3,

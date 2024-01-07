@@ -2,8 +2,10 @@ import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Breadcrumb } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
+import UseLanguage from "src/hooks/useLanguage";
 
 const MyBreadcrumb: React.FC = () => {
+  const { dictionary } = UseLanguage();
   const location = useLocation();
   const breadCrumbView = () => {
     const { pathname } = location;
@@ -19,13 +21,13 @@ const MyBreadcrumb: React.FC = () => {
         {pathnames.length > 0 ? (
           <Breadcrumb.Item>
             <Link to={`/${role}`}>
-              <div style={{ fontSize: "12px" }}>Ana Sayfa</div>
+              <div style={{ fontSize: "12px" }}>{dictionary.homePage}</div>
             </Link>
           </Breadcrumb.Item>
         ) : (
           <Breadcrumb.Item>
-            <Link to={""}>
-              <div style={{ fontSize: "12px" }}>Ana Sayfa</div>
+            <Link to={`/${role}`}>
+              <div style={{ fontSize: "12px" }}>{dictionary.homePage}</div>
             </Link>
           </Breadcrumb.Item>
         )}
