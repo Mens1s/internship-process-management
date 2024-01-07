@@ -98,9 +98,9 @@ const PastApplications = () => {
               gap: 10,
             }}
           >
-            <Button>
+            {/*      <Button>
               <SearchOutlined /> <Text tid="search" />
-            </Button>
+            </Button> */}
             <Button>
               <DownloadOutlined /> <Text tid="download" />
             </Button>

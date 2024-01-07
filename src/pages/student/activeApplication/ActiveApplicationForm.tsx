@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {
   UploadOutlined,
   PlusOutlined,
-  FileOutlined,
+  FilePdfOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
 import useLanguage from "src/hooks/useLanguage";
@@ -59,6 +59,7 @@ const ListItem = styled.div`
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
+  transition: 0.3s;
 
   &:hover {
     background: #f2f2f2;
@@ -105,7 +106,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const [viewStajLoading, setViewStajLoading] = useState(false);
   const [viewMustehaklikLoading, setViewMustehaklikLoading] = useState(false);
   const navigate = useNavigate();
-  const [fileStajName, setFileStajName] = useState(data?.stajRaporuID);
+  const [fileStajName, setFileStajName] = useState(data?.stajYeriFormuID);
   const [fileMustehaklikName, setFileMustehaklikName] = useState(
     data?.mustehaklikBelgesiID
   );
@@ -162,7 +163,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
     const formData = new FormData();
     formData.append("file", selectedFile);
-    formData.append("type", "stajRaporuID");
+    formData.append("type", "stajYeriFormuID");
     formData.append("processId", data.id);
     let jwtToken = window.localStorage.getItem("token");
 
@@ -356,6 +357,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const handleFileChangeMustehaklik = async (file: any) => {
     setMustehaklikLoading(true);
     setSaveDisabled(true);
+    console.log("file", file);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -673,7 +675,9 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
               </Form.Item>
               {fileStajName && (
                 <List>
-                  <ListItem onClick={() => handleView(data?.stajRaporuID, 1)}>
+                  <ListItem
+                    onClick={() => handleView(data?.stajYeriFormuID, 1)}
+                  >
                     {viewStajLoading ? (
                       <Spin
                         indicator={
@@ -682,7 +686,9 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                       />
                     ) : (
                       <p>
-                        <FileOutlined style={{ marginRight: 10 }} />
+                        <FilePdfOutlined
+                          style={{ marginRight: 10, color: "gray" }}
+                        />
                         {fileStajName}
                       </p>
                     )}
@@ -727,7 +733,9 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                       />
                     ) : (
                       <p>
-                        <FileOutlined style={{ marginRight: 10 }} />
+                        <FilePdfOutlined
+                          style={{ marginRight: 10, color: "gray" }}
+                        />
                         {fileMustehaklikName}
                       </p>
                     )}

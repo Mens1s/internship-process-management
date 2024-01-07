@@ -1,27 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Collapse, message, Modal, Result } from "antd";
+import { Collapse, message, Modal, Result, Spin } from "antd";
 import styled from "styled-components";
-import { WarningFilled, MoreOutlined } from "@ant-design/icons";
-import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  WarningFilled,
+  MoreOutlined,
+  FilePdfOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { InboxOutlined } from "@ant-design/icons";
-import type { UploadProps } from "antd";
 
-import {
-  Row,
-  Col,
-  Checkbox,
-  Form,
-  Input,
-  Popconfirm,
-  Upload,
-  Button,
-} from "antd";
+import { Upload, Button } from "antd";
 import { Text } from "src/context/LanguageProvider";
 import useLanguage from "src/hooks/useLanguage";
 import axios from "src/services/axios";
 import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
+import PdfViewer from "src/components/PdfViewer";
 const { Panel } = Collapse;
 const { Dragger } = Upload;
 
@@ -49,37 +44,78 @@ const DatePickersContainer = styled.div`
   }
 `;
 
+const List = styled.div``;
+const ListItem = styled.div`
+  width: 100%;
+  border: 1px solid lightblue;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    background: #f2f2f2;
+  }
+
+  margin-bottom: 20px;
+`;
+
 const customRequest = ({ onSuccess }: any) =>
   setTimeout(() => {
     onSuccess("ok", null);
   }, 0);
 
-const props: UploadProps = {
-  name: "file",
-  multiple: true,
-  customRequest: customRequest,
-  onChange(info) {
-    const { status } = info.file;
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    /*  if (status === "done") {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    } */
-  },
-  onDrop(e) {
-    console.log("Dropped files", e.dataTransfer.files);
-  },
-};
-
-const UploadReportsForm = ({ processId }: any) => {
-  const [form] = Form.useForm();
+const UploadReportsForm = ({ processId, stajRaporuID }: any) => {
   const { dictionary } = useLanguage();
   const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [mustehaklikLoading, setMustehaklikLoading] = useState(false);
+  const [saveDisabled, setSaveDisabled] = useState(false);
+  const [fileName, setFileName] = useState(stajRaporuID);
 
-  const handleLoadReport = () => {
+  const handleFileChange = (file: any) => {
+    setFileName(file.fileList[file.fileList.length - 1].name);
+    setSelectedFile(file.fileList[file.fileList.length - 1]);
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      message.error("Please select a file before uploading.");
+      return;
+    }
+    setMustehaklikLoading(true);
+    setSaveDisabled(true);
+
+    const formData = new FormData();
+    formData.append("file", selectedFile?.originFileObj);
+    formData.append("type", "stajRaporuID");
+    formData.append("processId", processId);
+    let jwtToken = window.localStorage.getItem("token");
+
+    try {
+      const response = await fetch("http://localhost:8000/api/file/upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      if (response.ok) {
+        message.success("Staj raporu yüklendi!");
+      } else {
+        message.error("Failed to upload file.");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      message.error("An error occurred while uploading the file.");
+    } finally {
+      setMustehaklikLoading(false);
+      setSaveDisabled(false);
+    }
+  };
+
+  /* const handleLoadReport = () => {
     console.log("process", processId);
     setLoading(true);
     const requestData = {
@@ -97,9 +133,10 @@ const UploadReportsForm = ({ processId }: any) => {
         message.error(dictionary.generalErrorMessage);
       })
       .finally(() => setLoading(false));
-  };
+  }; */
 
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [viewStajLoading, setViewStajLoading] = useState(false);
 
   const showSuccessModal = () => {
     setIsSuccessModalOpen(true);
@@ -111,6 +148,34 @@ const UploadReportsForm = ({ processId }: any) => {
     navigate("/ogrenci/past", { replace: true });
   };
 
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [pdfFileUrl, setPdfFileUrl] = useState("");
+
+  const handleView = async (file: any) => {
+    setViewStajLoading(true);
+    console.log("id", file);
+
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/file/download",
+        {
+          params: {
+            fileId: file,
+          },
+          responseType: "blob",
+        }
+      );
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      setPdfFileUrl(url);
+      setIsPdfModalOpen(true);
+    } catch (error) {
+      console.log(error);
+      message.error("Dosyayı görüntülerken bir sorunla karşılaştık.");
+    } finally {
+      setViewStajLoading(false);
+    }
+  };
   return (
     <Wrapper>
       <Collapse
@@ -128,27 +193,53 @@ const UploadReportsForm = ({ processId }: any) => {
         }}
       >
         <Panel
-          header="Staj raporunu yüklemek için tıklayınız."
+          header={dictionary.uploadReportHeader}
           key="1"
           extra={<MoreOutlined />}
         >
           <div style={{ padding: "10px 0" }}>
-            <Dragger {...props}>
+            <Dragger
+              multiple={false}
+              showUploadList={false}
+              onChange={handleFileChange}
+              customRequest={() => true}
+            >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
-              <p className="ant-upload-text">
-                Staj raporunu bu alana tıklayarak veya sürükleyerek
-                yükleyebilirsiniz
-              </p>
+              <p className="ant-upload-text">{dictionary.clickOrDragText}</p>
               <p className="ant-upload-hint">
-                Raporu tek bir pdf dosyası şeklinde yükleyiniz.
+                {dictionary.clickOrDragDescription}
               </p>
             </Dragger>
           </div>
+          {fileName && (
+            <List>
+              <ListItem onClick={() => handleView(stajRaporuID)}>
+                {viewStajLoading ? (
+                  <Spin
+                    indicator={
+                      <LoadingOutlined style={{ fontSize: 24 }} spin />
+                    }
+                  />
+                ) : (
+                  <p>
+                    <FilePdfOutlined
+                      style={{ marginRight: 10, color: "gray" }}
+                    />
+                    {fileName}
+                  </p>
+                )}
+              </ListItem>
+            </List>
+          )}
           <DatePickersContainer>
-            <Button loading={loading} type="primary" onClick={handleLoadReport}>
-              <Text tid="confirm" />
+            <Button
+              loading={mustehaklikLoading}
+              type="primary"
+              onClick={handleUpload}
+            >
+              {dictionary.upload}
             </Button>
           </DatePickersContainer>
         </Panel>
@@ -164,6 +255,15 @@ const UploadReportsForm = ({ processId }: any) => {
             </Button>,
           ]}
         />
+      </Modal>
+      <Modal
+        title="View PDF"
+        width={800}
+        open={isPdfModalOpen}
+        onCancel={() => setIsPdfModalOpen(false)}
+        footer={null}
+      >
+        <PdfViewer fileUrl={pdfFileUrl} />
       </Modal>
     </Wrapper>
   );

@@ -325,7 +325,10 @@ const ApplicationDetail = () => {
         <UploadEmployeesForm companyId={data.companyId} />
       )}
       {!loading && !isAcademician && processStatus == "POST" && (
-        <UploadReportsForm processId={data.id} />
+        <UploadReportsForm
+          processId={data.id}
+          stajRaporuID={data?.stajRaporuID}
+        />
       )}
 
       <Header showSteps={showPreSteps || showPostSteps}>
