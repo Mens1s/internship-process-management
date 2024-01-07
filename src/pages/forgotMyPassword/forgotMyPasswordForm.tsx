@@ -10,6 +10,7 @@ import { responsiveArray } from "antd/es/_util/responsiveObserver";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Text } from "src/context/LanguageProvider";
 import UseLanguage from "src/hooks/useLanguage";
+import { API } from "src/config/api";
 
 const FormContainer = styled.div`
   display: flex;
@@ -44,13 +45,15 @@ const ForgotMyPasswordForm: React.FC = () => {
     setLoading(true);
     if (window.location.pathname.includes("/ogrenci/forgot-my-password")) {
       axios
-        .post("https://prod-seven-january.onrender.com/api/student/auth/forgotPassword",null, {
+        .post(API.STUDENT.FORGOT_PASSWORD, null, {
           params: {
             email: username,
           },
         })
         .then((response) => {
-          message.success("Your reset password link has been sent to your mail.");
+          message.success(
+            "Your reset password link has been sent to your mail."
+          );
         })
         .catch((error) => {
           message.error("Error: E-mail is invalid");
@@ -58,15 +61,19 @@ const ForgotMyPasswordForm: React.FC = () => {
         .finally(() => {
           setLoading(false);
         });
-    } else if (window.location.pathname.includes("/akademisyen/forgot-my-password")) {
+    } else if (
+      window.location.pathname.includes("/akademisyen/forgot-my-password")
+    ) {
       axios
-        .post("https://prod-seven-january.onrender.com/api/academician/auth/forgotPassword",null, {
+        .post(API.ACADEMICIAN.FORGOT_PASSWORD, null, {
           params: {
             email: username,
           },
         })
         .then((response) => {
-          message.success("Your reset password link has been sent to your mail.");
+          message.success(
+            "Your reset password link has been sent to your mail."
+          );
         })
         .catch((error) => {
           message.error("Error: E-mail is invalid");

@@ -118,15 +118,12 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     loadNum === 1 ? setViewStajLoading(true) : setViewMustehaklikLoading(true);
 
     try {
-      const response = await axios.get(
-        "https://prod-seven-january.onrender.com/api/file/download",
-        {
-          params: {
-            fileId: file,
-          },
-          responseType: "blob",
-        }
-      );
+      const response = await axios.get(API.FILE.DOWNLOAD, {
+        params: {
+          fileId: file,
+        },
+        responseType: "blob",
+      });
       const url = window.URL.createObjectURL(new Blob([response.data]));
 
       setPdfFileUrl(url);
@@ -168,7 +165,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     let jwtToken = window.localStorage.getItem("token");
 
     try {
-      const response = await fetch("https://prod-seven-january.onrender.com/api/file/upload", {
+      const response = await fetch(API.FILE.UPLOAD, {
         method: "POST",
         body: formData,
         headers: {
@@ -366,7 +363,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     let jwtToken = window.localStorage.getItem("token");
 
     try {
-      const response = await fetch("https://prod-seven-january.onrender.com/api/file/upload", {
+      const response = await fetch(API.FILE.UPLOAD, {
         method: "POST",
         body: formData,
         headers: {

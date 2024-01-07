@@ -29,6 +29,7 @@ export const API = {
     LOGIN: `${API_URL}/student/auth/login`,
     FORGOT_PASSWORD: `${API_URL}/student/auth/forgotPassword`,
     RESET_PASSWORD: `${API_URL}/student/auth/resetPassword`,
+    VERIFY: `${API_URL}/student/auth/verify`,
   },
   ACADEMICIAN: {
     REGISTER: `${API_URL}/academician/auth/register`,
@@ -39,6 +40,9 @@ export const API = {
     ASSIGN_DEPARTMENT: `${API_URL}/academician/assign-department`,
     ASSIGN_TASK_ONLY: `${API_URL}/academician/assignTaskOnly`,
     ASSIGN_TASK: `${API_URL}/academician/assignTaskOnly`,
+    VERIFY: `${API_URL}/academician/auth/verify`,
+    FORGOT_PASSWORD: `${API_URL}/academician/auth/forgotPassword`,
+    RESET_PASSWORD: `${API_URL}/academician/auth/resetPassword`,
   },
   COMPANY: {
     ADD: `${API_URL}/company/addCompany`,
@@ -61,5 +65,9 @@ export const API = {
     GET_ALL: `${API_URL}/department/getAll`,
     ADD: `${API_URL}/department/addDepartment`,
     UPDATE: `${API_URL}/department/updateDepartment`,
+  },
+  FILE: {
+    UPLOAD: `${API_URL}/file/upload`,
+    DOWNLOAD: `${API_URL}/file/download`,
   },
 };

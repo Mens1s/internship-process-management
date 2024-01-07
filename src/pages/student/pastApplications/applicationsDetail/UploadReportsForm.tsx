@@ -85,16 +85,13 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
     let jwtToken = window.localStorage.getItem("token");
 
     try {
-      const response = await fetch(
-        "https://prod-seven-january.onrender.com/api/file/upload",
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      );
+      const response = await fetch(API.FILE.UPLOAD, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
 
       if (response.ok) {
         reload();
@@ -150,15 +147,12 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
     console.log("id", file);
 
     try {
-      const response = await axios.get(
-        "https://prod-seven-january.onrender.com/api/file/download",
-        {
-          params: {
-            fileId: file,
-          },
-          responseType: "blob",
-        }
-      );
+      const response = await axios.get(API.FILE.DOWNLOAD, {
+        params: {
+          fileId: file,
+        },
+        responseType: "blob",
+      });
       const url = window.URL.createObjectURL(new Blob([response.data]));
 
       setPdfFileUrl(url);

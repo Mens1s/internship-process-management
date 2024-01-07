@@ -17,6 +17,7 @@ import { useParams } from "react-router-dom";
 import axios from "src/services/axios";
 import { Text } from "src/context/LanguageProvider";
 import UseLanguage from "src/hooks/useLanguage";
+import { API } from "src/config/api";
 
 const FormContainer = styled.div`
   display: flex;
@@ -85,12 +86,12 @@ const CreateApplication: React.FC = () => {
   }
 
   const handleVerify = (userType: any) => {
-    let url = "https://prod-seven-january.onrender.com/api/academician/auth/verify";
+    let url = API.ACADEMICIAN.VERIFY;
     if (
       userType.userType.toLowerCase() === "student" ||
       userType.userType.toLowerCase() === "öğrenci"
     ) {
-      url = "https://prod-seven-january.onrender.com/api/student/auth/verify";
+      url = API.STUDENT.VERIFY;
     }
 
     setLoading(true);

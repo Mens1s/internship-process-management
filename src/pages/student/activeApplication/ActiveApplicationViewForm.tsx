@@ -99,15 +99,12 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       : setViewReportLoading(true);
 
     try {
-      const response = await axios.get(
-        "https://prod-seven-january.onrender.com/api/file/download",
-        {
-          params: {
-            fileId: file,
-          },
-          responseType: "blob",
-        }
-      );
+      const response = await axios.get(API.FILE.DOWNLOAD, {
+        params: {
+          fileId: file,
+        },
+        responseType: "blob",
+      });
       const url = window.URL.createObjectURL(new Blob([response.data]));
 
       setPdfFileUrl(url);
