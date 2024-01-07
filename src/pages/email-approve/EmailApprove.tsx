@@ -71,7 +71,6 @@ const Flag = styled.div`
 const CreateApplication: React.FC = () => {
   const [confirmationCode, setConfirmationCode] = useState("");
   let { mail } = useParams<{ mail: string }>();
-  const [mailAddress, setMailAddress] = useState(mail);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { dictionary } = UseLanguage();
@@ -98,13 +97,13 @@ const CreateApplication: React.FC = () => {
     axios
       .post(url, null, {
         params: {
-          mail: mailAddress,
+          mail: mail,
           code: confirmationCode,
         },
       })
       .then((response) => {
-        message.success("Hesabınız başarılı bir şekilde onaylandı.");
-        navigate("ogrenci/login/");
+        message.success("Kayıt işlemi tamamlandı!");
+        navigate("/ogrenci/login");
       })
       .catch((error) => {
         message.error("Invalid code or user type!");
@@ -177,7 +176,7 @@ const CreateApplication: React.FC = () => {
             <Result
               status="success"
               title={dictionary.completeRegistration}
-              subTitle="Kaydınızı Başarıyla Tamamlamak İçin Mailinize Gelen Kodu Aşağıya Giriniz."
+              subTitle={dictionary.completeRegistrationDescription}
             />
           </Col>
           <Col xs={24} sm={12} md={12} lg={12} xl={12}>
@@ -192,7 +191,6 @@ const CreateApplication: React.FC = () => {
                   marginTop: 20,
                 }}
                 initialValues={{
-                  email: mail,
                   userType: dictionary.student,
                 }}
                 onFinish={handleVerify}
@@ -206,35 +204,20 @@ const CreateApplication: React.FC = () => {
                     block
                   />
                 </Form.Item>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Lütfen mailinizi giriniz.",
-                    },
-                  ]}
-                  style={{ marginBottom: 20, width: "100%" }}
-                >
-                  <Input
-                    prefix={<MailOutlined className="site-form-item-icon" />}
-                    placeholder="Mailinizi Giriniz"
-                    onChange={(e) => setMailAddress(e.target.value)}
-                  />
-                </Form.Item>
+
                 <Form.Item
                   style={{ marginBottom: 20, width: "100%" }}
                   name="confirmationCode"
                   rules={[
                     {
                       required: true,
-                      message: "Confirmation Code",
+                      message: "Please input confirmation code!",
                     },
                   ]}
                 >
                   <Input
                     prefix={<NumberOutlined className="site-form-item-icon" />}
-                    placeholder="Confirmation Code"
+                    placeholder={dictionary.confirmationCode}
                     onChange={(e) => setConfirmationCode(e.target.value)}
                   />
                 </Form.Item>

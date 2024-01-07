@@ -61,12 +61,12 @@ const ForgotMyPasswordPage: React.FC = () => {
   const items = [
     {
       key: "/ogrenci/forgot-my-password",
-      label: dictionary.studentLogin,
+      label: dictionary.student,
       render: () => <ForgotMyPasswordForm />,
     },
     {
       key: "/akademisyen/forgot-my-password",
-      label: dictionary.academicianLogin,
+      label: dictionary.academician,
       render: () => <ForgotMyPasswordForm />,
     },
   ];

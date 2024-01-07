@@ -116,5 +116,7 @@
   "resetPassword": "Şifre Sıfırla",
   "newPassword": "Yeni Şifre",
   "passwordAgain": "Şifre Tekrar",
-  "completeRegistration": "Kaydı Tamamla"
+  "completeRegistration": "Kaydı Tamamla",
+  "completeRegistrationDescription": "Kaydınızı tamamlamak için mailinize gelen kodu giriniz.",
+  "confirmationCode": "Onay Kodu"
 }

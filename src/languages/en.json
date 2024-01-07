@@ -116,5 +116,7 @@
   "resetPassword": "Reset Password",
   "newPassword": "New Password",
   "passwordAgain": "Password Again",
-  "completeRegistration": "Complete Registration"
+  "completeRegistration": "Complete Registration",
+  "completeRegistrationDescription": "Enter the code sent to your e-mail to complete your registration.",
+  "confirmationCode": "Confirmation Code"
 }
