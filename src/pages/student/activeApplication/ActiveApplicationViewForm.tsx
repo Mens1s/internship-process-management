@@ -88,10 +88,15 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [pdfFileUrl, setPdfFileUrl] = useState("");
   const [viewStajLoading, setViewStajLoading] = useState(false);
+  const [viewReportLoading, setViewReportLoading] = useState(false);
   const [viewMustehaklikLoading, setViewMustehaklikLoading] = useState(false);
 
   const handleView = async (file: any, loadNum: any) => {
-    loadNum === 1 ? setViewStajLoading(true) : setViewMustehaklikLoading(true);
+    loadNum === 1
+      ? setViewStajLoading(true)
+      : loadNum === 2
+      ? setViewMustehaklikLoading(true)
+      : setViewReportLoading(true);
 
     try {
       const response = await axios.get(
@@ -111,9 +116,9 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       console.log(error);
       message.error("Dosyayı görüntülerken bir sorunla karşılaştık.");
     } finally {
-      loadNum === 1
-        ? setViewStajLoading(false)
-        : setViewMustehaklikLoading(false);
+      setViewStajLoading(false);
+      setViewMustehaklikLoading(false);
+      setViewReportLoading(false);
     }
   };
 
@@ -223,7 +228,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     {
       span: 3,
       key: "mustehaklikBelgesiPath",
-      label: "Mustehaklik Belgesi Path",
+      label: "Müstehaklık Belgesi",
       children: [
         <Button
           icon={<EyeOutlined />}
@@ -238,13 +243,13 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     {
       span: 3,
       key: "stajYeriFormuPath",
-      label: "Staj Yeri Formu Path",
+      label: "Staj Yeri Formu",
       children: [
         <Button
           icon={<EyeOutlined />}
           loading={viewStajLoading}
           key="viewButton"
-          onClick={() => handleView(data?.stajRaporuID, 1)}
+          onClick={() => handleView(data?.stajYeriFormuID, 1)}
         >
           {dictionary.view}
         </Button>,
@@ -252,6 +257,26 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     },
   ];
 
+  if (
+    data.processStatus.includes("REPORT") ||
+    window.location.href.includes("akademisyen")
+  ) {
+    items.push({
+      span: 3,
+      key: "stajRaporu",
+      label: "Staj Raporu",
+      children: [
+        <Button
+          icon={<EyeOutlined />}
+          loading={viewReportLoading}
+          key="viewButton"
+          onClick={() => handleView(data?.stajRaporuID, 3)}
+        >
+          {dictionary.view}
+        </Button>,
+      ],
+    });
+  }
   const showConfirm = () => {
     setIsConfirmOpen(true);
   };
@@ -264,9 +289,6 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
     setIsConfirmOpen(false);
     setIsDenyOpen(false);
   };
-
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
 
   const handleEvaluation = (isApproved: boolean) => {
     const userId = window.localStorage.getItem("id");

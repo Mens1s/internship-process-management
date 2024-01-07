@@ -60,34 +60,27 @@ const ListItem = styled.div`
   margin-bottom: 20px;
 `;
 
-const customRequest = ({ onSuccess }: any) =>
-  setTimeout(() => {
-    onSuccess("ok", null);
-  }, 0);
-
-const UploadReportsForm = ({ processId, stajRaporuID }: any) => {
+const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
   const { dictionary } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<any>(null);
-  const [mustehaklikLoading, setMustehaklikLoading] = useState(false);
-  const [saveDisabled, setSaveDisabled] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
   const [fileName, setFileName] = useState(stajRaporuID);
 
   const handleFileChange = (file: any) => {
     setFileName(file.fileList[file.fileList.length - 1].name);
-    setSelectedFile(file.fileList[file.fileList.length - 1]);
+    handleUpload(file.fileList[file.fileList.length - 1]);
   };
 
-  const handleUpload = async () => {
-    if (!selectedFile) {
+  const handleUpload = async (file: any) => {
+    if (!file) {
       message.error("Please select a file before uploading.");
       return;
     }
-    setMustehaklikLoading(true);
-    setSaveDisabled(true);
+    setUploadLoading(true);
 
     const formData = new FormData();
-    formData.append("file", selectedFile?.originFileObj);
+    formData.append("file", file?.originFileObj);
     formData.append("type", "stajRaporuID");
     formData.append("processId", processId);
     let jwtToken = window.localStorage.getItem("token");
@@ -102,7 +95,8 @@ const UploadReportsForm = ({ processId, stajRaporuID }: any) => {
       });
 
       if (response.ok) {
-        message.success("Staj raporu yüklendi!");
+        reload();
+        message.success("Dosya yüklendi!");
       } else {
         message.error("Failed to upload file.");
       }
@@ -110,13 +104,11 @@ const UploadReportsForm = ({ processId, stajRaporuID }: any) => {
       console.error("Error uploading file:", error);
       message.error("An error occurred while uploading the file.");
     } finally {
-      setMustehaklikLoading(false);
-      setSaveDisabled(false);
+      setUploadLoading(false);
     }
   };
 
-  /* const handleLoadReport = () => {
-    console.log("process", processId);
+  const handleLoadReport = () => {
     setLoading(true);
     const requestData = {
       id: processId,
@@ -133,14 +125,10 @@ const UploadReportsForm = ({ processId, stajRaporuID }: any) => {
         message.error(dictionary.generalErrorMessage);
       })
       .finally(() => setLoading(false));
-  }; */
+  };
 
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [viewStajLoading, setViewStajLoading] = useState(false);
-
-  const showSuccessModal = () => {
-    setIsSuccessModalOpen(true);
-  };
 
   const navigate = useNavigate();
   const handleSuccessModalOk = () => {
@@ -235,11 +223,12 @@ const UploadReportsForm = ({ processId, stajRaporuID }: any) => {
           )}
           <DatePickersContainer>
             <Button
-              loading={mustehaklikLoading}
+              disabled={uploadLoading}
+              loading={loading}
               type="primary"
-              onClick={handleUpload}
+              onClick={handleLoadReport}
             >
-              {dictionary.upload}
+              {dictionary.send}
             </Button>
           </DatePickersContainer>
         </Panel>

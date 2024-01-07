@@ -328,6 +328,7 @@ const ApplicationDetail = () => {
         <UploadReportsForm
           processId={data.id}
           stajRaporuID={data?.stajRaporuID}
+          reload={fetchDataForStudent}
         />
       )}
 
