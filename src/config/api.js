@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000/api";
+const API_URL = "https://prod-seven-january.onrender.com/api";
 
 export const API = {
   INTERNSHIP_PROCESS: {

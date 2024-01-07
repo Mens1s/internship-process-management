@@ -100,7 +100,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
 
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/file/download",
+        "https://prod-seven-january.onrender.com/api/file/download",
         {
           params: {
             fileId: file,

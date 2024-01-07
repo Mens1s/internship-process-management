@@ -34,13 +34,13 @@ const RenewPasswordForm: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const handleLogin = (userType: any) => {
-    let url = "http://localhost:8000/api/academician/auth/resetPassword";
+    let url = "https://prod-seven-january.onrender.com/api/academician/auth/resetPassword";
 
     if (
       userType.userType.toLowerCase() === "student" ||
       userType.userType.toLowerCase() === "öğrenci"
     ) {
-      url = "http://localhost:8000/api/student/auth/resetPassword";
+      url = "https://prod-seven-january.onrender.com/api/student/auth/resetPassword";
     }
 
     if (password !== passwordConfirm) {

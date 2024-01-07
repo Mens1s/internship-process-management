@@ -19,7 +19,7 @@ const MakePost = () => {
     // Send API request with the provided processId
     axios
       .put(
-        `http://localhost:8000/api/internship-process/post?processId=${processId}`
+        `https://prod-seven-january.onrender.com/api/internship-process/post?processId=${processId}`
       )
       .then((response) => {
         console.log(response);

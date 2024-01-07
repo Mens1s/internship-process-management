@@ -150,7 +150,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/company/getAll")
+      .get("https://prod-seven-january.onrender.com/api/company/getAll")
       .then((response) => {
         response.data?.companyList.map((company: any, index: any) => {
           companyOptions.push({ value: index + 1, label: company.companyName });
@@ -197,7 +197,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     setSaveLoading(true);
     setIsModalOpen(false);
     axios
-      .put("http://localhost:8000/api/internship-process/update", postData, {
+      .put("https://prod-seven-january.onrender.com/api/internship-process/update", postData, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -221,7 +221,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     setConfirmLoading(true);
 
     axios
-      .post("http://localhost:8000/api/internship-process/start", null, {
+      .post("https://prod-seven-january.onrender.com/api/internship-process/start", null, {
         params: {
           processId: data.id,
         },

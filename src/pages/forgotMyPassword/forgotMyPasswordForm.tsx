@@ -44,7 +44,7 @@ const ForgotMyPasswordForm: React.FC = () => {
     setLoading(true);
     if (window.location.pathname.includes("/ogrenci/forgot-my-password")) {
       axios
-        .post("http://localhost:8000/api/student/auth/forgotPassword",null, {
+        .post("https://prod-seven-january.onrender.com/api/student/auth/forgotPassword",null, {
           params: {
             email: username,
           },
@@ -60,7 +60,7 @@ const ForgotMyPasswordForm: React.FC = () => {
         });
     } else if (window.location.pathname.includes("/akademisyen/forgot-my-password")) {
       axios
-        .post("http://localhost:8000/api/academician/auth/forgotPassword",null, {
+        .post("https://prod-seven-january.onrender.com/api/academician/auth/forgotPassword",null, {
           params: {
             email: username,
           },

@@ -119,7 +119,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/file/download",
+        "https://prod-seven-january.onrender.com/api/file/download",
         {
           params: {
             fileId: file,
@@ -168,7 +168,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     let jwtToken = window.localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:8000/api/file/upload", {
+      const response = await fetch("https://prod-seven-january.onrender.com/api/file/upload", {
         method: "POST",
         body: formData,
         headers: {
@@ -366,7 +366,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     let jwtToken = window.localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:8000/api/file/upload", {
+      const response = await fetch("https://prod-seven-january.onrender.com/api/file/upload", {
         method: "POST",
         body: formData,
         headers: {

@@ -85,12 +85,12 @@ const CreateApplication: React.FC = () => {
   }
 
   const handleVerify = (userType: any) => {
-    let url = "http://localhost:8000/api/academician/auth/verify";
+    let url = "https://prod-seven-january.onrender.com/api/academician/auth/verify";
     if (
       userType.userType.toLowerCase() === "student" ||
       userType.userType.toLowerCase() === "öğrenci"
     ) {
-      url = "http://localhost:8000/api/student/auth/verify";
+      url = "https://prod-seven-january.onrender.com/api/student/auth/verify";
     }
 
     setLoading(true);
