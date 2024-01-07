@@ -118,5 +118,13 @@
   "passwordAgain": "Şifre Tekrar",
   "completeRegistration": "Kaydı Tamamla",
   "completeRegistrationDescription": "Kaydınızı tamamlamak için mailinize gelen kodu giriniz.",
-  "confirmationCode": "Onay Kodu"
+  "confirmationCode": "Onay Kodu",
+  "uploadReportHeader": "Staj raporunu yüklemek için tıklayınız",
+  "clickOrDragText": " Staj raporunu bu alana tıklayarak veya sürükleyerek yükleyebilirsiniz",
+  "clickOrDragDescription": "Raporunuzu tek bir pdf dosyası şeklinde yükleyiniz.",
+  "upload": "Yükle",
+  "researchAssistant": "Araştırma Görevlisi",
+  "reportRequired": "Rapor Bekleniyor",
+  "reportUploaded": "Rapor Yüklendi",
+  "reportUpload": "Rapor Yüklenmesi"
 }

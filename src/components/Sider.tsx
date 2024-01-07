@@ -77,7 +77,6 @@ const MySider: React.FC<MySiderProps> = ({
           dictionary.pendingApplications,
           "akademisyen/internships/pending"
         ),
-        getItem("Aktif Stajlar", "akademisyen/internships/active"),
       ]
     ),
     getItem(

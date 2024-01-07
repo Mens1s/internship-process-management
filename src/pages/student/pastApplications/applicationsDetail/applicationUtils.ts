@@ -59,16 +59,25 @@ const getPostStepItems = (
 ): StepItem[] => {
   const defaultItems: StepItem[] = [
     {
-      title: "Rapor Yüklenmesi",
-      description: "Rapor Bekleniyor",
+      title: dictionary.reportUpload,
+      description:
+        processStatus === "POST"
+          ? dictionary.reportRequired
+          : dictionary.reportUploaded,
     },
     {
-      title: "Araştırma Görevlisi",
-      description: "Onay Bekleniyor",
+      title: dictionary.researchAssistant,
+      description:
+        processStatus === "POST" || processStatus === "REPORT1"
+          ? dictionary.pending
+          : dictionary.approved,
     },
     {
-      title: "Akademisyen",
-      description: "Onay Bekleniyor",
+      title: dictionary.academician,
+      description:
+        processStatus === "POST" || processStatus.includes("REPORT")
+          ? dictionary.pending
+          : dictionary.approved,
     },
   ];
 

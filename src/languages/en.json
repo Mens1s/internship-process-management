@@ -118,5 +118,13 @@
   "passwordAgain": "Password Again",
   "completeRegistration": "Complete Registration",
   "completeRegistrationDescription": "Enter the code sent to your e-mail to complete your registration.",
-  "confirmationCode": "Confirmation Code"
+  "confirmationCode": "Confirmation Code",
+  "uploadReportHeader": "Click here to upload your internship report",
+  "clickOrDragText": "Click or drag file to this area to upload",
+  "clickOrDragDescription": "Upload your report as single pdf file.",
+  "upload": "Upload",
+  "researchAssistant": "Research Assistant",
+  "reportRequired": "Report Required",
+  "reportUploaded": "Report Uploaded",
+  "reportUpload": "Report Upload"
 }
