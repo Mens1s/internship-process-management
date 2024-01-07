@@ -125,11 +125,12 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const handleView = async () => {
     setViewLoading(true);
     try {
+
       const response = await axios.get(
         "http://localhost:8000/api/file/download",
         {
           params: {
-            fileName: "1053_downloaded_file.pdf", // Replace with the actual file name
+            fileId: data?.stajRaporuId, // Replace with the actual file name
           },
           responseType: "blob", // Set the response type to 'blob'
         }
