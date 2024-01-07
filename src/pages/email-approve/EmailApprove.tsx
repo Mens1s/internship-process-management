@@ -1,173 +1,264 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import styled from "styled-components";
-import { Button, Form, Input, Result, Radio, message } from 'antd';
-import {Link, useNavigate} from "react-router-dom"
-import { NumberOutlined, MailOutlined} from "@ant-design/icons";
-import { useParams } from 'react-router-dom';
+import {
+  Button,
+  Form,
+  Input,
+  Result,
+  Radio,
+  message,
+  Row,
+  Col,
+  Segmented,
+} from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { NumberOutlined, MailOutlined } from "@ant-design/icons";
+import { useParams } from "react-router-dom";
 import axios from "src/services/axios";
 import { Text } from "src/context/LanguageProvider";
+import UseLanguage from "src/hooks/useLanguage";
 
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0px;
+  height: 100%;
+  margin: 0 20px;
 `;
 
 const Container = styled.div`
-  background: lightgray;
-  width: 500px;
-  height: 500px;
-  padding: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-const SuccessIcon = styled.img`
-  width:150px;
-  height: 150px;
+  max-width: 600px;
+  height: fit-content;
+  padding: 20px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  position: relative;
+  background: white;
+  margin: 0 10px;
 `;
 
-const Wrapper = styled.div`
-  background: orange;
+const Navbar = styled.div`
+  width: 100%;
   display: flex;
+  justify-content: center;
+  gap: 10px;
   align-items: center;
-  flex-direction: column;
-  padding: 10px;
-  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  background: white;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 20px;
 `;
-const ButtonsContainer = styled.div`
-  display: flex;
-  gap: 15px;
-  width: fit-content;
+
+const LogoImage = styled.img`
+  width: 200px;
+  margin-bottom: 20px;
+`;
+
+const Flag = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  background-size: cover;
 `;
 
 const CreateApplication: React.FC = () => {
   const [confirmationCode, setConfirmationCode] = useState("");
-  let { mail } = useParams<({mail: string})>();
+  let { mail } = useParams<{ mail: string }>();
   const [mailAddress, setMailAddress] = useState(mail);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { dictionary } = UseLanguage();
+  const { userLanguage, userLanguageChange } = UseLanguage();
 
+  const [img, setImg] = useState(
+    userLanguage === "en" ? "/england_flag.png" : "/turkey_flag.png"
+  );
 
-  if(mail == "auth"){
+  if (mail == "auth") {
     mail = "";
   }
-  const img_src = "https://cdn-icons-png.flaticon.com/512/7595/7595571.png";
 
-  const handleVerify = (userType:any) => {
-    
-    let url = "http://localhost:8000/api/academician/auth/verify"
+  const handleVerify = (userType: any) => {
+    let url = "http://localhost:8000/api/academician/auth/verify";
+    if (
+      userType.userType.toLowerCase() === "student" ||
+      userType.userType.toLowerCase() === "öğrenci"
+    ) {
+      url = "http://localhost:8000/api/student/auth/verify";
+    }
 
-    if(userType.userType === 'student')
-      url = "http://localhost:8000/api/student/auth/verify"
-    
     setLoading(true);
-    
     axios
-    .post(url,null, {
+      .post(url, null, {
         params: {
-            mail: mailAddress,
-            code: confirmationCode,
+          mail: mailAddress,
+          code: confirmationCode,
         },
-      }) 
-    .then((response) => {
+      })
+      .then((response) => {
         message.success("Hesabınız başarılı bir şekilde onaylandı.");
         navigate("ogrenci/login/");
-    })
-    .catch((error) => {
-        message.error("Error: Code is invalid");
-    })
-    .finally(() => {
+      })
+      .catch((error) => {
+        message.error("Invalid code or user type!");
+      })
+      .finally(() => {
         setLoading(false);
-    });
-    
-  }
+      });
+  };
+  const handleLanguageChange = () => {
+    userLanguageChange();
+    setImg((prevImg) =>
+      prevImg === "/england_flag.png" ? "/turkey_flag.png" : "/england_flag.png"
+    );
+    window.location.reload();
+  };
+
   return (
     <div
       style={{
         display: "flex",
-        justifyContent: "center",
-        height: "100vh",
+        flexDirection: "column",
         alignItems: "center",
+        height: "100vh",
+        background: "#f7f7f7",
       }}
     >
-      
-    <Result
-      status="success"
-      icon={<SuccessIcon src={img_src}></SuccessIcon>}
-      title="Kayıt Başarıyla Alındı."
-      subTitle="Kaydınızı Başarıyla Tamamlamak İçin Mailinize Gelen Kodu Aşağıya Giriniz."
-      extra={
-        <FormContainer>
-            <Form
-              name="normal_login"
-              style={{ width: "100%" }}
-              initialValues={{
-                email: mail,
-                userType: 'student' 
+      <Navbar>
+        <LogoImage src="/logo.jpg" alt="Logo" />
+        <h2
+          className="header"
+          style={{
+            fontFamily: "roboto",
+            textAlign: "center",
+            fontSize: "1.2rem",
+            marginTop: "10px",
+          }}
+        >
+          {dictionary.internshipManagementSystem}
+        </h2>
+      </Navbar>
+
+      <Container>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            position: "absolute",
+            top: 20,
+            right: 10,
+            zIndex: 9,
+          }}
+        >
+          <span onClick={handleLanguageChange} style={{ cursor: "pointer" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 5,
+                width: "80px",
               }}
-              onFinish={handleVerify}
-              
             >
-            <Form.Item
-              name="userType"
-              label="Select User Type"
-              rules={[{ required: true, message: 'Please select user type!' }]}
+              <Text tid="langShort" />
+              <Flag style={{ backgroundImage: `url(${img})` }} />
+            </div>
+          </span>
+        </div>
+        <Row gutter={16}>
+          <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+            <Result
+              status="success"
+              title={dictionary.completeRegistration}
+              subTitle="Kaydınızı Başarıyla Tamamlamak İçin Mailinize Gelen Kodu Aşağıya Giriniz."
+            />
+          </Col>
+          <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+            <FormContainer>
+              <Form
+                name="normal_login"
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginTop: 20,
+                }}
+                initialValues={{
+                  email: mail,
+                  userType: dictionary.student,
+                }}
+                onFinish={handleVerify}
               >
-                  <Radio.Group>
-                  <Radio value="academician">Academician</Radio>
-                  <Radio value="student">Student</Radio>
-                  </Radio.Group>
-            </Form.Item>
-          <Form.Item
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Lütfen mailinizi giriniz.",
-                },
-              ]}
-            >
-              <Input
-                prefix={<MailOutlined className="site-form-item-icon" />}
-                placeholder="Mailinizi Giriniz"
-                onChange={(e) => setMailAddress(e.target.value)}
-              />
-          </Form.Item>
-
-          <Form.Item
-              name="confirmationCode"
-              rules={[
-                {
-                  required: true,
-                  message: "Confirmation Code",
-                },
-              ]}
-            >
-              <Input
-                prefix={<NumberOutlined className="site-form-item-icon" />}
-                placeholder="Confirmation Code"
-                onChange={(e) => setConfirmationCode(e.target.value)}
-              />
-          </Form.Item>
-
-          <Button 
-            type="primary" 
-            key="console"
-            loading={loading}
-            htmlType="submit"
-            style={{ width: "100%" }}
-            >
-              <Text tid="Confirm" />
-          </Button>
-          </Form>
-        </FormContainer>
-      }
-      />
-      </div>
+                <Form.Item
+                  name="userType"
+                  style={{ marginBottom: 20, width: "100%" }}
+                >
+                  <Segmented
+                    options={[dictionary.student, dictionary.academician]}
+                    block
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Lütfen mailinizi giriniz.",
+                    },
+                  ]}
+                  style={{ marginBottom: 20, width: "100%" }}
+                >
+                  <Input
+                    prefix={<MailOutlined className="site-form-item-icon" />}
+                    placeholder="Mailinizi Giriniz"
+                    onChange={(e) => setMailAddress(e.target.value)}
+                  />
+                </Form.Item>
+                <Form.Item
+                  style={{ marginBottom: 20, width: "100%" }}
+                  name="confirmationCode"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Confirmation Code",
+                    },
+                  ]}
+                >
+                  <Input
+                    prefix={<NumberOutlined className="site-form-item-icon" />}
+                    placeholder="Confirmation Code"
+                    onChange={(e) => setConfirmationCode(e.target.value)}
+                  />
+                </Form.Item>
+                <Form.Item
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  <Button
+                    type="primary"
+                    key="console"
+                    loading={loading}
+                    htmlType="submit"
+                    style={{ width: "100%" }}
+                  >
+                    {dictionary.confirm}
+                  </Button>
+                </Form.Item>
+              </Form>
+            </FormContainer>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
-
 export default CreateApplication;

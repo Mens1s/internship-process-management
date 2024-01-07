@@ -115,5 +115,6 @@
   "academician": "Academician",
   "resetPassword": "Reset Password",
   "newPassword": "New Password",
-  "passwordAgain": "Password Again"
+  "passwordAgain": "Password Again",
+  "completeRegistration": "Complete Registration"
 }

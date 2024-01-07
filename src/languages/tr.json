@@ -115,5 +115,6 @@
   "academician": "Akademisyen",
   "resetPassword": "Şifre Sıfırla",
   "newPassword": "Yeni Şifre",
-  "passwordAgain": "Şifre Tekrar"
+  "passwordAgain": "Şifre Tekrar",
+  "completeRegistration": "Kaydı Tamamla"
 }
