@@ -9,6 +9,7 @@ import useDepartments from "src/hooks/useDepartments";
 import { Select } from "antd";
 import { Text } from "src/context/LanguageProvider";
 import { API } from "src/config/api";
+import UseLanguage from "src/hooks/useLanguage";
 
 const FormContainer = styled.div`
   display: flex;
@@ -32,6 +33,7 @@ const RegisterForm: React.FC = () => {
   );
 
   const departmentOptions = useDepartments();
+  const { dictionary } = UseLanguage();
 
   const handleRegister = () => {
     if (password != passwordAgain) {
@@ -52,11 +54,17 @@ const RegisterForm: React.FC = () => {
             lastName: lastName,
           })
           .then((response) => {
-            navigate("/onayla/" + mail);
+            navigate("/onayla/" + mail, { replace: true });
           })
           .catch((error) => {
-            console.error("Error:", error);
-          });
+            console.log(error);
+            if (error.response.data?.message === "10") {
+              message.error("Aynı mail adresi ile birden fazla kaydolunamaz!");
+            } else {
+              message.error(dictionary.generalErrorMessage);
+            }
+          })
+          .finally(() => setLoading(false));
       } else if (window.location.pathname.includes("/akademisyen/register")) {
         axios
           .post(API.ACADEMICIAN.REGISTER, {
@@ -67,15 +75,17 @@ const RegisterForm: React.FC = () => {
             departmentId: department,
           })
           .then((response) => {
-            // navigate(fromAkademisyen, { replace: true });
-            navigate("/onayla/"+ mail);
+            navigate("/onayla/" + mail, { replace: true });
           })
           .catch((error) => {
-            console.error("Error:", error);
+            console.log(error);
+            if (error.response.data?.message === "10") {
+              message.error("Aynı mail adresi ile birden fazla kaydolunamaz!");
+            } else {
+              message.error(dictionary.generalErrorMessage);
+            }
           })
-          .finally(() => {
-            setLoading(false);
-          });
+          .finally(() => setLoading(false));
       }
     }
   };
