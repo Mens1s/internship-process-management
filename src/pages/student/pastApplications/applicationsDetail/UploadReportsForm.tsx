@@ -63,7 +63,6 @@ const ListItem = styled.div`
 const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
   const { dictionary } = useLanguage();
   const [loading, setLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<any>(null);
   const [uploadLoading, setUploadLoading] = useState(false);
   const [fileName, setFileName] = useState(stajRaporuID);
 
@@ -86,13 +85,16 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
     let jwtToken = window.localStorage.getItem("token");
 
     try {
-      const response = await fetch("https://prod-seven-january.onrender.com/api/file/upload", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
+      const response = await fetch(
+        "https://prod-seven-january.onrender.com/api/file/upload",
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      );
 
       if (response.ok) {
         reload();
@@ -109,22 +111,26 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
   };
 
   const handleLoadReport = () => {
-    setLoading(true);
-    const requestData = {
-      id: processId,
-      stajRaporuPath: "/stajRaporuPath",
-    };
-    axios
-      .put(API.INTERNSHIP_PROCESS.LOAD_REPORT, requestData, getAxiosConfig())
-      .then((response) => {
-        console.log(response);
-        setIsSuccessModalOpen(true);
-      })
-      .catch((error) => {
-        console.log(error.response?.data);
-        message.error(dictionary.generalErrorMessage);
-      })
-      .finally(() => setLoading(false));
+    if (stajRaporuID) {
+      setLoading(true);
+      const requestData = {
+        id: processId,
+        stajRaporuPath: "/stajRaporuPath",
+      };
+      axios
+        .put(API.INTERNSHIP_PROCESS.LOAD_REPORT, requestData, getAxiosConfig())
+        .then((response) => {
+          console.log(response);
+          setIsSuccessModalOpen(true);
+        })
+        .catch((error) => {
+          console.log(error.response?.data);
+          message.error(dictionary.generalErrorMessage);
+        })
+        .finally(() => setLoading(false));
+    } else {
+      message.error("Yüklenecek dosyayı seçiniz.");
+    }
   };
 
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
