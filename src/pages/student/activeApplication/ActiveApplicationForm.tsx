@@ -84,10 +84,12 @@ const DatePickersContainer = styled.div`
 
 interface ActiveApplicationFormProps {
   data?: any;
+  reload?: any;
 }
 
 const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   data,
+  reload,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [saveDisabled, setSaveDisabled] = useState(false);
@@ -113,6 +115,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   const handleView = async (file: any, loadNum: any) => {
     loadNum === 1 ? setViewStajLoading(true) : setViewMustehaklikLoading(true);
+
     try {
       const response = await axios.get(
         "http://localhost:8000/api/file/download",
@@ -174,8 +177,8 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
       if (response.ok) {
         setFileStajName(fileList.name);
-
         message.success("Staj raporu yüklendi!");
+        reload();
       } else {
         message.error("Failed to upload file.");
       }
@@ -372,6 +375,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       if (response.ok) {
         message.success("Müstehaklık belgesi yüklendi!");
         setFileMustehaklikName(file.name);
+        reload();
       } else {
         message.error("Failed to upload file.");
       }

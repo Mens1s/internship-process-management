@@ -353,7 +353,7 @@ const ApplicationDetail = () => {
       {loading ? (
         <Skeleton active />
       ) : editable && !isAcademician ? (
-        <ActiveApplicationForm data={data} />
+        <ActiveApplicationForm data={data} reload={fetchDataForStudent} />
       ) : (
         <ActiveApplicationViewForm data={data} />
       )}

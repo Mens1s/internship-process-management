@@ -76,7 +76,6 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   data,
 }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [viewLoading, setViewLoading] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDenyOpen, setIsDenyOpen] = useState(false);
   const { dictionary } = useLanguage();
@@ -88,9 +87,12 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const sentEditable = processStatus?.includes("REPORT") || null;
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [pdfFileUrl, setPdfFileUrl] = useState("");
+  const [viewStajLoading, setViewStajLoading] = useState(false);
+  const [viewMustehaklikLoading, setViewMustehaklikLoading] = useState(false);
 
-  const handleView = async (file: any) => {
-    setViewLoading(true);
+  const handleView = async (file: any, loadNum: any) => {
+    loadNum === 1 ? setViewStajLoading(true) : setViewMustehaklikLoading(true);
+
     try {
       const response = await axios.get(
         "http://localhost:8000/api/file/download",
@@ -109,7 +111,9 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       console.log(error);
       message.error("Dosyayı görüntülerken bir sorunla karşılaştık.");
     } finally {
-      setViewLoading(false);
+      loadNum === 1
+        ? setViewStajLoading(false)
+        : setViewMustehaklikLoading(false);
     }
   };
 
@@ -223,9 +227,9 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       children: [
         <Button
           icon={<EyeOutlined />}
-          loading={viewLoading}
+          loading={viewMustehaklikLoading}
           key="viewButton"
-          onClick={() => handleView(data?.mustehaklikBelgesiID)}
+          onClick={() => handleView(data?.mustehaklikBelgesiID, 2)}
         >
           {dictionary.view}
         </Button>,
@@ -238,9 +242,9 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       children: [
         <Button
           icon={<EyeOutlined />}
-          loading={viewLoading}
+          loading={viewStajLoading}
           key="viewButton"
-          onClick={() => handleView(data?.stajRaporuID)}
+          onClick={() => handleView(data?.stajRaporuID, 1)}
         >
           {dictionary.view}
         </Button>,
