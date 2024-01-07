@@ -139,7 +139,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     }
     const formData = new FormData();
     formData.append("file", fileStaj);
-    formData.append("type", "mufredatDurumuID");
+    formData.append("type", "mustehaklikBelgesiID");
     formData.append("processId", data.id);
     let jwtToken = window.localStorage.getItem("token");
     console.log("formData", formData);
@@ -268,8 +268,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   const handleUpdate = () => {
     const formData = form.getFieldsValue();
-    const mustehaklikBelgesiPath = formData?.mustehaklikBelgesiPath;
-    const stajYeriFormuPath = formData?.stajYeriFormuPath;
+
     const userId = window.localStorage.getItem("id");
 
     const postData = {

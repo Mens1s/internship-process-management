@@ -89,14 +89,15 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [pdfFileUrl, setPdfFileUrl] = useState("");
 
-  const handleView = async () => {
+  const handleView = async (file: any) => {
     setViewLoading(true);
+    console.log(data.stajRaporuId);
     try {
       const response = await axios.get(
         "http://localhost:8000/api/file/download",
         {
           params: {
-            fileId: data?.stajRaporuId,
+            fileId: file,
           },
           responseType: "blob",
         }
@@ -225,7 +226,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
           icon={<EyeOutlined />}
           loading={viewLoading}
           key="viewButton"
-          onClick={handleView}
+          onClick={() => handleView(data?.mustehaklikBelgesiID)}
         >
           {dictionary.view}
         </Button>,
@@ -240,7 +241,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
           icon={<EyeOutlined />}
           loading={viewLoading}
           key="viewButton"
-          onClick={handleView}
+          onClick={() => handleView(data?.stajRaporuID)}
         >
           {dictionary.view}
         </Button>,
