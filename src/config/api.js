@@ -38,7 +38,7 @@ export const API = {
     VALIDATE: `${API_URL}/academician/validate`,
     ASSIGN_DEPARTMENT: `${API_URL}/academician/assign-department`,
     ASSIGN_TASK_ONLY: `${API_URL}/academician/assignTaskOnly`,
-    ASSIGN_TASK: `${API_URL}/academician/assignTask`,
+    ASSIGN_TASK: `${API_URL}/academician/assignTaskOnly`,
   },
   COMPANY: {
     ADD: `${API_URL}/company/addCompany`,
