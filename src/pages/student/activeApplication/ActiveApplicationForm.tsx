@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import styled from "styled-components";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
-import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
+import { UploadOutlined, PlusOutlined, FileOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import useLanguage from "src/hooks/useLanguage";
@@ -49,24 +49,21 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-const PDFContainer = styled.div`
+const List = styled.div``;
+const ListItem = styled.div`
   width: 100%;
-  height: 700px;
-  overflow-y: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-`;
-const ButtonsContainer = styled.div`
-  width: 80%;
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-  @media (max-width: 800px) {
-    width: 100%;
+  border: 1px solid lightblue;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background: #f2f2f2;
   }
+
+  margin-bottom: 20px;
 `;
+
 const DatePickersContainer = styled.div`
   display: flex;
   gap: 10px;
@@ -89,21 +86,21 @@ interface ActiveApplicationFormProps {
 const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   data,
 }) => {
-  const [fileList2, setFileList2] = useState<UploadFile[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { dictionary } = useLanguage();
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [stajLoading, setStajLoading] = useState(false);
+  const [mustehaklikLoading, setMustehaklikLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
   const [isAddCompanyModalOpen, setIsAddCompanyModalOpen] = useState(false);
   const navigate = useNavigate();
-  const [fileStaj, setFileStaj] = useState(null);
-  const [fileStajName, setFileStajName] = useState(null);
-  const [fileMustehaklik, setFileMustehaklik] = useState(null);
-  const [fileMustehaklikName, setFileMustehaklikName] = useState(null);
+  const [fileStajName, setFileStajName] = useState(data?.stajRaporuID);
+  const [fileMustehaklikName, setFileMustehaklikName] = useState(
+    data?.mustehaklikBelgesiID
+  );
 
   const success = () => {
     messageApi.open({
@@ -120,62 +117,15 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     });
   };
 
-  const handleFileChangeStajYeri = (event: any) => {
-    const selectedFile = event.target.files[0];
-    setFileStaj(selectedFile);
-    setFileStajName(selectedFile.name);
-  };
+  const handleFileChangeStajYeri = async (fileList: any) => {
+    const selectedFile = fileList;
+    setStajLoading(true);
 
-  const handleFileChangeMustehaklik = (event: any) => {
-    const selectedFile = event.target.files[0];
-    setFileMustehaklik(selectedFile);
-    setFileMustehaklikName(selectedFile.name);
-  };
-
-  const handleSubmitFirst = async () => {
-    if (!fileStaj) {
-      alert("Please select a file.");
-      return;
-    }
     const formData = new FormData();
-    formData.append("file", fileStaj);
+    formData.append("file", selectedFile);
     formData.append("type", "stajRaporuID");
     formData.append("processId", data.id);
     let jwtToken = window.localStorage.getItem("token");
-    console.log("formData", formData);
-    try {
-      const response = await fetch("http://localhost:8000/api/file/upload", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
-
-      if (response.ok) {
-        alert("File uploaded successfully!");
-        console.log(formData);
-      } else {
-        alert("Failed to upload file.");
-      }
-    } catch (error) {
-      // Handle network errors or exceptions
-      console.error("Error uploading file:", error);
-      alert("An error occurred while uploading the file.");
-    }
-  };
-
-  const handleSubmitSecond = async () => {
-    if (!fileMustehaklik) {
-      alert("Please select a file.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", fileMustehaklik);
-    formData.append("type", "mustehaklikBelgesiID");
-    formData.append("processId", data.id);
-    let jwtToken = window.localStorage.getItem("token");
 
     try {
       const response = await fetch("http://localhost:8000/api/file/upload", {
@@ -187,14 +137,17 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       });
 
       if (response.ok) {
-        alert("File uploaded successfully!");
+        setFileStajName(fileList.name);
+
+        message.success("Staj raporu yüklendi!");
       } else {
-        alert("Failed to upload file.");
+        message.error("Failed to upload file.");
       }
     } catch (error) {
-      // Handle network errors or exceptions
       console.error("Error uploading file:", error);
-      alert("An error occurred while uploading the file.");
+      message.error("An error occurred while uploading the file.");
+    } finally {
+      setStajLoading(false);
     }
   };
 
@@ -215,9 +168,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     position: data?.position,
     choiceReason: data?.choiceReason,
     classNumber: data?.classNumber,
-    /*   mustehaklikBelgesiPath:
-      data?.mustehaklikBelgesi[0]?.originFileObj?.name || "",
-    stajYeriFormuPath: data?.stajYeriFormu[0]?.originFileObj?.name || "", */
   };
 
   const departmentOptions = useDepartments();
@@ -361,6 +311,38 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     const endOfAllowedRange = today.clone().add(20, "days").endOf("day");
 
     return current && current < endOfAllowedRange;
+  };
+
+  const handleFileChangeMustehaklik = async (file: any) => {
+    setMustehaklikLoading(true);
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("type", "mustehaklikBelgesiID");
+    formData.append("processId", data.id);
+    let jwtToken = window.localStorage.getItem("token");
+
+    try {
+      const response = await fetch("http://localhost:8000/api/file/upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+
+      if (response.ok) {
+        message.success("Müstehaklık belgesi yüklendi!");
+        setFileMustehaklikName(file.name);
+      } else {
+        message.error("Failed to upload file.");
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      message.error("An error occurred while uploading the file.");
+    } finally {
+      setMustehaklikLoading(false);
+    }
   };
 
   return (
@@ -624,14 +606,73 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   <Radio value={false}>Yok</Radio>
                 </Radio.Group>
               </Form.Item>
-              <div>
-                <input type="file" onChange={handleFileChangeStajYeri} />
-                <button onClick={handleSubmitFirst}>Upload</button>
-              </div>
-              <div>
-                <input type="file" onChange={handleFileChangeMustehaklik} />
-                <button onClick={handleSubmitSecond}>Upload</button>
-              </div>
+
+              <Form.Item
+                name="stajYeriFormu"
+                label="Staj Yeri Formu"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+                style={{ marginBottom: 10 }}
+              >
+                <Upload
+                  listType="picture"
+                  accept=".pdf"
+                  showUploadList={false}
+                  maxCount={1}
+                  customRequest={(options) => {
+                    handleFileChangeStajYeri(options.file);
+                  }}
+                >
+                  <Button loading={stajLoading} icon={<UploadOutlined />}>
+                    Upload
+                  </Button>
+                </Upload>
+              </Form.Item>
+              {fileStajName && (
+                <List>
+                  <ListItem>
+                    <p>
+                      <FileOutlined style={{ marginRight: 10 }} />{" "}
+                      {fileStajName}
+                    </p>
+                  </ListItem>
+                </List>
+              )}
+
+              <Form.Item
+                name="mustehaklikBelgesi"
+                label="Müstehaklık Belgesi"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+                style={{ marginBottom: 10 }}
+              >
+                <Upload
+                  listType="picture"
+                  showUploadList={false}
+                  accept=".pdf"
+                  maxCount={1}
+                  customRequest={(options) => {
+                    handleFileChangeMustehaklik(options.file);
+                  }}
+                >
+                  <Button
+                    loading={mustehaklikLoading}
+                    icon={<UploadOutlined />}
+                  >
+                    Upload
+                  </Button>
+                </Upload>
+              </Form.Item>
+              {fileMustehaklikName && (
+                <List>
+                  <ListItem>
+                    <p>
+                      <FileOutlined style={{ marginRight: 10 }} />
+                      {fileMustehaklikName}
+                    </p>
+                  </ListItem>
+                </List>
+              )}
 
               <DatePickersContainer>
                 <Popconfirm
