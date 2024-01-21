@@ -38,7 +38,7 @@ const RegisterForm: React.FC = () => {
 
   const handleRegister = () => {
     if (password != passwordAgain) {
-      message.error("Şifrenizi aynı girdiğinizden emin olun!");
+      message.error("Şifrenizi aynı girdiğinizden emin olun");
     } else {
       window.localStorage.removeItem("isLoggedIn");
       window.localStorage.removeItem("token");
@@ -51,7 +51,8 @@ const RegisterForm: React.FC = () => {
         firstName: firstName,
         lastName: lastName,
       };
-      if (validateRegisterForm(postData).status) {
+      const isValid = validateRegisterForm(postData);
+      if (isValid.status) {
         setLoading(true);
         if (window.location.pathname.includes("/ogrenci/register")) {
           axios
@@ -62,9 +63,7 @@ const RegisterForm: React.FC = () => {
             .catch((error) => {
               console.log(error);
               if (error.response.data?.message === "10") {
-                message.error(
-                  "Aynı mail adresi ile birden fazla kaydolunamaz!"
-                );
+                message.error("Aynı mail adresi ile birden fazla kaydolunamaz");
               } else {
                 message.error(dictionary.generalErrorMessage);
               }
@@ -85,15 +84,15 @@ const RegisterForm: React.FC = () => {
             .catch((error) => {
               console.log(error);
               if (error.response.data?.message === "10") {
-                message.error(
-                  "Aynı mail adresi ile birden fazla kaydolunamaz!"
-                );
+                message.error("Aynı mail adresi ile birden fazla kaydolunamaz");
               } else {
                 message.error(dictionary.generalErrorMessage);
               }
             })
             .finally(() => setLoading(false));
         }
+      } else {
+        message.error(isValid.message);
       }
     }
   };

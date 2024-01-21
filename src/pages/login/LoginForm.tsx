@@ -50,7 +50,9 @@ const Login: React.FC = () => {
           navigate("/ogrenci", { replace: true });
         })
         .catch((error) => {
-          if (error.response?.status === 400) {
+          if (error.response.data?.message === "22") {
+            navigate("/onayla/" + username, { replace: true });
+          } else if (error.response?.status === 400) {
             message.error(dictionary.wrongMailOrPassword);
           } else {
             message.error(dictionary.generalErrorMessage);
@@ -82,7 +84,9 @@ const Login: React.FC = () => {
           navigate("/akademisyen", { replace: true });
         })
         .catch((error) => {
-          if (error.response?.status === 400) {
+          if (error.response.data?.message === "22") {
+            navigate("/onayla/" + username, { replace: true });
+          } else if (error.response?.status === 400) {
             message.error(dictionary.wrongMailOrPassword);
           } else {
             message.error(dictionary.generalErrorMessage);
