@@ -12,6 +12,7 @@ const Header = styled.div`
   padding-bottom: 20px;
 
   @media (max-width: 600px) {
+    border-bottom: none;
     margin-bottom: 0;
 
     div:nth-child(2) {

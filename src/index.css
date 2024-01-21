@@ -35,3 +35,7 @@ code {
 .ant-input {
   border-radius: 10px;
 }
+
+.ant-message-notice-content {
+  border-radius: 50px !important;
+}

@@ -4,7 +4,7 @@ import { ColumnsType } from "antd/es/table";
 
 interface MyTableProps {
   tableProps?: {
-    columns: ColumnsType<any>; // You can replace `any` with the specific type if needed
+    columns: ColumnsType<any>;
     data: any[];
     loading?: boolean;
   };

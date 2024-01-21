@@ -1,11 +1,12 @@
 import axios from "axios";
+import { API_URL } from "src/config/api";
 
 export default axios.create({
-  baseURL: "https://prod-seven-january.onrender.com",
+  baseURL: API_URL,
 });
 
 export const axiosPrivate = axios.create({
-  baseURL: "https://prod-seven-january.onrender.com",
+  baseURL: API_URL,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
 });

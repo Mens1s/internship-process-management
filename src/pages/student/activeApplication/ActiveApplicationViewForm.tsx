@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import styled from "styled-components";
-import { EyeOutlined } from "@ant-design/icons";
+import { EyeOutlined, DownloadOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
 import type { UploadProps } from "antd/es/upload";
 import useLanguage from "src/hooks/useLanguage";
@@ -15,8 +15,7 @@ import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import PdfViewer from "src/components/PdfViewer";
-
-const { confirm } = Modal;
+import { Link } from "react-router-dom";
 
 const { TextArea } = Input;
 const normFile = (e: any) => {
@@ -75,7 +74,6 @@ interface ActiveApplicationFormProps {
 const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   data,
 }) => {
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDenyOpen, setIsDenyOpen] = useState(false);
   const { dictionary } = useLanguage();
@@ -117,6 +115,28 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       setViewMustehaklikLoading(false);
       setViewReportLoading(false);
     }
+  };
+  const downloadPdf = async (file: any) => {
+    try {
+      const response = await axios.get(API.FILE.DOWNLOAD, {
+        params: {
+          fileId: file,
+        },
+        responseType: "blob",
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      download(url);
+    } catch (error) {
+      console.log(error);
+      message.error("Dosyayı indirirken bir sorunla karşılaştık.");
+    }
+  };
+
+  const download = (url: any) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "document.pdf";
+    link.click();
   };
 
   const items = [
@@ -234,6 +254,15 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
           onClick={() => handleView(data?.mustehaklikBelgesiID, 2)}
         >
           {dictionary.view}
+        </Button>,
+        <Button
+          icon={<DownloadOutlined />}
+          loading={viewMustehaklikLoading}
+          key="downloadButton"
+          onClick={() => downloadPdf(data?.mustehaklikBelgesiID)}
+          style={{ marginLeft: 10 }}
+        >
+          {dictionary.download}
         </Button>,
       ],
     },

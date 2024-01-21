@@ -1,5 +1,6 @@
 import { message, Button, Divider } from "antd";
 import React, { useState } from "react";
+import { API } from "src/config/api";
 import axios from "src/services/axios";
 
 const MakePost = () => {
@@ -18,9 +19,7 @@ const MakePost = () => {
 
     // Send API request with the provided processId
     axios
-      .put(
-        `https://prod-seven-january.onrender.com/api/internship-process/post?processId=${processId}`
-      )
+      .put(`${API}/api/internship-process/post?processId=${processId}`)
       .then((response) => {
         console.log(response);
         message.success(`${processId} id numaralı staj POST aşamasına alındı`);

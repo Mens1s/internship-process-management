@@ -9,12 +9,13 @@ import {
 import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
 import type { SelectProps } from "antd";
-import moment from "moment";
+import moment, { duration } from "moment";
 import { Popconfirm } from "antd";
-import { Result, Spin } from "antd";
+import { Result, Spin, Tooltip } from "antd";
 import type { RangePickerProps } from "antd/es/date-picker";
 import PdfViewer from "src/components/PdfViewer";
-
+import { TbFileFilled } from "react-icons/tb";
+import { MdDelete } from "react-icons/md";
 import {
   Row,
   Col,
@@ -52,22 +53,6 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 
-const List = styled.div``;
-const ListItem = styled.div`
-  width: 100%;
-  border: 1px solid lightblue;
-  padding: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.3s;
-
-  &:hover {
-    background: #f2f2f2;
-  }
-
-  margin-bottom: 20px;
-`;
-
 const DatePickersContainer = styled.div`
   display: flex;
   gap: 10px;
@@ -81,6 +66,37 @@ const DatePickersContainer = styled.div`
       width: 100%;
     }
   }
+`;
+
+const StyledMdDelete = styled(MdDelete)`
+  border-radius: 10px;
+  color: #869bbd;
+  font-size: 1.2rem;
+  padding: 5px;
+  box-sizing: content-box;
+  transition: 0.3s;
+
+  &:hover {
+    background: #c5d0de;
+  }
+`;
+const List = styled.div``;
+const ListItem = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 5px 10px;
+  border-radius: 10px;
+  transition: 0.3s;
+  background: #f0f4f9;
+  border: 1px solid #cfd8e3;
+
+  &:hover {
+    background: #dfe4eb;
+  }
+
+  margin-bottom: 20px;
 `;
 
 interface ActiveApplicationFormProps {
@@ -113,6 +129,19 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [pdfFileUrl, setPdfFileUrl] = useState("");
+
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    const formErrors = form.getFieldsError();
+    const hasErrors = Object.keys(formErrors).some(
+      (field: any) => formErrors[field]
+    );
+
+    console.log("haseror", hasErrors, formErrors);
+
+    setIsFormValid(!hasErrors);
+  }, [form]);
 
   const handleView = async (file: any, loadNum: any) => {
     loadNum === 1 ? setViewStajLoading(true) : setViewMustehaklikLoading(true);
@@ -673,7 +702,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 </Upload>
               </Form.Item>
               {fileStajName && (
-                <List>
+                /*  <List>
                   <ListItem
                     onClick={() => handleView(data?.stajYeriFormuID, 1)}
                   >
@@ -690,6 +719,52 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                         />
                         {fileStajName}
                       </p>
+                    )}
+                  </ListItem>
+                </List> */
+
+                <List>
+                  <ListItem
+                    onClick={() => handleView(data?.stajYeriFormuID, 1)}
+                  >
+                    {viewStajLoading ? (
+                      <Spin
+                        size="small"
+                        style={{ color: "#869bbd" }}
+                        indicator={
+                          <LoadingOutlined style={{ fontSize: 24 }} spin />
+                        }
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                          }}
+                        >
+                          <TbFileFilled
+                            style={{
+                              color: "#869bbd",
+                              fontSize: "1.2rem",
+                            }}
+                          />
+                          <p style={{ fontWeight: "500", color: "#869bbd" }}>
+                            {fileStajName}
+                          </p>
+                        </div>
+                        <Tooltip title={dictionary.remove}>
+                          <StyledMdDelete />
+                        </Tooltip>
+                      </div>
                     )}
                   </ListItem>
                 </List>
@@ -720,7 +795,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 </Upload>
               </Form.Item>
               {fileMustehaklikName && (
-                <List>
+                /*  <List>
                   <ListItem
                     onClick={() => handleView(data?.mustehaklikBelgesiID, 2)}
                   >
@@ -737,6 +812,51 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                         />
                         {fileMustehaklikName}
                       </p>
+                    )}
+                  </ListItem>
+                </List> */
+                <List>
+                  <ListItem
+                    onClick={() => handleView(data?.mustehaklikBelgesiID, 2)}
+                  >
+                    {viewMustehaklikLoading ? (
+                      <Spin
+                        size="small"
+                        style={{ color: "#869bbd" }}
+                        indicator={
+                          <LoadingOutlined style={{ fontSize: 24 }} spin />
+                        }
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                          }}
+                        >
+                          <TbFileFilled
+                            style={{
+                              color: "#869bbd",
+                              fontSize: "1.2rem",
+                            }}
+                          />
+                          <p style={{ fontWeight: "500", color: "#869bbd" }}>
+                            {fileMustehaklikName}
+                          </p>
+                        </div>
+                        <Tooltip title={dictionary.remove}>
+                          <StyledMdDelete />
+                        </Tooltip>
+                      </div>
                     )}
                   </ListItem>
                 </List>
@@ -777,7 +897,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   <Text tid="save" />
                 </Button>
                 <Button
-                  disabled={saveDisabled}
+                  disabled={!isFormValid || saveDisabled}
                   type="default"
                   onClick={showModal}
                   loading={confirmLoading}

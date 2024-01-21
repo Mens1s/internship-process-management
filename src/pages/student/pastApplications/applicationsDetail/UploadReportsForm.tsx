@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Collapse, message, Modal, Result, Spin } from "antd";
+import { Collapse, message, Modal, Popover, Result, Spin, Tooltip } from "antd";
+import { TbFileFilled } from "react-icons/tb";
+import { MdDelete } from "react-icons/md";
+
 import styled from "styled-components";
 import {
   WarningFilled,
@@ -44,17 +47,32 @@ const DatePickersContainer = styled.div`
   }
 `;
 
-const List = styled.div``;
-const ListItem = styled.div`
-  width: 100%;
-  border: 1px solid lightblue;
-  padding: 10px;
+const StyledMdDelete = styled(MdDelete)`
   border-radius: 10px;
-  cursor: pointer;
+  color: #869bbd;
+  font-size: 1.2rem;
+  padding: 5px;
+  box-sizing: content-box;
   transition: 0.3s;
 
   &:hover {
-    background: #f2f2f2;
+    background: #c5d0de;
+  }
+`;
+const List = styled.div``;
+const ListItem = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 5px 10px;
+  border-radius: 10px;
+  transition: 0.3s;
+  background: #f0f4f9;
+  border: 1px solid #cfd8e3;
+
+  &:hover {
+    background: #dfe4eb;
   }
 
   margin-bottom: 20px;
@@ -67,7 +85,6 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
   const [fileName, setFileName] = useState(stajRaporuID);
 
   const handleFileChange = (file: any) => {
-    setFileName(file.fileList[file.fileList.length - 1].name);
     handleUpload(file.fileList[file.fileList.length - 1]);
   };
 
@@ -77,6 +94,7 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
       return;
     }
     setUploadLoading(true);
+    setViewStajLoading(true);
 
     const formData = new FormData();
     formData.append("file", file?.originFileObj);
@@ -95,6 +113,7 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
 
       if (response.ok) {
         reload();
+        setFileName(file.name);
         message.success("Dosya yüklendi!");
       } else {
         message.error("Failed to upload file.");
@@ -103,6 +122,7 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
       console.error("Error uploading file:", error);
       message.error("An error occurred while uploading the file.");
     } finally {
+      setViewStajLoading(false);
       setUploadLoading(false);
     }
   };
@@ -206,17 +226,42 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
               <ListItem onClick={() => handleView(stajRaporuID)}>
                 {viewStajLoading ? (
                   <Spin
+                    size="small"
+                    style={{ color: "#869bbd" }}
                     indicator={
                       <LoadingOutlined style={{ fontSize: 24 }} spin />
                     }
                   />
                 ) : (
-                  <p>
-                    <FilePdfOutlined
-                      style={{ marginRight: 10, color: "gray" }}
-                    />
-                    {fileName}
-                  </p>
+                  <div
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
+                    >
+                      <TbFileFilled
+                        style={{
+                          color: "#869bbd",
+                          fontSize: "1.2rem",
+                        }}
+                      />
+                      <p style={{ fontWeight: "500", color: "#869bbd" }}>
+                        {fileName}
+                      </p>
+                    </div>
+                    <Tooltip title={dictionary.remove}>
+                      <StyledMdDelete />
+                    </Tooltip>
+                  </div>
                 )}
               </ListItem>
             </List>
