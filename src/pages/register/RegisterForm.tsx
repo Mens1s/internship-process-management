@@ -10,6 +10,7 @@ import { Select } from "antd";
 import { Text } from "src/context/LanguageProvider";
 import { API } from "src/config/api";
 import UseLanguage from "src/hooks/useLanguage";
+import { validateRegisterForm } from "./registerFormValidation";
 
 const FormContainer = styled.div`
   display: flex;
@@ -44,48 +45,55 @@ const RegisterForm: React.FC = () => {
       window.localStorage.removeItem("mail");
       window.localStorage.removeItem("role");
       window.localStorage.removeItem("fullName");
-      setLoading(true);
-      if (window.location.pathname.includes("/ogrenci/register")) {
-        axios
-          .post(API.STUDENT.REGISTER, {
-            mail: mail,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-          })
-          .then((response) => {
-            navigate("/onayla/" + mail, { replace: true });
-          })
-          .catch((error) => {
-            console.log(error);
-            if (error.response.data?.message === "10") {
-              message.error("Aynı mail adresi ile birden fazla kaydolunamaz!");
-            } else {
-              message.error(dictionary.generalErrorMessage);
-            }
-          })
-          .finally(() => setLoading(false));
-      } else if (window.location.pathname.includes("/akademisyen/register")) {
-        axios
-          .post(API.ACADEMICIAN.REGISTER, {
-            mail: mail,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            departmentId: department,
-          })
-          .then((response) => {
-            navigate("/onayla/" + mail, { replace: true });
-          })
-          .catch((error) => {
-            console.log(error);
-            if (error.response.data?.message === "10") {
-              message.error("Aynı mail adresi ile birden fazla kaydolunamaz!");
-            } else {
-              message.error(dictionary.generalErrorMessage);
-            }
-          })
-          .finally(() => setLoading(false));
+      const postData = {
+        mail: mail,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+      };
+      if (validateRegisterForm(postData).status) {
+        setLoading(true);
+        if (window.location.pathname.includes("/ogrenci/register")) {
+          axios
+            .post(API.STUDENT.REGISTER, postData)
+            .then((response) => {
+              navigate("/onayla/" + mail, { replace: true });
+            })
+            .catch((error) => {
+              console.log(error);
+              if (error.response.data?.message === "10") {
+                message.error(
+                  "Aynı mail adresi ile birden fazla kaydolunamaz!"
+                );
+              } else {
+                message.error(dictionary.generalErrorMessage);
+              }
+            })
+            .finally(() => setLoading(false));
+        } else if (window.location.pathname.includes("/akademisyen/register")) {
+          axios
+            .post(API.ACADEMICIAN.REGISTER, {
+              mail: mail,
+              password: password,
+              firstName: firstName,
+              lastName: lastName,
+              departmentId: department,
+            })
+            .then((response) => {
+              navigate("/onayla/" + mail, { replace: true });
+            })
+            .catch((error) => {
+              console.log(error);
+              if (error.response.data?.message === "10") {
+                message.error(
+                  "Aynı mail adresi ile birden fazla kaydolunamaz!"
+                );
+              } else {
+                message.error(dictionary.generalErrorMessage);
+              }
+            })
+            .finally(() => setLoading(false));
+        }
       }
     }
   };

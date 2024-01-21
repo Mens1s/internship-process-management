@@ -40,7 +40,7 @@ import { useNavigate } from "react-router-dom";
 import CompanyAdd from "src/pages/admin/companies/addCompany/AddCompanyForm";
 import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
-import { validateApplicationForm } from "./ApplicationFormValidation";
+import { validateApplicationForm } from "./applicationFormValidation";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
@@ -134,13 +134,17 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   const handleView = async (file: any, loadNum: any) => {
     loadNum === 1 ? setViewStajLoading(true) : setViewMustehaklikLoading(true);
+    let jwtToken = window.localStorage.getItem("token");
 
     try {
-      const response = await axios.get(API.FILE.DOWNLOAD, {
+      const response = await axios.get(API.FILE.DOWNLOAD_STUDENT, {
         params: {
           fileId: file,
         },
         responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
 
@@ -303,9 +307,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       stajRaporuPath: "id_DOSYAADI.pdf",
       comment: "biasda",
     };
-    console.log("post", postData);
     const isValid = validateApplicationForm(postData);
-    console.log(isValid);
     if (isValid?.status === true) {
       setSaveLoading(true);
       axios
@@ -332,6 +334,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const handleStart = () => {
     setConfirmLoading(true);
     setIsModalOpen(false);
+
     axios
       .post(
         API.INTERNSHIP_PROCESS.START_APPROVAL_PROCESS(data.id),
@@ -502,7 +505,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 name="internshipType"
                 label={dictionary.internshipType}
               >
-                <Input />
+                <Input placeholder="Zorunlu / İsteğe Bağlı" />
               </Form.Item>
               <Form.Item
                 rules={[
@@ -883,7 +886,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   <Text tid="save" />
                 </Button>
                 <Button
-                  disabled={!isFormValid || saveDisabled}
+                  disabled={saveDisabled}
                   type="default"
                   onClick={showModal}
                   loading={confirmLoading}

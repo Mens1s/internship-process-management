@@ -167,7 +167,7 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
     console.log("id", file);
 
     try {
-      const response = await axios.get(API.FILE.DOWNLOAD, {
+      const response = await axios.get(API.FILE.DOWNLOAD_STUDENT, {
         params: {
           fileId: file,
         },

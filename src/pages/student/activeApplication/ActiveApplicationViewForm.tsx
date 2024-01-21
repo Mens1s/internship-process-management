@@ -1,8 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import styled from "styled-components";
 import { EyeOutlined, DownloadOutlined } from "@ant-design/icons";
-import type { UploadFile } from "antd/es/upload/interface";
-import type { UploadProps } from "antd/es/upload";
 import useLanguage from "src/hooks/useLanguage";
 import { Text } from "src/context/LanguageProvider";
 import { Descriptions, message, Checkbox } from "antd";
@@ -95,9 +93,11 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       : loadNum === 2
       ? setViewMustehaklikLoading(true)
       : setViewReportLoading(true);
-
+    const apiURL = isAkademisyen
+      ? API.FILE.DOWNLOAD_ACADEMICIAN
+      : API.FILE.DOWNLOAD_STUDENT;
     try {
-      const response = await axios.get(API.FILE.DOWNLOAD, {
+      const response = await axios.get(apiURL, {
         params: {
           fileId: file,
         },
@@ -118,7 +118,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   };
   const downloadPdf = async (file: any) => {
     try {
-      const response = await axios.get(API.FILE.DOWNLOAD, {
+      const response = await axios.get(API.FILE.DOWNLOAD_STUDENT, {
         params: {
           fileId: file,
         },
@@ -255,7 +255,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
         >
           {dictionary.view}
         </Button>,
-        <Button
+        /*  <Button
           icon={<DownloadOutlined />}
           loading={viewMustehaklikLoading}
           key="downloadButton"
@@ -263,7 +263,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
           style={{ marginLeft: 10 }}
         >
           {dictionary.download}
-        </Button>,
+        </Button>, */
       ],
     },
     {

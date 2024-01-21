@@ -34,6 +34,18 @@ export const validateApplicationForm = (form: any) => {
     }
   }
 
+  if (form.internshipType) {
+    const rule1 =
+      form.internshipType.toLowerCase() == "zorunlu" ||
+      form.internshipType.toLowerCase() == "isteğe bağlı";
+    if (!rule1) {
+      return {
+        status: false,
+        message: `Staj türü "Zorunlu" veya "İsteğe Bağlı" olmalıdır`,
+      };
+    }
+  }
+
   /*  if (form.startDate && form.endDate) {
     const startDate = moment(form.startDate, "YYYY-MM-DD");
     const endDate = moment(form.endDate, "YYYY-MM-DD");
