@@ -32,17 +32,15 @@ import {
   Upload,
   Button,
 } from "antd";
-import type { InputRef } from "antd";
 import axios from "src/services/axios";
-import useAuth from "src/hooks/useAuth";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import useDepartments from "src/hooks/useDepartments";
 import { useNavigate } from "react-router-dom";
 import CompanyAdd from "src/pages/admin/companies/addCompany/AddCompanyForm";
 import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
+import { validateApplicationForm } from "./ApplicationFormValidation";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
@@ -132,16 +130,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   const [isFormValid, setIsFormValid] = useState(false);
 
-  useEffect(() => {
-    const formErrors = form.getFieldsError();
-    const hasErrors = Object.keys(formErrors).some(
-      (field: any) => formErrors[field]
-    );
-
-    console.log("haseror", hasErrors, formErrors);
-
-    setIsFormValid(!hasErrors);
-  }, [form]);
+  useEffect(() => {}, [form]);
 
   const handleView = async (file: any, loadNum: any) => {
     loadNum === 1 ? setViewStajLoading(true) : setViewMustehaklikLoading(true);
@@ -314,24 +303,30 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       stajRaporuPath: "id_DOSYAADI.pdf",
       comment: "biasda",
     };
-
-    setSaveLoading(true);
-    axios
-      .put(API.INTERNSHIP_PROCESS.UPDATE, postData, getAxiosConfig())
-      .then((response) => {
-        success();
-      })
-      .catch((error) => {
-        console.log("error:", error);
-        const message =
-          error.response?.status == 400
-            ? "Bütün bilgileri doğru girdiğinizden emin olunuz."
-            : "Bir hata oluştu. Lütfen tekrar deneyiniz.";
-        errorMessage(message);
-      })
-      .finally(() => {
-        setSaveLoading(false);
-      });
+    console.log("post", postData);
+    const isValid = validateApplicationForm(postData);
+    console.log(isValid);
+    if (isValid?.status === true) {
+      setSaveLoading(true);
+      axios
+        .put(API.INTERNSHIP_PROCESS.UPDATE, postData, getAxiosConfig())
+        .then((response) => {
+          success();
+        })
+        .catch((error) => {
+          console.log("error:", error);
+          const message =
+            error.response?.status == 400
+              ? "Bütün bilgileri doğru girdiğinizden emin olunuz."
+              : "Bir hata oluştu. Lütfen tekrar deneyiniz.";
+          errorMessage(message);
+        })
+        .finally(() => {
+          setSaveLoading(false);
+        });
+    } else {
+      message.error(isValid.message);
+    }
   };
 
   const handleStart = () => {
@@ -372,12 +367,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   const disabledStartDate: RangePickerProps["disabledDate"] = (current) => {
     return current < moment().startOf("day");
-  };
-  const disabledEndDate: RangePickerProps["disabledDate"] = (current) => {
-    const today = moment().startOf("day");
-    const endOfAllowedRange = today.clone().add(20, "days").endOf("day");
-
-    return current && current < endOfAllowedRange;
   };
 
   const handleFileChangeMustehaklik = async (file: any) => {
@@ -558,10 +547,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                   name="endDate"
                   label=" "
                 >
-                  <DatePicker
-                    format="YYYY-MM-DD"
-                    disabledDate={disabledEndDate}
-                  />
+                  <DatePicker format="YYYY-MM-DD" />
                 </Form.Item>
               </DatePickersContainer>
 
