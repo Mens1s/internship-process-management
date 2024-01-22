@@ -443,6 +443,24 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     }
   };
 
+  const addCompanyRequest = (postData: any, form: any, setLoading: any) => {
+    axios
+      .post(API.COMPANY.ADD, postData, getAxiosConfig())
+      .then((response) => {
+        message.success("Şirket başarıyla eklendi!");
+        form.resetFields();
+      })
+      .catch((error) => {
+        console.log("error:", error);
+        if (error.response?.status == 400) {
+          message.error("Form boş bırakılamaz!");
+        } else {
+          message.error(dictionary.generalErrorMessage);
+        }
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <div>
       {contextHolder}
@@ -635,7 +653,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 onCancel={handleCancel}
                 footer={null}
               >
-                <CompanyAdd />
+                <CompanyAdd addCompanyRequest={addCompanyRequest} />
               </Modal>
             </Col>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
