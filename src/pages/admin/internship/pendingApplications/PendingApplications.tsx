@@ -101,9 +101,9 @@ const PastApplications = () => {
             {/*      <Button>
               <SearchOutlined /> <Text tid="search" />
             </Button> */}
-            <Button>
+            {/*  <Button>
               <DownloadOutlined /> <Text tid="download" />
-            </Button>
+            </Button> */}
           </div>
           <Input
             prefix={<SearchOutlined />}

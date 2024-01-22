@@ -64,6 +64,10 @@ const RegisterForm: React.FC = () => {
               console.log(error);
               if (error.response.data?.message === "10") {
                 message.error("Aynı mail adresi ile birden fazla kaydolunamaz");
+              } else if (error.response.data?.message === "23") {
+                message.error("Lütfen geçerli bir mail adresi giriniz");
+              } else if (error.response.data?.message === "24") {
+                message.error("Lütfen geçerli bir şifre giriniz");
               } else {
                 message.error(dictionary.generalErrorMessage);
               }
@@ -85,6 +89,10 @@ const RegisterForm: React.FC = () => {
               console.log(error);
               if (error.response.data?.message === "10") {
                 message.error("Aynı mail adresi ile birden fazla kaydolunamaz");
+              } else if (error.response.data?.message === "23") {
+                message.error("Lütfen geçerli bir mail adresi giriniz");
+              } else if (error.response.data?.message === "24") {
+                message.error("Lütfen geçerli bir şifre giriniz");
               } else {
                 message.error(dictionary.generalErrorMessage);
               }

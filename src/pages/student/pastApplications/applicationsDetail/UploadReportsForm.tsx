@@ -164,7 +164,7 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
 
   const handleView = async (file: any) => {
     setViewStajLoading(true);
-    console.log("id", file);
+    let jwtToken = window.localStorage.getItem("token");
 
     try {
       const response = await axios.get(API.FILE.DOWNLOAD_STUDENT, {
@@ -172,6 +172,9 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
           fileId: file,
         },
         responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
 

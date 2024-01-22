@@ -88,6 +88,8 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   const [viewMustehaklikLoading, setViewMustehaklikLoading] = useState(false);
 
   const handleView = async (file: any, loadNum: any) => {
+    let jwtToken = window.localStorage.getItem("token");
+
     loadNum === 1
       ? setViewStajLoading(true)
       : loadNum === 2
@@ -102,6 +104,9 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
           fileId: file,
         },
         responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
 
@@ -192,19 +197,19 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       span: 3,
       key: "startDate",
       label: "Start Date",
-      children: data?.startDate,
+      children: data?.startDateStr,
     },
     {
       span: 3,
       key: "endDate",
       label: "End Date",
-      children: data?.endDate,
+      children: data?.endDateStr,
     },
     {
-      key: "companyId",
-      label: "Company Id",
+      key: "companyName",
+      label: "Company Name",
       span: 3,
-      children: data?.companyId?.toString(),
+      children: data?.companyName?.toString(),
     },
     {
       key: "departmentId",

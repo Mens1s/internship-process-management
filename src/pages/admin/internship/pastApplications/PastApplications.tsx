@@ -66,9 +66,9 @@ const PastApplications = () => {
           <h2>Tamamlanmış Stajlar</h2>
         </div>
         <div>
-          <Button>
+          {/*  <Button>
             <DownloadOutlined /> <Text tid="download" />
-          </Button>
+          </Button> */}
           <Input
             prefix={<SearchOutlined />}
             placeholder={dictionary.searchStudent}

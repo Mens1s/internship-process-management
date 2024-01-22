@@ -160,6 +160,30 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
     }
   };
 
+  const handleDeletePDF = (file: any, type: any) => {
+    let jwtToken = window.localStorage.getItem("token");
+    axios
+      .get(API.FILE.DELETE, {
+        params: {
+          fileId: file,
+          processId: data.id,
+          type: type,
+        },
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((response) => {
+        message.success("Dosya kaldırıldı");
+        console.log("File deleted successfully", response);
+        reload();
+      })
+      .catch((error) => {
+        message.error("Dosya kaldırılırken bir sorun oluştu");
+        console.error("Error deleting file", error);
+      });
+  };
+
   const success = () => {
     messageApi.open({
       type: "success",
@@ -691,27 +715,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 </Upload>
               </Form.Item>
               {fileStajName && (
-                /*  <List>
-                  <ListItem
-                    onClick={() => handleView(data?.stajYeriFormuID, 1)}
-                  >
-                    {viewStajLoading ? (
-                      <Spin
-                        indicator={
-                          <LoadingOutlined style={{ fontSize: 24 }} spin />
-                        }
-                      />
-                    ) : (
-                      <p>
-                        <FilePdfOutlined
-                          style={{ marginRight: 10, color: "gray" }}
-                        />
-                        {fileStajName}
-                      </p>
-                    )}
-                  </ListItem>
-                </List> */
-
                 <List>
                   <ListItem
                     onClick={() => handleView(data?.stajYeriFormuID, 1)}
@@ -751,7 +754,16 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                           </p>
                         </div>
                         <Tooltip title={dictionary.remove}>
-                          <StyledMdDelete />
+                          <div
+                            onClick={() =>
+                              handleDeletePDF(
+                                data?.stajYeriFormuID,
+                                "stajYeriFormuID"
+                              )
+                            }
+                          >
+                            <StyledMdDelete />
+                          </div>
                         </Tooltip>
                       </div>
                     )}
@@ -784,26 +796,6 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                 </Upload>
               </Form.Item>
               {fileMustehaklikName && (
-                /*  <List>
-                  <ListItem
-                    onClick={() => handleView(data?.mustehaklikBelgesiID, 2)}
-                  >
-                    {viewMustehaklikLoading ? (
-                      <Spin
-                        indicator={
-                          <LoadingOutlined style={{ fontSize: 24 }} spin />
-                        }
-                      />
-                    ) : (
-                      <p>
-                        <FilePdfOutlined
-                          style={{ marginRight: 10, color: "gray" }}
-                        />
-                        {fileMustehaklikName}
-                      </p>
-                    )}
-                  </ListItem>
-                </List> */
                 <List>
                   <ListItem
                     onClick={() => handleView(data?.mustehaklikBelgesiID, 2)}
@@ -843,7 +835,16 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                           </p>
                         </div>
                         <Tooltip title={dictionary.remove}>
-                          <StyledMdDelete />
+                          <div
+                            onClick={() =>
+                              handleDeletePDF(
+                                data?.mustehaklikBelgesiID,
+                                "mustehaklikBelgesiID"
+                              )
+                            }
+                          >
+                            <StyledMdDelete />
+                          </div>
                         </Tooltip>
                       </div>
                     )}
@@ -904,8 +905,13 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
             onCancel={handleCancel}
           >
             <p>
-              <Text tid="createApplicationFormApprovementModalText" />
+              Başvuruyu onaylamadan önce bilgilerinizin son halini
+              kaydettiğinizden emin olun.
             </p>
+            <br />
+            <strong>
+              <Text tid="createApplicationFormApprovementModalText" />
+            </strong>
           </Modal>
           <Modal open={isSuccessModalOpen} footer={null} closable={false}>
             <Result

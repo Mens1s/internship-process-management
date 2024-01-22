@@ -71,5 +71,6 @@ export const API = {
     UPLOAD: `${API_URL}/file/upload`,
     DOWNLOAD_ACADEMICIAN: `${API_URL}/file/downloadAcademician`,
     DOWNLOAD_STUDENT: `${API_URL}/file/downloadStudent`,
+    DELETE: `${API_URL}/file/deleteFile`,
   },
 };

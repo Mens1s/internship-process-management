@@ -286,12 +286,12 @@ const ApplicationDetail = () => {
           </StyledButton>
         )}
 
-        {!isAcademician && processStatus == "IN1" && (
+        {/* {!isAcademician && processStatus == "IN1" && (
           <StyledButton onClick={handleExtension}>
             <CalendarOutlined />
             Extend Internship
           </StyledButton>
-        )}
+        )} */}
       </ContentHeader>
       {showMessage && (
         <Alert

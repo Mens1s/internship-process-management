@@ -51,9 +51,9 @@ const ActiveInternships = () => {
           <h2>Aktif Stajlar</h2>
         </div>
         <div>
-          <Button>
+          {/* <Button>
             <DownloadOutlined /> <Text tid="download" />
-          </Button>
+          </Button> */}
           <Input
             prefix={<SearchOutlined />}
             placeholder={dictionary.searchStudent}
