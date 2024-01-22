@@ -215,7 +215,7 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
       key: "departmentId",
       span: 3,
       label: "Department",
-      children: data?.departmentName,
+      children: data?.departmentName ? data.departmentName : data.departmentId,
     },
     {
       span: 3,
