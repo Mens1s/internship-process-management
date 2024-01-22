@@ -261,9 +261,9 @@ const UploadReportsForm = ({ processId, stajRaporuID, reload }: any) => {
                         {fileName}
                       </p>
                     </div>
-                    <Tooltip title={dictionary.remove}>
+                    {/*  <Tooltip title={dictionary.remove}>
                       <StyledMdDelete />
-                    </Tooltip>
+                    </Tooltip> */}
                   </div>
                 )}
               </ListItem>
