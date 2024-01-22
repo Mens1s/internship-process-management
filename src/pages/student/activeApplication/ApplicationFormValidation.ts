@@ -1,12 +1,40 @@
 import moment from "moment";
 
 export const validateApplicationForm = (form: any) => {
-  // Ensure that the required fields are filled
   if (form.tc) {
+    var tek = 0,
+      cift = 0,
+      sonuc = 0,
+      TCToplam = 0,
+      i = 0;
+
     const rule2 = form.tc.length == 11;
     const rule3 = form.tc[0] != 0;
     const rule1 = /^\d+$/.test(form.tc);
-    if (!rule1 || !rule2 || !rule3) {
+
+    tek =
+      parseInt(form.tc[0]) +
+      parseInt(form.tc[2]) +
+      parseInt(form.tc[4]) +
+      parseInt(form.tc[6]) +
+      parseInt(form.tc[8]);
+    cift =
+      parseInt(form.tc[1]) +
+      parseInt(form.tc[3]) +
+      parseInt(form.tc[5]) +
+      parseInt(form.tc[7]);
+
+    tek = tek * 7;
+    sonuc = tek - cift;
+    const rule4 = sonuc % 10 != form.tc[9];
+
+    for (var i = 0; i < 10; i++) {
+      TCToplam += parseInt(form.tc[i]);
+    }
+
+    const rule5 = TCToplam % 10 != form.tc[10];
+
+    if (!rule1 || !rule2 || !rule3 || !rule4 || !rule5) {
       return {
         status: false,
         message: "Lütfen geçerli bir kimlik numarası giriniz.",
