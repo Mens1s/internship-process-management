@@ -289,10 +289,10 @@ const ActiveApplicationViewForm: React.FC<ActiveApplicationFormProps> = ({
   ];
 
   if (
-    data.processStatus.includes("REPORT") ||
-    data.processStatus.includes("DONE") ||
-    data.processStatus.includes("FAIL") ||
-    (!data.processStatus.includes("PRE") &&
+    data?.processStatus.includes("REPORT") ||
+    data?.processStatus.includes("DONE") ||
+    data?.processStatus.includes("FAIL") ||
+    (!data?.processStatus.includes("PRE") &&
       window.location.href.includes("akademisyen"))
   ) {
     items.push({

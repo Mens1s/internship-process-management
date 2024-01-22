@@ -120,9 +120,9 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
   const [viewStajLoading, setViewStajLoading] = useState(false);
   const [viewMustehaklikLoading, setViewMustehaklikLoading] = useState(false);
   const navigate = useNavigate();
-  const [fileStajName, setFileStajName] = useState(data?.stajYeriFormuID);
+  const [fileStajName, setFileStajName] = useState(data?.stajYeriFormuName);
   const [fileMustehaklikName, setFileMustehaklikName] = useState(
-    data?.mustehaklikBelgesiID
+    data?.mustehaklikBelgesiName
   );
 
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
@@ -162,6 +162,9 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
   const handleDeletePDF = (file: any, type: any) => {
     let jwtToken = window.localStorage.getItem("token");
+    type === "stajYeriFormuID"
+      ? setViewStajLoading(true)
+      : setViewMustehaklikLoading(true);
     axios
       .get(API.FILE.DELETE, {
         params: {
@@ -176,11 +179,19 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
       .then((response) => {
         message.success("Dosya kaldırıldı");
         console.log("File deleted successfully", response);
+        type == "stajYeriFormuID"
+          ? setFileStajName(null)
+          : setFileMustehaklikName(null);
         reload();
       })
       .catch((error) => {
         message.error("Dosya kaldırılırken bir sorun oluştu");
         console.error("Error deleting file", error);
+      })
+      .finally(() => {
+        type === "stajYeriFormuID"
+          ? setViewStajLoading(false)
+          : setViewMustehaklikLoading(false);
       });
   };
 
@@ -221,7 +232,7 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
 
       if (response.ok) {
         setFileStajName(fileList.name);
-        message.success("Staj raporu yüklendi!");
+        message.success("Staj yeri formu yüklendi!");
         reload();
       } else {
         message.error("Failed to upload file.");
@@ -755,12 +766,13 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                         </div>
                         <Tooltip title={dictionary.remove}>
                           <div
-                            onClick={() =>
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevents the click event from reaching the parent ListItem
                               handleDeletePDF(
                                 data?.stajYeriFormuID,
                                 "stajYeriFormuID"
-                              )
-                            }
+                              );
+                            }}
                           >
                             <StyledMdDelete />
                           </div>
@@ -836,12 +848,13 @@ const ActiveApplicationForm: React.FC<ActiveApplicationFormProps> = ({
                         </div>
                         <Tooltip title={dictionary.remove}>
                           <div
-                            onClick={() =>
+                            onClick={(e) => {
+                              e.stopPropagation(); // Prevents the click event from reaching the parent ListItem
                               handleDeletePDF(
                                 data?.mustehaklikBelgesiID,
                                 "mustehaklikBelgesiID"
-                              )
-                            }
+                              );
+                            }}
                           >
                             <StyledMdDelete />
                           </div>
