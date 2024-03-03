@@ -24,6 +24,14 @@ public interface DoneInternshipProcessDao extends JpaRepository<DoneInternshipPr
             })
     List<DoneInternshipProcess> findAllByStudent(Student student);
 
+    @EntityGraph(type = EntityGraph.EntityGraphType.FETCH,
+            attributePaths = {
+                    "student",
+                    "company",
+                    "department"
+            })
+    List<DoneInternshipProcess> findAllByCompanyId(Integer companyId);
+
     List<DoneInternshipProcess> findAllByEndDateBetween(Date startDate, Date endDate);
 
     @EntityGraph(type = EntityGraph.EntityGraphType.FETCH,

@@ -161,7 +161,8 @@ public class InternshipProcessService {
 
     public InternshipProcessGetAllResponse getAllInternshipProcessByCompany(Integer companyId) {
         List<InternshipProcess> internshipProcessList = internshipProcessDao.findAllByCompany_Id(companyId);
-        return createInternshipProcessGetAllResponse(internshipProcessList, true);
+        List<DoneInternshipProcessGetResponse> doneInternshipProcessList = doneInternshipProcessService.getAllDoneInternshipProcessByCompany(companyId).getInternshipProcessList();
+        return createInternshipProcessGetAllResponse(internshipProcessList, doneInternshipProcessList, true);
     }
 
     public InternshipProcessGetAllResponse getAssignedInternshipProcess(Integer assigneeId,

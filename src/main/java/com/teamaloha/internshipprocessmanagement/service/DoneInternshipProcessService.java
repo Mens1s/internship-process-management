@@ -241,6 +241,10 @@ public class DoneInternshipProcessService {
         return doneInternshipProcessDao.findAllByEndDateBetween(startDate, endDate);
     }
 
+    public DoneInternshipProcessGetAllResponse getAllDoneInternshipProcessByCompany(Integer companyId) {
+        return createDoneInternshipProcessGetAllResponse(doneInternshipProcessDao.findAllByCompanyId(companyId));
+    }
+
     void save(DoneInternshipProcess doneInternshipProcess) {
         doneInternshipProcessDao.save(doneInternshipProcess);
     }
