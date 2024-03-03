@@ -35,7 +35,7 @@ public class CompanyController {
     @GetMapping("/getCompany")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority(T(com.teamaloha.internshipprocessmanagement.enums.RoleEnum).STUDENT.name()) || hasAuthority(T(com.teamaloha.internshipprocessmanagement.enums.RoleEnum).ACADEMICIAN.name())")
-    public CompanyGetResponse updateCompany(@RequestBody @Valid CompanyGetRequest companyGetRequest) {
+    public CompanyGetResponse getCompany(@RequestBody @Valid CompanyGetRequest companyGetRequest) {
         return companyService.get(companyGetRequest);
     }
 
