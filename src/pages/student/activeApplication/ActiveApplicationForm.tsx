@@ -40,7 +40,7 @@ import { useNavigate } from "react-router-dom";
 import CompanyAdd from "src/pages/admin/companies/addCompany/AddCompanyForm";
 import { API } from "src/config/api";
 import getAxiosConfig from "src/config/axiosConfig";
-import { validateApplicationForm } from "./applicationFormValidation";
+import { validateApplicationForm } from "./ApplicationFormValidation";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 

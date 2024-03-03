@@ -1,4 +1,4 @@
-export const API_URL = "http://localhost:8000/api";
+export const API_URL = "http://193.140.134.43/tomcat/internship-process-management/api";
 // export const API_URL = "http://prod-seven-january.onrender.com/api";
 
 export const API = {
